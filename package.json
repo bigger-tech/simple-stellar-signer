@@ -1,0 +1,24 @@
+{
+  "name": "simple-stellar-signer",
+  "version": "1.0.0",
+  "description": "A simple in-browser transaction signer for the Stellar Network",
+  "main": "index.js",
+  "repository": "https://github.com/fsodano/simple-stellar-signer/",
+  "author": "Fabricio Leonardo Sodano Pascazi <fabricio.sodano@gmail.com>",
+  "license": "MIT",
+  "scripts": {
+    "start": "parcel src/index.html",
+    "start:demo": "parcel demo/demo.html -p 8080",
+    "build": "parcel build"
+  },
+  "browserslist": "> 0.5%, last 2 versions, not dead",
+  "devDependencies": {
+    "cypress": "^9.1.0",
+    "parcel": "^2.0.1"
+  },
+  "dependencies": {
+    "hyperapp": "^2.0.19",
+    "hyperlit": "^0.3.6",
+    "stellar-base": "^6.0.6"
+  }
+}

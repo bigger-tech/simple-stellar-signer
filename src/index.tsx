@@ -1,7 +1,8 @@
 import {FeeBumpTransaction, Memo, MemoType, Operation, Transaction, TransactionBuilder} from 'stellar-base';
 import {app} from "hyperapp";
 import html from 'hyperlit'
-import paymentOperation from "./operations/paymentOperation";
+import paymentOperation from "./operations/PaymentOperation";
+import operationFactory from "./operations/OperationFactory";
 
 interface IState {
     memo: String;
@@ -20,10 +21,7 @@ const simpleSigner = app({
             <div>Memo: ${state.memo}</div>
             <div>Origin: ${state.origin}</div>
             <div>Network: ${state.network}</div>
-            ${state.operations.map(op => {
-                console.log(op);
-                return paymentOperation(op as Operation.Payment)
-            })}
+            ${state.operations.map(operationFactory)}
         </div>`,
     node: document.getElementById("app")
 })
