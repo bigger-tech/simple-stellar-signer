@@ -1,5 +1,5 @@
 import {Operation, OperationType} from "stellar-base";
-import paymentOperation from "./PaymentOperation";
+import paymentOperation from "./paymentOperation";
 
 const operationHandlers = new Map<OperationType, Function>([
     ["payment", paymentOperation]
