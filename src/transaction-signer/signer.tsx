@@ -1,7 +1,6 @@
 import {FeeBumpTransaction, Memo, MemoType, Operation, Transaction, TransactionBuilder} from 'stellar-base';
 import {app} from "hyperapp";
 import html from 'hyperlit'
-import paymentOperation from "./operations/PaymentOperation";
 import operationFactory from "./operations/OperationFactory";
 
 interface IState {
@@ -10,9 +9,6 @@ interface IState {
     network: String;
     operations: Operation[]
 }
-
-const operation = (operation: Operation) => html`
-    <div>${operation.type}</div>`;
 
 const simpleSigner = app({
     init: (state: IState) => state,

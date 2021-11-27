@@ -2,14 +2,17 @@
   "name": "simple-stellar-signer",
   "version": "1.0.0",
   "description": "A simple in-browser transaction signer for the Stellar Network",
-  "main": "index.js",
   "repository": "https://github.com/fsodano/simple-stellar-signer/",
   "author": "Fabricio Leonardo Sodano Pascazi <fabricio.sodano@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "parcel src/index.html",
-    "start:demo": "parcel demo/demo.html -p 8080",
-    "build": "parcel build"
+    "start:wallet": "parcel src/wallet-connector/wallet.html -p 8081 --https",
+    "start:signer": "parcel src/transaction-signer/signer.html -p 8082 --https",
+    "start:demo": "parcel demo/demo.html -p 8080 --https",
+    "build": "parcel build",
+    "build:wallet": "parcel build src/wallet-connector/wallet.html",
+    "build:signer": "parcel build src/transaction-signer/signer.html",
+    "build:demo": "parcel build demo/demo.html"
   },
   "browserslist": "> 0.5%, last 2 versions, not dead",
   "devDependencies": {
@@ -17,6 +20,7 @@
     "parcel": "^2.0.1"
   },
   "dependencies": {
+    "@swc/helpers": "^0.2.14",
     "hyperapp": "^2.0.19",
     "hyperlit": "^0.3.6",
     "stellar-base": "^6.0.6"
