@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<h1>Demo</h1>
+<button>Send transaction to Simple Signer</button>
+<input type="text" id="network-passphrase" value="Test SDF Network ; September 2015">
+<textarea id="xdr">
+    AAAAAgAAAACOap+Ctr7JecWs1UKoncwaJTti2zcgDyqk09qLt5Y4GwAAAGQAEio5AAAAAQAAAAEAAAAAAAAAAAAAAABhoTI5AAAAAQAAAARNZW1vAAAAAQAAAAAAAAABAAAAAI5qn4K2vsl5xazVQqidzBolO2LbNyAPKqTT2ou3ljgbAAAAAAAAAAA7msoAAAAAAAAAAAA=
+</textarea>
+<iframe src="http://localhost:1234" id="simple-signer"></iframe>
+
+<script type="text/javascript">
+    const $button = document.querySelector('button');
+    $button.addEventListener('click', () => {
+        const simpleSigner = document.querySelector("#simple-signer").contentWindow;
+        simpleSigner.postMessage({
+            xdr: document.querySelector("#xdr").value,
+            networkPassphrase: document.querySelector("#network-passphrase").value
+        }, "*");
+    });
+</script>
+</body>
+</html>
