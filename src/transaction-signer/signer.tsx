@@ -1,7 +1,7 @@
 import {FeeBumpTransaction, Memo, MemoType, Operation, Transaction, TransactionBuilder} from 'stellar-base';
 import {app} from "hyperapp";
 import html from 'hyperlit'
-import operationFactory from "./operations/OperationFactory";
+import operationFactory from "./operations/operationFactory";
 
 interface IState {
     memo: String;
