@@ -11,6 +11,4 @@ $button.addEventListener('click', (e) => {
         xdr: document.querySelector("#xdr").value,
         networkPassphrase: StellarSdk.Networks.TESTNET
     }, "*");
-
-    console.log('ok');
 });
