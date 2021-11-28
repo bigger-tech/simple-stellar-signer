@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Wallet connector development helper</title>
+    <style>
+        .__simple-signer-dropdown {
+            position: relative;
+            display: inline-block;
+            user-select: none;
+            cursor: pointer;
+        }
+
+        .__simple-signer-dropdown-content {
+            display: none;
+        }
+
+        .__simple-signer-dropdown.__simple-signer-dropdown--open .__simple-signer-dropdown-content {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<main id="app"></main>
+<script type="module" src="index.tsx"></script>
+<script type="text/javascript">
+    window.onload = function () {
+        const {init, baseState, Wallet} = SimpleSignerConnector;
+        init(document.querySelector('#app'), {...baseState, wallets: [Wallet.X_BULL]});
+    }
+</script>
+</body>
+</html>
