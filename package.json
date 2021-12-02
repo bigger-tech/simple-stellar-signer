@@ -6,7 +6,10 @@
   "author": "Fabricio Leonardo Sodano Pascazi <fabricio.sodano@gmail.com>",
   "license": "MIT",
   "scripts": {
-    "start": "parcel demo/index.html"
+    "start": "run-p start:demo start:connector start:signer",
+    "start:demo": "parcel demo/index.html -p 1234",
+    "start:signer": "parcel signer/src/index.html -p 1235",
+    "start:connector": "parcel connector/src/index.html -p 1236"
   },
   "devDependencies": {
     "@parcel/packager-ts": "^2.0.1",
