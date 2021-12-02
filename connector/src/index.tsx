@@ -4,7 +4,7 @@ import createWallet from "./ui/wallets/WalletFactory";
 import WalletType from "./entities/WalletType";
 import IState from "./ui/state/IState";
 import { setPublicKey, toggleOpen } from "./ui/actions/actions";
-import { walletOption } from "./components/components";
+import { walletOption } from "./ui/components/components";
 import { getConnectedPublicKey } from "./ui/effects/effects";
 
 const h = _h;
