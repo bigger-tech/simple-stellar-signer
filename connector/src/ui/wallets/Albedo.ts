@@ -11,13 +11,13 @@ export default class Albedo extends Wallet {
 
   render(): [any, (() => any)[]] {
     return html`
-      <script src='https://albedo.link/albedo-intent-button.js'
-              x-intent='public_key'
-              x-token='${btoa(Math.random().toString() + Math.random().toString())}'
-              x-height='30'
-              x-width='200'
-              x-class-name='__simple-signer-option albedo'
-              x-title='Albedo'
+      <script src="https://albedo.link/albedo-intent-button.js"
+              x-intent="public_key"
+              x-token="${btoa(Math.random().toString() + Math.random().toString())}"
+              x-height="30"
+              x-width="200"
+              x-class-name="__simple-signer-option albedo"
+              x-title="Albedo"
               async>
       </script>
     `;

@@ -1,4 +1,4 @@
-import { app, h as _h, Subscription } from "hyperapp";
+import { app, Dispatchable, Effect, h as _h, Subscription } from "hyperapp";
 import html from "hyperlit";
 import createWallet from "./ui/wallets/WalletFactory";
 import WalletEnum from "./entities/WalletEnum";
@@ -6,6 +6,7 @@ import IState from "./ui/state/IState";
 import { setPublicKey, toggleOpen } from "./ui/actions/actions";
 import { walletOption } from "./ui/components/components";
 import { getConnectedPublicKey } from "./ui/effects/effects";
+import IWallet from "./ui/wallets/IWallet";
 
 const h = _h;
 
@@ -31,7 +32,7 @@ export const SimpleSignerConnector = {
         ...baseState,
         ...initialState,
         wallets,
-      }, [getConnectedPublicKey, wallets]],
+      }, [getConnectedPublicKey, wallets] as Effect<IState, IWallet[]>] as Dispatchable<IState>,
       view: (state) => {
         return html`
           <div>
