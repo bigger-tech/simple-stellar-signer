@@ -1,7 +1,7 @@
-import { app, h as _h } from "hyperapp";
+import { app, h as _h, Subscription } from "hyperapp";
 import html from "hyperlit";
 import createWallet from "./ui/wallets/WalletFactory";
-import WalletType from "./entities/WalletType";
+import WalletEnum from "./entities/WalletType";
 import IState from "./ui/state/IState";
 import { setPublicKey, toggleOpen } from "./ui/actions/actions";
 import { walletOption } from "./ui/components/components";
@@ -11,7 +11,7 @@ const h = _h;
 
 const baseState: IState = {
   open: false,
-  availableWallets: [WalletType.X_BULL, WalletType.ALBEDO, WalletType.FREIGHTER, WalletType.RABET],
+  availableWallets: [WalletEnum.X_BULL, WalletEnum.ALBEDO, WalletEnum.FREIGHTER, WalletEnum.RABET],
   publicKey: null,
   wallets: [],
 };
@@ -31,7 +31,8 @@ export const SimpleSignerConnector = {
             <div class="__simple-signer-dropdown ${state.open ? "__simple-signer-dropdown--open" : ""}"
                  onclick=${toggleOpen}>
 
-              ${state.publicKey ? html`<span>Connected with ${state.publicKey.substring(0, 5).concat("...")}</span>` :
+              ${state.publicKey ? html`
+                  <span>Connected with ${state.publicKey.value.substring(0, 5).concat("...")}</span>` :
                 html`<span class="__simple-signer-cta">Connect wallet</span>`
               }
 
@@ -42,12 +43,17 @@ export const SimpleSignerConnector = {
             </div>
           </div>`;
       },
-      subscriptions: state => state.wallets.map(w => [w.configurePublicKeySubscriber, { action: setPublicKey }]),
+      subscriptions: state => [...state.wallets.map(w => [w.configurePublicKeySubscriber, { action: setPublicKey }] as Subscription<IState>)],
       node: node,
     });
   },
-  Wallet: WalletType,
   baseState,
+  Wallet: WalletEnum,
+  publicKeyConnectedCallback(publicKey: string) {
+  },
+  onPublicKeyConnected(callback) {
+    SimpleSignerConnector.publicKeyConnectedCallback = callback;
+  },
 };
 // @ts-ignore
 window.SimpleSignerConnector = SimpleSignerConnector;

@@ -17,6 +17,7 @@ export default class XBull extends Wallet {
 
   async getPublicKey(): Promise<PublicKey> {
     // @ts-ignore
-    return xBullSDK.getPublicKey();
+    const rawPk = await xBullSDK.getPublicKey();
+    return new PublicKey(rawPk);
   }
 }

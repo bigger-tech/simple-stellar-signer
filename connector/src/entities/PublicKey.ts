@@ -1,8 +1,8 @@
 export default class PublicKey {
-  public readonly publicKey;
+  public readonly value;
 
   constructor(publicKey: string) {
     //TODO: check that public key is valid
-    this.publicKey = publicKey;
+    this.value = publicKey;
   }
 }

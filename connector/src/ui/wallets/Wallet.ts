@@ -19,7 +19,6 @@ export default class Wallet implements IWallet {
     return html`<a class='__simple-signer-option ${this.name}' href='#' onclick=${state => [state, [
       async dispatch => {
         const result = await this.connect();
-        console.log(result);
         dispatch(state => state);
       },
     ]]}>${this.name}</a>`;
