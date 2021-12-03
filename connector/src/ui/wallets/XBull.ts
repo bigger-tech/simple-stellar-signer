@@ -1,6 +1,5 @@
 import Wallet from "./Wallet";
 import PublicKey from "../../entities/PublicKey";
-import IConnectResponse from "../../entities/wallets/xBull/IConnectResponse";
 
 export default class XBull extends Wallet {
   constructor() {
@@ -12,7 +11,7 @@ export default class XBull extends Wallet {
     return await xBullSDK.connect({
       canRequestPublicKey: true,
       canRequestSign: true,
-    }) as IConnectResponse;
+    });
   }
 
   async getPublicKey(): Promise<PublicKey> {

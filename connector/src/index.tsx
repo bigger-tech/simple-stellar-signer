@@ -1,7 +1,7 @@
 import { app, h as _h, Subscription } from "hyperapp";
 import html from "hyperlit";
 import createWallet from "./ui/wallets/WalletFactory";
-import WalletEnum from "./entities/WalletType";
+import WalletEnum from "./entities/WalletEnum";
 import IState from "./ui/state/IState";
 import { setPublicKey, toggleOpen } from "./ui/actions/actions";
 import { walletOption } from "./ui/components/components";
@@ -17,6 +17,13 @@ const baseState: IState = {
 };
 
 export const SimpleSignerConnector = {
+  baseState,
+  Wallet: WalletEnum,
+  publicKeyConnectedCallback(publicKey: string) {
+  },
+  onPublicKeyConnected(callback) {
+    SimpleSignerConnector.publicKeyConnectedCallback = callback;
+  },
   init(node: HTMLElement, initialState?: IState) {
     const wallets = initialState.availableWallets.map(wallet => createWallet(wallet));
     app({
@@ -46,13 +53,6 @@ export const SimpleSignerConnector = {
       subscriptions: state => [...state.wallets.map(w => [w.configurePublicKeySubscriber, { action: setPublicKey }] as Subscription<IState>)],
       node: node,
     });
-  },
-  baseState,
-  Wallet: WalletEnum,
-  publicKeyConnectedCallback(publicKey: string) {
-  },
-  onPublicKeyConnected(callback) {
-    SimpleSignerConnector.publicKeyConnectedCallback = callback;
   },
 };
 // @ts-ignore

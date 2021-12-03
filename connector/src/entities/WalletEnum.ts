@@ -1,8 +1,8 @@
-enum WalletType {
+enum WalletEnum {
   X_BULL = "xBull",
   ALBEDO = "Albedo",
   RABET = "Rabet",
   FREIGHTER = "Freighter",
 }
 
-export default WalletType;
+export default WalletEnum;

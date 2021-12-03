@@ -1,12 +1,12 @@
 import XBull from "./XBull";
 import Albedo from "./Albedo";
-import WalletType from "../../entities/WalletType";
+import WalletEnum from "../../entities/WalletEnum";
 import IWallet from "./IWallet";
 
-export default function createWallet(wallet: WalletType): IWallet {
+export default function createWallet(wallet: WalletEnum): IWallet {
   const wallets = {
-    [WalletType.X_BULL]: new XBull(),
-    [WalletType.ALBEDO]: new Albedo(),
+    [WalletEnum.X_BULL]: new XBull(),
+    [WalletEnum.ALBEDO]: new Albedo(),
   };
   return wallets[wallet];
 }
