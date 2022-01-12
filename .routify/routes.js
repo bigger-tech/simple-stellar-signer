@@ -1,10 +1,10 @@
 /**
  * @roxi/routify 2.18.4
- * File generated Wed Jan 12 2022 15:31:03 GMT-0300 (hora estándar de Argentina)
+ * File generated Wed Jan 12 2022 17:20:19 GMT-0300 (hora estándar de Argentina)
  */
 
 export const __version = '2.18.4';
-export const __timestamp = '2022-01-12T18:31:03.437Z';
+export const __timestamp = '2022-01-12T20:20:19.007Z';
 
 //buildRoutes
 import { buildClientTree } from '@roxi/routify/runtime/buildRoutes';
@@ -30,7 +30,7 @@ export const _tree = {
             name: 'contact',
             ext: 'svelte',
             badExt: false,
-            absolutePath: 'C:/Users/Mauri/Desktop/simple-stellar-signer/src/pages/contact.svelte',
+            absolutePath: 'C:/Users/agusm/Documents/GitHub/simple-stellar-signer-nico/src/pages/contact.svelte',
             importPath: '../src/pages/contact.svelte',
             isLayout: false,
             isReset: false,
@@ -55,7 +55,7 @@ export const _tree = {
             name: 'index',
             ext: 'svelte',
             badExt: false,
-            absolutePath: 'C:/Users/Mauri/Desktop/simple-stellar-signer/src/pages/index.svelte',
+            absolutePath: 'C:/Users/agusm/Documents/GitHub/simple-stellar-signer-nico/src/pages/index.svelte',
             importPath: '../src/pages/index.svelte',
             isLayout: false,
             isReset: false,

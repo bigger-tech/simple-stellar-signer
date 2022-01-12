@@ -1,5 +1,7 @@
-<main>
-    <header>
-        <h1>Welcome to my show recommendations.</h1>
-    </header>
-</main>
+<script>
+    import { initAlbedo } from '../wallets/albedo';
+</script>
+
+<button on:click="{initAlbedo}">Connect with Albedo</button>
+<button>Connect with Freighter</button>
+<button>Connect with xBull</button>

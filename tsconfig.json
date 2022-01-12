@@ -22,7 +22,8 @@
         "noUncheckedIndexedAccess": true,
         "noPropertyAccessFromIndexSignature": true,
         "noImplicitOverride": true,
-        "exactOptionalPropertyTypes": true
+        "exactOptionalPropertyTypes": true,
+        "jsx": "react"
     },
     "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]
 }

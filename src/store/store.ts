@@ -1,6 +1,9 @@
-export default interface IState {
-    publicKey: string;
-    wallet: string;
-    balance: string;
-    show: boolean;
-}
+import { writable } from 'svelte/store';
+import type IState from '../interfaces/IState';
+
+const baseStore: IState = {
+    publicKey: '',
+    wallet: '',
+};
+
+export const store = writable(baseStore);
