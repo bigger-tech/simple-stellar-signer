@@ -1,23 +1,39 @@
 {
-  "name": "simple-stellar-signer",
-  "version": "1.0.0",
-  "main": "index.js",
-  "repository": "https://github.com/fsodano/simple-stellar-signer/",
-  "author": "Fabricio Leonardo Sodano Pascazi <fabricio.sodano@gmail.com>",
-  "license": "MIT",
-  "scripts": {
-    "start": "run-p start:demo start:connector start:signer",
-    "start:demo": "parcel demo/index.html -p 1234",
-    "start:signer": "yarn --cwd ./signer start",
-    "start:connector": "yarn --cwd ./connector start"
-  },
-  "devDependencies": {
-    "@parcel/packager-ts": "^2.0.1",
-    "@parcel/transformer-typescript-types": "^2.0.1",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "npm-run-all": "^4.1.5",
-    "parcel": "^2.0.1",
-    "typescript": ">=3.0.0"
-  }
+    "name": "simple-stellar-signer",
+    "version": "0.0.1",
+    "type": "module",
+    "scripts": {
+        "dev": "vite",
+        "build": "vite build",
+        "preview": "vite preview",
+        "check": "svelte-check --tsconfig ./tsconfig.json",
+        "lint:check": "eslint --ext .js --ext .ts --ext .svelte . && prettier . && npm run check",
+        "lint:fix": "eslint --fix --ext .js --ext .ts --ext .svelte . && prettier --config .prettierrc --write . && npm run check",
+        "prepare": "husky install"
+    },
+    "lint-staged": {
+        "*.{svelte,js,ts}": "npm run lint:fix"
+    },
+    "devDependencies": {
+        "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
+        "@tsconfig/svelte": "^2.0.1",
+        "@typescript-eslint/eslint-plugin": "^5.9.1",
+        "@typescript-eslint/parser": "^5.9.1",
+        "eslint": "^8.6.0",
+        "eslint-config-airbnb-base": "^15.0.0",
+        "eslint-config-prettier": "^8.3.0",
+        "eslint-plugin-import": "^2.25.4",
+        "eslint-plugin-prettier": "^4.0.0",
+        "eslint-plugin-svelte3": "^3.3.0",
+        "husky": "^7.0.4",
+        "lint-staged": "^12.1.7",
+        "prettier": "^2.5.1",
+        "prettier-plugin-svelte": "^2.5.1",
+        "svelte": "^3.44.0",
+        "svelte-check": "^2.2.7",
+        "svelte-preprocess": "^4.9.8",
+        "tslib": "^2.3.1",
+        "typescript": "^4.4.4",
+        "vite": "^2.7.2"
+    }
 }

@@ -1,6 +1,9 @@
-# simple-stellar-signer
-An in-browser transaction signer for the Stellar Network
+# Simple Stellar Signer
 
-## Run this project locally
+## Local development
 
-`yarn start`
+```
+npm install
+npx husky install
+npm run dev
+```

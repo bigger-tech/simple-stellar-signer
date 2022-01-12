@@ -1,0 +1,9 @@
+{
+    "htmlWhitespaceSensitivity": "css",
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "svelteSortOrder": "options-scripts-markup-styles",
+    "svelteStrictMode": true,
+    "svelteAllowShorthand": false
+}
