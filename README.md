@@ -4,6 +4,5 @@
 
 ```
 npm install
-npx husky install
 npm run dev
 ```
