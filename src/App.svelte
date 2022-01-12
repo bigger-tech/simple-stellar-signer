@@ -1,9 +1,11 @@
 <script lang="ts">
-    import { initXBull } from './wallets/xBull';
+    import { Router } from '@roxi/routify';
+    import { routes } from '../.routify/routes';
 </script>
 
-<main>
+<Router routes="{routes}" />
+<!-- <main>
     <button>Connect with Albedo</button>
     <button>Connect with Freighter</button>
     <button on:click="{initXBull}">Connect with xBull</button>
-</main>
+</main> -->
