@@ -1,10 +1,10 @@
 /**
  * @roxi/routify 2.18.4
- * File generated Wed Jan 12 2022 17:20:19 GMT-0300 (hora estándar de Argentina)
+ * File generated Thu Jan 13 2022 12:54:32 GMT-0300 (hora estándar de Argentina)
  */
 
 export const __version = '2.18.4';
-export const __timestamp = '2022-01-12T20:20:19.007Z';
+export const __timestamp = '2022-01-13T15:54:32.311Z';
 
 //buildRoutes
 import { buildClientTree } from '@roxi/routify/runtime/buildRoutes';
@@ -30,7 +30,7 @@ export const _tree = {
             name: 'contact',
             ext: 'svelte',
             badExt: false,
-            absolutePath: 'C:/Users/agusm/Documents/GitHub/simple-stellar-signer-nico/src/pages/contact.svelte',
+            absolutePath: 'D:/proyectos-programacion/simple-stellar-signer/src/pages/contact.svelte',
             importPath: '../src/pages/contact.svelte',
             isLayout: false,
             isReset: false,
@@ -55,7 +55,7 @@ export const _tree = {
             name: 'index',
             ext: 'svelte',
             badExt: false,
-            absolutePath: 'C:/Users/agusm/Documents/GitHub/simple-stellar-signer-nico/src/pages/index.svelte',
+            absolutePath: 'D:/proyectos-programacion/simple-stellar-signer/src/pages/index.svelte',
             importPath: '../src/pages/index.svelte',
             isLayout: false,
             isReset: false,
@@ -71,6 +71,31 @@ export const _tree = {
             path: '/index',
             id: '_index',
             component: () => import('../src/pages/index.svelte').then((m) => m.default),
+        },
+        {
+            isFile: true,
+            isDir: false,
+            file: 'wallet.svelte',
+            filepath: '/wallet.svelte',
+            name: 'wallet',
+            ext: 'svelte',
+            badExt: false,
+            absolutePath: 'D:/proyectos-programacion/simple-stellar-signer/src/pages/wallet.svelte',
+            importPath: '../src/pages/wallet.svelte',
+            isLayout: false,
+            isReset: false,
+            isIndex: false,
+            isFallback: false,
+            isPage: true,
+            ownMeta: {},
+            meta: {
+                recursive: true,
+                preload: false,
+                prerender: true,
+            },
+            path: '/wallet',
+            id: '_wallet',
+            component: () => import('../src/pages/wallet.svelte').then((m) => m.default),
         },
     ],
     isLayout: false,

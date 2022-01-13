@@ -16,6 +16,8 @@
         "*.{svelte,js,ts}": "npm run lint:fix"
     },
     "devDependencies": {
+        "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
+        "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
         "@roxi/routify": "^2.18.4",
         "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
         "@tsconfig/svelte": "^2.0.1",
