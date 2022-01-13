@@ -1,5 +1,6 @@
-import { getPublicKey } from '@stellar/freighter-api';
+import * as Freighter from '@stellar/freighter-api';
 import getBalance from '../operations/balanceOperation/balanceOperation';
+import type { StellarSDK } from 'src/api/stellarSDK';
 
 const saveLocalStorage = (key: string, balance: number) => {
     window.localStorage.clear();
@@ -15,15 +16,17 @@ const saveLocalStorage = (key: string, balance: number) => {
     window.location.href = '/wallet';
 };
 
+export const signFreighter = async (tx: StellarSDK.Transaction) => {
+    const signedTx = await Freighter.signTransaction(tx.toXDR(), 'TESTNET');
+    return signedTx;
+};
+
+const getPublicKey = () => {
+    const publicKey = Freighter.getPublicKey();
+    return publicKey;
+};
+
 export async function initFreighter() {
-    let publicKey = '';
-
-    try {
-        publicKey = await getPublicKey();
-    } catch (e) {
-        console.log(e);
-    }
-
-    console.log(publicKey);
+    const publicKey = await getPublicKey();
     saveLocalStorage(publicKey, await getBalance(publicKey));
 }

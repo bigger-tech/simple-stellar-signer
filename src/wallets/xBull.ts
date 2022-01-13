@@ -1,5 +1,21 @@
-declare const window: any;
 import getBalance from '../operations/balanceOperation/balanceOperation';
+import type { StellarSDK } from 'src/api/stellarSDK';
+
+const getPublicKey = async (): Promise<string> => {
+    await window.xBullSDK.connect({
+        canRequestPublicKey: true,
+        canRequestSign: true,
+    });
+
+    const pubKey = await window.xBullSDK.getPublicKey();
+
+    return pubKey;
+};
+
+export const signXbull = async (tx: StellarSDK.Transaction) => {
+    const signedTx = await window.xBullSDK.signXDR(tx.toXDR());
+    return signedTx;
+};
 
 const saveLocalStorage = (key: string, balance: number) => {
     window.localStorage.clear();
@@ -16,11 +32,8 @@ const saveLocalStorage = (key: string, balance: number) => {
 };
 
 export async function initXBull() {
-    const permissions = await window.xBullSDK.connect({
-        canRequestPublicKey: true,
-        canRequestSign: true,
-    });
-    const publicKey = await window.xBullSDK.getPublicKey();
-    console.log(publicKey, permissions);
+    const publicKey = await getPublicKey();
     saveLocalStorage(publicKey, await getBalance(publicKey));
+
+    return publicKey;
 }
