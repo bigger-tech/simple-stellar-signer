@@ -14,6 +14,8 @@
         "*.{svelte,js,ts}": "npm run lint:fix"
     },
     "devDependencies": {
+        "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
+        "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
         "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
         "@tsconfig/svelte": "^2.0.1",
         "@typescript-eslint/eslint-plugin": "^5.9.1",
@@ -28,11 +30,15 @@
         "lint-staged": "^12.1.7",
         "prettier": "^2.5.1",
         "prettier-plugin-svelte": "^2.5.1",
+        "rollup-plugin-node-polyfills": "^0.2.1",
         "svelte": "^3.44.0",
         "svelte-check": "^2.2.7",
         "svelte-preprocess": "^4.9.8",
         "tslib": "^2.3.1",
         "typescript": "^4.4.4",
         "vite": "^2.7.2"
+    },
+    "dependencies": {
+        "stellar-sdk": "^10.0.0"
     }
 }

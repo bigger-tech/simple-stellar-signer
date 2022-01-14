@@ -1,6 +1,12 @@
 <script lang="ts">
+    import { Server } from 'stellar-sdk';
     import logo from './assets/svelte.png';
     import Counter from './lib/Counter.svelte';
+
+    const server = new Server('https://horizon-testnet.stellar.org');
+    console.log(server);
+    const acc = server.accounts().accountId('GCZM2TJJE4OVU7Z43KSKUU7EW5CPG6Q6HFKA6QWCI3HQZMZOAFRYO55T').call();
+    acc.then(console.log);
 </script>
 
 <main>
