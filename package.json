@@ -7,7 +7,6 @@
         "build": "vite build",
         "preview": "vite preview",
         "check": "svelte-check --tsconfig ./tsconfig.json",
-        "lint:check": "eslint --ext .js --ext .ts --ext .svelte . && prettier . && npm run check",
         "lint:fix": "eslint --fix --ext .js --ext .ts --ext .svelte . && prettier --config .prettierrc --write . && npm run check",
         "prepare": "husky install"
     },
