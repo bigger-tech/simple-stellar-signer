@@ -1,70 +1,13 @@
 <script lang="ts">
-    import { Server } from 'stellar-sdk';
-    import logo from './assets/svelte.png';
-    import Counter from './lib/Counter.svelte';
-
-    const server = new Server('https://horizon-testnet.stellar.org');
-    console.log(server);
-    const acc = server.accounts().accountId('GCZM2TJJE4OVU7Z43KSKUU7EW5CPG6Q6HFKA6QWCI3HQZMZOAFRYO55T').call();
-    acc.then(console.log);
+    import { Router, Route } from 'svelte-navigator';
+    import Connect from './routes/Connect.svelte';
+    import Sign from './routes/Sign.svelte';
 </script>
 
-<main>
-    <img alt="Svelte Logo" src="{logo}" />
-    <h1>Hello Typescript!</h1>
-
-    <Counter />
-
-    <p>
-        Visit <a href="https://svelte.dev">svelte.dev</a> to learn how to build Svelte apps.
-    </p>
-
-    <p>
-        Check out <a href="https://github.com/sveltejs/kit#readme">SvelteKit</a> for the officially supported framework,
-        also powered by Vite!
-    </p>
-</main>
-
-<style>
-    :root {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
-            'Helvetica Neue', sans-serif;
-    }
-
-    main {
-        text-align: center;
-        padding: 1em;
-        margin: 0 auto;
-    }
-
-    img {
-        height: 16rem;
-        width: 16rem;
-    }
-
-    h1 {
-        color: #ff3e00;
-        text-transform: uppercase;
-        font-size: 4rem;
-        font-weight: 100;
-        line-height: 1.1;
-        margin: 2rem auto;
-        max-width: 14rem;
-    }
-
-    p {
-        max-width: 14rem;
-        margin: 1rem auto;
-        line-height: 1.35;
-    }
-
-    @media (min-width: 480px) {
-        h1 {
-            max-width: none;
-        }
-
-        p {
-            max-width: none;
-        }
-    }
-</style>
+<Router>
+    <main>
+        <Route path="/" component="{Connect}" />
+        <Route path="/connect" component="{Connect}" />
+        <Route path="/sign" component="{Sign}" />
+    </main>
+</Router>
