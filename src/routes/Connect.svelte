@@ -17,3 +17,4 @@
 </ul>
 <button on:click="{toggleVisibility}">Show key</button>
 <input id="secret-key-input" type="password" />
+<button>Connect with private key</button>
