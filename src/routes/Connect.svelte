@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { changeTitle } from '../services/connect';
+
     const toggleVisibility = () => {
         const input = <HTMLInputElement>document.querySelector('#secret-key-input');
         if (input.type === 'password') {
@@ -18,4 +20,4 @@
 <h1 id="public-key-title">Public Key: waiting a connection...</h1>
 <button on:click="{toggleVisibility}">Show key</button>
 <input id="secret-key-input" type="password" />
-<button>Connect with private key</button>
+<button on:click="{changeTitle}">Connect with private key </button>
