@@ -15,5 +15,5 @@
     <li class="simple-signer xbull-wallet">Connect with xBull</li>
     <li class="simple-signer private-key-wallet">Connect with Private Key</li>
 </ul>
-<button on:click="{toggleVisibility}">Show password</button>
+<button on:click="{toggleVisibility}">Show key</button>
 <input id="secret-key-input" type="password" />
