@@ -15,6 +15,7 @@
     <li class="simple-signer xbull-wallet">Connect with xBull</li>
     <li class="simple-signer private-key-wallet">Connect with Private Key</li>
 </ul>
+<h1 id="public-key-title">Public Key: waiting a connection...</h1>
 <button on:click="{toggleVisibility}">Show key</button>
 <input id="secret-key-input" type="password" />
 <button>Connect with private key</button>
