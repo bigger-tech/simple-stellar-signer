@@ -20,4 +20,4 @@
 <h1 id="public-key-title">Public Key: waiting a connection...</h1>
 <button on:click="{toggleVisibility}">Show key</button>
 <input id="secret-key-input" type="password" />
-<button on:click="{changeTitle}">Connect with private key </button>
+<button on:click="{changeTitle}">Connect with private key</button>
