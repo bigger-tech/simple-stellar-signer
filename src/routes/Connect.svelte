@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { changeTitle } from '../services/connect';
+    import { changeTitle } from '../services/utils';
 
     const toggleVisibility = () => {
         const input = <HTMLInputElement>document.querySelector('#secret-key-input');

@@ -22,7 +22,7 @@ const connectWithSecretKey = (key: string): Keypair | void => {
     }
 };
 
-const getPublicKey = (key: string): string | void => {
+export const getPublicKey = (key: string): string | void => {
     try {
         const sourceKeys = connectWithSecretKey(key);
 
@@ -32,18 +32,5 @@ const getPublicKey = (key: string): string | void => {
         }
     } catch (e) {
         return console.log('Error while getting the public key', e);
-    }
-};
-
-export const changeTitle = () => {
-    const input = <HTMLInputElement>document.querySelector('#secret-key-input');
-    const title = <HTMLInputElement>document.querySelector('#public-key-title');
-
-    const publicKey = getPublicKey(input.value);
-    input.value = '';
-    if (!publicKey) {
-        title.innerText = `Public Key: There was a problem, try again`;
-    } else {
-        title.innerText = `Public Key: ${publicKey}`;
     }
 };
