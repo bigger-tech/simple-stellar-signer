@@ -41,9 +41,9 @@ export const changeTitle = () => {
 
     const publicKey = getPublicKey(input.value);
     input.value = '';
-    if (input.value === undefined) {
-        title.innerText = `Public Key: ${publicKey}`;
-    } else {
+    if (!publicKey) {
         title.innerText = `Public Key: There was a problem, try again`;
+    } else {
+        title.innerText = `Public Key: ${publicKey}`;
     }
 };
