@@ -1,4 +1,5 @@
 import { StellarSDK } from '../api/stellarSdk';
+import type { Keypair } from 'stellar-sdk';
 
 const encryptKey = (key: string, salt: number) => {
     const encodedData = btoa(key);
@@ -11,16 +12,27 @@ const saveSecretKeyInSessionStorage = (key: string) => {
     sessionStorage.setItem('key', encodedKey);
 };
 
-const connectWithSecretKey = (key: string) => {
-    const sourceKeys = StellarSDK.Keypair.fromSecret(key);
-    saveSecretKeyInSessionStorage(key);
-    return sourceKeys;
+const connectWithSecretKey = (key: string): Keypair | void => {
+    try {
+        const sourceKeys = StellarSDK.Keypair.fromSecret(key);
+        saveSecretKeyInSessionStorage(key);
+        return sourceKeys;
+    } catch (e) {
+        return console.error('Invalid key: ', e);
+    }
 };
 
-const getPublicKey = (key: string): string => {
-    const sourceKeys = connectWithSecretKey(key);
-    const publicKey = sourceKeys.publicKey();
-    return publicKey;
+const getPublicKey = (key: string): string | void => {
+    try {
+        const sourceKeys = connectWithSecretKey(key);
+
+        if (sourceKeys) {
+            const publicKey = sourceKeys.publicKey();
+            return publicKey;
+        }
+    } catch (e) {
+        return console.log('Error while getting the public key', e);
+    }
 };
 
 export const changeTitle = () => {
