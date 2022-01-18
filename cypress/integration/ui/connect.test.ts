@@ -7,24 +7,27 @@ describe('connect', () => {
 
     beforeEach(() => {
         cy.visit(url);
+        cy.get('#secret-key-input').as('input');
+        cy.get('button').contains('Connect with private key').as('connectBtn');
+        cy.get('#public-key-title').as('title');
     });
 
     it('clicking in "show key" should change the type of the input', () => {
-        cy.get('#secret-key-input').type('1234');
-        cy.get('#secret-key-input').invoke('attr', 'type').should('contain', 'password');
+        cy.get('@input').type('1234');
+        cy.get('@input').invoke('attr', 'type').should('contain', 'password');
         cy.get('button').contains('Show key').click();
-        cy.get('#secret-key-input').invoke('attr', 'type').should('contain', 'text');
+        cy.get('@input').invoke('attr', 'type').should('contain', 'text');
     });
 
     it('passing an invalid key should throw an error', () => {
-        cy.get('#secret-key-input').type('1234');
-        cy.get('button').contains('Connect with private key').click();
-        cy.get('#public-key-title').should('contain.text', 'Public Key: There was a problem, try again');
+        cy.get('@input').type('1234');
+        cy.get('@connectBtn').click();
+        cy.get('@title').should('contain.text', 'Public Key: There was a problem, try again');
     });
 
     it('passing a valid key should change the title showcasing the public key', () => {
-        cy.get('#secret-key-input').type(testSecretKey);
-        cy.get('button').contains('Connect with private key').click();
-        cy.get('#public-key-title').should('contain.text', testPublicKey);
+        cy.get('@input').type(testSecretKey);
+        cy.get('@connectBtn').click();
+        cy.get('@title').should('contain.text', testPublicKey);
     });
 });
