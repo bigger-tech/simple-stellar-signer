@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
-const url = 'http://localhost:3000';
+
 describe('Simple Signer', () => {
+    const url = Cypress.env('HOST');
     it("Should check if there's three wallets", () => {
         cy.visit(url);
         cy.get('h1').contains('Connector');
