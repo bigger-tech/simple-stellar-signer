@@ -8,6 +8,7 @@ export default defineConfig({
     plugins: [svelte()],
     resolve: {},
     optimizeDeps: {
+        exclude: ['svelte-navigator'],
         esbuildOptions: {
             // Node.js global to browser globalThis
             define: {
