@@ -1,7 +1,9 @@
 <script lang="ts">
     import { visibility } from '../stores/store';
-    import { initConnect, decryptPk } from '../helpers/connect';
+    import { initConnect, decryptPk, connectWithSession } from '../helpers/connect';
     import { publicKey } from '../stores/store';
+
+    connectWithSession();
 </script>
 
 <h1>Connector</h1>

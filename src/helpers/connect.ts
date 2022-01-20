@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { StellarSDK } from '../api/stellarSdk';
 import type { Keypair } from 'stellar-sdk';
 import { decryptPrivateKey } from './security';
@@ -7,6 +8,19 @@ import { publicKey } from '../stores/store';
 const connectWithSecretKey = (key: string): Keypair => {
     const sourceKeys = StellarSDK.Keypair.fromSecret(key);
     return sourceKeys;
+};
+
+export const connectWithSession = async () => {
+    try {
+        const encryptedKey = sessionStorage.getItem('key');
+        const decryptedKey = await decryptPrivateKey(encryptedKey!);
+
+        const userAccount = connectWithSecretKey(decryptedKey);
+        publicKey.set(userAccount.publicKey());
+    } catch (e) {
+        console.log('Private key was not found in Session Storage');
+        return e;
+    }
 };
 
 export const initConnect = async () => {

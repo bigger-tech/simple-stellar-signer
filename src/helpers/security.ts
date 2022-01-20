@@ -95,7 +95,7 @@ export const decryptPrivateKey = async (charCodeString: string) => {
         });
 
     const decoderData = new TextDecoder().decode(decryptedKey);
-    console.log(decoderData);
+    return decoderData;
 
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 };
