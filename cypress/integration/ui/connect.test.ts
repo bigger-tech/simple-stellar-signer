@@ -2,8 +2,8 @@
 
 describe('connect', () => {
     const url = Cypress.env('HOST');
-    const testSecretKey = 'SAP3SV3BANKBI7DVLFAOJJDHAQYVNUZX6O56FXDP6AHZNU2OYQLYWDZJ';
-    const testPublicKey = 'GAVPIQ5RZCTNXWB5257PEQEZUBUKE37RQ4ZGDCNZPTKK3KLXGVIP2DBJ';
+    const testSecretKey = Cypress.env('PRIVATE');
+    const testPublicKey = Cypress.env('PUBLIC');
 
     beforeEach(() => {
         cy.visit(url);
@@ -19,15 +19,15 @@ describe('connect', () => {
         cy.get('@input').invoke('attr', 'type').should('contain', 'text');
     });
 
-    it('passing an invalid key should throw an error', () => {
-        cy.get('@input').type('1234');
-        cy.get('@connectBtn').click();
-        cy.get('@title').should('contain.text', 'Public Key: There was a problem, try again');
-    });
-
     it('passing a valid key should change the title showcasing the public key', () => {
         cy.get('@input').type(testSecretKey);
         cy.get('@connectBtn').click();
         cy.get('@title').should('contain.text', testPublicKey);
+    });
+
+    it('passing an invalid key should throw an error', () => {
+        cy.get('@input').type('1234');
+        cy.get('@connectBtn').click();
+        cy.get('@title').should('contain.text', 'Public Key: There was a problem, try again');
     });
 });
