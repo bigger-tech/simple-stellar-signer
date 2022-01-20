@@ -13,7 +13,7 @@
             <Route path="/">
                 <Sign />
             </Route>
-            <Route path="?xdr=:xdr" component="{Sign}" let:params />
+            <Route path="?xdr=:xdr" component="{Sign}" />
         </Route>
     </main>
 </Router>
