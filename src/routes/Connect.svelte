@@ -1,6 +1,6 @@
 <script lang="ts">
     import { visibility } from '../stores/store';
-    import { initConnect, decryptPk } from '../utils/connect';
+    import { initConnect, decryptPk } from '../helpers/connect';
     import { publicKey } from '../stores/store';
 </script>
 
@@ -12,10 +12,6 @@
 </ul>
 <h1 id="public-key-title">Public Key: {$publicKey}</h1>
 <button on:click="{() => ($visibility = !$visibility)}">Show key</button>
-<input
-    id="secret-key-input"
-    type="{$visibility ? 'text' : 'password'}"
-    value="{import.meta.env.VITE_TEST_PRIVATEKEY}"
-/>
+<input id="secret-key-input" type="{$visibility ? 'text' : 'password'}" />
 <button on:click="{initConnect}">Connect with private key</button>
 <button on:click="{decryptPk}">Decrypt PK</button>
