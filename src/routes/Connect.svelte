@@ -1,14 +1,7 @@
 <script lang="ts">
-    import { changeTitle } from '../services/utils';
-
-    const toggleVisibility = () => {
-        const input = <HTMLInputElement>document.querySelector('#secret-key-input');
-        if (input.type === 'password') {
-            input.type = 'text';
-        } else {
-            input.type = 'password';
-        }
-    };
+    import { visibility } from '../stores/store';
+    import { initConnect, decryptPk } from '../utils/connect';
+    import { publicKey } from '../stores/store';
 </script>
 
 <h1>Connector</h1>
@@ -17,7 +10,12 @@
     <li class="simple-signer xbull-wallet">Connect with xBull</li>
     <li class="simple-signer private-key-wallet">Connect with Private Key</li>
 </ul>
-<h1 id="public-key-title">Public Key: waiting a connection...</h1>
-<button on:click="{toggleVisibility}">Show key</button>
-<input id="secret-key-input" type="password" />
-<button on:click="{changeTitle}">Connect with private key</button>
+<h1 id="public-key-title">Public Key: {$publicKey}</h1>
+<button on:click="{() => ($visibility = !$visibility)}">Show key</button>
+<input
+    id="secret-key-input"
+    type="{$visibility ? 'text' : 'password'}"
+    value="{import.meta.env.VITE_TEST_PRIVATEKEY}"
+/>
+<button on:click="{initConnect}">Connect with private key</button>
+<button on:click="{decryptPk}">Decrypt PK</button>
