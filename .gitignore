@@ -5,3 +5,4 @@
 # dotenv environment variables file
 .env
 .env.test
+cypress.env.json
