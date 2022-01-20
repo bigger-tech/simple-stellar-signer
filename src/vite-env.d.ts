@@ -3,7 +3,7 @@
 
 interface ImportMetaEnv {
     readonly VITE_TESTNET: string;
-    readonly VITE_TEST_PRIVATEKEY: string;
+    readonly VITE_TESTPRIVATE_KEY: string;
 }
 
 interface ImportMeta {
