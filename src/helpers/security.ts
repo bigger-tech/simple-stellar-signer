@@ -1,33 +1,31 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
-const generateKeyPair = async () => {
-    const keyPair = await window.crypto.subtle.generateKey(
-        {
-            name: 'RSA-OAEP',
-            modulusLength: 4096,
-            publicExponent: new Uint8Array([1, 0, 1]),
-            hash: 'SHA-256',
-        },
-        true,
-        ['encrypt', 'decrypt'],
-    );
+import type { cryptoData } from '../interfaces/interface';
 
-    return keyPair;
+const uintEightArrayFromCharCode = (data: string): Uint8Array => {
+    const array = new Uint8Array([...data].map((char) => char.charCodeAt(0)));
+    return array;
 };
 
-const keyPair = await generateKeyPair();
+const keyPair = await window.crypto.subtle.generateKey(
+    {
+        name: 'RSA-OAEP',
+        modulusLength: 4096,
+        publicExponent: new Uint8Array([1, 0, 1]),
+        hash: 'SHA-256',
+    },
+    true,
+    ['encrypt', 'decrypt'],
+);
 
-export const exportCryptoKey = async (): Promise<ArrayBuffer> => {
-    const privateKey = keyPair.privateKey;
+const exportCryptoKey = async (): Promise<string> => {
+    const cryptoKey = await window.crypto.subtle.exportKey('pkcs8', keyPair.privateKey!);
+    const cryptoKeyToUint8Array = new Uint8Array(cryptoKey);
+    const cryptoKeyString = String.fromCharCode.apply(null, Array.from(cryptoKeyToUint8Array)); // A type error will pop without Array.from
 
-    const keydata = await window.crypto.subtle.exportKey(
-        'pkcs8', //can be "jwk" (public or private), "spki" (public only), or "pkcs8" (private only)
-        privateKey!, //can be a publicKey or privateKey, as long as extractable was true
-    );
-
-    return keydata;
+    return cryptoKeyString;
 };
 
-export const encryptPrivateKey = async (key: string) => {
+const encryptPrivateKey = async (key: string): Promise<string> => {
     const encodeKey = new TextEncoder().encode(key);
 
     const encryptKey = async (publicKey: CryptoKey) => {
@@ -46,56 +44,43 @@ export const encryptPrivateKey = async (key: string) => {
     return stringArray;
 };
 
-const importCrypoKey = async () => {
-    const getKeyFromSession = window.sessionStorage.getItem('cryptoKey');
+const importCrypoKey = async (key: string): Promise<CryptoKey> => {
+    const arrayFromCharCode = uintEightArrayFromCharCode(key);
 
-    const uintArrayEight = new Uint8Array([...getKeyFromSession!].map((char) => char.charCodeAt(0)));
-
-    const importedKey = await window.crypto.subtle
-        .importKey(
-            'pkcs8', //can be "jwk" (public or private), "spki" (public only), or "pkcs8" (private only)
-            uintArrayEight,
-            {
-                //these are the algorithm options
-                name: 'RSA-OAEP',
-                hash: { name: 'SHA-256' }, //can be "SHA-1", "SHA-256", "SHA-384", or "SHA-512"
-            },
-            false, //whether the key is extractable (i.e. can be used in exportKey)
-            ['decrypt'], //"encrypt" or "wrapKey" for public key import or
-            //"decrypt" or "unwrapKey" for private key imports
-        )
-        .catch(function (err) {
-            console.error(err);
-        });
+    const importedKey = await window.crypto.subtle.importKey(
+        'pkcs8',
+        arrayFromCharCode,
+        {
+            name: 'RSA-OAEP',
+            hash: { name: 'SHA-256' },
+        },
+        false,
+        ['decrypt'],
+    );
 
     return importedKey;
 };
 
-export const decryptPrivateKey = async (charCodeString: string) => {
-    const uintArrayEight = new Uint8Array([...charCodeString].map((char) => char.charCodeAt(0)));
+export const getEncryptedData = async (key: string): Promise<cryptoData> => {
+    const encryptedKey = await encryptPrivateKey(key);
+    const encryptedCryptoKey = await exportCryptoKey();
 
-    const privateKey = await importCrypoKey();
+    return { privateKey: encryptedKey, cryptoKey: encryptedCryptoKey };
+};
 
-    const decryptedKey = await window.crypto.subtle
-        .decrypt(
-            {
-                name: 'RSA-OAEP',
-                //label: Uint8Array([...]) //optional
-            },
-            privateKey!, //from generateKey or importKey above
-            uintArrayEight, //ArrayBuffer of the data
-        )
-        .then(function (decrypted) {
-            //returns an ArrayBuffer containing the decrypted data
-            console.log(new Uint8Array(decrypted));
-            return decrypted;
-        })
-        .catch(function (err) {
-            console.error(err);
-        });
+export const decryptPrivateKey = async (key: string, cryptoKey: string): Promise<string> => {
+    const arrayFromCharCode = uintEightArrayFromCharCode(key);
+
+    const privateKey = await importCrypoKey(cryptoKey);
+
+    const decryptedKey = await window.crypto.subtle.decrypt(
+        {
+            name: 'RSA-OAEP',
+        },
+        privateKey!,
+        arrayFromCharCode,
+    );
 
     const decoderData = new TextDecoder().decode(decryptedKey);
     return decoderData;
-
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 };
