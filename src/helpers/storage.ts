@@ -1,18 +1,14 @@
-import { encryptPrivateKey, exportCryptoKey } from './security';
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+import type { cryptoData } from '../interfaces/interface';
 
-const saveSecretKey = async (key: string) => {
-    const encodedKey = await encryptPrivateKey(key);
-    sessionStorage.setItem('key', encodedKey);
+export const storageData = async (key: string, cryptoKey: string) => {
+    sessionStorage.setItem('cryptoKey', cryptoKey);
+    sessionStorage.setItem('privateKey', key);
 };
 
-const saveCryptoKey = async () => {
-    const cryptoKey = await exportCryptoKey();
-    const cryptoKeyToUint8Array = new Uint8Array(cryptoKey);
-    const arrayString = String.fromCharCode.apply(null, Array.from(cryptoKeyToUint8Array)); // Apply needs a number[] as arg, passing a Uint8Array works but will pop a type error
-    sessionStorage.setItem('cryptoKey', arrayString);
-};
+export const getStorageData = (): cryptoData => {
+    const secretKey = sessionStorage.getItem('privateKey');
+    const cryptoKey = sessionStorage.getItem('cryptoKey');
 
-export const savePrivateDataInSessionStorage = async (key: string) => {
-    await saveCryptoKey();
-    await saveSecretKey(key);
+    return { privateKey: secretKey!, cryptoKey: cryptoKey! };
 };
