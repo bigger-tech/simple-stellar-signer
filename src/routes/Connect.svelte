@@ -1,9 +1,9 @@
 <script lang="ts">
-    import { visibility } from '../stores/store';
-    import { initConnect, decryptPk, connectWithSession } from '../helpers/connect';
+    import { isVisible, inputValue } from '../stores/store';
+    import { connectWithStorageData, connectWithSecretKey } from '../helpers/connect';
     import { publicKey } from '../stores/store';
 
-    connectWithSession();
+    connectWithStorageData();
 </script>
 
 <h1>Connector</h1>
@@ -12,8 +12,17 @@
     <li class="simple-signer xbull-wallet">Connect with xBull</li>
     <li class="simple-signer private-key-wallet">Connect with Private Key</li>
 </ul>
-<h1 id="public-key-title">Public Key: {$publicKey}</h1>
-<button on:click="{() => ($visibility = !$visibility)}">Show key</button>
-<input id="secret-key-input" type="{$visibility ? 'text' : 'password'}" />
-<button on:click="{initConnect}">Connect with private key</button>
-<button on:click="{decryptPk}">Decrypt PK</button>
+<h1>Public Key: {$publicKey ? $publicKey : 'Waiting connection...'}</h1>
+<button on:click="{() => ($isVisible = !$isVisible)}">Show key</button>
+
+{#if !$isVisible}
+    <input type="password" bind:value="{$inputValue}" />
+{:else}
+    <input type="text" bind:value="{$inputValue}" />
+{/if}
+
+<button
+    on:click="{() => {
+        connectWithSecretKey($inputValue);
+    }}">Connect with private key</button
+>
