@@ -1,50 +1,29 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import { StellarSDK } from '../api/stellarSdk';
-import type { Keypair } from 'stellar-sdk';
-import { decryptPrivateKey } from './security';
-import { savePrivateDataInSessionStorage } from './storage';
 import { publicKey } from '../stores/store';
+import { decryptPrivateKey, getEncryptedData } from './security';
+import { storageData, getStorageData } from './storage';
 
-const connectWithSecretKey = (key: string): Keypair => {
-    const sourceKeys = StellarSDK.Keypair.fromSecret(key);
-    return sourceKeys;
-};
-
-export const connectWithSession = async () => {
+export const connectWithSecretKey = async (key: string) => {
     try {
-        const encryptedKey = sessionStorage.getItem('key');
-        const decryptedKey = await decryptPrivateKey(encryptedKey!);
-
-        const userAccount = connectWithSecretKey(decryptedKey);
-        publicKey.set(userAccount.publicKey());
+        const sourceKeys = StellarSDK.Keypair.fromSecret(key);
+        const encryptedData = await getEncryptedData(key);
+        storageData(encryptedData.privateKey, encryptedData.cryptoKey);
+        publicKey.set(sourceKeys.publicKey());
     } catch (e) {
-        console.log('Private key was not found in Session Storage');
-        return e;
-    }
-};
-
-export const initConnect = async () => {
-    const input = <HTMLInputElement>document.querySelector('#secret-key-input');
-
-    try {
-        const userKeys = connectWithSecretKey(input.value);
-        savePrivateDataInSessionStorage(input.value);
-        publicKey.set(userKeys.publicKey());
-    } catch (e) {
-        publicKey.set('There was a problem, try again');
         console.error(e);
+        publicKey.set('Invalid key, try again');
         return e;
     }
 };
 
-export const decryptPk = async () => {
+export const connectWithStorageData = async () => {
     try {
-        const string = window.sessionStorage.getItem('key');
-
-        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-        await decryptPrivateKey(string!);
+        const data = getStorageData();
+        const decryptedKey = await decryptPrivateKey(data.privateKey, data.cryptoKey);
+        await connectWithSecretKey(decryptedKey);
     } catch (e) {
-        console.error(`There was a problem decrypting the key: ${e}`);
+        console.log('Private key was not found in Storage');
         return e;
     }
 };
