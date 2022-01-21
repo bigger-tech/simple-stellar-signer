@@ -1,21 +1,18 @@
 <script lang="ts">
-    import { XDRIsValid, XDRValue } from './../store/state';
-    import * as StellarSdk from 'stellar-sdk';
+    import { XDRIsValid } from './../store/state';
+    import StellarSdk from 'stellar-sdk';
     let txData: any;
-    const encodedQuery: string = encodeURI($XDRValue);
-    export function validateXDR() {
-        const XDRToValidate = StellarSdk.xdr.TransactionEnvelope.validateXDR(encodedQuery, 'base64');
-        $XDRIsValid = XDRToValidate;
-        return XDRToValidate;
-    }
+    const xdr = location.search.substring(5);
+    $XDRIsValid = StellarSdk.xdr.TransactionEnvelope.validateXDR(xdr, 'base64');
+
     try {
-        txData = StellarSdk.TransactionBuilder.fromXDR(encodedQuery, 'testnet');
+        txData = new StellarSdk.Transaction(xdr, 'testnet');
     } catch (error) {
         console.error(error);
     }
 </script>
 
-{#if txData}
+{#if $XDRIsValid}
     <div class="simple-signer payment-tx">
         <p>
             Source account: {txData != undefined ? txData._source : ''}
