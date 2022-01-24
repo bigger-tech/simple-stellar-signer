@@ -1,14 +1,13 @@
 <script lang="ts">
     import { writable } from 'svelte/store';
     import * as StellarSdk from 'stellar-sdk';
-    import { Transaction } from 'stellar-sdk';
 
     const isValidXdr = writable(false);
-    let txData: Transaction;
+    let txData: StellarSdk.Transaction;
     const xdr = location.search.substring(5);
     try {
         $isValidXdr = StellarSdk.xdr.TransactionEnvelope.validateXDR(xdr, 'base64');
-        txData = new Transaction(xdr, import.meta.env.VITE_HORIZON_NETWORK_PASSPHRASE);
+        txData = new StellarSdk.Transaction(xdr, import.meta.env.VITE_HORIZON_NETWORK_PASSPHRASE);
     } catch (error) {
         console.error(error);
     }
