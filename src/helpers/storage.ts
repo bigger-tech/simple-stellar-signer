@@ -1,14 +1,18 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import type { cryptoData } from '../interfaces/interface';
+import type { IStoredKeys } from '../routes/connect/IStoredKeys';
+import StorageKeyNotFoundError from '../routes/connect/errors/StorageKeyNotFoundError';
 
-export const storageData = async (key: string, cryptoKey: string) => {
+export function storageData(key: string, cryptoKey: string): void {
     sessionStorage.setItem('cryptoKey', cryptoKey);
     sessionStorage.setItem('privateKey', key);
-};
+}
 
-export const getStorageData = (): cryptoData => {
+export function getStorageData(): IStoredKeys {
     const secretKey = sessionStorage.getItem('privateKey');
     const cryptoKey = sessionStorage.getItem('cryptoKey');
 
-    return { privateKey: secretKey!, cryptoKey: cryptoKey! };
-};
+    if (secretKey && cryptoKey) {
+        return { privateKey: secretKey, cryptoKey: cryptoKey };
+    } else {
+        throw new StorageKeyNotFoundError();
+    }
+}
