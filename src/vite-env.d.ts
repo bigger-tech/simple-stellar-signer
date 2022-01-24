@@ -2,7 +2,7 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-    readonly VITE_TESTNET: string;
+    readonly VITE_HORIZON_URL: string;
     readonly VITE_TESTPRIVATE_KEY: string;
 }
 
