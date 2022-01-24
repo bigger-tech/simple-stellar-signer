@@ -3,7 +3,7 @@
 import { paymentXdr, sourceAccount, paymentRecipient } from '../../fixtures/sign.json';
 
 const url = Cypress.env('HOST');
-describe('sign user history', () => {
+describe('checks that the /sign component works', () => {
     it('alerts you if you do not pass an XDR as a query parameter or it is invalid', () => {
         cy.visit(url);
         cy.get('a[href*="sign"]').click();
