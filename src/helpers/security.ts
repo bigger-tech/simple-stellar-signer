@@ -1,5 +1,4 @@
-/* eslint-disable @typescript-eslint/no-non-null-assertion */
-import type { cryptoData } from '../interfaces/interface';
+import type { IStoredKeys } from '../routes/connect/IStoredKeys';
 
 const uintEightArrayFromCharCode = (data: string): Uint8Array => {
     const array = new Uint8Array([...data].map((char) => char.charCodeAt(0)));
@@ -20,7 +19,7 @@ const keyPair = await window.crypto.subtle.generateKey(
 const exportCryptoKey = async (): Promise<string> => {
     const cryptoKey = await window.crypto.subtle.exportKey('pkcs8', keyPair.privateKey!);
     const cryptoKeyToUint8Array = new Uint8Array(cryptoKey);
-    const cryptoKeyString = String.fromCharCode.apply(null, Array.from(cryptoKeyToUint8Array)); // A type error will pop without Array.from
+    const cryptoKeyString = String.fromCharCode.apply(null, Array.from(cryptoKeyToUint8Array));
 
     return cryptoKeyString;
 };
@@ -61,7 +60,7 @@ const importCrypoKey = async (key: string): Promise<CryptoKey> => {
     return importedKey;
 };
 
-export const getEncryptedData = async (key: string): Promise<cryptoData> => {
+export const getEncryptedData = async (key: string): Promise<IStoredKeys> => {
     const encryptedKey = await encryptPrivateKey(key);
     const encryptedCryptoKey = await exportCryptoKey();
 
