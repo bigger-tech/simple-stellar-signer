@@ -2,8 +2,7 @@
 /// <reference types="vite/client" />
 
 interface ImportMetaEnv {
-    readonly VITE_HORIZON_URL: string;
-    readonly VITE_TESTPRIVATE_KEY: string;
+    readonly VITE_HORIZON_NETWORK_PASSPHRASE: string;
 }
 
 interface ImportMeta {

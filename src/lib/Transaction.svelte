@@ -1,35 +1,31 @@
 <script lang="ts">
-    import { XDRIsValid } from './../store/state';
-    import StellarSdk from 'stellar-sdk';
-    let txData: any;
+    import { writable } from 'svelte/store';
+    import * as StellarSdk from 'stellar-sdk';
+    import { Transaction } from 'stellar-sdk';
+
+    const isValidXdr = writable(false);
+    let txData: Transaction;
     const xdr = location.search.substring(5);
-    const getTxData = (xdr: string) => {
-        try {
-            $XDRIsValid = StellarSdk.xdr.TransactionEnvelope.validateXDR(xdr, 'base64');
-            txData = new StellarSdk.Transaction(xdr, 'testnet');
-
-            return txData;
-        } catch (error) {
-            console.error(error);
-            return error;
-        }
-    };
-
-    getTxData(xdr);
+    try {
+        $isValidXdr = StellarSdk.xdr.TransactionEnvelope.validateXDR(xdr, 'base64');
+        txData = new Transaction(xdr, import.meta.env.VITE_HORIZON_NETWORK_PASSPHRASE);
+    } catch (error) {
+        console.error(error);
+    }
 </script>
 
-{#if $XDRIsValid}
+{#if $isValidXdr}
     <div class="simple-signer payment-tx">
         <p class="src-account">
-            Source account: {txData != undefined ? txData._source : ''}
+            Source account: {txData ? txData['_source'] : ''}
         </p>
-        <p class="sequence-number">Sequence number: {txData != undefined ? txData._sequence : ''}</p>
+        <p class="sequence-number">Sequence number: {txData ? txData['_sequence'] : ''}</p>
         <p class="time-bounds">
-            Time bounds: {txData != undefined
-                ? 'Min time ' + txData._timeBounds.minTime + ' Max time ' + txData._timeBounds.maxTime
+            Time bounds: {txData
+                ? `Min time ${txData['_timeBounds'].minTime} Max time ${txData['_timeBounds'].maxTime}`
                 : ''}
         </p>
-        <p class="operations">Operations: {txData != undefined ? JSON.stringify(txData._operations) : ''}</p>
+        <p class="operations">Operations: {txData ? JSON.stringify(txData['_operations']) : ''}</p>
     </div>
 {:else}
     <h1>INVALID OR NULL XDR</h1>
