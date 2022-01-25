@@ -1,7 +1,7 @@
 <script lang="ts">
     import { isPrivateKeyVisible, setInputValue, setConnectionError } from './connectStore';
     import { getStoredKey, getStellarKeypair, storeKey } from './connectHelpers';
-    import { publicKey } from '../../stores/store';
+    import { publicKey } from '../../store/store';
     import InvalidPrivateKeyError from './errors/InvalidPrivateKeyError';
     import StorageKeyNotFoundError from './errors/StorageKeyNotFoundError';
 
