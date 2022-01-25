@@ -6,7 +6,7 @@ describe('connect', () => {
     const testPublicKey = Cypress.env('PUBLIC');
 
     beforeEach(() => {
-        cy.visit(url);
+        cy.visit(`${url}/connect`);
         cy.get('#input-key').as('input');
         cy.get('button').contains('Connect with private key').as('connectBtn');
         cy.get('#title').as('title');
