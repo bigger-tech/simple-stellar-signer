@@ -3,7 +3,8 @@
     "version": "0.0.1",
     "type": "module",
     "scripts": {
-        "dev": "vite --mode env",
+        "dev": "vite --https --mode env",
+        "dev:open": "vite --open --https --mode env",
         "build": "vite build",
         "preview": "vite preview",
         "check": "svelte-check --tsconfig ./tsconfig.json",
@@ -40,6 +41,7 @@
         "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
         "@esbuild-plugins/node-modules-polyfill": "^0.1.4",
         "@sveltejs/vite-plugin-svelte": "^1.0.0-next.30",
+        "@testing-library/cypress": "^8.0.2",
         "@testing-library/jest-dom": "^5.16.1",
         "@tsconfig/svelte": "^2.0.1",
         "@typescript-eslint/eslint-plugin": "^5.9.1",
