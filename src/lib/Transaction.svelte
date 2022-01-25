@@ -16,13 +16,13 @@
 {#if $isValidXdr}
     <div class="simple-signer payment-tx">
         <p class="src-account">
-            Source account: {tx ? tx['_source'] : ''}
+            Source account: {tx ? tx.source : ''}
         </p>
-        <p class="sequence-number">Sequence number: {tx ? tx['_sequence'] : ''}</p>
+        <p class="sequence-number">Sequence number: {tx ? tx.sequence : ''}</p>
         <p class="time-bounds">
-            Time bounds: {tx ? `Min time ${tx['_timeBounds'].minTime} Max time ${tx['_timeBounds'].maxTime}` : ''}
+            Time bounds: {tx ? `Min time ${tx.timeBounds?.minTime} Max time ${tx.timeBounds?.maxTime}` : ''}
         </p>
-        <p class="operations">Operations: {tx ? JSON.stringify(tx['_operations']) : ''}</p>
+        <p class="operations">Operations: {tx ? JSON.stringify(tx.operations) : ''}</p>
     </div>
 {:else}
     <h1>INVALID OR NULL XDR</h1>
