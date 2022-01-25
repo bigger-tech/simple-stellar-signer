@@ -7,9 +7,9 @@ describe('connect', () => {
 
     beforeEach(() => {
         cy.visit(url);
-        cy.get('#secret-key-input').as('input');
+        cy.get('#input-key').as('input');
         cy.get('button').contains('Connect with private key').as('connectBtn');
-        cy.get('#public-key-title').as('title');
+        cy.get('#title').as('title');
     });
 
     it('clicking in "show key" should change the type of the input', () => {
@@ -28,6 +28,6 @@ describe('connect', () => {
     it('passing an invalid key should throw an error', () => {
         cy.get('@input').type('1234');
         cy.get('@connectBtn').click();
-        cy.get('@title').should('contain.text', 'Public Key: There was a problem, try again');
+        cy.get('@title').should('contain.text', 'Invalid key, please try again');
     });
 });

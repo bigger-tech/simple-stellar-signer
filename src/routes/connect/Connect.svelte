@@ -23,6 +23,7 @@
             $publicKey = stellarKeyPair.publicKey();
         } catch (e) {
             if (e instanceof InvalidPrivateKeyError) {
+                $publicKey = '';
                 $setConnectionError = 'Invalid key, please try again';
             }
         }
@@ -37,17 +38,17 @@
 </ul>
 
 {#if $publicKey}
-    <h1>Public Key: {$publicKey}</h1>
+    <h1 id="title">Public Key: {$publicKey}</h1>
 {:else}
-    <h1>Public Key: {$setConnectionError ? $setConnectionError : 'waiting connection...'}</h1>
+    <h1 id="title">Public Key: {$setConnectionError ? $setConnectionError : 'waiting connection...'}</h1>
 {/if}
 
 <button on:click="{() => ($isPrivateKeyVisible = !$isPrivateKeyVisible)}">Show key</button>
 
 {#if $isPrivateKeyVisible}
-    <input type="text" bind:value="{$setInputValue}" />
+    <input id="input-key" type="text" bind:value="{$setInputValue}" />
 {:else}
-    <input type="password" bind:value="{$setInputValue}" />
+    <input id="input-key" type="password" bind:value="{$setInputValue}" />
 {/if}
 
 <button
