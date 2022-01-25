@@ -1,4 +1,4 @@
-export interface IStoredKeys {
+export interface IStoredPair {
     privateKey: string;
     cryptoKey: string;
 }
