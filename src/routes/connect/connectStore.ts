@@ -1,5 +1,5 @@
 import { writable } from 'svelte/store';
 
 export const isPrivateKeyVisible = writable(false);
-export const setInputValue = writable('');
-export const setConnectionError = writable('');
+export const inputValue = writable('');
+export const connectionError = writable('');
