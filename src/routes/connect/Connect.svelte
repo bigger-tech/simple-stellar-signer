@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import { isPrivateKeyVisible, inputValue, connectionError } from './connectStore';
     import { encryptPrivateKey, getStellarKeypair, decryptPrivatePair } from './connectHelpers';
     import { publicKey } from '../../store/store';
@@ -18,7 +19,7 @@
         }
     }
 
-    (async function connectWithStorage(): Promise<void> {
+    onMount(async function connectWithStorage(): Promise<void> {
         try {
             const privateKey = await decryptPrivatePair();
             connectWithSecretKey(privateKey);
@@ -27,7 +28,7 @@
                 console.log('No key was found in storage');
             }
         }
-    })();
+    });
 </script>
 
 <h1>Connector</h1>
