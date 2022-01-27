@@ -52,6 +52,7 @@
 {/if}
 
 <button
+    class="simple-signer private-key-btn"
     on:click="{() => {
         connectWithSecretKey($inputValue);
     }}"
