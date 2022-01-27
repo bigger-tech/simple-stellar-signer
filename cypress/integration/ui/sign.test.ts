@@ -4,7 +4,7 @@ import { paymentXdr, sourceAccount, paymentRecipient } from '../../fixtures/sign
 
 describe('checks that the /sign component works', () => {
     const url = Cypress.env('HOST');
-    const testSecretKey = Cypress.env('PRIVATE');
+    const TEST_PRIVATE_KEY = Cypress.env('TEST_PRIVATE_KEY');
     it('should visit /sign with xdr valid but user is not connected', () => {
         cy.visit(`${url}sign?xdr=${paymentXdr}`);
         cy.get('.user-not-connected').contains('User is not connected');
@@ -13,7 +13,7 @@ describe('checks that the /sign component works', () => {
     });
     it('should connect with private key', () => {
         cy.visit(`${url}connect`);
-        cy.get('#input-key').type(testSecretKey);
+        cy.get('#input-key').type(TEST_PRIVATE_KEY);
         cy.get('.private-key-btn').click();
     });
 
