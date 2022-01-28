@@ -10,4 +10,7 @@
     <div>
         <Link to="/sign">Go to Sign</Link>
     </div>
+    <div>
+        <Link to="/operation">Go to Operations List</Link>
+    </div>
 </div>
