@@ -23,7 +23,7 @@
         "noPropertyAccessFromIndexSignature": true,
         "noImplicitOverride": true,
         "exactOptionalPropertyTypes": true,
-        "types": ["cypress", "@testing-library/cypress"]
+        "types": ["cypress", "@testing-library/cypress", "jest", "@types/jest"]
     },
     "include": ["src/**/*.d.ts", "src/**/*.ts", "src/**/*.js", "src/**/*.svelte"]
 }

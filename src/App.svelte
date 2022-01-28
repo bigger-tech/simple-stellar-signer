@@ -3,8 +3,8 @@
     import Connect from './routes/connect/Connect.svelte';
     import OperationsList from './routes/transaction/OperationsList.svelte';
     import Home from './routes/Home.svelte';
-    import Sign from './routes/Sign.svelte';
     import Operation from './routes/transaction/OperationFactory.svelte';
+    import Sign from './routes/sign/Sign.svelte';
 </script>
 
 <Router primary="{false}">
