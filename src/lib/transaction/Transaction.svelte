@@ -19,22 +19,25 @@
     const keyPair = getKeyPair();
 
     let tx: Transaction;
-    let operationsArray: any[] = [];
+    let operationObject: any;
 
     const isValidXdr = writable(false);
     const xdrValue = location.search.substring(5);
 
     try {
         $isValidXdr = xdr.TransactionEnvelope.validateXDR(xdrValue, 'base64');
-        tx = new Transaction(xdrValue, 'Test SDF Network ; September 2015');
+        tx = new Transaction(xdrValue, import.meta.env.VITE_HORIZON_NETWORK_PASSPHRASE);
+
+        const operationFactory = new OperationFactory();
 
         for (let i = 0; i < tx.operations.length; i++) {
-            const component = new OperationFactory(tx, tx.operations[i]!).createOperation()?.component;
-            const props = new OperationFactory(tx, tx.operations[i]!).createOperation()?.props;
-            const operation = { component, props };
+            const operationComponent = operationFactory.create(tx.operations[i]!);
+            console.log(operationComponent);
 
-            operationsArray.push(operation);
+            operationObject = operationComponent;
         }
+
+        console.log(operationObject);
     } catch (error) {
         console.error(error);
     }
@@ -52,9 +55,7 @@
             </p>
             <p>Fee: {tx.fee}</p>
 
-            {#each operationsArray as { component, props }}
-                <svelte:component this={component} {...props} />
-            {/each}
+            <svelte:component this={operationObject} />
 
             <button class="simple-signer sign-tx" on:click={() => signTx(tx, data)}>Sign Transaction</button>
         {:catch}
