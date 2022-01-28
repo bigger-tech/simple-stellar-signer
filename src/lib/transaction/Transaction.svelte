@@ -7,7 +7,7 @@
     import { getStoredPair } from '../../helpers/keyManager';
     import { decryptPrivateKey } from '../../helpers/security';
     import { getStellarKeypair } from '../../routes/connect/connectHelpers';
-    import OperationFactory from './operations/OperationFactory';
+    import OperationFactory from './OperationFactory';
 
     async function getKeyPair(): Promise<Keypair> {
         const storedPair = getStoredPair();

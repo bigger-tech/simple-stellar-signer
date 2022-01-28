@@ -1,6 +1,6 @@
 import type { Operation, Transaction } from 'stellar-sdk';
-import Payment from '../operations/Payment.svelte';
-import CreateAccount from '../operations/CreateAccount.svelte';
+import Payment from './operations/Payment.svelte';
+import CreateAccount from './operations/CreateAccount.svelte';
 
 export default class OperationFactory {
     transaction: Transaction;
