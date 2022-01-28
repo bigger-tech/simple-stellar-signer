@@ -19,7 +19,7 @@
     const keyPair = getKeyPair();
 
     let tx: Transaction;
-    let operationObject: any;
+    let operationArray: any[] = [];
 
     const isValidXdr = writable(false);
     const xdrValue = location.search.substring(5);
@@ -34,10 +34,10 @@
             const operationComponent = operationFactory.create(tx.operations[i]!);
             console.log(operationComponent);
 
-            operationObject = operationComponent;
+            operationArray.push(operationComponent);
         }
 
-        console.log(operationObject);
+        console.log(operationArray);
     } catch (error) {
         console.error(error);
     }
@@ -55,7 +55,9 @@
             </p>
             <p>Fee: {tx.fee}</p>
 
-            <svelte:component this={operationObject} />
+            {#each operationArray as operation}
+                <svelte:component this={operation} />
+            {/each}
 
             <button class="simple-signer sign-tx" on:click={() => signTx(tx, data)}>Sign Transaction</button>
         {:catch}
