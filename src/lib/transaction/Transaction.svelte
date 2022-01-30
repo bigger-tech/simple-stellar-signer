@@ -7,7 +7,7 @@
     import { getStoredPair } from '../../helpers/keyManager';
     import { decryptPrivateKey } from '../../helpers/security';
     import { getStellarKeypair } from '../../routes/connect/connectHelpers';
-    import OperationFactory from './OperationFactory';
+    import DynamicOperationComponent from './DynamicOperationComponent';
 
     async function getKeyPair(): Promise<Keypair> {
         const storedPair = getStoredPair();
@@ -28,13 +28,12 @@
         $isValidXdr = xdr.TransactionEnvelope.validateXDR(xdrValue, 'base64');
         tx = new Transaction(xdrValue, import.meta.env.VITE_HORIZON_NETWORK_PASSPHRASE);
 
-        const operationFactory = new OperationFactory();
+        const dynamicOperationComponent = new DynamicOperationComponent();
 
         for (let i = 0; i < tx.operations.length; i++) {
-            const operationComponent = operationFactory.create(tx.operations[i]!);
-            console.log(operationComponent);
+            const operationComponent = dynamicOperationComponent.create(tx.operations[i]!);
 
-            operationArray.push(operationComponent);
+            operationArray.push({ component: operationComponent?.component, props: operationComponent?.getProps() });
         }
 
         console.log(operationArray);
@@ -56,7 +55,7 @@
             <p>Fee: {tx.fee}</p>
 
             {#each operationArray as operation}
-                <svelte:component this={operation} />
+                <svelte:component this={operation.component} {...operation.props} />
             {/each}
 
             <button class="simple-signer sign-tx" on:click={() => signTx(tx, data)}>Sign Transaction</button>
