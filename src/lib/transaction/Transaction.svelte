@@ -54,9 +54,11 @@
             </p>
             <p>Fee: {tx.fee}</p>
 
-            {#each operationArray as operation}
-                <svelte:component this={operation.component} {...operation.props} />
-            {/each}
+            <div class="simple-signer operations-container">
+                {#each operationArray as operation}
+                    <svelte:component this={operation.component} {...operation.props} />
+                {/each}
+            </div>
 
             <button class="simple-signer sign-tx" on:click={() => signTx(tx, data)}>Sign Transaction</button>
         {:catch}
