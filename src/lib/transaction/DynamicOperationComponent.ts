@@ -1,22 +1,28 @@
 import type { Operation } from 'stellar-sdk';
 import Payment from './operations/payment/Payment';
 import CreateAccount from './operations/createAccount/CreateAccount';
+import type { OperationComponentTypes } from './OperationComponentTypes';
 
 export default class DynamicOperationComponent {
-    create(operation: Operation) {
-        let operationClass;
+    create(operation: Operation): typeof OperationComponentTypes {
+        let operationComponent;
 
         switch (operation.type) {
             case 'payment':
-                operationClass = new Payment().createOperation(operation);
+                operationComponent = new Payment().createOperation(operation);
                 break;
             case 'createAccount':
-                operationClass = new CreateAccount().createOperation(operation);
+                operationComponent = new CreateAccount().createOperation(operation);
                 break;
             default:
-                operationClass;
+                operationComponent;
+                break;
         }
 
-        return operationClass;
+        if (operationComponent) {
+            return operationComponent;
+        } else {
+            throw new Error();
+        }
     }
 }
