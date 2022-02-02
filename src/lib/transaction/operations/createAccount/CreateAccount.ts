@@ -1,17 +1,24 @@
 import CreateAccountComponent from './CreateAccount.svelte';
 import type { Operation } from 'stellar-sdk';
-import type IDynamicOperationComponent from '../../IDynamicOperationComponent';
+import type { SvelteComponent } from 'svelte';
+
+export type CreateAccountComponentType = {
+    component: typeof SvelteComponent;
+    props: {
+        source: string | undefined;
+        destination: string;
+        startingBalance: string;
+    };
+};
 
 export default class CreateAccount {
-    createOperation(operation: Operation.CreateAccount): IDynamicOperationComponent {
+    createOperation(operation: Operation.CreateAccount): CreateAccountComponentType {
         return {
             component: CreateAccountComponent,
-            getProps() {
-                return {
-                    source: operation.source,
-                    destination: operation.destination,
-                    startingBalance: operation.startingBalance,
-                };
+            props: {
+                source: operation.source,
+                destination: operation.destination,
+                startingBalance: operation.startingBalance,
             },
         };
     }
