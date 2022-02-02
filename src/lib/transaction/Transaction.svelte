@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { Keypair } from 'stellar-sdk';
+    import type { OperationComponentTypes } from './OperationComponentTypes';
     import { writable } from 'svelte/store';
     import { Transaction, xdr } from 'stellar-sdk';
     import { signTx } from '../../routes/sign/signHelper';
@@ -19,7 +20,7 @@
     const keyPair = getKeyPair();
 
     let tx: Transaction;
-    let operationArray: any[] = [];
+    let operationComponentArray: typeof OperationComponentTypes[] = [];
 
     const isValidXdr = writable(false);
     const xdrValue = location.search.substring(5);
@@ -33,10 +34,10 @@
         for (let i = 0; i < tx.operations.length; i++) {
             const operationComponent = dynamicOperationComponent.create(tx.operations[i]!);
 
-            operationArray.push({ component: operationComponent?.component, props: operationComponent?.getProps() });
+            operationComponentArray.push(operationComponent);
         }
 
-        console.log(operationArray);
+        console.log(operationComponentArray);
     } catch (error) {
         console.error(error);
     }
@@ -55,7 +56,7 @@
             <p>Fee: {tx.fee}</p>
 
             <div class="simple-signer operations-container">
-                {#each operationArray as operation}
+                {#each operationComponentArray as operation}
                     <svelte:component this={operation.component} {...operation.props} />
                 {/each}
             </div>
