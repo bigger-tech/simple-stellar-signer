@@ -8,7 +8,7 @@
     import { getStoredPair } from '../../helpers/keyManager';
     import { decryptPrivateKey } from '../../helpers/security';
     import { getStellarKeypair } from '../../routes/connect/connectHelpers';
-    import DynamicOperationComponent from './DynamicOperationComponent';
+    import DynamicOperationComponentsFactory from './DynamicOperationComponentsFactory';
 
     async function getKeyPair(): Promise<Keypair> {
         const storedPair = getStoredPair();
@@ -20,7 +20,7 @@
     const keyPair = getKeyPair();
 
     let tx: Transaction;
-    let operationComponentArray: typeof OperationComponentTypes[] = [];
+    let operationComponents: typeof OperationComponentTypes[];
 
     const isValidXdr = writable(false);
     const xdrValue = location.search.substring(5);
@@ -29,15 +29,7 @@
         $isValidXdr = xdr.TransactionEnvelope.validateXDR(xdrValue, 'base64');
         tx = new Transaction(xdrValue, import.meta.env.VITE_HORIZON_NETWORK_PASSPHRASE);
 
-        const dynamicOperationComponent = new DynamicOperationComponent();
-
-        for (let i = 0; i < tx.operations.length; i++) {
-            const operationComponent = dynamicOperationComponent.create(tx.operations[i]!);
-
-            operationComponentArray.push(operationComponent);
-        }
-
-        console.log(operationComponentArray);
+        operationComponents = new DynamicOperationComponentsFactory(tx).create();
     } catch (error) {
         console.error(error);
     }
@@ -56,12 +48,12 @@
             <p>Fee: {tx.fee}</p>
 
             <div class="simple-signer operations-container">
-                {#each operationComponentArray as operation}
-                    <svelte:component this={operation.component} {...operation.props} />
+                {#each operationComponents as operation}
+                    <svelte:component this="{operation.component}" {...operation.props} />
                 {/each}
             </div>
 
-            <button class="simple-signer sign-tx" on:click={() => signTx(tx, data)}>Sign Transaction</button>
+            <button class="simple-signer sign-tx" on:click="{() => signTx(tx, data)}">Sign Transaction</button>
         {:catch}
             <p class="simple-signer user-not-connected">User is not connected</p>
             <button class="simple-signer connect-btn"><Link to="/connect">Go to Connect</Link></button>
