@@ -12,21 +12,21 @@ describe('operations', () => {
         cy.get('.private-key-btn').click();
     });
 
-    it('passing an xdr with two operations, should render two components', () => {
-        cy.visit(`${BASE_URL}${operationsXdr}`);
+    it('should render two components if the xdr has two operations, ', () => {
+        cy.visit(BASE_URL + operationsXdr);
         cy.get('.operations-container').children().should('have.length', 2);
         cy.get('.payment-operation').should('exist');
         cy.get('.create-account-operation').should('exist');
     });
 
-    it('passing an xdr with a Payment operation, should render a payment component', () => {
+    it('should render a Payment component if the xdr has a Payment operation', () => {
         cy.visit(BASE_URL + paymentXdr);
         cy.get('.payment-operation').contains('Amount');
         cy.get('.payment-operation').contains('Destination');
         cy.get('.payment-operation').contains('Asset');
     });
 
-    it('passing an xdr with a Create Account operation, should render a CreateAccount component', () => {
+    it('should render a CreateAccount component if the xdr has a Create Account operation', () => {
         cy.visit(BASE_URL + createAccountXdr);
         cy.get('.create-account-operation').contains('Source Account');
         cy.get('.create-account-operation').contains('Starting Balance');
