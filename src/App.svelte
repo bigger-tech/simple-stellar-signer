@@ -5,7 +5,7 @@
     import Sign from './routes/sign/Sign.svelte';
 </script>
 
-<Router>
+<Router primary="{false}">
     <main>
         <Route path="/" component="{Home}" />
         <Route path="/connect" component="{Connect}" />
