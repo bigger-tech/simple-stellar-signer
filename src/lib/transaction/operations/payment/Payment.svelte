@@ -1,7 +1,7 @@
-<script>
-    export let asset = '';
-    export let destination = '';
-    export let amount = '';
+<script lang="ts">
+    export let asset: string;
+    export let destination: string;
+    export let amount: string;
 </script>
 
 <div class="simple-signer payment-operation">

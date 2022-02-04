@@ -1,12 +1,13 @@
-<script>
-    export let source = '';
-    export let startingBalance = '';
-    export let destination = '';
+<script lang="ts">
+    export let optionalSource: string;
+    export let defaultSource: string;
+    export let startingBalance: string;
+    export let destination: string;
 </script>
 
 <div class="simple-signer create-account-operation">
     <h3>Create Account</h3>
-    <p>Source Account: {source ? source : 'no source account'}</p>
+    <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
     <p>Starting Balance: {startingBalance}</p>
     <p>Destination: {destination}</p>
 </div>
