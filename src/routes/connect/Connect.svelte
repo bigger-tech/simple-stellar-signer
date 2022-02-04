@@ -44,19 +44,19 @@
     <h1 id="title">Public Key: {$connectionError ? $connectionError : 'waiting connection...'}</h1>
 {/if}
 
-<button on:click={() => ($isPrivateKeyVisible = !$isPrivateKeyVisible)}>Show key</button>
+<button on:click="{() => ($isPrivateKeyVisible = !$isPrivateKeyVisible)}">Show key</button>
 
 {#if $isPrivateKeyVisible}
-    <input id="input-key" type="text" bind:value={$inputValue} />
+    <input id="input-key" type="text" bind:value="{$inputValue}" />
 {:else}
-    <input id="input-key" type="password" bind:value={$inputValue} />
+    <input id="input-key" type="password" bind:value="{$inputValue}" />
 {/if}
 
 <button
     class="simple-signer private-key-btn"
-    on:click={() => {
+    on:click="{() => {
         connectWithSecretKey($inputValue);
-    }}
+    }}"
 >
     Connect with private key
 </button>
