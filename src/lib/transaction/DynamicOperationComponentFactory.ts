@@ -3,6 +3,7 @@ import Payment from './operations/payment/Payment';
 import CreateAccount from './operations/createAccount/CreateAccount';
 import InvalidComponentTypeError from '../errors/InvalidComponentTypeError';
 import type { OperationComponentTypes } from './OperationComponentTypes';
+import BeginSponsoringFutureReserves from './operations/beginSponsoringFutureReserves/BeginSponsoringFutureReserves';
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
@@ -14,6 +15,9 @@ export default class DynamicOperationComponentFactory {
                 break;
             case 'createAccount':
                 operationComponent = new CreateAccount().createOperation(operation, tx);
+                break;
+            case 'beginSponsoringFutureReserves':
+                operationComponent = new BeginSponsoringFutureReserves().createOperation(operation, tx);
                 break;
             default:
                 undefined;

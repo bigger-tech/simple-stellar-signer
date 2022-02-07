@@ -1,5 +1,11 @@
 /// <reference types="cypress" />
-import { operationsXdr, paymentXdr, createAccountXdr } from '../../fixtures/operations.json';
+/// <reference types="@testing-library/cypress"/>
+import {
+    operationsXdr,
+    paymentXdr,
+    createAccountXdr,
+    beginSponsoringFutureReservesXdr,
+} from '../../fixtures/operations.json';
 
 describe('operations', () => {
     const url = Cypress.env('HOST');
@@ -31,5 +37,13 @@ describe('operations', () => {
         cy.get('.create-account-operation').contains('Source Account');
         cy.get('.create-account-operation').contains('Starting Balance');
         cy.get('.create-account-operation').contains('Destination');
+    });
+
+    it('should render begin sponsoring future reserves operation', () => {
+        cy.visit(`${BASE_URL}${beginSponsoringFutureReservesXdr}`);
+        cy.get('.begin-sponsoring-future-reserves-operation').contains(
+            'Sponsored ID: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
+        );
+        cy.get('.begin-sponsoring-future-reserves-operation').contains('Operation type: beginSponsoringFutureReserves');
     });
 });
