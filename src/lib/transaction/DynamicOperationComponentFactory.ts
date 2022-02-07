@@ -3,10 +3,12 @@ import Payment from './operations/payment/Payment';
 import CreateAccount from './operations/createAccount/CreateAccount';
 import InvalidComponentTypeError from '../errors/InvalidComponentTypeError';
 import type { OperationComponentTypes } from './OperationComponentTypes';
+import ManageData from './operations/manageData/ManageData';
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
         let operationComponent;
+        console.log(tx);
 
         switch (operation.type) {
             case 'payment':
@@ -14,6 +16,9 @@ export default class DynamicOperationComponentFactory {
                 break;
             case 'createAccount':
                 operationComponent = new CreateAccount().createOperation(operation, tx);
+                break;
+            case 'manageData':
+                operationComponent = new ManageData().createOperation(operation, tx);
                 break;
             default:
                 undefined;

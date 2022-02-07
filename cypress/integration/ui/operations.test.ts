@@ -1,5 +1,5 @@
 /// <reference types="cypress" />
-import { operationsXdr, paymentXdr, createAccountXdr } from '../../fixtures/operations.json';
+import { operationsXdr, paymentXdr, createAccountXdr, manageDataXdr } from '../../fixtures/operations.json';
 
 describe('operations', () => {
     const url = Cypress.env('HOST');
@@ -31,5 +31,15 @@ describe('operations', () => {
         cy.get('.create-account-operation').contains('Source Account');
         cy.get('.create-account-operation').contains('Starting Balance');
         cy.get('.create-account-operation').contains('Destination');
+    });
+
+    it('should render manage data operation', () => {
+        cy.visit(`${BASE_URL}${manageDataXdr}`);
+        cy.findByText('Operation type: manageData');
+        cy.get('.manage-data-operation').contains(
+            'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
+        );
+        cy.get('.manage-data-operation').contains('Data name: asd');
+        cy.get('.manage-data-operation').contains('Data content: qwe');
     });
 });
