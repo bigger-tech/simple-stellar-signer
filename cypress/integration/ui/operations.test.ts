@@ -1,4 +1,5 @@
 /// <reference types="cypress" />
+/// <reference types="@testing-library/cypress"/>
 import { operationsXdr, paymentXdr, createAccountXdr } from '../../fixtures/operations.json';
 
 describe('operations', () => {
