@@ -1,7 +1,7 @@
 import type { Operation, Transaction } from 'stellar-sdk';
-import Payment from './operations/payment/Payment';
-import CreateAccount from './operations/createAccount/CreateAccount';
-import InvalidComponentTypeError from '../errors/InvalidComponentTypeError';
+import PaymentComponent from './payment/Payment';
+import CreateAccountComponent from './createAccount/CreateAccount';
+import InvalidComponentTypeError from '../../errors/InvalidComponentTypeError';
 import type { OperationComponentTypes } from './OperationComponentTypes';
 
 export default class DynamicOperationComponentFactory {
@@ -10,10 +10,10 @@ export default class DynamicOperationComponentFactory {
 
         switch (operation.type) {
             case 'payment':
-                operationComponent = new Payment().createOperation(operation, tx);
+                operationComponent = new PaymentComponent(tx, operation);
                 break;
             case 'createAccount':
-                operationComponent = new CreateAccount().createOperation(operation, tx);
+                operationComponent = new CreateAccountComponent(tx, operation);
                 break;
             default:
                 undefined;
