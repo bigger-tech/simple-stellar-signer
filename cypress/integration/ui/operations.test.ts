@@ -41,9 +41,9 @@ describe('operations', () => {
 
     it('should render begin sponsoring future reserves operation', () => {
         cy.visit(`${BASE_URL}${beginSponsoringFutureReservesXdr}`);
+        cy.get('.begin-sponsoring-future-reserves-operation').contains('Sponsored ID');
         cy.get('.begin-sponsoring-future-reserves-operation').contains(
-            'Sponsored ID: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
+            'GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
         );
-        cy.get('.begin-sponsoring-future-reserves-operation').contains('Operation type: beginSponsoringFutureReserves');
     });
 });

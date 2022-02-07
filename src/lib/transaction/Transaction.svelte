@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Keypair } from 'stellar-sdk';
-    import type { OperationComponentTypes } from './OperationComponentTypes';
+    import type { OperationComponentTypes } from './operations/OperationComponentTypes';
     import { writable } from 'svelte/store';
     import { Transaction, xdr } from 'stellar-sdk';
     import { signTx } from '../../routes/sign/signHelper';
@@ -8,7 +8,7 @@
     import { getStoredPair } from '../../helpers/keyManager';
     import { decryptPrivateKey } from '../../helpers/security';
     import { getStellarKeypair } from '../../routes/connect/connectHelpers';
-    import DynamicOperationComponentFactory from './DynamicOperationComponentFactory';
+    import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
 
     async function getKeyPair(): Promise<Keypair> {
         const storedPair = getStoredPair();
@@ -35,7 +35,6 @@
             let operationComponent = dynamicOperationComponentFactory.create(tx, tx.operations[i]!);
             operationComponents.push(operationComponent);
         }
-
     } catch (error) {
         console.error(error);
     }
