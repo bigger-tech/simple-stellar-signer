@@ -8,7 +8,7 @@
     import { getStoredPair } from '../../helpers/keyManager';
     import { decryptPrivateKey } from '../../helpers/security';
     import { getStellarKeypair } from '../../routes/connect/connectHelpers';
-    import DynamicOperationComponentsFactory from './DynamicOperationComponentsFactory';
+    import DynamicOperationComponentFactory from './DynamicOperationComponentFactory';
 
     async function getKeyPair(): Promise<Keypair> {
         const storedPair = getStoredPair();
@@ -20,7 +20,7 @@
     const keyPair = getKeyPair();
 
     let tx: Transaction;
-    let operationComponents: typeof OperationComponentTypes[];
+    let operationComponents: typeof OperationComponentTypes[] = [];
 
     const isValidXdr = writable(false);
     const xdrValue = location.search.substring(5);
@@ -29,7 +29,12 @@
         $isValidXdr = xdr.TransactionEnvelope.validateXDR(xdrValue, 'base64');
         tx = new Transaction(xdrValue, import.meta.env.VITE_HORIZON_NETWORK_PASSPHRASE);
 
-        operationComponents = new DynamicOperationComponentsFactory(tx).create();
+        const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
+
+        for (let i = 0; i < tx.operations.length; i++) {
+            let operationComponent = dynamicOperationComponentFactory.create(tx, tx.operations[i]!);
+            operationComponents.push(operationComponent);
+        }
     } catch (error) {
         console.error(error);
     }
