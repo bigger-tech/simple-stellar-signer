@@ -13,8 +13,8 @@ export type PaymentComponentType = {
     };
 };
 
-export default class Payment {
-    createOperation(operation: Operation.Payment, tx: Transaction): PaymentComponentType {
+export default class Payment {    
+    createOperation(operation: Operation.Payment): PaymentComponentType {
         return {
             component: PaymentComponent,
             props: {

@@ -35,6 +35,7 @@
             let operationComponent = dynamicOperationComponentFactory.create(tx, tx.operations[i]!);
             operationComponents.push(operationComponent);
         }
+
     } catch (error) {
         console.error(error);
     }
