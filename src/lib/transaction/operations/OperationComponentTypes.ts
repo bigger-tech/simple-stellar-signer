@@ -3,7 +3,7 @@ import type CreateAccountComponent from './createAccount/CreateAccount';
 import type BeginSponsoringFutureReservesComponent from './beginSponsoringFutureReserves/BeginSponsoringFutureReserves';
 import type PathPaymentStrictSendComponent from './pathPaymentStrictSend/PathPaymentStrictSend';
 import type PathPaymentStrictReceiveComponent from './pathPaymentStrictReceive/PathPaymentStrictReceive';
-import type ManageBuyOfferComponentType from './manageBuyOffer/ManageBuyOffer';
+import type ManageBuyOfferComponent from './manageBuyOffer/ManageBuyOffer';
 
 export let OperationComponentTypes:
     | PaymentComponent
@@ -11,4 +11,4 @@ export let OperationComponentTypes:
     | BeginSponsoringFutureReservesComponent
     | PathPaymentStrictSendComponent
     | PathPaymentStrictReceiveComponent
-    | ManageBuyOfferComponentType;
+    | ManageBuyOfferComponent;
