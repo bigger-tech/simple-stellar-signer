@@ -6,6 +6,7 @@ import {
     createAccountXdr,
     beginSponsoringFutureReservesXdr,
     pathPaymentStrictSendXdr,
+    pathPaymentStrictReceiveXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -60,5 +61,17 @@ describe('operations', () => {
         cy.get('.path-payment-strict-send-operation').contains(
             'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
         );
+    });
+
+    it('should render path payment strict receive operation', () => {
+        cy.visit(`${BASE_URL}${pathPaymentStrictReceiveXdr}`);
+        cy.get('.path-payment-strict-receive-operation').contains('Asset you are using to pay: XLM');
+        cy.get('.path-payment-strict-receive-operation').contains('Max amount: 3.0000000');
+        cy.get('.path-payment-strict-receive-operation').contains(
+            'Destination: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
+        );
+        cy.get('.path-payment-strict-receive-operation').contains('Path: XLM');
+        cy.get('.path-payment-strict-receive-operation').contains('Destination asset: XLM');
+        cy.get('.path-payment-strict-receive-operation').contains('Amount: 2.0000000');
     });
 });
