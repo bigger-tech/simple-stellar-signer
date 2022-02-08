@@ -9,6 +9,7 @@ import {
     pathPaymentStrictReceiveXdr,
     manageBuyOfferXdr,
     manageSellOfferXdr,
+    createPassiveSellOfferXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -99,5 +100,16 @@ describe('operations', () => {
         cy.get('.manage-sell-offer-operation').contains('Amount: 2.0000000');
         cy.get('.manage-sell-offer-operation').contains('Price: 1');
         cy.get('.manage-sell-offer-operation').contains('Offer ID: 0');
+    });
+
+    it('should render create passive sell offer operation', () => {
+        cy.visit(`${BASE_URL}${createPassiveSellOfferXdr}`);
+        cy.get('.create-passive-sell-offer-operation').contains(
+            'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
+        );
+        cy.get('.create-passive-sell-offer-operation').contains('Selling: XLM');
+        cy.get('.create-passive-sell-offer-operation').contains('Buying: XLM');
+        cy.get('.create-passive-sell-offer-operation').contains('Amount: 2.0000000');
+        cy.get('.create-passive-sell-offer-operation').contains('Price: 1');
     });
 });

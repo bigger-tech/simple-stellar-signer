@@ -5,6 +5,7 @@ import type PathPaymentStrictSendComponent from './pathPaymentStrictSend/PathPay
 import type PathPaymentStrictReceiveComponent from './pathPaymentStrictReceive/PathPaymentStrictReceive';
 import type ManageBuyOfferComponent from './manageBuyOffer/ManageBuyOffer';
 import type ManageSellOfferComponent from './manageSellOffer/ManageSellOffer';
+import type CreatePassiveSellOfferComponent from './createPassiveSellOffer/CreatePassiveSellOffer';
 
 export let OperationComponentTypes:
     | PaymentComponent
@@ -13,4 +14,5 @@ export let OperationComponentTypes:
     | PathPaymentStrictSendComponent
     | PathPaymentStrictReceiveComponent
     | ManageBuyOfferComponent
-    | ManageSellOfferComponent;
+    | ManageSellOfferComponent
+    | CreatePassiveSellOfferComponent;
