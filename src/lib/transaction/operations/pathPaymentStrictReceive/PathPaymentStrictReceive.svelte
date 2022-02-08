@@ -1,7 +1,6 @@
 <script lang="ts">
     import type { Asset } from 'stellar-sdk';
 
-    export let type: string;
     export let optionalSource: string | undefined;
     export let defaultSource: string;
     export let sendAsset: string;
@@ -13,7 +12,7 @@
 </script>
 
 <div class="simple-signer path-payment-strict-receive-operation">
-    <h1>Operation type: {type}</h1>
+    <h3>Operation type: Path Payment Strict Receive</h3>
 
     <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
     <p>Asset you are using to pay: {sendAsset}</p>
