@@ -5,6 +5,7 @@ import InvalidComponentTypeError from '../../errors/InvalidComponentTypeError';
 import type { OperationComponentTypes } from './OperationComponentTypes';
 import BeginSponsoringFutureReservesComponent from './beginSponsoringFutureReserves/BeginSponsoringFutureReserves';
 import PathPaymentStrictSendComponent from './pathPaymentStrictSend/PathPaymentStrictSend';
+import PathPaymentStrictReceiveComponent from './pathPaymentStrictReceive/PathPaymentStrictReceive';
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
@@ -22,6 +23,9 @@ export default class DynamicOperationComponentFactory {
                 break;
             case 'pathPaymentStrictSend':
                 operationComponent = new PathPaymentStrictSendComponent(tx, operation);
+                break;
+            case 'pathPaymentStrictReceive':
+                operationComponent = new PathPaymentStrictReceiveComponent(tx, operation);
                 break;
             default:
                 undefined;
