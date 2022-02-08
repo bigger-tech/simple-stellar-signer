@@ -7,6 +7,7 @@ import BeginSponsoringFutureReservesComponent from './beginSponsoringFutureReser
 import PathPaymentStrictSendComponent from './pathPaymentStrictSend/PathPaymentStrictSend';
 import PathPaymentStrictReceiveComponent from './pathPaymentStrictReceive/PathPaymentStrictReceive';
 import ManageBuyOfferComponent from './manageBuyOffer/ManageBuyOffer';
+import ManageSellOfferComponent from './manageSellOffer/ManageSellOffer';
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
@@ -30,6 +31,9 @@ export default class DynamicOperationComponentFactory {
                 break;
             case 'manageBuyOffer':
                 operationComponent = new ManageBuyOfferComponent(tx, operation);
+                break;
+            case 'manageSellOffer':
+                operationComponent = new ManageSellOfferComponent(tx, operation);
                 break;
             default:
                 undefined;

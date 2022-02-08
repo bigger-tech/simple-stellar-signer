@@ -4,6 +4,7 @@ import type BeginSponsoringFutureReservesComponent from './beginSponsoringFuture
 import type PathPaymentStrictSendComponent from './pathPaymentStrictSend/PathPaymentStrictSend';
 import type PathPaymentStrictReceiveComponent from './pathPaymentStrictReceive/PathPaymentStrictReceive';
 import type ManageBuyOfferComponent from './manageBuyOffer/ManageBuyOffer';
+import type ManageSellOfferComponent from './manageSellOffer/ManageSellOffer';
 
 export let OperationComponentTypes:
     | PaymentComponent
@@ -11,4 +12,5 @@ export let OperationComponentTypes:
     | BeginSponsoringFutureReservesComponent
     | PathPaymentStrictSendComponent
     | PathPaymentStrictReceiveComponent
-    | ManageBuyOfferComponent;
+    | ManageBuyOfferComponent
+    | ManageSellOfferComponent;

@@ -8,6 +8,7 @@ import {
     pathPaymentStrictSendXdr,
     pathPaymentStrictReceiveXdr,
     manageBuyOfferXdr,
+    manageSellOfferXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -86,5 +87,17 @@ describe('operations', () => {
         cy.get('.manage-buy-offer-operation').contains('Buy amount: 2.0000000');
         cy.get('.manage-buy-offer-operation').contains('Price: 1');
         cy.get('.manage-buy-offer-operation').contains('Offer ID: 0');
+    });
+
+    it('should render manage sell offer operation', () => {
+        cy.visit(`${BASE_URL}${manageSellOfferXdr}`);
+        cy.get('.manage-sell-offer-operation').contains(
+            'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
+        );
+        cy.get('.manage-sell-offer-operation').contains('Selling asset: XLM');
+        cy.get('.manage-sell-offer-operation').contains('Buying asset: XLM');
+        cy.get('.manage-sell-offer-operation').contains('Amount: 2.0000000');
+        cy.get('.manage-sell-offer-operation').contains('Price: 1');
+        cy.get('.manage-sell-offer-operation').contains('Offer ID: 0');
     });
 });
