@@ -4,6 +4,7 @@ import CreateAccountComponent from './createAccount/CreateAccount';
 import InvalidComponentTypeError from '../../errors/InvalidComponentTypeError';
 import type { OperationComponentTypes } from './OperationComponentTypes';
 import BeginSponsoringFutureReservesComponent from './beginSponsoringFutureReserves/BeginSponsoringFutureReserves';
+import PathPaymentStrictSendComponent from './pathPaymentStrictSend/PathPaymentStrictSend';
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
@@ -18,6 +19,9 @@ export default class DynamicOperationComponentFactory {
                 break;
             case 'beginSponsoringFutureReserves':
                 operationComponent = new BeginSponsoringFutureReservesComponent(tx, operation);
+                break;
+            case 'pathPaymentStrictSend':
+                operationComponent = new PathPaymentStrictSendComponent(tx, operation);
                 break;
             default:
                 undefined;
