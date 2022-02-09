@@ -12,6 +12,7 @@ import {
     createPassiveSellOfferXdr,
     changeTrustLiquidityPoolAssetXdr,
     changeTrustXdr,
+    accountMergeXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -131,5 +132,15 @@ describe('operations', () => {
         cy.get('.change-trust-operation').contains('Asset A: XLM');
         cy.get('.change-trust-operation').contains('Asset B: AUD');
         cy.get('.change-trust-operation').contains('Limit: 922337203685.4775807');
+    });
+
+    it('should render account merge operation', () => {
+        cy.visit(`${BASE_URL}${accountMergeXdr}`);
+        cy.get('.account-merge-operation').contains(
+            'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
+        );
+        cy.get('.account-merge-operation').contains(
+            'Destination: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
+        );
     });
 });

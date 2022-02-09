@@ -10,6 +10,7 @@ import ManageBuyOfferComponent from './manageBuyOffer/ManageBuyOffer';
 import ManageSellOfferComponent from './manageSellOffer/ManageSellOffer';
 import CreatePassiveSellOfferComponent from './createPassiveSellOffer/CreatePassiveSellOffer';
 import ChangeTrustComponent from './changeTrust/ChangeTrust';
+import AccountMergeComponent from './accountMerge/AccountMerge';
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
@@ -42,6 +43,9 @@ export default class DynamicOperationComponentFactory {
                 break;
             case 'changeTrust':
                 operationComponent = new ChangeTrustComponent(tx, operation);
+                break;
+            case 'accountMerge':
+                operationComponent = new AccountMergeComponent(tx, operation);
                 break;
             default:
                 undefined;
