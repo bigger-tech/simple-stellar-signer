@@ -9,9 +9,11 @@ import PathPaymentStrictReceiveComponent from './pathPaymentStrictReceive/PathPa
 import ManageBuyOfferComponent from './manageBuyOffer/ManageBuyOffer';
 import ManageSellOfferComponent from './manageSellOffer/ManageSellOffer';
 import CreatePassiveSellOfferComponent from './createPassiveSellOffer/CreatePassiveSellOffer';
+import SetOptionsComponent from './setOptions/SetOptions';
 import ChangeTrustComponent from './changeTrust/ChangeTrust';
 import AccountMergeComponent from './accountMerge/AccountMerge';
 import ManageDataComponent from './manageData/ManageData';
+
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
@@ -42,6 +44,9 @@ export default class DynamicOperationComponentFactory {
             case 'createPassiveSellOffer':
                 operationComponent = new CreatePassiveSellOfferComponent(tx, operation);
                 break;
+            case 'setOptions':
+                operationComponent = new SetOptionsComponent(tx, operation);
+
             case 'changeTrust':
                 operationComponent = new ChangeTrustComponent(tx, operation);
                 break;

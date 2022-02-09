@@ -10,10 +10,12 @@ import {
     manageBuyOfferXdr,
     manageSellOfferXdr,
     createPassiveSellOfferXdr,
+    setOptionsXdr,
     changeTrustLiquidityPoolAssetXdr,
     changeTrustXdr,
     accountMergeXdr,
     manageDataXdr,
+
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -117,6 +119,27 @@ describe('operations', () => {
         cy.get('.create-passive-sell-offer-operation').contains('Price: 1');
     });
 
+    it('should render set options operation', () => {
+        cy.visit(`${BASE_URL}${setOptionsXdr}`);
+        cy.get('.set-options-operation').contains(
+            'Source Account: GC3BZC6JUSOR76BHQJFO4CF7L4MCIB4GLBV7ECBXKK5BT3WLZ6ZP6EKQ',
+        );
+        cy.get('.set-options-operation').contains('Set Flags: 11');
+        cy.get('.set-options-operation').contains('Master Weight: 1');
+        cy.get('.set-options-operation').contains('Low Threshold: 1');
+        cy.get('.set-options-operation').contains('Medium Threshold: 2');
+        cy.get('.set-options-operation').contains('High Threshold: 3');
+        cy.get('.set-options-operation').contains(
+            'Destination inflation: GC3BZC6JUSOR76BHQJFO4CF7L4MCIB4GLBV7ECBXKK5BT3WLZ6ZP6EKQ',
+        );
+        cy.get('.set-options-operation').contains('Clear Flags: 8');
+        cy.get('.set-options-operation').contains('Home Domain: simplesigner.com');
+        cy.get('.set-options-operation').contains(
+            'preAuthTx: XDSGQU6Q7M5DES2ZPCMQJI2FK6TLUJ4J2ALMR3XT63QBWPJFYCNW5T54',
+        );
+        cy.get('.set-options-operation').contains('Weight: 1');
+        cy.get('.set-options-operation').should('not.contain', 'undefined');
+
     it('should render change trust (normal asset) operation', () => {
         cy.visit(`${BASE_URL}${changeTrustXdr}`);
         cy.get('.change-trust-operation').contains('Asset: AUD');
@@ -125,6 +148,7 @@ describe('operations', () => {
         );
         cy.get('.change-trust-operation').contains('Limit: 922337203685.4775807');
     });
+      
     it('should render change trust (liquidity pool asset) operation', () => {
         cy.visit(`${BASE_URL}${changeTrustLiquidityPoolAssetXdr}`);
         cy.get('.change-trust-operation').contains(
@@ -144,6 +168,7 @@ describe('operations', () => {
             'Destination: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
         );
     });
+      
     it('should render manage data operation', () => {
         cy.visit(`${BASE_URL}${manageDataXdr}`);
         cy.get('.manage-data-operation').contains(
