@@ -11,6 +11,11 @@ import {
     manageSellOfferXdr,
     createPassiveSellOfferXdr,
     setOptionsXdr,
+    changeTrustLiquidityPoolAssetXdr,
+    changeTrustXdr,
+    accountMergeXdr,
+    manageDataXdr,
+
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -134,5 +139,42 @@ describe('operations', () => {
         );
         cy.get('.set-options-operation').contains('Weight: 1');
         cy.get('.set-options-operation').should('not.contain', 'undefined');
+
+    it('should render change trust (normal asset) operation', () => {
+        cy.visit(`${BASE_URL}${changeTrustXdr}`);
+        cy.get('.change-trust-operation').contains('Asset: AUD');
+        cy.get('.change-trust-operation').contains(
+            'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
+        );
+        cy.get('.change-trust-operation').contains('Limit: 922337203685.4775807');
+    });
+      
+    it('should render change trust (liquidity pool asset) operation', () => {
+        cy.visit(`${BASE_URL}${changeTrustLiquidityPoolAssetXdr}`);
+        cy.get('.change-trust-operation').contains(
+            'Source Account: GDWTWTWO7WJF57UUXI42R4CJXT6MAKZ4K2THPJAW4EFKD5ATPNEQJ5W3',
+        );
+        cy.get('.change-trust-operation').contains('Asset A: XLM');
+        cy.get('.change-trust-operation').contains('Asset B: AUD');
+        cy.get('.change-trust-operation').contains('Limit: 922337203685.4775807');
+    });
+
+    it('should render account merge operation', () => {
+        cy.visit(`${BASE_URL}${accountMergeXdr}`);
+        cy.get('.account-merge-operation').contains(
+            'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
+        );
+        cy.get('.account-merge-operation').contains(
+            'Destination: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
+        );
+    });
+      
+    it('should render manage data operation', () => {
+        cy.visit(`${BASE_URL}${manageDataXdr}`);
+        cy.get('.manage-data-operation').contains(
+            'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
+        );
+        cy.get('.manage-data-operation').contains('Name: asd');
+        cy.get('.manage-data-operation').contains('Data: qwe');
     });
 });
