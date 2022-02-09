@@ -10,6 +10,8 @@ import {
     manageBuyOfferXdr,
     manageSellOfferXdr,
     createPassiveSellOfferXdr,
+    changeTrustLiquidityPoolAssetXdr,
+    changeTrustXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -111,5 +113,23 @@ describe('operations', () => {
         cy.get('.create-passive-sell-offer-operation').contains('Buying: XLM');
         cy.get('.create-passive-sell-offer-operation').contains('Amount: 2.0000000');
         cy.get('.create-passive-sell-offer-operation').contains('Price: 1');
+    });
+
+    it('should render change trust (normal asset) operation', () => {
+        cy.visit(`${BASE_URL}${changeTrustXdr}`);
+        cy.get('.change-trust-operation').contains('Asset: AUD');
+        cy.get('.change-trust-operation').contains(
+            'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
+        );
+        cy.get('.change-trust-operation').contains('Limit: 922337203685.4775807');
+    });
+    it('should render change trust (liquidity pool asset) operation', () => {
+        cy.visit(`${BASE_URL}${changeTrustLiquidityPoolAssetXdr}`);
+        cy.get('.change-trust-operation').contains(
+            'Source Account: GDWTWTWO7WJF57UUXI42R4CJXT6MAKZ4K2THPJAW4EFKD5ATPNEQJ5W3',
+        );
+        cy.get('.change-trust-operation').contains('Asset A: XLM');
+        cy.get('.change-trust-operation').contains('Asset B: AUD');
+        cy.get('.change-trust-operation').contains('Limit: 922337203685.4775807');
     });
 });
