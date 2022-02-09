@@ -13,12 +13,12 @@ export default class ManageDataComponent implements IOperationComponent {
     };
 
     constructor(tx: Transaction, operation: Operation.ManageData) {
-        (this.component = ManageDataComponentSvelte),
-            (this.props = {
-                optionalSource: operation.source,
-                defaultSource: tx.source,
-                name: operation.name,
-                value: operation.value,
-            });
+        this.component = ManageDataComponentSvelte;
+        this.props = {
+            optionalSource: operation.source,
+            defaultSource: tx.source,
+            name: operation.name,
+            value: operation.value,
+        };
     }
 }

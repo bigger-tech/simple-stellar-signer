@@ -11,11 +11,11 @@ export default class AccountMergeComponent {
     };
 
     constructor(tx: Transaction, operation: Operation.AccountMerge) {
-        (this.component = AccountMergeComponentSvelte),
-            (this.props = {
-                optionalSource: operation.source,
-                defaultSource: tx.source,
-                destination: operation.destination,
-            });
+        this.component = AccountMergeComponentSvelte;
+        this.props = {
+            optionalSource: operation.source,
+            defaultSource: tx.source,
+            destination: operation.destination,
+        };
     }
 }

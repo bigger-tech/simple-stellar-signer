@@ -24,20 +24,20 @@ export default class SetOptionsComponent implements IOperationComponent {
     };
 
     constructor(tx: Transaction, operation: Operation.SetOptions) {
-        (this.component = SetOptionsComponentSvelte),
-            (this.props = {
-                optionalSource: operation.source,
-                defaultSource: tx.source,
-                inflationDest: operation.inflationDest,
-                clearFlags: operation.clearFlags,
-                setFlags: operation.setFlags,
-                masterWeight: operation.masterWeight,
-                lowThreshold: operation.lowThreshold,
-                medThreshold: operation.medThreshold,
-                highThreshold: operation.highThreshold,
-                homeDomain: operation.homeDomain,
-                signer: operation.signer,
-                weight: operation.signer.weight,
-            });
+        this.component = SetOptionsComponentSvelte;
+        this.props = {
+            optionalSource: operation.source,
+            defaultSource: tx.source,
+            inflationDest: operation.inflationDest,
+            clearFlags: operation.clearFlags,
+            setFlags: operation.setFlags,
+            masterWeight: operation.masterWeight,
+            lowThreshold: operation.lowThreshold,
+            medThreshold: operation.medThreshold,
+            highThreshold: operation.highThreshold,
+            homeDomain: operation.homeDomain,
+            signer: operation.signer,
+            weight: operation.signer.weight,
+        };
     }
 }

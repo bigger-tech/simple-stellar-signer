@@ -15,15 +15,15 @@ export default class ManageSellOfferComponent {
     };
 
     constructor(tx: Transaction, operation: Operation.ManageSellOffer) {
-        (this.component = ManageSellOfferComponentSvelte),
-            (this.props = {
-                optionalSource: operation.source,
-                defaultSource: tx.source,
-                selling: operation.selling.code,
-                buying: operation.buying.code,
-                amount: operation.amount,
-                price: operation.price,
-                offerId: operation.offerId,
-            });
+        this.component = ManageSellOfferComponentSvelte;
+        this.props = {
+            optionalSource: operation.source,
+            defaultSource: tx.source,
+            selling: operation.selling.code,
+            buying: operation.buying.code,
+            amount: operation.amount,
+            price: operation.price,
+            offerId: operation.offerId,
+        };
     }
 }
