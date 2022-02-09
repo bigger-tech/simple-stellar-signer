@@ -13,6 +13,7 @@ import {
     changeTrustLiquidityPoolAssetXdr,
     changeTrustXdr,
     accountMergeXdr,
+    manageDataXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -142,5 +143,13 @@ describe('operations', () => {
         cy.get('.account-merge-operation').contains(
             'Destination: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
         );
+    });
+    it('should render manage data operation', () => {
+        cy.visit(`${BASE_URL}${manageDataXdr}`);
+        cy.get('.manage-data-operation').contains(
+            'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
+        );
+        cy.get('.manage-data-operation').contains('Name: asd');
+        cy.get('.manage-data-operation').contains('Data: qwe');
     });
 });
