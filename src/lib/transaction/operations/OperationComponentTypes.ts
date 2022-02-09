@@ -7,6 +7,7 @@ import type ManageBuyOfferComponent from './manageBuyOffer/ManageBuyOffer';
 import type ManageSellOfferComponent from './manageSellOffer/ManageSellOffer';
 import type CreatePassiveSellOfferComponent from './createPassiveSellOffer/CreatePassiveSellOffer';
 import type ChangeTrustComponent from './changeTrust/ChangeTrust';
+import type AccountMergeComponent from './accountMerge/AccountMerge';
 
 export let OperationComponentTypes:
     | PaymentComponent
@@ -17,4 +18,5 @@ export let OperationComponentTypes:
     | ManageBuyOfferComponent
     | ManageSellOfferComponent
     | CreatePassiveSellOfferComponent
-    | ChangeTrustComponent;
+    | ChangeTrustComponent
+    | AccountMergeComponent;
