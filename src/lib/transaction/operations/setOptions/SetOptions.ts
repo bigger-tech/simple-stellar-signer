@@ -1,5 +1,8 @@
 import SetOptionsComponentSvelte from './SetOptions.svelte';
 import type { Operation, Transaction } from 'stellar-sdk';
+import type Ed25519PublicKey from 'stellar-sdk';
+import type Sha256Hash from 'stellar-sdk';
+import type PreAuthTx from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
 import type IOperationComponent from '../IOperationComponent';
 
@@ -15,6 +18,9 @@ export default class SetOptionsComponent implements IOperationComponent {
         lowThreshold: number | undefined;
         medThreshold: number | undefined;
         highThreshold: number | undefined;
+        homeDomain: string | undefined;
+        signer: typeof Ed25519PublicKey | typeof Sha256Hash | typeof PreAuthTx;
+        weight: number | undefined;
     };
 
     constructor(tx: Transaction, operation: Operation.SetOptions) {
@@ -29,6 +35,9 @@ export default class SetOptionsComponent implements IOperationComponent {
                 lowThreshold: operation.lowThreshold,
                 medThreshold: operation.medThreshold,
                 highThreshold: operation.highThreshold,
+                homeDomain: operation.homeDomain,
+                signer: operation.signer,
+                weight: operation.signer.weight,
             });
     }
 }

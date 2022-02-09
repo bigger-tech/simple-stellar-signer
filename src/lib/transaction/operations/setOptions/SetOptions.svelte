@@ -1,27 +1,63 @@
 <script lang="ts">
-    export let optionalSource: string;
-    export let defaultSource: string;
-    export let inflationDest: string;
-    export let clearFlags: string;
-    export let setFlags: string;
-    export let masterWeight: string;
-    export let lowThreshold: string;
-    export let medThreshold: string;
-    export let highThreshold: string;
+    import type Ed25519PubpcKey from 'stellar-sdk';
+    import type Sha256Hash from 'stellar-sdk';
+    import type PreAuthTx from 'stellar-sdk';
+    import { StrKey } from 'stellar-sdk';
 
-    // Mejorar cuando se comitee
-    // De inflationDest para abajo, son buffers, por eso se tienen que decriptar antes
+    export let optionalSource: string | undefined;
+    export let defaultSource: string;
+    export let inflationDest: string | undefined;
+    export let clearFlags: number | undefined;
+    export let setFlags: number | undefined;
+    export let masterWeight: number | undefined;
+    export let lowThreshold: number | undefined;
+    export let medThreshold: number | undefined;
+    export let highThreshold: number | undefined;
+    export let homeDomain: string | undefined;
+    export let signer: typeof Ed25519PubpcKey | typeof Sha256Hash | typeof PreAuthTx;
+    export let weight: number | undefined;
 </script>
 
 <div class="simple-signer set-options-operation">
-    <h3>Operation: Payment</h3>
+    <h3>Operation: Set Options</h3>
 
     <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
-    <p>Destination inflation: {inflationDest}</p>
-    <p>Clear Flags: {clearFlags}</p>
-    <p>Set Flags: {setFlags}</p>
-    <p>Master Weight: {masterWeight}</p>
-    <p>Low Threshold: {lowThreshold}</p>
-    <p>Medium Threshold: {medThreshold}</p>
-    <p>High Threshold: {highThreshold}</p>
+    {#if inflationDest}
+        <p>Destination inflation: {inflationDest}</p>
+    {/if}
+    {#if clearFlags}
+        <p>Clear Flags: {clearFlags}</p>
+    {/if}
+    {#if setFlags}
+        <p>Set Flags: {setFlags}</p>
+    {/if}
+    {#if masterWeight}
+        <p>Master Weight: {masterWeight}</p>
+    {/if}
+    {#if lowThreshold}
+        <p>Low Threshold: {lowThreshold}</p>
+    {/if}
+    {#if medThreshold}
+        <p>Medium Threshold: {medThreshold}</p>
+    {/if}
+    {#if highThreshold}
+        <p>High Threshold: {highThreshold}</p>
+    {/if}
+    {#if homeDomain}
+        <p>Home Domain: {homeDomain}</p>
+    {/if}
+
+    {#if signer}
+        <h3>Signer</h3>
+        {#if signer.ed25519PubpcKey}
+            <p>ed25519PubpcKey: {signer.ed25519PubpcKey}</p>
+            <p>Weight: {weight}</p>
+        {:else if signer.sha256Hash}
+            <p>sha256Hash: {StrKey.encodeSha256Hash(signer.sha256Hash)}</p>
+            <p>Weight: {weight}</p>
+        {:else if signer.preAuthTx}
+            <p>preAuthTx: {StrKey.encodeSha256Hash(signer.preAuthTx)}</p>
+            <p>Weight: {weight}</p>
+        {/if}
+    {/if}
 </div>
