@@ -15,14 +15,14 @@ export default class CreatePassiveSellOfferComponent implements IOperationCompon
     };
 
     constructor(tx: Transaction, operation: Operation.CreatePassiveSellOffer) {
-        (this.component = CreatePassiveSellOfferComponentSvelte),
-            (this.props = {
-                optionalSource: operation.source,
-                defaultSource: tx.source,
-                selling: operation.selling.code,
-                buying: operation.buying.code,
-                amount: operation.amount,
-                price: operation.price,
-            });
+        this.component = CreatePassiveSellOfferComponentSvelte;
+        this.props = {
+            optionalSource: operation.source,
+            defaultSource: tx.source,
+            selling: operation.selling.code,
+            buying: operation.buying.code,
+            amount: operation.amount,
+            price: operation.price,
+        };
     }
 }

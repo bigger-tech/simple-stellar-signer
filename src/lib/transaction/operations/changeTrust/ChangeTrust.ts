@@ -12,12 +12,12 @@ export default class ChangeTrustComponent {
     };
 
     constructor(tx: Transaction, operation: Operation.ChangeTrust) {
-        (this.component = ChangeTrustComponentSvelte),
-            (this.props = {
-                optionalSource: operation.source,
-                defaultSource: tx.source,
-                assetType: operation.line,
-                limit: operation.limit,
-            });
+        this.component = ChangeTrustComponentSvelte;
+        this.props = {
+            optionalSource: operation.source,
+            defaultSource: tx.source,
+            assetType: operation.line,
+            limit: operation.limit,
+        };
     }
 }

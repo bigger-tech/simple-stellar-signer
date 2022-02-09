@@ -16,15 +16,15 @@ export default class ManageBuyOfferComponent implements IOperationComponent {
     };
 
     constructor(tx: Transaction, operation: Operation.ManageBuyOffer) {
-        (this.component = ManageBuyOfferComponentSvelte),
-            (this.props = {
-                optionalSource: operation.source,
-                defaultSource: tx.source,
-                selling: operation.selling.code,
-                buying: operation.buying.code,
-                buyAmount: operation.buyAmount,
-                price: operation.price,
-                offerId: operation.offerId,
-            });
+        this.component = ManageBuyOfferComponentSvelte;
+        this.props = {
+            optionalSource: operation.source,
+            defaultSource: tx.source,
+            selling: operation.selling.code,
+            buying: operation.buying.code,
+            buyAmount: operation.buyAmount,
+            price: operation.price,
+            offerId: operation.offerId,
+        };
     }
 }

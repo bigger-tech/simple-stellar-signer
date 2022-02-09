@@ -17,16 +17,16 @@ export default class PathPaymentStrictReceiveComponent implements IOperationComp
     };
 
     constructor(tx: Transaction, operation: Operation.PathPaymentStrictReceive) {
-        (this.component = PathPaymentStrictReceiveComponentSvelte),
-            (this.props = {
-                optionalSource: operation.source,
-                defaultSource: tx.source,
-                sendAsset: operation.sendAsset.code,
-                sendMax: operation.sendMax,
-                destination: operation.destination,
-                destAsset: operation.destAsset.code,
-                destAmount: operation.destAmount,
-                path: operation.path,
-            });
+        this.component = PathPaymentStrictReceiveComponentSvelte;
+        this.props = {
+            optionalSource: operation.source,
+            defaultSource: tx.source,
+            sendAsset: operation.sendAsset.code,
+            sendMax: operation.sendMax,
+            destination: operation.destination,
+            destAsset: operation.destAsset.code,
+            destAmount: operation.destAmount,
+            path: operation.path,
+        };
     }
 }
