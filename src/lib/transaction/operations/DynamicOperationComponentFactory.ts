@@ -13,7 +13,7 @@ import SetOptionsComponent from './setOptions/SetOptions';
 import ChangeTrustComponent from './changeTrust/ChangeTrust';
 import AccountMergeComponent from './accountMerge/AccountMerge';
 import ManageDataComponent from './manageData/ManageData';
-
+import BumpSequenceComponent from './bumpSequence/BumpSequence';
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
@@ -46,7 +46,7 @@ export default class DynamicOperationComponentFactory {
                 break;
             case 'setOptions':
                 operationComponent = new SetOptionsComponent(tx, operation);
-
+                break;
             case 'changeTrust':
                 operationComponent = new ChangeTrustComponent(tx, operation);
                 break;
@@ -55,6 +55,9 @@ export default class DynamicOperationComponentFactory {
                 break;
             case 'manageData':
                 operationComponent = new ManageDataComponent(tx, operation);
+                break;
+            case 'bumpSequence':
+                operationComponent = new BumpSequenceComponent(tx, operation);
                 break;
             default:
                 undefined;
