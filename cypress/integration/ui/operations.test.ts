@@ -18,6 +18,7 @@ import {
     bumpSequenceXdr,
     createClaimableBalanceXdr,
     endSponsoringFutureReservesXdr,
+    revokeAccountSponsorshipXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -206,6 +207,17 @@ describe('operations', () => {
         cy.get('.end-sponsoring-future-reserves-operation').contains('Operation: Create Passive Sell Offer');
         cy.get('.end-sponsoring-future-reserves-operation').contains(
             'Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI',
+        );
+    });
+
+    it('should render revoke account sponsorship operation', () => {
+        cy.visit(`${BASE_URL}${revokeAccountSponsorshipXdr}`);
+        cy.get('.revoke-account-sponsorship-operation').contains('Operation: Revoke Account Sponsorship');
+        cy.get('.revoke-account-sponsorship-operation').contains(
+            'Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI',
+        );
+        cy.get('.revoke-account-sponsorship-operation').contains(
+            'Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI',
         );
     });
 });

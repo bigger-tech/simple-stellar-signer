@@ -16,6 +16,7 @@ import ManageDataComponent from './manageData/ManageData';
 import BumpSequenceComponent from './bumpSequence/BumpSequence';
 import CreateClaimableBalanceComponent from './createClaimableBalance/CreateClaimableBalance';
 import EndSponsoringFutureReservesComponent from './endSponsoringFutureReserves/EndSponsoringFutureReserves';
+import RevokeAccountSponsorshipComponent from './revokeAccountSponsorship/RevokeAccountSponsorship';
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
@@ -66,6 +67,12 @@ export default class DynamicOperationComponentFactory {
                 break;
             case 'endSponsoringFutureReserves':
                 operationComponent = new EndSponsoringFutureReservesComponent(tx, operation);
+                break;
+            case 'revokeAccountSponsorship' as 'revokeSponsorship':
+                operationComponent = new RevokeAccountSponsorshipComponent(
+                    tx,
+                    operation as Operation.RevokeAccountSponsorship,
+                );
                 break;
             default:
                 undefined;
