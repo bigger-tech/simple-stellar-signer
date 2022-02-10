@@ -14,6 +14,7 @@ import type BumpSequenceComponent from './bumpSequence/BumpSequence';
 import type CreateClaimableBalanceComponent from './createClaimableBalance/CreateClaimableBalance';
 import type EndSponsoringFutureReservesComponent from './endSponsoringFutureReserves/EndSponsoringFutureReserves';
 import type RevokeAccountSponsorshipComponent from './revokeAccountSponsorship/RevokeAccountSponsorship';
+import type RevokeClaimableBalanceSponsorshipComponent from './revokeClaimableBalanceSponsorship/RevokeClaimableBalanceSponsorship';
 
 export let OperationComponentTypes:
     | PaymentComponent
@@ -31,4 +32,5 @@ export let OperationComponentTypes:
     | BumpSequenceComponent
     | CreateClaimableBalanceComponent
     | EndSponsoringFutureReservesComponent
-    | RevokeAccountSponsorshipComponent;
+    | RevokeAccountSponsorshipComponent
+    | RevokeClaimableBalanceSponsorshipComponent;
