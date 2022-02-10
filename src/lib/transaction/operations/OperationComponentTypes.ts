@@ -15,6 +15,7 @@ import type CreateClaimableBalanceComponent from './createClaimableBalance/Creat
 import type EndSponsoringFutureReservesComponent from './endSponsoringFutureReserves/EndSponsoringFutureReserves';
 import type RevokeAccountSponsorshipComponent from './revokeAccountSponsorship/RevokeAccountSponsorship';
 import type RevokeClaimableBalanceSponsorshipComponent from './revokeClaimableBalanceSponsorship/RevokeClaimableBalanceSponsorship';
+import type RevokeDataSponsorshipComponent from './revokeDataSponsorship/RevokeDataSponsorship';
 
 export let OperationComponentTypes:
     | PaymentComponent
@@ -33,4 +34,5 @@ export let OperationComponentTypes:
     | CreateClaimableBalanceComponent
     | EndSponsoringFutureReservesComponent
     | RevokeAccountSponsorshipComponent
-    | RevokeClaimableBalanceSponsorshipComponent;
+    | RevokeClaimableBalanceSponsorshipComponent
+    | RevokeDataSponsorshipComponent;
