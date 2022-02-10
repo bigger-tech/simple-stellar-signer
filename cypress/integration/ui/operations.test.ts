@@ -15,7 +15,7 @@ import {
     changeTrustXdr,
     accountMergeXdr,
     manageDataXdr,
-
+    bumpSequenceXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -139,6 +139,7 @@ describe('operations', () => {
         );
         cy.get('.set-options-operation').contains('Weight: 1');
         cy.get('.set-options-operation').should('not.contain', 'undefined');
+    });
 
     it('should render change trust (normal asset) operation', () => {
         cy.visit(`${BASE_URL}${changeTrustXdr}`);
@@ -148,7 +149,7 @@ describe('operations', () => {
         );
         cy.get('.change-trust-operation').contains('Limit: 922337203685.4775807');
     });
-      
+
     it('should render change trust (liquidity pool asset) operation', () => {
         cy.visit(`${BASE_URL}${changeTrustLiquidityPoolAssetXdr}`);
         cy.get('.change-trust-operation').contains(
@@ -168,7 +169,7 @@ describe('operations', () => {
             'Destination: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
         );
     });
-      
+
     it('should render manage data operation', () => {
         cy.visit(`${BASE_URL}${manageDataXdr}`);
         cy.get('.manage-data-operation').contains(
@@ -176,5 +177,13 @@ describe('operations', () => {
         );
         cy.get('.manage-data-operation').contains('Name: asd');
         cy.get('.manage-data-operation').contains('Data: qwe');
+    });
+
+    it('should render bump sequence operation', () => {
+        cy.visit(`${BASE_URL}${bumpSequenceXdr}`);
+        cy.get('.bump-sequence-operation').contains(
+            'Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI',
+        );
+        cy.get('.bump-sequence-operation').contains('Bump to: 51235678');
     });
 });

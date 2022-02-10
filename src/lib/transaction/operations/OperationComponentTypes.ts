@@ -10,7 +10,7 @@ import type SetOptionsComponent from './setOptions/SetOptions';
 import type ChangeTrustComponent from './changeTrust/ChangeTrust';
 import type AccountMergeComponent from './accountMerge/AccountMerge';
 import type ManageDataComponent from './manageData/ManageData';
-
+import type BumpSequenceComponent from './bumpSequence/BumpSequence';
 
 export let OperationComponentTypes:
     | PaymentComponent
@@ -21,8 +21,8 @@ export let OperationComponentTypes:
     | ManageBuyOfferComponent
     | ManageSellOfferComponent
     | CreatePassiveSellOfferComponent
-    | SetOptionsComponent;
+    | SetOptionsComponent
     | ChangeTrustComponent
     | AccountMergeComponent
-    | ManageDataComponent;
-
+    | ManageDataComponent
+    | BumpSequenceComponent;
