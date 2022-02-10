@@ -16,6 +16,7 @@ import {
     accountMergeXdr,
     manageDataXdr,
     bumpSequenceXdr,
+    createClaimableBalanceXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -185,5 +186,17 @@ describe('operations', () => {
             'Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI',
         );
         cy.get('.bump-sequence-operation').contains('Bump to: 51235678');
+    });
+    it('should render create claimable balance operation', () => {
+        cy.visit(`${BASE_URL}${createClaimableBalanceXdr}`);
+        cy.get('.create-claimable-balance-operation').contains(
+            'Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M',
+        );
+        cy.get('.create-claimable-balance-operation').contains('Asset: XLM');
+        cy.get('.create-claimable-balance-operation').contains('Amount: 234656.0000000');
+        cy.get('.create-claimable-balance-operation').contains('Claimants:');
+        cy.get('.create-claimable-balance-operation').contains(
+            'GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI',
+        );
     });
 });

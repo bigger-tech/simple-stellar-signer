@@ -14,6 +14,7 @@ import ChangeTrustComponent from './changeTrust/ChangeTrust';
 import AccountMergeComponent from './accountMerge/AccountMerge';
 import ManageDataComponent from './manageData/ManageData';
 import BumpSequenceComponent from './bumpSequence/BumpSequence';
+import CreateClaimableBalanceComponent from './createClaimableBalance/CreateClaimableBalance';
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
@@ -58,6 +59,9 @@ export default class DynamicOperationComponentFactory {
                 break;
             case 'bumpSequence':
                 operationComponent = new BumpSequenceComponent(tx, operation);
+                break;
+            case 'createClaimableBalance':
+                operationComponent = new CreateClaimableBalanceComponent(tx, operation);
                 break;
             default:
                 undefined;

@@ -11,6 +11,7 @@ import type ChangeTrustComponent from './changeTrust/ChangeTrust';
 import type AccountMergeComponent from './accountMerge/AccountMerge';
 import type ManageDataComponent from './manageData/ManageData';
 import type BumpSequenceComponent from './bumpSequence/BumpSequence';
+import type CreateClaimableBalanceComponent from './createClaimableBalance/CreateClaimableBalance';
 
 export let OperationComponentTypes:
     | PaymentComponent
@@ -25,4 +26,5 @@ export let OperationComponentTypes:
     | ChangeTrustComponent
     | AccountMergeComponent
     | ManageDataComponent
-    | BumpSequenceComponent;
+    | BumpSequenceComponent
+    | CreateClaimableBalanceComponent;
