@@ -19,6 +19,7 @@ import {
     createClaimableBalanceXdr,
     endSponsoringFutureReservesXdr,
     revokeAccountSponsorshipXdr,
+    revokeClaimableBalanceSponsorshipXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -218,6 +219,16 @@ describe('operations', () => {
         );
         cy.get('.revoke-account-sponsorship-operation').contains(
             'Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI',
+        );
+    });
+
+    it('should render revoke claimable balance sponsorship operation', () => {
+        cy.visit(`${BASE_URL}${revokeClaimableBalanceSponsorshipXdr}`);
+        cy.get('.revoke-claimable-balance-sponsorship-operation').contains(
+            'Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI',
+        );
+        cy.get('.revoke-claimable-balance-sponsorship-operation').contains(
+            'Balance ID: 00000000da0d57da7d4850e7fc10d2a9d0ebc731f7afb40574c03395b17d49149b91f5be',
         );
     });
 });
