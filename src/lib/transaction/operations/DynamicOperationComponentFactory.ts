@@ -15,6 +15,7 @@ import AccountMergeComponent from './accountMerge/AccountMerge';
 import ManageDataComponent from './manageData/ManageData';
 import BumpSequenceComponent from './bumpSequence/BumpSequence';
 import CreateClaimableBalanceComponent from './createClaimableBalance/CreateClaimableBalance';
+import EndSponsoringFutureReservesComponent from './endSponsoringFutureReserves/EndSponsoringFutureReserves';
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
@@ -62,6 +63,9 @@ export default class DynamicOperationComponentFactory {
                 break;
             case 'createClaimableBalance':
                 operationComponent = new CreateClaimableBalanceComponent(tx, operation);
+                break;
+            case 'endSponsoringFutureReserves':
+                operationComponent = new EndSponsoringFutureReservesComponent(tx, operation);
                 break;
             default:
                 undefined;

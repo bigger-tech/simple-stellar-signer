@@ -12,6 +12,7 @@ import type AccountMergeComponent from './accountMerge/AccountMerge';
 import type ManageDataComponent from './manageData/ManageData';
 import type BumpSequenceComponent from './bumpSequence/BumpSequence';
 import type CreateClaimableBalanceComponent from './createClaimableBalance/CreateClaimableBalance';
+import type EndSponsoringFutureReservesComponent from './endSponsoringFutureReserves/EndSponsoringFutureReserves';
 
 export let OperationComponentTypes:
     | PaymentComponent
@@ -27,4 +28,5 @@ export let OperationComponentTypes:
     | AccountMergeComponent
     | ManageDataComponent
     | BumpSequenceComponent
-    | CreateClaimableBalanceComponent;
+    | CreateClaimableBalanceComponent
+    | EndSponsoringFutureReservesComponent;

@@ -17,6 +17,7 @@ import {
     manageDataXdr,
     bumpSequenceXdr,
     createClaimableBalanceXdr,
+    endSponsoringFutureReservesXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -197,6 +198,14 @@ describe('operations', () => {
         cy.get('.create-claimable-balance-operation').contains('Claimants:');
         cy.get('.create-claimable-balance-operation').contains(
             'GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI',
+        );
+    });
+
+    it('should render end sponsoring future reserves operation', () => {
+        cy.visit(`${BASE_URL}${endSponsoringFutureReservesXdr}`);
+        cy.get('.end-sponsoring-future-reserves-operation').contains('Operation: Create Passive Sell Offer');
+        cy.get('.end-sponsoring-future-reserves-operation').contains(
+            'Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI',
         );
     });
 });
