@@ -20,6 +20,7 @@ import {
     endSponsoringFutureReservesXdr,
     revokeAccountSponsorshipXdr,
     revokeClaimableBalanceSponsorshipXdr,
+    revokeDataSponsorshipXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -230,5 +231,16 @@ describe('operations', () => {
         cy.get('.revoke-claimable-balance-sponsorship-operation').contains(
             'Balance ID: 00000000da0d57da7d4850e7fc10d2a9d0ebc731f7afb40574c03395b17d49149b91f5be',
         );
+    });
+
+    it('should render begin sponsoring future reserves operation', () => {
+        cy.visit(`${BASE_URL}${revokeDataSponsorshipXdr}`);
+        cy.get('.revoke-data-sponsorship-operation').contains(
+            'Source Account: GBGQAJHRMZ4X47KKNBEORZHK4QWBGNU2BUDKYLLWXTDZS46ZUHVO77UF',
+        );
+        cy.get('.revoke-data-sponsorship-operation').contains(
+            'Account: GBGQAJHRMZ4X47KKNBEORZHK4QWBGNU2BUDKYLLWXTDZS46ZUHVO77UF',
+        );
+        cy.get('.revoke-data-sponsorship-operation').contains('Name: asd');
     });
 });
