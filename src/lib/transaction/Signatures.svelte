@@ -7,22 +7,24 @@
 {#if signatures.length > 0}
     <div class="simple-signer tx-signatures-container">
         <p>Signatures:</p>
-        <ol class="simple-signer tx-signatures">
+        <div class="simple-signer tx-signatures">
             {#each signatures as signature, i}
-                <p>{i + 1} - Signature:</p>
-                <li class="simple-signer signatures-list">
-                    <p>Hint: {StrKey.encodeEd25519PublicKey(signature.hint())}</p>
-                    <p>Signature: {StrKey.encodeSha256Hash(signature.signature())}</p>
-                </li>
+                <ul class="simple-signer tx-signature">
+                    <p>{i + 1} - Signature:</p>
+                    <li>
+                        <p>Hint: {StrKey.encodeEd25519PublicKey(signature.hint())}</p>
+                    </li>
+                    <li>
+                        <p>{StrKey.encodeSha256Hash(signature.signature())}</p>
+                    </li>
+                </ul>
             {/each}
-        </ol>
+        </div>
     </div>
-{:else}
-    <p>Tx has no signature yet</p>
 {/if}
 
 <style>
-    .signatures-list {
+    .tx-signature {
         display: flex;
         flex-direction: column;
         margin-bottom: 20px;
