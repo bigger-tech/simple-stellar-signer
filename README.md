@@ -6,6 +6,7 @@
 npm install
 npm run dev
 ```
+
 ## Toolchain
 
 This project is built using the Svelte framework along with TypeScript. It uses Cypress for E2E/integration tests, and Jest for Unit Tests
