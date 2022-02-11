@@ -22,6 +22,7 @@ import {
     revokeClaimableBalanceSponsorshipXdr,
     revokeDataSponsorshipXdr,
     revokeLiquidityPoolSponsorshipXdr,
+    revokeOfferSponsorshipXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -252,5 +253,16 @@ describe('operations', () => {
         cy.get('.revoke-liquidity-pool-sponsorship-operation').contains(
             'Liquidity Pool ID: dd7b1ab831c273310ddbec6f97870aa83c2fbd78ce22aded37ecbf4f3380fac7',
         );
+    });
+
+    it('should render revoke offer sponsorship operation', () => {
+        cy.visit(`${BASE_URL}${revokeOfferSponsorshipXdr}`);
+        cy.get('.revoke-offer-sponsorship-operation').contains(
+            'Source Account: GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB',
+        );
+        cy.get('.revoke-offer-sponsorship-operation').contains(
+            'Seller: GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB',
+        );
+        cy.get('.revoke-offer-sponsorship-operation').contains('Offer ID: 1234');
     });
 });
