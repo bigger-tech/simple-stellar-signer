@@ -9,6 +9,7 @@
     import { decryptPrivateKey } from '../../helpers/security';
     import { getStellarKeypair } from '../../routes/connect/connectHelpers';
     import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
+    import Signatures from './Signatures.svelte';
 
     async function getKeyPair(): Promise<Keypair> {
         const storedPair = getStoredPair();
@@ -51,6 +52,7 @@
                 Time bounds: {tx ? `Min time ${tx.timeBounds?.minTime} Max time ${tx.timeBounds?.maxTime}` : ''}
             </p>
             <p>Fee: {tx.fee}</p>
+            <Signatures signatures="{tx.signatures}" />
 
             <div class="simple-signer operations-container">
                 {#each operationComponents as operation}
