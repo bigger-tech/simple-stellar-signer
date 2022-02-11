@@ -21,6 +21,7 @@ import {
     revokeAccountSponsorshipXdr,
     revokeClaimableBalanceSponsorshipXdr,
     revokeDataSponsorshipXdr,
+    revokeLiquidityPoolSponsorshipXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -233,7 +234,7 @@ describe('operations', () => {
         );
     });
 
-    it('should render begin sponsoring future reserves operation', () => {
+    it('should render revoke data sponsorship operation', () => {
         cy.visit(`${BASE_URL}${revokeDataSponsorshipXdr}`);
         cy.get('.revoke-data-sponsorship-operation').contains(
             'Source Account: GBGQAJHRMZ4X47KKNBEORZHK4QWBGNU2BUDKYLLWXTDZS46ZUHVO77UF',
@@ -242,5 +243,14 @@ describe('operations', () => {
             'Account: GBGQAJHRMZ4X47KKNBEORZHK4QWBGNU2BUDKYLLWXTDZS46ZUHVO77UF',
         );
         cy.get('.revoke-data-sponsorship-operation').contains('Name: asd');
+    });
+    it('should render revoke liquidity pool sponsorship operation', () => {
+        cy.visit(`${BASE_URL}${revokeLiquidityPoolSponsorshipXdr}`);
+        cy.get('.revoke-liquidity-pool-sponsorship-operation').contains(
+            'Source Account: GACXTDPQUGJFX7NS4TREHBL2VOGPUFCF4ZWQYKTWOHR4XGMBATZ6SRO5',
+        );
+        cy.get('.revoke-liquidity-pool-sponsorship-operation').contains(
+            'Liquidity Pool ID: dd7b1ab831c273310ddbec6f97870aa83c2fbd78ce22aded37ecbf4f3380fac7',
+        );
     });
 });
