@@ -17,6 +17,7 @@ import type RevokeAccountSponsorshipComponent from './revokeAccountSponsorship/R
 import type RevokeClaimableBalanceSponsorshipComponent from './revokeClaimableBalanceSponsorship/RevokeClaimableBalanceSponsorship';
 import type RevokeDataSponsorshipComponent from './revokeDataSponsorship/RevokeDataSponsorship';
 import type RevokeLiquidityPoolSponsorshipComponent from './revokeLiquidityPoolSponsorship/RevokeLiquidityPoolSponsorship';
+import type RevokeOfferSponsorshipComponent from './revokeOfferSponsorship/RevokeOfferSponsorship';
 
 export let OperationComponentTypes:
     | PaymentComponent
@@ -37,4 +38,5 @@ export let OperationComponentTypes:
     | RevokeAccountSponsorshipComponent
     | RevokeClaimableBalanceSponsorshipComponent
     | RevokeDataSponsorshipComponent
-    | RevokeLiquidityPoolSponsorshipComponent;
+    | RevokeLiquidityPoolSponsorshipComponent
+    | RevokeOfferSponsorshipComponent;
