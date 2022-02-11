@@ -16,6 +16,7 @@ import type EndSponsoringFutureReservesComponent from './endSponsoringFutureRese
 import type RevokeAccountSponsorshipComponent from './revokeAccountSponsorship/RevokeAccountSponsorship';
 import type RevokeClaimableBalanceSponsorshipComponent from './revokeClaimableBalanceSponsorship/RevokeClaimableBalanceSponsorship';
 import type RevokeDataSponsorshipComponent from './revokeDataSponsorship/RevokeDataSponsorship';
+import type RevokeLiquidityPoolSponsorshipComponent from './revokeLiquidityPoolSponsorship/RevokeLiquidityPoolSponsorship';
 
 export let OperationComponentTypes:
     | PaymentComponent
@@ -35,4 +36,5 @@ export let OperationComponentTypes:
     | EndSponsoringFutureReservesComponent
     | RevokeAccountSponsorshipComponent
     | RevokeClaimableBalanceSponsorshipComponent
-    | RevokeDataSponsorshipComponent;
+    | RevokeDataSponsorshipComponent
+    | RevokeLiquidityPoolSponsorshipComponent;
