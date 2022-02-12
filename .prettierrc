@@ -3,7 +3,7 @@
     "semi": true,
     "singleQuote": true,
     "trailingComma": "all",
-    "svelteSortOrder": "options-scripts-markup-styles",
     "svelteStrictMode": true,
+    "svelteSortOrder": "options-scripts-markup-styles",
     "svelteAllowShorthand": false
 }
