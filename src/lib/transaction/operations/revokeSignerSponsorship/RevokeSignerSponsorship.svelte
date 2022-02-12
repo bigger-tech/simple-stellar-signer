@@ -1,23 +1,54 @@
 <script lang="ts">
-    import type { SignerKeyOptions } from 'stellar-sdk';
+    import { SignerKeyOptions, StrKey } from 'stellar-sdk';
+
+    function instanceOfEd(object: SignerKeyOptions): object is SignerKeyOptions.Ed25519PublicKey {
+        return 'ed25519PublicKey' in object;
+    }
+
+    function instanceOfSha(object: SignerKeyOptions): object is SignerKeyOptions.Sha256Hash {
+        return 'sha256Hash' in object;
+    }
+
+    function instanceOfPreAuthTx(object: SignerKeyOptions): object is SignerKeyOptions.PreAuthTx {
+        return 'preAuthTx' in object;
+    }
 
     export let optionalSource: string | undefined;
     export let defaultSource: string;
     export let account: string;
-    export let signer: SignerKeyOptions.Ed25519PublicKey;
+    export let signer: SignerKeyOptions;
+
+    let ed25519Data: string;
+    let sha256Data: string | Buffer;
+    let preAuthTxData: string | Buffer;
+
+    if (instanceOfEd(signer)) {
+        ed25519Data = signer.ed25519PublicKey;
+    } else if (instanceOfSha(signer)) {
+        if (typeof signer.sha256Hash === 'string') {
+            sha256Data = signer.sha256Hash;
+        } else {
+            sha256Data = StrKey.encodeSha256Hash(signer.sha256Hash);
+        }
+    } else if (instanceOfPreAuthTx(signer)) {
+        if (typeof signer.preAuthTx === 'string') {
+            preAuthTxData = signer.preAuthTx;
+        } else {
+            preAuthTxData = StrKey.encodePreAuthTx(signer.preAuthTx);
+        }
+    }
 </script>
 
 <div class="simple-signer revoke-signer-sponsorship-operation">
     <h3>Operation: Revoke Signer Sponsorship</h3>
-    {console.log(signer)}
     <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
     <p>Account: {account}</p>
 
-    <!-- {#if signer.ed25519PublicKey}
-        <p>Signer: {ed255Type}</p>
-    {:else if sha256Type}
-        <p>Signer: {sha256Type}</p>
-    {:else if preAuthTxType}
-        <p>Signer: {preAuthTxType}</p>
-    {/if} -->
+    {#if ed25519Data}
+        <p>Signer: {ed25519Data}</p>
+    {:else if sha256Data}
+        <p>Signer: {sha256Data}</p>
+    {:else if preAuthTxData}
+        <p>Signer: {preAuthTxData}</p>
+    {/if}
 </div>
