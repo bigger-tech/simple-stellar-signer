@@ -1,11 +1,11 @@
 <script lang="ts">
     import { SignerKeyOptions, StrKey } from 'stellar-sdk';
 
-    function instanceOfEd(object: SignerKeyOptions): object is SignerKeyOptions.Ed25519PublicKey {
+    function instanceOfEd25519PublicKey(object: SignerKeyOptions): object is SignerKeyOptions.Ed25519PublicKey {
         return 'ed25519PublicKey' in object;
     }
 
-    function instanceOfSha(object: SignerKeyOptions): object is SignerKeyOptions.Sha256Hash {
+    function instanceOfSha256(object: SignerKeyOptions): object is SignerKeyOptions.Sha256Hash {
         return 'sha256Hash' in object;
     }
 
@@ -22,9 +22,9 @@
     let sha256Data: string | Buffer;
     let preAuthTxData: string | Buffer;
 
-    if (instanceOfEd(signer)) {
+    if (instanceOfEd25519PublicKey(signer)) {
         ed25519Data = signer.ed25519PublicKey;
-    } else if (instanceOfSha(signer)) {
+    } else if (instanceOfSha256(signer)) {
         if (typeof signer.sha256Hash === 'string') {
             sha256Data = signer.sha256Hash;
         } else {
