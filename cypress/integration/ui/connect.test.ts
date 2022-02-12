@@ -2,8 +2,8 @@
 
 describe('connect', () => {
     const url = Cypress.env('HOST');
-    const testSecretKey = Cypress.env('PRIVATE');
-    const testPublicKey = Cypress.env('PUBLIC');
+    const TEST_PRIVATE_KEY = Cypress.env('TEST_PRIVATE_KEY');
+    const TEST_PUBLIC_KEY = Cypress.env('TEST_PUBLIC_KEY');
 
     beforeEach(() => {
         cy.visit(`${url}/connect`);
@@ -20,9 +20,9 @@ describe('connect', () => {
     });
 
     it('passing a valid key should change the title showcasing the public key', () => {
-        cy.get('@input').type(testSecretKey);
+        cy.get('@input').type(TEST_PRIVATE_KEY);
         cy.get('@connectBtn').click();
-        cy.get('@title').should('contain.text', testPublicKey);
+        cy.get('@title').should('contain.text', TEST_PUBLIC_KEY);
     });
 
     it('passing an invalid key should throw an error', () => {
