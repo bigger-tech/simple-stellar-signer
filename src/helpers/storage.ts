@@ -1,8 +1,8 @@
 export function storeItem(key: string, value: string): void {
-    sessionStorage.setItem(key, value);
+    localStorage.setItem(key, value);
 }
 
 export function getItem(key: string): string | null {
-    const data = sessionStorage.getItem(key);
+    const data = localStorage.getItem(key);
     return data;
 }
