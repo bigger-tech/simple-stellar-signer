@@ -6,28 +6,35 @@ describe('connect', () => {
     const TEST_PUBLIC_KEY = Cypress.env('TEST_PUBLIC_KEY');
 
     beforeEach(() => {
-        cy.visit(`${url}/connect`);
-        cy.get('#input-key').as('input');
-        cy.get('button').contains('Connect with private key').as('connectBtn');
-        cy.get('#title').as('title');
+        cy.visit(`${url}connect`);
+        cy.get('.wallet-xbull-title').as('xBullTitle');
+        cy.get('.wallet-freighter-title').as('freighterTitle');
+        cy.get('.wallet-albedo-title').as('albedoTitle');
+        cy.get('.wallet-private-key-title').as('privateKeyTitle');
+        cy.get('.connect-private-key').as('privateKeyBtn');
+        cy.get('.simple-signer-container').as('container');
     });
+    describe('Connect', () => {
+        it("Should check if there's four connect methods", () => {
+            cy.get('@xBullTitle').should('contain.text', 'xBull');
+            cy.get('@freighterTitle').should('contain.text', 'Freighter');
+            cy.get('@albedoTitle').should('contain.text', 'Albedo');
+            cy.get('@privateKeyTitle').should('contain.text', 'Private Key');
+        });
 
-    it('clicking in "show key" should change the type of the input', () => {
-        cy.get('@input').type('1234');
-        cy.get('@input').invoke('attr', 'type').should('contain', 'password');
-        cy.get('button').contains('Show key').click();
-        cy.get('@input').invoke('attr', 'type').should('contain', 'text');
-    });
+        it('Should show the private key connect method', () => {
+            cy.get('@privateKeyBtn').click().as('privateKeyBtn');
+            cy.get('@container').should('contain.text', 'Connect with private key');
+        });
 
-    it('passing a valid key should change the title showcasing the public key', () => {
-        cy.get('@input').type(TEST_PRIVATE_KEY);
-        cy.get('@connectBtn').click();
-        cy.get('@title').should('contain.text', TEST_PUBLIC_KEY);
-    });
-
-    it('passing an invalid key should throw an error', () => {
-        cy.get('@input').type('1234');
-        cy.get('@connectBtn').click();
-        cy.get('@title').should('contain.text', 'Invalid key, please try again');
+        it('Should return to the four connect methods', () => {
+            cy.get('@privateKeyBtn').click();
+            cy.get('@container').should('contain.text', 'Connect with private key');
+            cy.get('.return-btn').click();
+            cy.get('@xBullTitle').should('contain.text', 'xBull');
+            cy.get('@freighterTitle').should('contain.text', 'Freighter');
+            cy.get('@albedoTitle').should('contain.text', 'Albedo');
+            cy.get('@privateKeyTitle').should('contain.text', 'Private Key');
+        });
     });
 });
