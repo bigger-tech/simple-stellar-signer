@@ -1,4 +1,5 @@
 export function storeItem(key: string, value: string): void {
+    localStorage.clear();
     localStorage.setItem(key, value);
 }
 
