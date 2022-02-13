@@ -1,5 +1,5 @@
 import type { Keypair, Transaction } from 'stellar-sdk';
-import { sendMessage } from '../connect/sendMessageHelpers';
+import { sendMessage } from '../../helpers/sendMessageHelpers';
 
 export function signTx(tx: Transaction, secretKey: Keypair) {
     const signTx = tx.sign(secretKey);
