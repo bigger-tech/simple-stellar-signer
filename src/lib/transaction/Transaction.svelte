@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { Keypair } from 'stellar-sdk';
     import type { OperationComponentTypes } from './operations/OperationComponentTypes';
+    import { getItem } from '../../helpers/storage';
     import { writable } from 'svelte/store';
     import { Transaction, xdr } from 'stellar-sdk';
     import { signTx } from '../../routes/sign/signHelper';
@@ -9,6 +10,7 @@
     import { decryptPrivateKey } from '../../helpers/security';
     import { getStellarKeypair } from '../../routes/connect/connectHelpers';
     import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
+    import { XBull } from '../../routes/connect/ui/wallets/XBull';
 
     async function getKeyPair(): Promise<Keypair> {
         const storedPair = getStoredPair();
@@ -38,11 +40,14 @@
     } catch (error) {
         console.error(error);
     }
+
+    const xBull = getItem('xbull');
+    const privateKey = getItem('privateKey');
 </script>
 
 {#if $isValidXdr}
     <div class="simple-signer payment-tx">
-        {#await keyPair then data}
+        {#if xBull || privateKey}
             <p class="src-account">
                 Source account: {tx ? tx.source : ''}
             </p>
@@ -58,11 +63,19 @@
                 {/each}
             </div>
 
-            <button class="simple-signer sign-tx" on:click="{() => signTx(tx, data)}">Sign Transaction</button>
-        {:catch}
+            {#if privateKey}
+                <button class="simple-signer sign-tx" on:click="{async () => signTx(tx, await keyPair)}"
+                    >Sign Transaction with Private Key</button
+                >
+            {:else if xBull}
+                <button class="simple-signer sign-tx" on:click="{async () => new XBull().signTx(tx)}"
+                    >Sign Transaction with xBull</button
+                >
+            {/if}
+        {:else}
             <p class="simple-signer user-not-connected">User is not connected</p>
             <button class="simple-signer connect-btn"><Link to="/connect">Go to Connect</Link></button>
-        {/await}
+        {/if}
     </div>
 {:else}
     <h1>INVALID OR NULL XDR</h1>
