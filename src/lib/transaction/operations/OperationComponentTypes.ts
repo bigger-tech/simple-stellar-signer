@@ -18,6 +18,7 @@ import type RevokeClaimableBalanceSponsorshipComponent from './revokeClaimableBa
 import type RevokeDataSponsorshipComponent from './revokeDataSponsorship/RevokeDataSponsorship';
 import type RevokeLiquidityPoolSponsorshipComponent from './revokeLiquidityPoolSponsorship/RevokeLiquidityPoolSponsorship';
 import type RevokeOfferSponsorshipComponent from './revokeOfferSponsorship/RevokeOfferSponsorship';
+import type ClawbackComponent from './clawback/Clawback';
 
 export let OperationComponentTypes:
     | PaymentComponent
@@ -39,4 +40,5 @@ export let OperationComponentTypes:
     | RevokeClaimableBalanceSponsorshipComponent
     | RevokeDataSponsorshipComponent
     | RevokeLiquidityPoolSponsorshipComponent
-    | RevokeOfferSponsorshipComponent;
+    | RevokeOfferSponsorshipComponent
+    | ClawbackComponent;

@@ -23,6 +23,7 @@ import {
     revokeDataSponsorshipXdr,
     revokeLiquidityPoolSponsorshipXdr,
     revokeOfferSponsorshipXdr,
+    clawbackXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -264,5 +265,15 @@ describe('operations', () => {
             'Seller: GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB',
         );
         cy.get('.revoke-offer-sponsorship-operation').contains('Offer ID: 1234');
+    });
+
+    it('should render clawback operation', () => {
+        cy.visit(`${BASE_URL}${clawbackXdr}`);
+        cy.get('.clawback-operation').contains(
+            'Source account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+        );
+        cy.get('.clawback-operation').contains('Asset: AUD');
+        cy.get('.clawback-operation').contains('Amount: 2.0000000');
+        cy.get('.clawback-operation').contains('From: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
     });
 });
