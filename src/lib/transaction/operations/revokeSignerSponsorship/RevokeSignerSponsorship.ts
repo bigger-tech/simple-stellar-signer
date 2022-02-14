@@ -1,6 +1,7 @@
 import RevokeSignerSponsorshipComponentSvelte from './RevokeSignerSponsorship.svelte';
-import type { Operation, SignerKeyOptions, Transaction } from 'stellar-sdk';
+import type { Operation, Transaction } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
+import { getSignerType } from '../operationsHelper';
 
 export default class RevokeSignerSponsorshipComponent {
     public component: typeof SvelteComponent;
@@ -8,16 +9,18 @@ export default class RevokeSignerSponsorshipComponent {
         optionalSource: string | undefined;
         defaultSource: string;
         account: string;
-        signer: SignerKeyOptions;
+        signer: string;
     };
+    public signer: string;
 
     constructor(tx: Transaction, operation: Operation.RevokeSignerSponsorship) {
+        this.signer = getSignerType(operation.signer);
         this.component = RevokeSignerSponsorshipComponentSvelte;
         this.props = {
             optionalSource: operation.source,
             defaultSource: tx.source,
             account: operation.account,
-            signer: operation.signer,
+            signer: this.signer,
         };
     }
 }
