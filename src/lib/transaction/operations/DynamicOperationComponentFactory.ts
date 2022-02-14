@@ -21,8 +21,10 @@ import RevokeClaimableBalanceSponsorshipComponent from './revokeClaimableBalance
 import RevokeDataSponsorshipComponent from './revokeDataSponsorship/RevokeDataSponsorship';
 import RevokeLiquidityPoolSponsorshipComponent from './revokeLiquidityPoolSponsorship/RevokeLiquidityPoolSponsorship';
 import RevokeOfferSponsorshipComponent from './revokeOfferSponsorship/RevokeOfferSponsorship';
+import LiquidityPoolDepositComponent from './liquidityPoolDeposit/LiquidityPoolDeposit';
 import ClawbackClaimableBalanceComponent from './clawbackClaimableBalance/ClawbackClaimableBalance';
 import ClawbackComponent from './clawback/Clawback';
+
 
 
 export default class DynamicOperationComponentFactory {
@@ -106,13 +108,18 @@ export default class DynamicOperationComponentFactory {
                 );
                 break;
 
+            case 'liquidityPoolDeposit':
+                operationComponent = new LiquidityPoolDepositComponent(tx, operation);
+                break;
+
             case 'clawbackClaimableBalance':
                 operationComponent = new ClawbackClaimableBalanceComponent(tx, operation);
                 break;
+            
             case 'clawback':
                 operationComponent = new ClawbackComponent(tx, operation);
-
                 break;
+            
             default:
                 undefined;
                 break;

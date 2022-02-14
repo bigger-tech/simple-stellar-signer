@@ -23,9 +23,9 @@ import {
     revokeDataSponsorshipXdr,
     revokeLiquidityPoolSponsorshipXdr,
     revokeOfferSponsorshipXdr,
+    liquidityPoolDepositXdr,
     clawbackClaimableBalanceXdr,
     clawbackXdr,
-
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -268,6 +268,20 @@ describe('operations', () => {
         );
         cy.get('.revoke-offer-sponsorship-operation').contains('Offer ID: 1234');
     });
+
+
+    it('should render liquidity pool deposit operation', () => {
+        cy.visit(`${BASE_URL}${liquidityPoolDepositXdr}`);
+        cy.get('.liquidity-pool-deposit-operation').contains(
+            'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+        );
+        cy.get('.liquidity-pool-deposit-operation').contains(
+            'Liquidity pool ID: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9',
+        );
+        cy.get('.liquidity-pool-deposit-operation').contains('Max amount A: 20.0000000');
+        cy.get('.liquidity-pool-deposit-operation').contains('Max amount B: 20.0000000');
+        cy.get('.liquidity-pool-deposit-operation').contains('Minimum price: 1');
+        cy.get('.liquidity-pool-deposit-operation').contains('Maximum price: 1');
 
 
     it('should render clawback claimable balance operation', () => {
