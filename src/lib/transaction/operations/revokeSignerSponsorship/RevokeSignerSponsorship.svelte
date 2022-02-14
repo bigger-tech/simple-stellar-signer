@@ -1,17 +1,6 @@
 <script lang="ts">
     import { SignerKeyOptions, StrKey } from 'stellar-sdk';
-
-    function instanceOfEd25519PublicKey(object: SignerKeyOptions): object is SignerKeyOptions.Ed25519PublicKey {
-        return 'ed25519PublicKey' in object;
-    }
-
-    function instanceOfSha256(object: SignerKeyOptions): object is SignerKeyOptions.Sha256Hash {
-        return 'sha256Hash' in object;
-    }
-
-    function instanceOfPreAuthTx(object: SignerKeyOptions): object is SignerKeyOptions.PreAuthTx {
-        return 'preAuthTx' in object;
-    }
+    import { instanceOfEd25519PublicKey, instanceOfSha256, instanceOfPreAuthTx } from '../operationsHelper';
 
     export let optionalSource: string | undefined;
     export let defaultSource: string;
