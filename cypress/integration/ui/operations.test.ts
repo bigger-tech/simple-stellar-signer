@@ -23,6 +23,7 @@ import {
     revokeDataSponsorshipXdr,
     revokeLiquidityPoolSponsorshipXdr,
     revokeOfferSponsorshipXdr,
+    allowTrustXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -264,5 +265,14 @@ describe('operations', () => {
             'Seller: GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB',
         );
         cy.get('.revoke-offer-sponsorship-operation').contains('Offer ID: 1234');
+    });
+
+    it('should render allow trust operation', () => {
+        cy.visit(`${BASE_URL}${allowTrustXdr}`);
+        cy.get('.allow-trust-operation').contains(
+            'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+        );
+        cy.get('.allow-trust-operation').contains('Asset: AUD');
+        cy.get('.allow-trust-operation').contains('Authorization: 1');
     });
 });
