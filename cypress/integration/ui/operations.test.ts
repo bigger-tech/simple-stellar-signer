@@ -23,6 +23,7 @@ import {
     revokeDataSponsorshipXdr,
     revokeLiquidityPoolSponsorshipXdr,
     revokeOfferSponsorshipXdr,
+    claimClaimableBalanceXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -264,5 +265,15 @@ describe('operations', () => {
             'Seller: GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB',
         );
         cy.get('.revoke-offer-sponsorship-operation').contains('Offer ID: 1234');
+    });
+
+    it('should render claim claimable balance operation', () => {
+        cy.visit(`${BASE_URL}${claimClaimableBalanceXdr}`);
+        cy.get('.claim-claimable-balance-operation').contains(
+            'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+        );
+        cy.get('.claim-claimable-balance-operation').contains(
+            'Balance ID: 00000000da0d57da7d4850e7fc10d2a9d0ebc731f7afb40574c03395b17d49149b91f5be',
+        );
     });
 });
