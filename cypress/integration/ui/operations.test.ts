@@ -273,6 +273,8 @@ describe('operations', () => {
             'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
         );
         cy.get('.allow-trust-operation').contains('Asset: AUD');
-        cy.get('.allow-trust-operation').contains('Authorization: 1');
+        cy.get('.allow-trust-operation').contains(
+            'Authorization: the account is authorized to transact with the asset',
+        );
     });
 });

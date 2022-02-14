@@ -8,10 +8,16 @@
 </script>
 
 <div class="simple-signer allow-trust-operation">
-    <h3>Operation: Allow Trust</h3>
+    <h3>Operation: {authorize === 0 || false ? 'Disallow' : 'Allow'} Trust</h3>
 
     <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
     <p>Asset: {assetCode}</p>
 
-    <p>Authorization: {authorize}</p>
+    {#if authorize === 0 || false}
+        <p>Authorization: The account is not authorized to transact with the asset</p>
+    {:else if authorize === 1 || true}
+        <p>Authorization: the account is authorized to transact with the asset</p>
+    {:else if authorize === 2}
+        <p>Authorization: the account is authorized to maintain liabilities</p>
+    {/if}
 </div>
