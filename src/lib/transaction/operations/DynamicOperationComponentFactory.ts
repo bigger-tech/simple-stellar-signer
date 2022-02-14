@@ -21,7 +21,9 @@ import RevokeClaimableBalanceSponsorshipComponent from './revokeClaimableBalance
 import RevokeDataSponsorshipComponent from './revokeDataSponsorship/RevokeDataSponsorship';
 import RevokeLiquidityPoolSponsorshipComponent from './revokeLiquidityPoolSponsorship/RevokeLiquidityPoolSponsorship';
 import RevokeOfferSponsorshipComponent from './revokeOfferSponsorship/RevokeOfferSponsorship';
+import ClawbackClaimableBalanceComponent from './clawbackClaimableBalance/ClawbackClaimableBalance';
 import ClawbackComponent from './clawback/Clawback';
+
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
@@ -103,8 +105,13 @@ export default class DynamicOperationComponentFactory {
                     operation as Operation.RevokeOfferSponsorship,
                 );
                 break;
+
+            case 'clawbackClaimableBalance':
+                operationComponent = new ClawbackClaimableBalanceComponent(tx, operation);
+                break;
             case 'clawback':
                 operationComponent = new ClawbackComponent(tx, operation);
+
                 break;
             default:
                 undefined;
