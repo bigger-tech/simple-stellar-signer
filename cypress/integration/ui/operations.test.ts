@@ -23,6 +23,7 @@ import {
     revokeDataSponsorshipXdr,
     revokeLiquidityPoolSponsorshipXdr,
     revokeOfferSponsorshipXdr,
+    setTrustLineFlagsXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -264,5 +265,19 @@ describe('operations', () => {
             'Seller: GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB',
         );
         cy.get('.revoke-offer-sponsorship-operation').contains('Offer ID: 1234');
+    });
+
+    it('should render set trust line flags operation', () => {
+        cy.visit(`${BASE_URL}${setTrustLineFlagsXdr}`);
+        cy.get('.set-trust-line-flags-operation').contains(
+            'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+        );
+        cy.get('.set-trust-line-flags-operation').contains(
+            'Trustor: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+        );
+        cy.get('.set-trust-line-flags-operation').contains('Asset: AUD');
+        cy.get('.set-trust-line-flags-operation').contains('Is authorized: True');
+        cy.get('.set-trust-line-flags-operation').contains('Is authorized to maintain liabilities: True');
+        cy.get('.set-trust-line-flags-operation').contains('Is clawback enabled: False');
     });
 });
