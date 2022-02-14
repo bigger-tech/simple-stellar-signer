@@ -17,18 +17,20 @@
         const keyPair = await getStellarKeypair(privateKey);
         return keyPair;
     }
-
     const keyPair = getKeyPair();
 
     let tx: Transaction;
     let operationComponents: typeof OperationComponentTypes[] = [];
-
     const isValidXdr = writable(false);
-    const xdrValue = location.search.substring(5);
+
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const xdrValue = urlParams.get('xdr')?.replace(/\s/g, '+');
+    const description = urlParams.get('description');
 
     try {
-        $isValidXdr = xdr.TransactionEnvelope.validateXDR(xdrValue, 'base64');
-        tx = new Transaction(xdrValue, import.meta.env.VITE_HORIZON_NETWORK_PASSPHRASE);
+        $isValidXdr = xdr.TransactionEnvelope.validateXDR(xdrValue!, 'base64');
+        tx = new Transaction(xdrValue!, import.meta.env.VITE_HORIZON_NETWORK_PASSPHRASE);
 
         const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
 
@@ -36,14 +38,19 @@
             let operationComponent = dynamicOperationComponentFactory.create(tx, tx.operations[i]!);
             operationComponents.push(operationComponent);
         }
-    } catch (error) {
-        console.error(error);
+    } catch (e) {
+        console.error({ invalidUrl: e });
     }
 </script>
 
 {#if $isValidXdr}
     <div class="simple-signer payment-tx">
         {#await keyPair then data}
+            {#if description}
+                <div class="simple-signer tx-description">
+                    <p>{description}</p>
+                </div>
+            {/if}
             <p class="src-account">
                 Source account: {tx ? tx.source : ''}
             </p>
