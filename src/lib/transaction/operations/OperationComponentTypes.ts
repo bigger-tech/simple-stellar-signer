@@ -21,6 +21,7 @@ import type RevokeOfferSponsorshipComponent from './revokeOfferSponsorship/Revok
 import type SetTrustLineFlagsComponent from './setTrustLineFlags/SetTrustLineFlags';
 import type LiquidityPoolWithdrawComponent from './liquidityPoolWithdraw/LiquidityPoolWithdraw';
 
+
 export let OperationComponentTypes:
     | PaymentComponent
     | CreateAccountComponent
@@ -44,3 +45,4 @@ export let OperationComponentTypes:
     | RevokeOfferSponsorshipComponent
     | SetTrustLineFlagsComponent
     | LiquidityPoolWithdrawComponent;
+

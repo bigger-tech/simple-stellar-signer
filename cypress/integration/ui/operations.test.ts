@@ -25,6 +25,7 @@ import {
     revokeOfferSponsorshipXdr,
     setTrustLineFlagsXdr,
     liquidityPoolWithdrawXdr,
+
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -269,6 +270,20 @@ describe('operations', () => {
     });
 
 
+    it('should render set trust line flags operation', () => {
+        cy.visit(`${BASE_URL}${setTrustLineFlagsXdr}`);
+        cy.get('.set-trust-line-flags-operation').contains(
+            'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+        );
+        cy.get('.set-trust-line-flags-operation').contains(
+            'Trustor: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+        );
+        cy.get('.set-trust-line-flags-operation').contains('Asset: AUD');
+        cy.get('.set-trust-line-flags-operation').contains('Is authorized: True');
+        cy.get('.set-trust-line-flags-operation').contains('Is authorized to maintain liabilities: True');
+        cy.get('.set-trust-line-flags-operation').contains('Is clawback enabled: False');
+
+
     it('should render liquidity pool deposit operation', () => {
         cy.visit(`${BASE_URL}${liquidityPoolDepositXdr}`);
         cy.get('.liquidity-pool-deposit-operation').contains(
@@ -313,5 +328,6 @@ describe('operations', () => {
         cy.get('.liquidity-pool-withdraw-operation').contains('Amount: 20.0000000');
         cy.get('.liquidity-pool-withdraw-operation').contains('Minimum amount A: 2.0000000');
         cy.get('.liquidity-pool-withdraw-operation').contains('Minimum amount B: 2.0000000');
+
     });
 });
