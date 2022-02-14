@@ -24,6 +24,7 @@ import {
     revokeLiquidityPoolSponsorshipXdr,
     revokeOfferSponsorshipXdr,
     claimClaimableBalanceXdr,
+    revokeTrustlineSponsorshipXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -275,5 +276,16 @@ describe('operations', () => {
         cy.get('.claim-claimable-balance-operation').contains(
             'Balance ID: 00000000da0d57da7d4850e7fc10d2a9d0ebc731f7afb40574c03395b17d49149b91f5be',
         );
+    });
+
+    it('should render revoke trustline sponsorship operation', () => {
+        cy.visit(`${BASE_URL}${revokeTrustlineSponsorshipXdr}`);
+        cy.get('.revoke-trustline-sponsorship-operation').contains(
+            'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+        );
+        cy.get('.revoke-trustline-sponsorship-operation').contains(
+            'Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+        );
+        cy.get('.revoke-trustline-sponsorship-operation').contains('Asset: XLM');
     });
 });

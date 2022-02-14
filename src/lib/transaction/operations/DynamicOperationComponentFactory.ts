@@ -22,6 +22,7 @@ import RevokeDataSponsorshipComponent from './revokeDataSponsorship/RevokeDataSp
 import RevokeLiquidityPoolSponsorshipComponent from './revokeLiquidityPoolSponsorship/RevokeLiquidityPoolSponsorship';
 import RevokeOfferSponsorshipComponent from './revokeOfferSponsorship/RevokeOfferSponsorship';
 import ClaimClaimableBalanceComponent from './claimClaimableBalance/ClaimClaimableBalance';
+import RevokeTrustlineSponsorshipComponent from './revokeTrustlineSponsorship/RevokeTrustlineSponsorship';
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
@@ -105,6 +106,12 @@ export default class DynamicOperationComponentFactory {
                 break;
             case 'claimClaimableBalance':
                 operationComponent = new ClaimClaimableBalanceComponent(tx, operation);
+                break;
+            case 'revokeTrustlineSponsorship' as 'revokeSponsorship':
+                operationComponent = new RevokeTrustlineSponsorshipComponent(
+                    tx,
+                    operation as Operation.RevokeTrustlineSponsorship,
+                );
                 break;
             default:
                 undefined;
