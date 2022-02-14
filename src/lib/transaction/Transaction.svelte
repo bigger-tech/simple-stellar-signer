@@ -48,9 +48,11 @@
         {#await keyPair then data}
             {#if description}
                 <div class="simple-signer tx-description">
+                    <h3>Description</h3>
                     <p>{description}</p>
                 </div>
             {/if}
+            <h3>Transaction</h3>
             <p class="src-account">
                 Source account: {tx ? tx.source : ''}
             </p>
