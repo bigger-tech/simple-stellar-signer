@@ -23,9 +23,8 @@ import {
     revokeDataSponsorshipXdr,
     revokeLiquidityPoolSponsorshipXdr,
     revokeOfferSponsorshipXdr,
-    liquidityPoolDepositXdr,
-    clawbackClaimableBalanceXdr,
-    clawbackXdr,
+    setTrustLineFlagsXdr,
+    liquidityPoolWithdrawXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -302,5 +301,17 @@ describe('operations', () => {
         cy.get('.clawback-operation').contains('Amount: 2.0000000');
         cy.get('.clawback-operation').contains('From: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
 
+    });
+    it('should render liquidity pool withdraw operation', () => {
+        cy.visit(`${BASE_URL}${liquidityPoolWithdrawXdr}`);
+        cy.get('.liquidity-pool-withdraw-operation').contains(
+            'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+        );
+        cy.get('.liquidity-pool-withdraw-operation').contains(
+            'Liquidity pool ID: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9',
+        );
+        cy.get('.liquidity-pool-withdraw-operation').contains('Amount: 20.0000000');
+        cy.get('.liquidity-pool-withdraw-operation').contains('Minimum amount A: 2.0000000');
+        cy.get('.liquidity-pool-withdraw-operation').contains('Minimum amount B: 2.0000000');
     });
 });
