@@ -1,9 +1,8 @@
-import albedo from '@albedo-link/intent';
 import { sendMessage } from '../../../../helpers/sendMessageHelpers';
 import { storeItem } from '../../../../helpers/storage';
-export class Albedo {
+export default class Albedo {
     async getPublicKey(): Promise<string> {
-        const requestPubKey = await albedo.publicKey({
+        const requestPubKey = await window.albedo.publicKey({
             token: `${btoa(Math.random().toString() + Math.random().toString())}`,
         });
         const publicKey = requestPubKey.pubkey;

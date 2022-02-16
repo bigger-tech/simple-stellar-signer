@@ -2,12 +2,9 @@ import { sendMessage } from '../../../../helpers/sendMessageHelpers';
 import type { Transaction } from 'stellar-sdk';
 import { storeItem } from '../../../../helpers/storage';
 
-export class XBull {
+export default class XBull {
     async getPublicKey(): Promise<string> {
-        await window.xBullSDK.connect({
-            canRequestPublicKey: true,
-            canRequestSign: true,
-        });
+        await window.xBullSDK.connect({ canRequestPublicKey: true, canRequestSign: true });
         const publicKey = await window.xBullSDK.getPublicKey();
         return publicKey;
     }

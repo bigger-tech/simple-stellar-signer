@@ -4,13 +4,13 @@
     import { getItem } from '../../helpers/storage';
     import { writable } from 'svelte/store';
     import { Transaction, xdr } from 'stellar-sdk';
-    import { signTx } from '../../routes/sign/signHelper';
     import { Link } from 'svelte-navigator';
     import { getStoredPair } from '../../helpers/keyManager';
     import { decryptPrivateKey } from '../../helpers/security';
     import { getStellarKeypair } from '../../routes/connect/connectHelpers';
     import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
-    import { XBull } from '../../routes/connect/ui/wallets/XBull';
+    import XBull from '../../routes/connect/ui/wallets/XBull';
+    import PrivateKey from '../../routes/connect/ui/wallets/PrivateKey';
 
     async function getKeyPair(): Promise<Keypair> {
         const storedPair = getStoredPair();
@@ -64,7 +64,9 @@
             </div>
 
             {#if privateKey}
-                <button class="simple-signer sign-tx" on:click="{async () => signTx(tx, await keyPair)}"
+                <button
+                    class="simple-signer sign-tx"
+                    on:click="{async () => new PrivateKey().signTx(tx, await keyPair)}"
                     >Sign Transaction with Private Key</button
                 >
             {:else if xBull}

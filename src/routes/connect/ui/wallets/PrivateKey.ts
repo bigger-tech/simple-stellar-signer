@@ -3,14 +3,14 @@ import { sendMessage } from '../../../../helpers/sendMessageHelpers';
 import InvalidPrivateKeyError from '../../errors/InvalidPrivateKeyError';
 import type { Transaction, Keypair } from 'stellar-sdk';
 
-export class PrivateKey {
-    async getPublicKey(privateKey: string) {
+export default class PrivateKey {
+    async getPublicKey(privateKey: string): Promise<string> {
         const stellarKeyPair = await getStellarKeypair(privateKey);
         const publicKey = stellarKeyPair.publicKey();
         return publicKey;
     }
 
-    async logIn(privateKey: string) {
+    async logIn(privateKey: string): Promise<void> {
         try {
             const publicKey = await this.getPublicKey(privateKey);
             encryptPrivateKey(privateKey);
@@ -22,10 +22,10 @@ export class PrivateKey {
         }
     }
 
-    signTx(tx: Transaction, secretKey: Keypair) {
-        const signTx = tx.sign(secretKey);
-        const txSigned = tx.toXDR();
-        sendMessage(txSigned);
-        return signTx;
+    signTx(tx: Transaction, secretKey: Keypair): string {
+        tx.sign(secretKey);
+        const signedXDR = tx.toXDR();
+        sendMessage(signedXDR);
+        return signedXDR;
     }
 }

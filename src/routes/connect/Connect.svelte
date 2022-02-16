@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { Albedo } from './ui/wallets/Albedo';
-    import { Freighter } from './ui/wallets/Freighter';
-    import { XBull } from './ui/wallets/XBull';
-    import { PrivateKey } from './ui/wallets/PrivateKey';
+    import Albedo from './ui/wallets/Albedo';
+    import Freighter from './ui/wallets/Freighter';
+    import XBull from './ui/wallets/XBull';
+    import PrivateKey from './ui/wallets/PrivateKey';
     import { onMount } from 'svelte';
     import { inputValue, isPrivateKeyVisible, isWalletHidden } from './connectStore';
     import { decryptPrivatePair } from './connectHelpers';
