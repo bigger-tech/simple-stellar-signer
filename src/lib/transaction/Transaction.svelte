@@ -9,6 +9,8 @@
     import { decryptPrivateKey } from '../../helpers/security';
     import { getStellarKeypair } from '../../routes/connect/connectHelpers';
     import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
+    import Signatures from './Signatures.svelte';
+
     import sendMessage from '../../helpers/sendMessageHelpers';
     import XBull from '../../routes/connect/ui/wallets/XBull';
     import PrivateKey from '../../routes/connect/ui/wallets/PrivateKey';
@@ -60,6 +62,7 @@
                 Time bounds: {tx ? `Min time ${tx.timeBounds?.minTime} Max time ${tx.timeBounds?.maxTime}` : ''}
             </p>
             <p>Fee: {tx.fee}</p>
+            <Signatures signatures="{tx.signatures}" />
 
             <div class="simple-signer operations-container">
                 {#each operationComponents as operation}
