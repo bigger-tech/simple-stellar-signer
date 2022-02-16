@@ -13,6 +13,10 @@
     import XBull from '../../routes/connect/ui/wallets/XBull';
     import PrivateKey from '../../routes/connect/ui/wallets/PrivateKey';
 
+    let keyPair: Promise<Keypair>;
+    const xBull = getItem('xbull');
+    const privateKey = getItem('privateKey');
+
     async function getKeyPair(): Promise<Keypair> {
         const storedPair = getStoredPair();
         const privateKey = await decryptPrivateKey(storedPair.privateKey, storedPair.cryptoKey);
@@ -20,7 +24,9 @@
         return keyPair;
     }
 
-    const keyPair = getKeyPair();
+    if (privateKey) {
+        keyPair = getKeyPair();
+    }
 
     let tx: Transaction;
     let operationComponents: typeof OperationComponentTypes[] = [];
@@ -41,9 +47,6 @@
     } catch (error) {
         console.error(error);
     }
-
-    const xBull = getItem('xbull');
-    const privateKey = getItem('privateKey');
 </script>
 
 {#if $isValidXdr}
