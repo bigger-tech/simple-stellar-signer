@@ -1,5 +1,5 @@
 import { getPublicKey } from '@stellar/freighter-api';
-import { sendMessage } from '../../../../helpers/sendMessageHelpers';
+import sendMessage from '../../../../helpers/sendMessageHelpers';
 import { storeItem, clearStorage } from '../../../../helpers/storage';
 export default class Freighter {
     async getPublicKey(): Promise<string> {

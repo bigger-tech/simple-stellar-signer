@@ -1,4 +1,4 @@
-import { sendMessage } from '../../../../helpers/sendMessageHelpers';
+import sendMessage from '../../../../helpers/sendMessageHelpers';
 import { storeItem, clearStorage } from '../../../../helpers/storage';
 export default class Albedo {
     async getPublicKey(): Promise<string> {

@@ -9,6 +9,7 @@
     import { decryptPrivateKey } from '../../helpers/security';
     import { getStellarKeypair } from '../../routes/connect/connectHelpers';
     import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
+    import sendMessage from '../../helpers/sendMessageHelpers';
     import XBull from '../../routes/connect/ui/wallets/XBull';
     import PrivateKey from '../../routes/connect/ui/wallets/PrivateKey';
 
@@ -66,11 +67,14 @@
             {#if privateKey}
                 <button
                     class="simple-signer sign-tx"
-                    on:click="{async () => new PrivateKey().signTx(tx, await keyPair)}"
+                    on:click="{async () =>
+                        new PrivateKey().signTx(tx, await keyPair).then((signedXDR) => sendMessage(signedXDR))}"
                     >Sign Transaction with Private Key</button
                 >
             {:else if xBull}
-                <button class="simple-signer sign-tx" on:click="{async () => new XBull().signTx(tx)}"
+                <button
+                    class="simple-signer sign-tx"
+                    on:click="{async () => new XBull().signTx(tx).then((signedXDR) => sendMessage(signedXDR))}"
                     >Sign Transaction with xBull</button
                 >
             {/if}

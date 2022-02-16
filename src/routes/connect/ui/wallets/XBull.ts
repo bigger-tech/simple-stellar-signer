@@ -1,4 +1,4 @@
-import { sendMessage } from '../../../../helpers/sendMessageHelpers';
+import sendMessage from '../../../../helpers/sendMessageHelpers';
 import type { Transaction } from 'stellar-sdk';
 import { storeItem, clearStorage } from '../../../../helpers/storage';
 
@@ -18,6 +18,6 @@ export default class XBull {
 
     async signTx(tx: Transaction) {
         const signedXdr = await window.xBullSDK.signXDR(tx.toXDR());
-        sendMessage(signedXdr);
+        return signedXdr;
     }
 }
