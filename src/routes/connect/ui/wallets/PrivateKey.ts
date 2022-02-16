@@ -22,10 +22,9 @@ export default class PrivateKey {
         }
     }
 
-    signTx(tx: Transaction, secretKey: Keypair): string {
+    signTx(tx: Transaction, secretKey: Keypair): void {
         tx.sign(secretKey);
         const signedXDR = tx.toXDR();
         sendMessage(signedXDR);
-        return signedXDR;
     }
 }

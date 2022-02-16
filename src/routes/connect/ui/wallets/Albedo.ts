@@ -1,5 +1,5 @@
 import { sendMessage } from '../../../../helpers/sendMessageHelpers';
-import { storeItem } from '../../../../helpers/storage';
+import { storeItem, clearStorage } from '../../../../helpers/storage';
 export default class Albedo {
     async getPublicKey(): Promise<string> {
         const requestPubKey = await window.albedo.publicKey({
@@ -11,6 +11,7 @@ export default class Albedo {
 
     async logIn(): Promise<void> {
         const publicKey = await this.getPublicKey();
+        clearStorage();
         storeItem('albedo', publicKey);
         sendMessage(publicKey);
     }

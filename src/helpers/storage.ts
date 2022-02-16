@@ -1,8 +1,12 @@
+export function clearStorage(): void {
+    window.localStorage.clear();
+}
+
 export function storeItem(key: string, value: string): void {
-    localStorage.setItem(key, value);
+    window.localStorage.setItem(key, value);
 }
 
 export function getItem(key: string): string | null {
-    const data = localStorage.getItem(key);
+    const data = window.localStorage.getItem(key);
     return data;
 }
