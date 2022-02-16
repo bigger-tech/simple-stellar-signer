@@ -1,7 +1,10 @@
+import type IXBull from './routes/connect/ui/wallets/interfaces/IXBull';
+import type Albedo from './routes/connect/ui/wallets/interfaces/IAlbedo';
+
 declare global {
     interface Window {
-        // eslint-disable-next-line
-        xBullSDK: any;
+        xBullSDK: IXBull;
+        albedo: Albedo;
     }
 }
 
