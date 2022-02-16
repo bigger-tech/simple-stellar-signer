@@ -1,6 +1,6 @@
-export function messageHandler(message: string, url: string): string {
+export function messageHandler(message: string): string {
     const parentWindow = window.opener;
-    const sendMessage = parentWindow.postMessage(message, url);
+    const sendMessage = parentWindow.postMessage(message, '*');
     return sendMessage;
 }
 
@@ -9,6 +9,6 @@ export function closeWindowHandler() {
 }
 
 export function sendMessage(message: string) {
-    messageHandler(message, import.meta.env.VITE_HOST_SIMPLE_SIGNER_DEMO);
+    messageHandler(message);
     closeWindowHandler();
 }
