@@ -35,7 +35,8 @@
         ],
         "setupFilesAfterEnv": [
             "@testing-library/jest-dom/extend-expect"
-        ]
+        ],
+        "testEnvironment": "jsdom"
     },
     "devDependencies": {
         "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
