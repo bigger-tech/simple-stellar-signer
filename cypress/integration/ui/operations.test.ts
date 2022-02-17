@@ -274,7 +274,7 @@ describe('operations', () => {
         );
         cy.get('.allow-trust-operation').contains('Asset: AUD');
         cy.get('.allow-trust-operation').contains(
-            'Authorization: the account is authorized to transact with the asset',
+            'Authorization: The account is authorized to transact with the asset',
         );
     });
 });
