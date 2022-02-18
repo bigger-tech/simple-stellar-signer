@@ -24,7 +24,6 @@ import {
     revokeLiquidityPoolSponsorshipXdr,
     revokeOfferSponsorshipXdr,
     claimClaimableBalanceXdr,
-    revokeTrustlineSponsorshipXdr,
     clawbackXdr,
 } from '../../fixtures/operations.json';
 
@@ -269,7 +268,6 @@ describe('operations', () => {
         cy.get('.revoke-offer-sponsorship-operation').contains('Offer ID: 1234');
     });
 
-
     it('should render claim claimable balance operation', () => {
         cy.visit(`${BASE_URL}${claimClaimableBalanceXdr}`);
         cy.get('.claim-claimable-balance-operation').contains(
@@ -280,16 +278,6 @@ describe('operations', () => {
         );
     });
 
-    it('should render revoke trustline sponsorship operation', () => {
-        cy.visit(`${BASE_URL}${revokeTrustlineSponsorshipXdr}`);
-        cy.get('.revoke-trustline-sponsorship-operation').contains(
-            'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
-        );
-        cy.get('.revoke-trustline-sponsorship-operation').contains(
-            'Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
-        );
-        cy.get('.revoke-trustline-sponsorship-operation').contains('Asset: XLM');
-
     it('should render clawback operation', () => {
         cy.visit(`${BASE_URL}${clawbackXdr}`);
         cy.get('.clawback-operation').contains(
@@ -298,6 +286,5 @@ describe('operations', () => {
         cy.get('.clawback-operation').contains('Asset: AUD');
         cy.get('.clawback-operation').contains('Amount: 2.0000000');
         cy.get('.clawback-operation').contains('From: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
-
     });
 });
