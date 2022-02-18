@@ -22,14 +22,11 @@ import RevokeDataSponsorshipComponent from './revokeDataSponsorship/RevokeDataSp
 import RevokeLiquidityPoolSponsorshipComponent from './revokeLiquidityPoolSponsorship/RevokeLiquidityPoolSponsorship';
 import RevokeOfferSponsorshipComponent from './revokeOfferSponsorship/RevokeOfferSponsorship';
 import AllowTrustComponent from './allowTrust/AllowTrust';
-
 import ClaimClaimableBalanceComponent from './claimClaimableBalance/ClaimClaimableBalance';
 import ClawbackComponent from './clawback/Clawback';
-
 import SetTrustLineFlagsComponent from './setTrustLineFlags/SetTrustLineFlags';
 import LiquidityPoolWithdrawComponent from './liquidityPoolWithdraw/LiquidityPoolWithdraw';
 import LiquidityPoolDepositComponent from './liquidityPoolDeposit/LiquidityPoolDeposit';
-
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
