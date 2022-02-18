@@ -21,8 +21,14 @@ import RevokeClaimableBalanceSponsorshipComponent from './revokeClaimableBalance
 import RevokeDataSponsorshipComponent from './revokeDataSponsorship/RevokeDataSponsorship';
 import RevokeLiquidityPoolSponsorshipComponent from './revokeLiquidityPoolSponsorship/RevokeLiquidityPoolSponsorship';
 import RevokeOfferSponsorshipComponent from './revokeOfferSponsorship/RevokeOfferSponsorship';
+
 import ClaimClaimableBalanceComponent from './claimClaimableBalance/ClaimClaimableBalance';
 import ClawbackComponent from './clawback/Clawback';
+
+import SetTrustLineFlagsComponent from './setTrustLineFlags/SetTrustLineFlags';
+import LiquidityPoolWithdrawComponent from './liquidityPoolWithdraw/LiquidityPoolWithdraw';
+import LiquidityPoolDepositComponent from './liquidityPoolDeposit/LiquidityPoolDeposit';
+
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
@@ -104,11 +110,24 @@ export default class DynamicOperationComponentFactory {
                     operation as Operation.RevokeOfferSponsorship,
                 );
                 break;
+
             case 'claimClaimableBalance':
                 operationComponent = new ClaimClaimableBalanceComponent(tx, operation);
                 break;
             case 'clawback':
                 operationComponent = new ClawbackComponent(tx, operation);
+
+
+            case 'setTrustLineFlags':
+                operationComponent = new SetTrustLineFlagsComponent(tx, operation);
+                break;
+
+            case 'liquidityPoolDeposit':
+                operationComponent = new LiquidityPoolDepositComponent(tx, operation);
+                break;
+
+            case 'liquidityPoolWithdraw':
+                operationComponent = new LiquidityPoolWithdrawComponent(tx, operation);
                 break;
             default:
                 undefined;
