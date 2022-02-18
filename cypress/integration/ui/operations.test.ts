@@ -28,6 +28,7 @@ import {
     clawbackXdr,
     liquidityPoolDepositXdr,
     clawbackClaimableBalanceXdr,
+    revokeTrustLineSponsorshipXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -328,5 +329,16 @@ describe('operations', () => {
         cy.get('.liquidity-pool-withdraw-operation').contains('Amount: 20.0000000');
         cy.get('.liquidity-pool-withdraw-operation').contains('Minimum amount A: 2.0000000');
         cy.get('.liquidity-pool-withdraw-operation').contains('Minimum amount B: 2.0000000');
+    });
+
+    it('should render revoke trustline sponsorship operation', () => {
+        cy.visit(`${BASE_URL}${revokeTrustLineSponsorshipXdr}`);
+        cy.get('.revoke-trustline-sponsorship-operation').contains(
+            'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+        );
+        cy.get('.revoke-trustline-sponsorship-operation').contains(
+            'Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+        );
+        cy.get('.revoke-trustline-sponsorship-operation').contains('Asset: XLM');
     });
 });
