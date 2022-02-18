@@ -23,12 +23,10 @@ import {
     revokeDataSponsorshipXdr,
     revokeLiquidityPoolSponsorshipXdr,
     revokeOfferSponsorshipXdr,
-
+    allowTrustXdr,
     claimClaimableBalanceXdr,
-
     setTrustLineFlagsXdr,
     liquidityPoolWithdrawXdr,
-
     clawbackXdr,
     liquidityPoolDepositXdr,
     clawbackClaimableBalanceXdr,
@@ -202,6 +200,7 @@ describe('operations', () => {
         );
         cy.get('.bump-sequence-operation').contains('Bump to: 51235678');
     });
+
     it('should render create claimable balance operation', () => {
         cy.visit(`${BASE_URL}${createClaimableBalanceXdr}`);
         cy.get('.create-claimable-balance-operation').contains(
@@ -275,6 +274,16 @@ describe('operations', () => {
         cy.get('.revoke-offer-sponsorship-operation').contains('Offer ID: 1234');
     });
 
+    it('should render allow trust operation', () => {
+        cy.visit(`${BASE_URL}${allowTrustXdr}`);
+        cy.get('.allow-trust-operation').contains(
+            'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+        );
+        cy.get('.allow-trust-operation').contains('Asset: AUD');
+        cy.get('.allow-trust-operation').contains(
+            'Authorization: The account is authorized to transact with the asset',
+        );
+    });
 
     it('should render claim claimable balance operation', () => {
         cy.visit(`${BASE_URL}${claimClaimableBalanceXdr}`);
@@ -285,7 +294,6 @@ describe('operations', () => {
             'Balance ID: 00000000da0d57da7d4850e7fc10d2a9d0ebc731f7afb40574c03395b17d49149b91f5be',
         );
     });
-
 
     it('should render set trust line flags operation', () => {
         cy.visit(`${BASE_URL}${setTrustLineFlagsXdr}`);
@@ -334,6 +342,7 @@ describe('operations', () => {
         cy.get('.clawback-operation').contains('Amount: 2.0000000');
         cy.get('.clawback-operation').contains('From: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
     });
+
     it('should render liquidity pool withdraw operation', () => {
         cy.visit(`${BASE_URL}${liquidityPoolWithdrawXdr}`);
         cy.get('.liquidity-pool-withdraw-operation').contains(
