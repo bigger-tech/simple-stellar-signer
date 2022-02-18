@@ -23,12 +23,18 @@ import {
     revokeDataSponsorshipXdr,
     revokeLiquidityPoolSponsorshipXdr,
     revokeOfferSponsorshipXdr,
+    revokeSignerSponsorshipXdr,
+    revokeSignerSponsorshipSha256Xdr,
+    revokeSignerSponsorshipPreaAuthTx,
+    allowTrustXdr,
+    claimClaimableBalanceXdr,
     setTrustLineFlagsXdr,
     liquidityPoolWithdrawXdr,
     clawbackXdr,
     liquidityPoolDepositXdr,
     clawbackClaimableBalanceXdr,
-    revokeTrustLineSponsorshipXdr,
+    revokeTrustLineSponsorshipXdr
+
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -199,6 +205,7 @@ describe('operations', () => {
         );
         cy.get('.bump-sequence-operation').contains('Bump to: 51235678');
     });
+
     it('should render create claimable balance operation', () => {
         cy.visit(`${BASE_URL}${createClaimableBalanceXdr}`);
         cy.get('.create-claimable-balance-operation').contains(
@@ -272,6 +279,65 @@ describe('operations', () => {
         cy.get('.revoke-offer-sponsorship-operation').contains('Offer ID: 1234');
     });
 
+
+    it('should render revoke signer sponsorship operation', () => {
+        cy.visit(`${BASE_URL}${revokeSignerSponsorshipXdr}`);
+        cy.get('.revoke-signer-sponsorship-operation').contains(
+            'Source Account: GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB',
+        );
+        cy.get('.revoke-signer-sponsorship-operation').contains(
+            'Account: GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB',
+        );
+        cy.get('.revoke-signer-sponsorship-operation').contains(
+            'Signer: GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB',
+        );
+    });
+    it('should render revoke signer sponsorship operation with sha256 signer', () => {
+        cy.visit(`${BASE_URL}${revokeSignerSponsorshipSha256Xdr}`);
+        cy.get('.revoke-signer-sponsorship-operation').contains(
+            'Source Account: GA2FBCLFZZHJ2EPGCBV3SEVSFN3GPGTKAQL6R5C2PQA2IE2N3JLKHB7X',
+        );
+        cy.get('.revoke-signer-sponsorship-operation').contains(
+            'Account: GA2FBCLFZZHJ2EPGCBV3SEVSFN3GPGTKAQL6R5C2PQA2IE2N3JLKHB7X',
+        );
+        cy.get('.revoke-signer-sponsorship-operation').contains(
+            'Signer: a46d20e09c00a1eb32132dbf22ba2a33c511a413431e2210a53d42ab1d6d8fd4',
+        );
+    });
+
+    it('should render revoke signer sponsorship operation with preAuth signer', () => {
+        cy.visit(`${BASE_URL}${revokeSignerSponsorshipPreaAuthTx}`);
+        cy.get('.revoke-signer-sponsorship-operation').contains(
+            'Source Account: GAAKB6IS2LZDFVMIWXMHNRWQPCB7DH5GSE5OQPI6LRLTGH4FXQZ2NG4Y',
+        );
+        cy.get('.revoke-signer-sponsorship-operation').contains(
+            'Account: GAAKB6IS2LZDFVMIWXMHNRWQPCB7DH5GSE5OQPI6LRLTGH4FXQZ2NG4Y',
+        );
+        cy.get('.revoke-signer-sponsorship-operation').contains(
+            'Signer: 1df3f71325f8ed058a6307e5c59cff3d944a27bebbb55a0e7cfa5d40d1c93cd3',
+        );
+
+    it('should render allow trust operation', () => {
+        cy.visit(`${BASE_URL}${allowTrustXdr}`);
+        cy.get('.allow-trust-operation').contains(
+            'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+        );
+        cy.get('.allow-trust-operation').contains('Asset: AUD');
+        cy.get('.allow-trust-operation').contains(
+            'Authorization: The account is authorized to transact with the asset',
+        );
+    });
+
+    it('should render claim claimable balance operation', () => {
+        cy.visit(`${BASE_URL}${claimClaimableBalanceXdr}`);
+        cy.get('.claim-claimable-balance-operation').contains(
+            'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+        );
+        cy.get('.claim-claimable-balance-operation').contains(
+            'Balance ID: 00000000da0d57da7d4850e7fc10d2a9d0ebc731f7afb40574c03395b17d49149b91f5be',
+        );
+    });
+
     it('should render set trust line flags operation', () => {
         cy.visit(`${BASE_URL}${setTrustLineFlagsXdr}`);
         cy.get('.set-trust-line-flags-operation').contains(
@@ -309,6 +375,7 @@ describe('operations', () => {
             'Balance ID: 00000000da0d57da7d4850e7fc10d2a9d0ebc731f7afb40574c03395b17d49149b91f5be',
         );
     });
+
     it('should render clawback operation', () => {
         cy.visit(`${BASE_URL}${clawbackXdr}`);
         cy.get('.clawback-operation').contains(
@@ -318,6 +385,7 @@ describe('operations', () => {
         cy.get('.clawback-operation').contains('Amount: 2.0000000');
         cy.get('.clawback-operation').contains('From: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
     });
+
     it('should render liquidity pool withdraw operation', () => {
         cy.visit(`${BASE_URL}${liquidityPoolWithdrawXdr}`);
         cy.get('.liquidity-pool-withdraw-operation').contains(
@@ -329,6 +397,7 @@ describe('operations', () => {
         cy.get('.liquidity-pool-withdraw-operation').contains('Amount: 20.0000000');
         cy.get('.liquidity-pool-withdraw-operation').contains('Minimum amount A: 2.0000000');
         cy.get('.liquidity-pool-withdraw-operation').contains('Minimum amount B: 2.0000000');
+
     });
 
     it('should render revoke trustline sponsorship operation', () => {

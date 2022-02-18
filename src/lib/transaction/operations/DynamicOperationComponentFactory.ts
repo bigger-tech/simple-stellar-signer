@@ -21,10 +21,15 @@ import RevokeClaimableBalanceSponsorshipComponent from './revokeClaimableBalance
 import RevokeDataSponsorshipComponent from './revokeDataSponsorship/RevokeDataSponsorship';
 import RevokeLiquidityPoolSponsorshipComponent from './revokeLiquidityPoolSponsorship/RevokeLiquidityPoolSponsorship';
 import RevokeOfferSponsorshipComponent from './revokeOfferSponsorship/RevokeOfferSponsorship';
+import RevokeSignerSponsorshipComponent from './revokeSignerSponsorship/RevokeSignerSponsorship';
+import AllowTrustComponent from './allowTrust/AllowTrust';
+import ClaimClaimableBalanceComponent from './claimClaimableBalance/ClaimClaimableBalance';
+import ClawbackComponent from './clawback/Clawback';
 import SetTrustLineFlagsComponent from './setTrustLineFlags/SetTrustLineFlags';
 import LiquidityPoolWithdrawComponent from './liquidityPoolWithdraw/LiquidityPoolWithdraw';
 import LiquidityPoolDepositComponent from './liquidityPoolDeposit/LiquidityPoolDeposit';
 import RevokeTrustlineSponsorshipComponent from './revokeTrustLineSponsorship/revokeTrustLineSponsorship';
+
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
@@ -105,6 +110,24 @@ export default class DynamicOperationComponentFactory {
                     tx,
                     operation as Operation.RevokeOfferSponsorship,
                 );
+                break;
+
+            case 'revokeSignerSponsorship' as 'revokeSponsorship':
+                operationComponent = new RevokeSignerSponsorshipComponent(
+                    tx,
+                    operation as Operation.RevokeSignerSponsorship,
+                );
+                break;
+
+            case 'allowTrust':
+                operationComponent = new AllowTrustComponent(tx, operation);
+                break;
+
+            case 'claimClaimableBalance':
+                operationComponent = new ClaimClaimableBalanceComponent(tx, operation);
+                break;
+            case 'clawback':
+                operationComponent = new ClawbackComponent(tx, operation);
                 break;
 
             case 'setTrustLineFlags':
