@@ -28,6 +28,7 @@ import ClawbackComponent from './clawback/Clawback';
 import SetTrustLineFlagsComponent from './setTrustLineFlags/SetTrustLineFlags';
 import LiquidityPoolWithdrawComponent from './liquidityPoolWithdraw/LiquidityPoolWithdraw';
 import LiquidityPoolDepositComponent from './liquidityPoolDeposit/LiquidityPoolDeposit';
+import RevokeTrustlineSponsorshipComponent from './revokeTrustLineSponsorship/revokeTrustLineSponsorship';
 
 
 export default class DynamicOperationComponentFactory {
@@ -139,6 +140,12 @@ export default class DynamicOperationComponentFactory {
 
             case 'liquidityPoolWithdraw':
                 operationComponent = new LiquidityPoolWithdrawComponent(tx, operation);
+                break;
+            case 'revokeTrustlineSponsorship' as 'revokeSponsorship':
+                operationComponent = new RevokeTrustlineSponsorshipComponent(
+                    tx,
+                    operation as Operation.RevokeTrustlineSponsorship,
+                );
                 break;
             default:
                 undefined;
