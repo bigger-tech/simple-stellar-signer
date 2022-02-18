@@ -23,6 +23,7 @@ import RevokeLiquidityPoolSponsorshipComponent from './revokeLiquidityPoolSponso
 import RevokeOfferSponsorshipComponent from './revokeOfferSponsorship/RevokeOfferSponsorship';
 import SetTrustLineFlagsComponent from './setTrustLineFlags/SetTrustLineFlags';
 import LiquidityPoolWithdrawComponent from './liquidityPoolWithdraw/LiquidityPoolWithdraw';
+import LiquidityPoolDepositComponent from './liquidityPoolDeposit/LiquidityPoolDeposit';
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
@@ -108,11 +109,11 @@ export default class DynamicOperationComponentFactory {
             case 'setTrustLineFlags':
                 operationComponent = new SetTrustLineFlagsComponent(tx, operation);
                 break;
-            
+
             case 'liquidityPoolDeposit':
                 operationComponent = new LiquidityPoolDepositComponent(tx, operation);
                 break;
-            
+
             case 'liquidityPoolWithdraw':
                 operationComponent = new LiquidityPoolWithdrawComponent(tx, operation);
                 break;
