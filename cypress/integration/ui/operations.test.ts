@@ -23,8 +23,12 @@ import {
     revokeDataSponsorshipXdr,
     revokeLiquidityPoolSponsorshipXdr,
     revokeOfferSponsorshipXdr,
+
+    claimClaimableBalanceXdr,
+
     setTrustLineFlagsXdr,
     liquidityPoolWithdrawXdr,
+
     clawbackXdr,
     liquidityPoolDepositXdr,
     clawbackClaimableBalanceXdr,
@@ -271,6 +275,18 @@ describe('operations', () => {
         cy.get('.revoke-offer-sponsorship-operation').contains('Offer ID: 1234');
     });
 
+
+    it('should render claim claimable balance operation', () => {
+        cy.visit(`${BASE_URL}${claimClaimableBalanceXdr}`);
+        cy.get('.claim-claimable-balance-operation').contains(
+            'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+        );
+        cy.get('.claim-claimable-balance-operation').contains(
+            'Balance ID: 00000000da0d57da7d4850e7fc10d2a9d0ebc731f7afb40574c03395b17d49149b91f5be',
+        );
+    });
+
+
     it('should render set trust line flags operation', () => {
         cy.visit(`${BASE_URL}${setTrustLineFlagsXdr}`);
         cy.get('.set-trust-line-flags-operation').contains(
@@ -308,6 +324,7 @@ describe('operations', () => {
             'Balance ID: 00000000da0d57da7d4850e7fc10d2a9d0ebc731f7afb40574c03395b17d49149b91f5be',
         );
     });
+
     it('should render clawback operation', () => {
         cy.visit(`${BASE_URL}${clawbackXdr}`);
         cy.get('.clawback-operation').contains(
