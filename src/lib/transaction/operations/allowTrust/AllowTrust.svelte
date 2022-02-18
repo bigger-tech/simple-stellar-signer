@@ -14,9 +14,9 @@
 
     {#if authorize === 2}
         <p>Authorization: The account is authorized to maintain orders, but not to perform other transactions</p>
-    {:else if authorize == true}
+    {:else if authorize}
         <p>Authorization: The account is authorized to transact with the asset</p>
-    {:else if authorize == false}
+    {:else}
         <p>Authorization: The account is not authorized to transact with the asset</p>
     {/if}
 </div>
