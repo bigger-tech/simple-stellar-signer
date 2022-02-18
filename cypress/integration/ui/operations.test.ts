@@ -33,8 +33,7 @@ import {
     clawbackXdr,
     liquidityPoolDepositXdr,
     clawbackClaimableBalanceXdr,
-    revokeTrustLineSponsorshipXdr
-
+    revokeTrustLineSponsorshipXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -279,7 +278,6 @@ describe('operations', () => {
         cy.get('.revoke-offer-sponsorship-operation').contains('Offer ID: 1234');
     });
 
-
     it('should render revoke signer sponsorship operation', () => {
         cy.visit(`${BASE_URL}${revokeSignerSponsorshipXdr}`);
         cy.get('.revoke-signer-sponsorship-operation').contains(
@@ -316,6 +314,7 @@ describe('operations', () => {
         cy.get('.revoke-signer-sponsorship-operation').contains(
             'Signer: 1df3f71325f8ed058a6307e5c59cff3d944a27bebbb55a0e7cfa5d40d1c93cd3',
         );
+    });
 
     it('should render allow trust operation', () => {
         cy.visit(`${BASE_URL}${allowTrustXdr}`);
@@ -397,7 +396,6 @@ describe('operations', () => {
         cy.get('.liquidity-pool-withdraw-operation').contains('Amount: 20.0000000');
         cy.get('.liquidity-pool-withdraw-operation').contains('Minimum amount A: 2.0000000');
         cy.get('.liquidity-pool-withdraw-operation').contains('Minimum amount B: 2.0000000');
-
     });
 
     it('should render revoke trustline sponsorship operation', () => {
