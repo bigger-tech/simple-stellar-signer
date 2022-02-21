@@ -17,7 +17,7 @@ describe('checks that the /sign component works', () => {
         cy.visit(`${url}sign?xdr=${paymentXdr}`);
         cy.get('.src-account').contains(sourceAccount);
         cy.get('.payment-operation').contains(paymentRecipient);
-
+    });
 
     it('should render an error if xdr is invalid', () => {
         cy.visit(url);
