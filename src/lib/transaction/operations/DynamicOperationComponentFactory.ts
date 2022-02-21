@@ -29,7 +29,7 @@ import SetTrustLineFlagsComponent from './setTrustLineFlags/SetTrustLineFlags';
 import LiquidityPoolWithdrawComponent from './liquidityPoolWithdraw/LiquidityPoolWithdraw';
 import LiquidityPoolDepositComponent from './liquidityPoolDeposit/LiquidityPoolDeposit';
 import RevokeTrustlineSponsorshipComponent from './revokeTrustLineSponsorship/revokeTrustLineSponsorship';
-
+import ClawbackClaimableBalanceComponent from './clawbackClaimableBalance/ClawbackClaimableBalance';
 
 export default class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
@@ -146,6 +146,9 @@ export default class DynamicOperationComponentFactory {
                     tx,
                     operation as Operation.RevokeTrustlineSponsorship,
                 );
+                break;
+            case 'clawbackClaimableBalance':
+                operationComponent = new ClawbackClaimableBalanceComponent(tx, operation);
                 break;
             default:
                 undefined;

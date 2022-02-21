@@ -26,7 +26,7 @@ import type SetTrustLineFlagsComponent from './setTrustLineFlags/SetTrustLineFla
 import type LiquidityPoolWithdrawComponent from './liquidityPoolWithdraw/LiquidityPoolWithdraw';
 import type LiquidityPoolDepositComponent from './liquidityPoolDeposit/LiquidityPoolDeposit';
 import type RevokeTrustlineSponsorshipComponent from './revokeTrustLineSponsorship/revokeTrustLineSponsorship';
-
+import type ClawbackClaimableBalanceComponent from './clawbackClaimableBalance/ClawbackClaimableBalance';
 
 export let OperationComponentTypes:
     | PaymentComponent
@@ -56,6 +56,5 @@ export let OperationComponentTypes:
     | SetTrustLineFlagsComponent
     | LiquidityPoolWithdrawComponent
     | LiquidityPoolDepositComponent
-    | RevokeTrustlineSponsorshipComponent;
-
-
+    | RevokeTrustlineSponsorshipComponent
+    | ClawbackClaimableBalanceComponent;

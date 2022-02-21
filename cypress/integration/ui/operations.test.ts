@@ -368,7 +368,7 @@ describe('operations', () => {
     it('should render clawback claimable balance operation', () => {
         cy.visit(`${BASE_URL}${clawbackClaimableBalanceXdr}`);
         cy.get('.clawback-claimable-balance-operation').contains(
-            'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+            'Source Account: GCKIJAGP35IRNIF4U3C7Z5LQ5FJXKHQMVN7APY4OZIIGK5RKX274RJJU',
         );
         cy.get('.clawback-claimable-balance-operation').contains(
             'Balance ID: 00000000da0d57da7d4850e7fc10d2a9d0ebc731f7afb40574c03395b17d49149b91f5be',
