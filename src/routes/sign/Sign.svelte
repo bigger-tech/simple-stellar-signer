@@ -22,7 +22,6 @@
         if (e.origin !== 'https://localhost:3000') {
             return;
         } else {
-            console.log(e);
             if ('xdr' in e.data) {
                 $xdr = e.data.xdr;
             }
