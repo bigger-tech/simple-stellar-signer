@@ -1,5 +1,4 @@
-export function getParamsFromUrl() {
-    const queryString = window.location.search;
+export function getParamsFromUrl(queryString: string) {
     const urlParams = new URLSearchParams(queryString);
     const xdrParam = urlParams.get('xdr');
     const descriptionParam = urlParams.get('description');
@@ -12,6 +11,6 @@ export function getParamsFromUrl() {
         urlXdr = xdrParam.replace(/\s/g, '+');
         return { xdr: urlXdr, description: '' };
     } else {
-        return undefined;
+        return { xdr: '', description: '' };
     }
 }

@@ -3,7 +3,8 @@
     import { getParamsFromUrl } from './signHelpers';
     import { xdr, description, isWaiting } from './signStore';
 
-    const urlParams = getParamsFromUrl();
+    const queryString = window.location.search;
+    const urlParams = getParamsFromUrl(queryString);
 
     if (urlParams) {
         $xdr = urlParams.xdr;
