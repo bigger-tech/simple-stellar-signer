@@ -1,20 +1,18 @@
 <script lang="ts">
     import Transaction from '../../lib/transaction/Transaction.svelte';
-    import { xdr, description, waiting } from './signStore';
+    import { getParamsFromUrl } from './signHelpers';
+    import { xdr, description, isWaiting } from './signStore';
 
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const xdrParam = urlParams.get('xdr');
-    const descriptionParam = urlParams.get('description');
-    let urlXdr: string;
+    const urlParams = getParamsFromUrl();
 
-    if (xdrParam) {
-        urlXdr = xdrParam.replace(/\s/g, '+');
+    if (urlParams) {
+        $xdr = urlParams.xdr;
+        $description = urlParams.description;
     }
 
     setTimeout(() => {
-        if (!$xdr || !urlXdr) {
-            $waiting = false;
+        if (!$xdr) {
+            $isWaiting = false;
         }
     }, 2000);
 
@@ -35,9 +33,9 @@
 
 <h1>Sign</h1>
 
-{#if $xdr || xdrParam}
-    <Transaction txXdr="{$xdr || urlXdr}" description="{$description || descriptionParam}" />
-{:else if $waiting}
+{#if $xdr}
+    <Transaction txXdr="{$xdr}" description="{$description}" />
+{:else if $isWaiting}
     <p>Loading...</p>
 {:else}
     <h1>XDR NULL</h1>
