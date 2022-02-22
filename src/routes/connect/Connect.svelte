@@ -3,11 +3,12 @@
     import Freighter from './ui/wallets/Freighter';
     import XBull from './ui/wallets/XBull';
     import PrivateKey from './ui/wallets/PrivateKey';
+    import Rabet from './ui/wallets/Rabet';
     import { onMount } from 'svelte';
     import { inputValue, isPrivateKeyVisible, isWalletHidden } from './connectStore';
     import { decryptPrivatePair } from './connectHelpers';
     import StorageKeyNotFoundError from './errors/StorageKeyNotFoundError';
-    import { albedo, xBull, freighter, privateKey } from '../../assets/index';
+    import { albedo, xBull, freighter, privateKey, rabet } from '../../assets/index';
 
     async function connectWithAlbedo() {
         return new Albedo().logIn();
@@ -19,6 +20,10 @@
 
     async function connectWithXBull() {
         return new XBull().logIn();
+    }
+
+    async function connectWithRabet() {
+        return new Rabet().logIn();
     }
 
     async function connectWithSecretKey(privateKey: string): Promise<void> {
@@ -60,6 +65,12 @@
         </button>
     {:else}
         <div class="simple-signer-wallets">
+            <div class="simple-signer rabet-container">
+                <a href="{'#'}" class="connect-rabet" on:click="{() => connectWithRabet()}">
+                    <img class="simple-signer rabet-logo" src="{rabet}" alt="albedo logo" width="35" height="45" />
+                    <p class="simple-signer wallet-rabet-title">Rabet</p>
+                </a>
+            </div>
             <div class="simple-signer albedo-container">
                 <a href="{'#'}" class="connect-albedo" on:click="{() => connectWithAlbedo()}">
                     <img class="simple-signer albedo-logo" src="{albedo}" alt="albedo logo" width="35" height="45" />
@@ -112,6 +123,7 @@
         text-align: center;
         width: 290px;
     }
+    .rabet-logo,
     .albedo-logo,
     .xbull-logo,
     .private-key-logo {
@@ -120,6 +132,7 @@
     .freighter-logo {
         margin-top: 28px;
     }
+    .wallet-rabet-title,
     .wallet-albedo-title,
     .wallet-xbull-title,
     .wallet-private-key-title {
@@ -130,6 +143,7 @@
         margin-top: 7px;
     }
 
+    .wallet-rabet-title:hover,
     .wallet-albedo-title:hover,
     .wallet-xbull-title:hover,
     .wallet-private-key-title:hover,
@@ -141,6 +155,7 @@
         text-decoration: inherit;
         color: inherit;
     }
+    .rabet-container,
     .albedo-container,
     .freighter-container,
     .xbull-container,
@@ -154,6 +169,7 @@
         margin-top: 18px;
     }
     @media screen and (max-width: 291px) {
+        .rabet-container,
         .albedo-container,
         .freighter-container,
         .xbull-container,

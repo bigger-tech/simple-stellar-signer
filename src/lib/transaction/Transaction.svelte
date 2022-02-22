@@ -15,12 +15,14 @@
     import PrivateKey from '../../routes/connect/ui/wallets/PrivateKey';
     import Freighter from '../../routes/connect/ui/wallets/Freighter';
     import Albedo from '../../routes/connect/ui/wallets/Albedo';
+    import Rabet from '../../routes/connect/ui/wallets/Rabet';
 
     let keyPair: Promise<Keypair>;
     const xBull = getItem('xbull');
     const privateKey = getItem('privateKey');
     const freighter = getItem('freighter');
     const albedo = getItem('albedo');
+    const rabet = getItem('rabet');
 
     async function getKeyPair(): Promise<Keypair> {
         const storedPair = getStoredPair();
@@ -56,7 +58,7 @@
 
 {#if $isValidXdr}
     <div class="simple-signer payment-tx">
-        {#if xBull || privateKey || freighter || albedo}
+        {#if xBull || privateKey || freighter || albedo || rabet}
             <p class="src-account">
                 Source account: {tx ? tx.source : ''}
             </p>
@@ -97,6 +99,12 @@
                     class="simple-signer sign-tx"
                     on:click="{async () => new Albedo().signTx(tx).then((signedXDR) => sendMessage(signedXDR))}"
                     >Sign Transaction with Albedo</button
+                >
+            {:else if rabet}
+                <button
+                    class="simple-signer sign-tx"
+                    on:click="{async () => new Rabet().signTx(tx).then((signedXDR) => sendMessage(signedXDR))}"
+                    >Sign Transaction with Rabet</button
                 >
             {/if}
         {:else}
