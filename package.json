@@ -35,7 +35,8 @@
         ],
         "setupFilesAfterEnv": [
             "@testing-library/jest-dom/extend-expect"
-        ]
+        ],
+        "testEnvironment": "jsdom"
     },
     "devDependencies": {
         "@esbuild-plugins/node-globals-polyfill": "^0.1.1",
@@ -71,6 +72,7 @@
         "vite": "^2.7.2"
     },
     "dependencies": {
+        "@stellar/freighter-api": "^1.1.2",
         "stellar-sdk": "^10.0.0"
     }
 }
