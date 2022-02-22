@@ -14,7 +14,7 @@
     import XBull from '../../routes/connect/ui/wallets/XBull';
     import PrivateKey from '../../routes/connect/ui/wallets/PrivateKey';
 
-    export let txXdr: string | undefined;
+    export let txXdr: string;
     export let description: string | null;
 
     let keyPair: Promise<Keypair>;
