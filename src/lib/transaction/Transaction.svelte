@@ -10,10 +10,12 @@
     import { getStellarKeypair } from '../../routes/connect/connectHelpers';
     import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
     import Signatures from './Signatures.svelte';
-
     import sendMessage from '../../helpers/sendMessageHelpers';
     import XBull from '../../routes/connect/ui/wallets/XBull';
     import PrivateKey from '../../routes/connect/ui/wallets/PrivateKey';
+
+    export let txXdr: string | undefined;
+    export let description: string | null;
 
     let keyPair: Promise<Keypair>;
     const xBull = getItem('xbull');
@@ -34,23 +36,20 @@
     let operationComponents: typeof OperationComponentTypes[] = [];
     const isValidXdr = writable(false);
 
-    const queryString = window.location.search;
-    const urlParams = new URLSearchParams(queryString);
-    const xdrValue = urlParams.get('xdr')?.replace(/\s/g, '+');
-    const description = urlParams.get('description');
+    if (txXdr) {
+        try {
+            $isValidXdr = xdr.TransactionEnvelope.validateXDR(txXdr, 'base64');
+            tx = new Transaction(txXdr, import.meta.env.VITE_HORIZON_NETWORK_PASSPHRASE);
 
-    try {
-        $isValidXdr = xdr.TransactionEnvelope.validateXDR(xdrValue!, 'base64');
-        tx = new Transaction(xdrValue!, import.meta.env.VITE_HORIZON_NETWORK_PASSPHRASE);
+            const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
 
-        const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
-
-        for (let i = 0; i < tx.operations.length; i++) {
-            let operationComponent = dynamicOperationComponentFactory.create(tx, tx.operations[i]!);
-            operationComponents.push(operationComponent);
+            for (let i = 0; i < tx.operations.length; i++) {
+                let operationComponent = dynamicOperationComponentFactory.create(tx, tx.operations[i]!);
+                operationComponents.push(operationComponent);
+            }
+        } catch (e) {
+            console.error({ invalidUrl: e });
         }
-    } catch (e) {
-        console.error({ invalidUrl: e });
     }
 </script>
 
@@ -101,5 +100,5 @@
         {/if}
     </div>
 {:else}
-    <h1>INVALID OR NULL XDR</h1>
+    <h1>INVALID XDR</h1>
 {/if}
