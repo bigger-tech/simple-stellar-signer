@@ -35,7 +35,7 @@
 <h1>Sign</h1>
 
 {#if $xdr}
-    <Transaction txXdr="{$xdr}" description="{$description}" />
+    <Transaction txParams="{{ xdr: $xdr, description: $description }}" />
 {:else if $isWaiting}
     <p>Loading...</p>
 {:else}

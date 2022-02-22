@@ -2,6 +2,7 @@
     import type { Keypair } from 'stellar-sdk';
     import type { OperationComponentTypes } from './operations/OperationComponentTypes';
     import type IxdrInvalid from '../errors/IxdrInvalid';
+    import type ITxParams from './ITxParams';
     import { getItem } from '../../helpers/storage';
     import { writable } from 'svelte/store';
     import { Transaction, xdr } from 'stellar-sdk';
@@ -15,8 +16,7 @@
     import XBull from '../../routes/connect/ui/wallets/XBull';
     import PrivateKey from '../../routes/connect/ui/wallets/PrivateKey';
 
-    export let txXdr: string;
-    export let description: string | null;
+    export let txParams: ITxParams;
 
     let keyPair: Promise<Keypair>;
     const xBull = getItem('xbull');
@@ -38,8 +38,8 @@
     const isValidXdr = writable(false);
 
     try {
-        $isValidXdr = xdr.TransactionEnvelope.validateXDR(txXdr, 'base64');
-        tx = new Transaction(txXdr, import.meta.env.VITE_HORIZON_NETWORK_PASSPHRASE);
+        $isValidXdr = xdr.TransactionEnvelope.validateXDR(txParams.xdr, 'base64');
+        tx = new Transaction(txParams.xdr, import.meta.env.VITE_HORIZON_NETWORK_PASSPHRASE);
 
         const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
 
@@ -56,10 +56,10 @@
 </script>
 
 {#if $isValidXdr}
-    {#if description}
+    {#if txParams.description}
         <div class="simple-signer tx-description">
             <h3>Description</h3>
-            <p>{description}</p>
+            <p>{txParams.description}</p>
         </div>
     {/if}
 
