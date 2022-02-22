@@ -1,5 +1,7 @@
 import sendMessage from '../../../../helpers/sendMessageHelpers';
 import { storeItem, clearStorage } from '../../../../helpers/storage';
+import type { Transaction } from 'stellar-sdk';
+
 export default class Albedo {
     async getPublicKey(): Promise<string> {
         const requestPubKey = await window.albedo.publicKey({
@@ -14,5 +16,10 @@ export default class Albedo {
         clearStorage();
         storeItem('albedo', publicKey);
         sendMessage(publicKey);
+    }
+
+    async signTx(tx: Transaction) {
+        const signedXdr = await window.albedo.tx({ xdr: tx.toXDR(), network: 'testnet' });
+        return signedXdr.signed_envelope_xdr;
     }
 }

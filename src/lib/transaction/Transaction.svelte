@@ -14,11 +14,13 @@
     import XBull from '../../routes/connect/ui/wallets/XBull';
     import PrivateKey from '../../routes/connect/ui/wallets/PrivateKey';
     import Freighter from '../../routes/connect/ui/wallets/Freighter';
+    import Albedo from '../../routes/connect/ui/wallets/Albedo';
 
     let keyPair: Promise<Keypair>;
     const xBull = getItem('xbull');
     const privateKey = getItem('privateKey');
     const freighter = getItem('freighter');
+    const albedo = getItem('albedo');
 
     async function getKeyPair(): Promise<Keypair> {
         const storedPair = getStoredPair();
@@ -54,7 +56,7 @@
 
 {#if $isValidXdr}
     <div class="simple-signer payment-tx">
-        {#if xBull || privateKey || freighter}
+        {#if xBull || privateKey || freighter || albedo}
             <p class="src-account">
                 Source account: {tx ? tx.source : ''}
             </p>
@@ -89,6 +91,12 @@
                     class="simple-signer sign-tx"
                     on:click="{async () => new Freighter().signTx(tx).then((signedXDR) => sendMessage(signedXDR))}"
                     >Sign Transaction with Freighter</button
+                >
+            {:else if albedo}
+                <button
+                    class="simple-signer sign-tx"
+                    on:click="{async () => new Albedo().signTx(tx).then((signedXDR) => sendMessage(signedXDR))}"
+                    >Sign Transaction with Albedo</button
                 >
             {/if}
         {:else}
