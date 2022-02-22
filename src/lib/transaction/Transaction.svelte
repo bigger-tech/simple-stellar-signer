@@ -1,6 +1,7 @@
 <script lang="ts">
     import type { Keypair } from 'stellar-sdk';
     import type { OperationComponentTypes } from './operations/OperationComponentTypes';
+    import type IxdrInvalid from '../errors/IxdrInvalid';
     import { getItem } from '../../helpers/storage';
     import { writable } from 'svelte/store';
     import { Transaction, xdr } from 'stellar-sdk';
@@ -47,7 +48,10 @@
             operationComponents.push(operationComponent);
         }
     } catch (e) {
-        console.error({ invalidUrl: e });
+        const invalidXdr: IxdrInvalid = {
+            invalidXdrError: e,
+        };
+        console.error(invalidXdr);
     }
 </script>
 
