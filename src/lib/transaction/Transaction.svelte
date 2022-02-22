@@ -36,20 +36,18 @@
     let operationComponents: typeof OperationComponentTypes[] = [];
     const isValidXdr = writable(false);
 
-    if (txXdr) {
-        try {
-            $isValidXdr = xdr.TransactionEnvelope.validateXDR(txXdr, 'base64');
-            tx = new Transaction(txXdr, import.meta.env.VITE_HORIZON_NETWORK_PASSPHRASE);
+    try {
+        $isValidXdr = xdr.TransactionEnvelope.validateXDR(txXdr, 'base64');
+        tx = new Transaction(txXdr, import.meta.env.VITE_HORIZON_NETWORK_PASSPHRASE);
 
-            const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
+        const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
 
-            for (let i = 0; i < tx.operations.length; i++) {
-                let operationComponent = dynamicOperationComponentFactory.create(tx, tx.operations[i]!);
-                operationComponents.push(operationComponent);
-            }
-        } catch (e) {
-            console.error({ invalidUrl: e });
+        for (let i = 0; i < tx.operations.length; i++) {
+            let operationComponent = dynamicOperationComponentFactory.create(tx, tx.operations[i]!);
+            operationComponents.push(operationComponent);
         }
+    } catch (e) {
+        console.error({ invalidUrl: e });
     }
 </script>
 
