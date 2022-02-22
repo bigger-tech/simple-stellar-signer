@@ -1,11 +1,12 @@
 import StorageKeyNotFoundError from '../routes/connect/errors/StorageKeyNotFoundError';
 import type { IStoredPair } from '../routes/connect/IStoredPair';
-import { getItem, storeItem } from './storage';
+import { getItem, storeItem, clearStorage } from './storage';
 
 export const CRYPTO_KEY_ITEM_NAME = 'cryptoKey';
 export const PRIVATE_KEY_ITEM_NAME = 'privateKey';
 
 export async function storePair(privateKey: string, cryptoKey: string): Promise<void> {
+    clearStorage();
     storeItem(CRYPTO_KEY_ITEM_NAME, cryptoKey);
     storeItem(PRIVATE_KEY_ITEM_NAME, privateKey);
 }
