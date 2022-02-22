@@ -10,14 +10,15 @@
     import { getStellarKeypair } from '../../routes/connect/connectHelpers';
     import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
     import Signatures from './Signatures.svelte';
-
     import sendMessage from '../../helpers/sendMessageHelpers';
     import XBull from '../../routes/connect/ui/wallets/XBull';
     import PrivateKey from '../../routes/connect/ui/wallets/PrivateKey';
+    import Freighter from '../../routes/connect/ui/wallets/Freighter';
 
     let keyPair: Promise<Keypair>;
     const xBull = getItem('xbull');
     const privateKey = getItem('privateKey');
+    const freighter = getItem('freighter');
 
     async function getKeyPair(): Promise<Keypair> {
         const storedPair = getStoredPair();
@@ -53,7 +54,7 @@
 
 {#if $isValidXdr}
     <div class="simple-signer payment-tx">
-        {#if xBull || privateKey}
+        {#if xBull || privateKey || freighter}
             <p class="src-account">
                 Source account: {tx ? tx.source : ''}
             </p>
@@ -82,6 +83,12 @@
                     class="simple-signer sign-tx"
                     on:click="{async () => new XBull().signTx(tx).then((signedXDR) => sendMessage(signedXDR))}"
                     >Sign Transaction with xBull</button
+                >
+            {:else if freighter}
+                <button
+                    class="simple-signer sign-tx"
+                    on:click="{async () => new Freighter().signTx(tx).then((signedXDR) => sendMessage(signedXDR))}"
+                    >Sign Transaction with Freighter</button
                 >
             {/if}
         {:else}
