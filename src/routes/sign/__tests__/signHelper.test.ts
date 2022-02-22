@@ -1,12 +1,20 @@
-import PrivateKey from '../../connect/ui/wallets/PrivateKey';
-import { Transaction, Keypair } from 'stellar-sdk';
-import { MOCK_NOT_SIGNED_TRANSACTION } from '../__mocks__/transaction';
+/**
+ * @jest-environment jsdom
+ */
 import { expect } from '@jest/globals';
 
-it('Signs a transaction with a valid key pair', () => {
-    const PRIVATE_KEY = 'SA5X2XYC2E4G6VP2CKOB7RDGXEHJ6WA5TSVHGEHWNEKKXH7RZLMUOLWL';
-    const sourceKeys = Keypair.fromSecret(PRIVATE_KEY);
-    const tx = new Transaction(MOCK_NOT_SIGNED_TRANSACTION, 'Test SDF Network ; September 2015');
-    new PrivateKey().signTx(tx, sourceKeys);
-    expect(tx.signatures).toHaveLength(1);
+import { getParamsFromUrl } from '../signHelpers';
+
+it('should get url params', () => {
+    const urlWithGoodParams = 'xdr=1234&description=1234';
+    const params = getParamsFromUrl(urlWithGoodParams);
+    expect(params.xdr).toBe('1234');
+    expect(params.description).toBe('1234');
+});
+
+it('should not get url params', () => {
+    const urlWithBadParams = 'xdrr=1234&descriptions=1234';
+    const params = getParamsFromUrl(urlWithBadParams);
+    expect(params.xdr).toBe('');
+    expect(params.description).toBe('');
 });
