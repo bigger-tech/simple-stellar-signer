@@ -102,5 +102,5 @@
         {/if}
     </div>
 {:else}
-    <h1>INVALID XDR</h1>
+    <h1>Sorry, the XDR is invalid</h1>
 {/if}

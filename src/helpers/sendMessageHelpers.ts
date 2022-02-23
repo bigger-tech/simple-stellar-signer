@@ -1,4 +1,4 @@
-function messageHandler(message: string): string {
+export function messageHandler(message: string): string {
     const parentWindow = window.opener;
     const sendMessage = parentWindow.postMessage(message, '*');
     return sendMessage;

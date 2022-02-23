@@ -1,4 +1,4 @@
 export default interface ITxParams {
     xdr: string;
-    description: string;
+    description: string | undefined;
 }

@@ -1,43 +1,48 @@
 <script lang="ts">
+    import { messageHandler } from '../../helpers/sendMessageHelpers';
     import Transaction from '../../lib/transaction/Transaction.svelte';
     import { getParamsFromUrl } from './signHelpers';
-    import { xdr, description, isWaiting } from './signStore';
+    import { xdr, description, isXdrNull } from './signStore';
+    import type IxdrInvalid from '../../lib/errors/IxdrInvalid';
 
-    const queryString = window.location.search;
-    const urlParams = getParamsFromUrl(queryString);
+    try {
+        const parent = window.opener;
+        const queryString = window.location.search;
+        const urlParams = getParamsFromUrl(queryString);
 
-    if (urlParams) {
-        $xdr = urlParams.xdr;
-        $description = urlParams.description;
-    }
+        if (parent) {
+            messageHandler('Simple Signer is ready to use');
+            window.addEventListener('message', (e) => {
+                if ('xdr' in e.data && 'description' in e.data) {
+                    $xdr = e.data.xdr;
+                    $description = e.data.description;
+                } else if ('xdr' in e.data) {
+                    $xdr = e.data.xdr;
+                }
+            });
+        } else if (urlParams) {
+            $xdr = urlParams.xdr;
 
-    setTimeout(() => {
-        if (!$xdr) {
-            $isWaiting = false;
-        }
-    }, 2000);
-
-    window.addEventListener('message', (e) => {
-        if (e.origin !== 'https://localhost:3000') {
-            return;
+            if (urlParams.description) {
+                $description = urlParams.description;
+            }
         } else {
-            if ('xdr' in e.data) {
-                $xdr = e.data.xdr;
-            }
-
-            if ('description' in e.data) {
-                $description = e.data.description;
-            }
+            $isXdrNull = true;
         }
-    });
+    } catch (e) {
+        const invalidXdr: IxdrInvalid = {
+            invalidXdrError: e,
+        };
+        console.error(invalidXdr);
+    }
 </script>
 
 <h1>Sign</h1>
 
 {#if $xdr}
     <Transaction txParams="{{ xdr: $xdr, description: $description }}" />
-{:else if $isWaiting}
-    <p>Loading...</p>
+{:else if $isXdrNull}
+    <h1>Sorry, a XDR wasn't provided</h1>
 {:else}
-    <h1>XDR NULL</h1>
+    <p>Loading...</p>
 {/if}
