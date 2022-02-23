@@ -6,8 +6,6 @@ export default class Rabet {
     async getPublicKey(): Promise<string> {
         const publicKey = await window.rabet.connect().then((result) => {
             const data = result.publicKey;
-            console.log(data);
-
             return data;
         });
         return publicKey;
