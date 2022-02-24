@@ -5,21 +5,23 @@
     import { xdr, description, isXdrNull } from './signStore';
     import type IxdrInvalid from '../../lib/errors/IxdrInvalid';
 
+    function messageHandler(e: MessageEvent) {
+        if ('xdr' in e.data && 'description' in e.data) {
+            $xdr = e.data.xdr;
+            $description = e.data.description;
+        } else if ('xdr' in e.data) {
+            $xdr = e.data.xdr;
+        }
+    }
+
     try {
         const parent = window.opener;
         const queryString = window.location.search;
         const urlParams = getParamsFromUrl(queryString);
 
         if (parent) {
-            sendMessage('Simple Signer is ready to use');
-            window.addEventListener('message', (e) => {
-                if ('xdr' in e.data && 'description' in e.data) {
-                    $xdr = e.data.xdr;
-                    $description = e.data.description;
-                } else if ('xdr' in e.data) {
-                    $xdr = e.data.xdr;
-                }
-            });
+            sendMessage({ ready: true });
+            window.addEventListener('message', messageHandler);
         } else if (urlParams) {
             $xdr = urlParams.xdr;
 

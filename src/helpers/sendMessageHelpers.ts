@@ -1,7 +1,6 @@
-export function sendMessage(message: string): string {
+export function sendMessage(message: { ready?: boolean; message?: string }): void {
     const parentWindow = window.opener;
-    const sendMessage = parentWindow.postMessage(message, '*');
-    return sendMessage;
+    parentWindow.postMessage(message, '*');
 }
 
 function closeWindowHandler() {
@@ -9,6 +8,6 @@ function closeWindowHandler() {
 }
 
 export default function messageHandler(message: string) {
-    sendMessage(message);
+    sendMessage({ message });
     closeWindowHandler();
 }
