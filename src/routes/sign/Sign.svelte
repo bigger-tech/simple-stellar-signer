@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { messageHandler } from '../../helpers/sendMessageHelpers';
+    import { sendMessage } from '../../helpers/sendMessageHelpers';
     import Transaction from '../../lib/transaction/Transaction.svelte';
     import { getParamsFromUrl } from './signHelpers';
     import { xdr, description, isXdrNull } from './signStore';
@@ -11,7 +11,7 @@
         const urlParams = getParamsFromUrl(queryString);
 
         if (parent) {
-            messageHandler('Simple Signer is ready to use');
+            sendMessage('Simple Signer is ready to use');
             window.addEventListener('message', (e) => {
                 if ('xdr' in e.data && 'description' in e.data) {
                     $xdr = e.data.xdr;
