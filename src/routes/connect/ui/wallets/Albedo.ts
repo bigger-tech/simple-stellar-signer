@@ -1,5 +1,8 @@
-import sendMessage from '../../../../helpers/sendMessageHelpers';
+import type { IConnectedEvent } from 'src/helpers/eventInterfaces/IConnectedEvent';
+import { closeWindow, sendMessage } from '../../../../helpers/sendMessageHelpers';
 import { storeItem, clearStorage } from '../../../../helpers/storage';
+let connectedEvent: IConnectedEvent;
+
 export default class Albedo {
     async getPublicKey(): Promise<string> {
         const requestPubKey = await window.albedo.publicKey({
@@ -11,8 +14,16 @@ export default class Albedo {
 
     async logIn(): Promise<void> {
         const publicKey = await this.getPublicKey();
+        connectedEvent = {
+            type: 'connected',
+            message: {
+                publicKey,
+                wallet: 'albedo',
+            },
+        };
         clearStorage();
         storeItem('albedo', publicKey);
-        sendMessage(publicKey);
+        sendMessage(connectedEvent);
+        closeWindow();
     }
 }

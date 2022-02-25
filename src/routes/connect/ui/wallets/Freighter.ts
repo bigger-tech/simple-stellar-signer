@@ -1,6 +1,9 @@
+import type { IConnectedEvent } from 'src/helpers/eventInterfaces/IConnectedEvent';
 import { getPublicKey } from '@stellar/freighter-api';
-import sendMessage from '../../../../helpers/sendMessageHelpers';
+import { closeWindow, sendMessage } from '../../../../helpers/sendMessageHelpers';
 import { storeItem, clearStorage } from '../../../../helpers/storage';
+let connectedEvent: IConnectedEvent;
+
 export default class Freighter {
     async getPublicKey(): Promise<string> {
         const publicKey = await getPublicKey();
@@ -9,8 +12,16 @@ export default class Freighter {
 
     async logIn(): Promise<void> {
         const publicKey = await this.getPublicKey();
+        connectedEvent = {
+            type: 'connected',
+            message: {
+                publicKey,
+                wallet: 'freighter',
+            },
+        };
         clearStorage();
         storeItem('freighter', publicKey);
-        sendMessage(publicKey);
+        sendMessage(connectedEvent);
+        closeWindow();
     }
 }
