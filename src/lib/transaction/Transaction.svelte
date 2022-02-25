@@ -12,10 +12,9 @@
     import { getStellarKeypair } from '../../routes/connect/connectHelpers';
     import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
     import Signatures from './Signatures.svelte';
-    import messageHandler from '../../helpers/sendMessageHelpers';
     import XBull from '../../routes/connect/ui/wallets/XBull';
     import PrivateKey from '../../routes/connect/ui/wallets/PrivateKey';
-
+    import { sendSignedTx } from './transactionHelpers';
     export let txParams: ITxParams;
 
     let keyPair: Promise<Keypair>;
@@ -85,14 +84,13 @@
             {#if privateKey}
                 <button
                     class="simple-signer sign-tx"
-                    on:click="{async () =>
-                        new PrivateKey().signTx(tx, await keyPair).then((signedXDR) => messageHandler(signedXDR))}"
+                    on:click="{async () => sendSignedTx(new PrivateKey().signTx(tx, await keyPair))}"
                     >Sign Transaction with Private Key</button
                 >
             {:else if xBull}
                 <button
                     class="simple-signer sign-tx"
-                    on:click="{async () => new XBull().signTx(tx).then((signedXDR) => messageHandler(signedXDR))}"
+                    on:click="{async () => sendSignedTx(await new XBull().signTx(tx))}"
                     >Sign Transaction with xBull</button
                 >
             {/if}
