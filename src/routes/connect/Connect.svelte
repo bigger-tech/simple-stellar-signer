@@ -7,7 +7,8 @@
     import { inputValue, isPrivateKeyVisible, isWalletHidden } from './connectStore';
     import { decryptPrivatePair } from './connectHelpers';
     import StorageKeyNotFoundError from './errors/StorageKeyNotFoundError';
-    import { albedo, xBull, freighter, privateKey } from '../../assets/index';
+    import { albedo, xBull, freighter, privateKey, walletConnect } from '../../assets/index';
+    import connectWithWalletConnect from './ui/wallets/WalletConnect';
 
     async function connectWithAlbedo() {
         return new Albedo().logIn();
@@ -96,6 +97,18 @@
                     <p class="simple-signer wallet-private-key-title">Private Key</p>
                 </a>
             </div>
+            <div class="simple-signer wallet-connect-container">
+                <a href="{'#'}" class="connect-wallet-connect" on:click="{() => connectWithWalletConnect()}">
+                    <img
+                        class="simple-signer wallet-connect-logo"
+                        src="{walletConnect}"
+                        alt="wallet connect logo"
+                        width="45"
+                        height="45"
+                    />
+                    <p class="simple-signer wallet-connect-title">Wallet Connect</p>
+                </a>
+            </div>
         </div>
     {/if}
 </div>
@@ -114,7 +127,8 @@
     }
     .albedo-logo,
     .xbull-logo,
-    .private-key-logo {
+    .private-key-logo,
+    .wallet-connect-logo {
         margin-top: 25px;
     }
     .freighter-logo {
@@ -122,7 +136,8 @@
     }
     .wallet-albedo-title,
     .wallet-xbull-title,
-    .wallet-private-key-title {
+    .wallet-private-key-title,
+    .wallet-connect-title {
         margin-top: 10px;
     }
 
@@ -133,7 +148,8 @@
     .wallet-albedo-title:hover,
     .wallet-xbull-title:hover,
     .wallet-private-key-title:hover,
-    .wallet-freighter-title:hover {
+    .wallet-freighter-title:hover,
+    .wallet-connect-title:hover {
         color: #000;
     }
 
@@ -144,7 +160,8 @@
     .albedo-container,
     .freighter-container,
     .xbull-container,
-    .private-key-container {
+    .private-key-container,
+    .wallet-connect-container {
         font-family: 'Montserrat', sans-serif;
         font-size: 14px;
         color: #bdbdbd;
@@ -157,7 +174,8 @@
         .albedo-container,
         .freighter-container,
         .xbull-container,
-        .private-key-container {
+        .private-key-container,
+        .wallet-connect-container {
             margin-top: 15px;
         }
     }
