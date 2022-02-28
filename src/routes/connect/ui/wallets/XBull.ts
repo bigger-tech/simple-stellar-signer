@@ -1,8 +1,9 @@
 import sendMessage from '../../../../helpers/sendMessageHelpers';
 import type { Transaction } from 'stellar-sdk';
 import { storeItem, clearStorage } from '../../../../helpers/storage';
+import type IWallet from './interfaces/IWallet';
 
-export default class XBull {
+export default class XBull implements IWallet {
     async getPublicKey(): Promise<string> {
         await window.xBullSDK.connect({ canRequestPublicKey: true, canRequestSign: true });
         const publicKey = await window.xBullSDK.getPublicKey();
@@ -12,11 +13,11 @@ export default class XBull {
     async logIn(): Promise<void> {
         const publicKey = await this.getPublicKey();
         clearStorage();
-        storeItem('xbull', publicKey);
+        storeItem('wallet', 'xbull');
         sendMessage(publicKey);
     }
 
-    async signTx(tx: Transaction) {
+    async sign(tx: Transaction) {
         const signedXdr = await window.xBullSDK.signXDR(tx.toXDR());
         return signedXdr;
     }

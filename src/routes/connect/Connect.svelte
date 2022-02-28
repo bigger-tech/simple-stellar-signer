@@ -4,10 +4,7 @@
     import XBull from './ui/wallets/XBull';
     import PrivateKey from './ui/wallets/PrivateKey';
     import Rabet from './ui/wallets/Rabet';
-    import { onMount } from 'svelte';
     import { inputValue, isPrivateKeyVisible, isWalletHidden } from './connectStore';
-    import { decryptPrivatePair } from './connectHelpers';
-    import StorageKeyNotFoundError from './errors/StorageKeyNotFoundError';
     import { albedo, xBull, freighter, privateKey, rabet } from '../../assets/index';
 
     async function connectWithAlbedo() {
@@ -27,19 +24,8 @@
     }
 
     async function connectWithSecretKey(privateKey: string): Promise<void> {
-        return new PrivateKey().logIn(privateKey);
+        return new PrivateKey(privateKey).logIn();
     }
-
-    onMount(async function connectWithStorage(): Promise<void> {
-        try {
-            const privateKey = await decryptPrivatePair();
-            return new PrivateKey().logIn(privateKey);
-        } catch (e) {
-            if (e instanceof StorageKeyNotFoundError) {
-                console.log('No key was found in storage');
-            }
-        }
-    });
 </script>
 
 <div class="simple-signer-container">

@@ -1,19 +1,27 @@
-import { encryptPrivateKey, getStellarKeypair } from '../../connectHelpers';
+import { decryptPrivatePair, encryptPrivateKey } from '../../connectHelpers';
 import sendMessage from '../../../../helpers/sendMessageHelpers';
 import InvalidPrivateKeyError from '../../errors/InvalidPrivateKeyError';
-import type { Transaction, Keypair } from 'stellar-sdk';
+import type { Transaction } from 'stellar-sdk';
+import { Keypair } from 'stellar-sdk';
+import type IWallet from './interfaces/IWallet';
 
-export default class PrivateKey {
+export default class PrivateKey implements IWallet {
+    privateKey: string;
+
+    constructor(privateKey: string) {
+        this.privateKey = privateKey;
+    }
+
     async getPublicKey(keyPair: Keypair): Promise<string> {
         const publicKey = keyPair.publicKey();
         return publicKey;
     }
 
-    async logIn(privateKey: string): Promise<void> {
+    async logIn(): Promise<void> {
         try {
-            const stellarKeyPair = await getStellarKeypair(privateKey);
+            const stellarKeyPair = Keypair.fromSecret(this.privateKey);
             const publicKey = await this.getPublicKey(stellarKeyPair);
-            encryptPrivateKey(privateKey);
+            encryptPrivateKey(this.privateKey);
             sendMessage(publicKey);
         } catch (e) {
             if (e instanceof InvalidPrivateKeyError) {
@@ -22,8 +30,10 @@ export default class PrivateKey {
         }
     }
 
-    async signTx(tx: Transaction, secretKey: Keypair): Promise<string> {
-        tx.sign(secretKey);
+    async sign(tx: Transaction): Promise<string> {
+        const privateKey = await decryptPrivatePair();
+        const keyPair = Keypair.fromSecret(privateKey);
+        tx.sign(keyPair);
         const signedXDR = tx.toXDR();
         return signedXDR;
     }

@@ -9,6 +9,7 @@ export async function storePair(privateKey: string, cryptoKey: string): Promise<
     clearStorage();
     storeItem(CRYPTO_KEY_ITEM_NAME, cryptoKey);
     storeItem(PRIVATE_KEY_ITEM_NAME, privateKey);
+    storeItem('wallet', 'privateKey');
 }
 
 export function getStoredPair(): IStoredPair {
