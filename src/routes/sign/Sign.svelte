@@ -11,12 +11,15 @@
         message: 'Simple Signer is ready to operate',
     };
 
-    function messageHandler(e: MessageEvent) {
-        if ('xdr' in e.data && 'description' in e.data) {
+    function messageHandler(e: MessageEvent): void {
+        if ('xdr' in e.data) {
             $xdr = e.data.xdr;
+        } else {
+            $isXdrNull = true;
+        }
+
+        if ('description' in e.data) {
             $description = e.data.description;
-        } else if ('xdr' in e.data) {
-            $xdr = e.data.xdr;
         }
     }
 
