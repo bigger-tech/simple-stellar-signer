@@ -1,5 +1,5 @@
 export default interface IOnSignEvent {
-    type: 'signed';
+    type: 'onSign';
     message: {
         signedXDR: string;
     };

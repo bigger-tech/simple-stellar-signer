@@ -1,5 +1,5 @@
 export default interface IOnConnectEvent {
-    type: 'connected';
+    type: 'onConnect';
     message: {
         wallet: string;
         publicKey: string;
