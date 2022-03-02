@@ -1,8 +1,8 @@
-import type { IReadyEvent } from './eventInterfaces/IReadyEvent';
-import type { IConnectedEvent } from './eventInterfaces/IConnectedEvent';
-import type { ISignedEvent } from './eventInterfaces/ISignedEvent';
+import type { IOnReadyEvent } from './eventInterfaces/IOnReadyEvent';
+import type { IOnConnectEvent } from './eventInterfaces/IOnConnectEvent';
+import type { IOnSignEvent } from './eventInterfaces/IOnSignEvent';
 
-export function sendMessage(message: IConnectedEvent | IReadyEvent | ISignedEvent): void {
+export function sendMessage(message: IOnConnectEvent | IOnReadyEvent | IOnSignEvent): void {
     const parentWindow = window.opener;
     parentWindow.postMessage(message, '*');
 }

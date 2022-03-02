@@ -1,7 +1,8 @@
 import { closeWindow, sendMessage } from '../../../../helpers/sendMessageHelpers';
 import type { Transaction } from 'stellar-sdk';
 import { storeItem, clearStorage } from '../../../../helpers/storage';
-import type { IConnectedEvent } from 'src/helpers/eventInterfaces/IConnectedEvent';
+import type { IOnConnectEvent } from 'src/helpers/eventInterfaces/IOnConnectEvent';
+let connectEvent: IOnConnectEvent;
 
 export default class XBull {
     async getPublicKey(): Promise<string> {
@@ -15,14 +16,14 @@ export default class XBull {
         clearStorage();
         storeItem('xbull', publicKey);
 
-        const connectedEvent: IConnectedEvent = {
+        connectEvent = {
             type: 'connected',
             message: {
                 publicKey,
                 wallet: 'xBull',
             },
         };
-        sendMessage(connectedEvent);
+        sendMessage(connectEvent);
         closeWindow();
     }
 

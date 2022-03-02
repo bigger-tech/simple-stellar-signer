@@ -4,9 +4,9 @@
     import { getParamsFromUrl } from './signHelpers';
     import { xdr, description, isXdrNull } from './signStore';
     import type IxdrInvalid from '../../lib/errors/IxdrInvalid';
-    import type { IReadyEvent } from 'src/helpers/eventInterfaces/IReadyEvent';
+    import type { IOnReadyEvent } from 'src/helpers/eventInterfaces/IOnReadyEvent';
 
-    let readyEvent: IReadyEvent = {
+    const readyEvent: IOnReadyEvent = {
         type: 'ready',
         message: 'Simple Signer is ready to operate',
     };

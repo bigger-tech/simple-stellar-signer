@@ -1,7 +1,7 @@
-import type { IConnectedEvent } from 'src/helpers/eventInterfaces/IConnectedEvent';
+import type { IOnConnectEvent } from 'src/helpers/eventInterfaces/IOnConnectEvent';
 import { closeWindow, sendMessage } from '../../../../helpers/sendMessageHelpers';
 import { storeItem, clearStorage } from '../../../../helpers/storage';
-let connectedEvent: IConnectedEvent;
+let connectEvent: IOnConnectEvent;
 
 export default class Albedo {
     async getPublicKey(): Promise<string> {
@@ -14,7 +14,7 @@ export default class Albedo {
 
     async logIn(): Promise<void> {
         const publicKey = await this.getPublicKey();
-        connectedEvent = {
+        connectEvent = {
             type: 'connected',
             message: {
                 publicKey,
@@ -23,7 +23,7 @@ export default class Albedo {
         };
         clearStorage();
         storeItem('albedo', publicKey);
-        sendMessage(connectedEvent);
+        sendMessage(connectEvent);
         closeWindow();
     }
 }

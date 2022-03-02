@@ -1,6 +1,6 @@
-import type { ISignedEvent } from 'src/helpers/eventInterfaces/ISignedEvent';
+import type { IOnSignEvent } from 'src/helpers/eventInterfaces/IOnSignEvent';
 import { closeWindow, sendMessage } from '../../helpers/sendMessageHelpers';
-let signedEvent: ISignedEvent;
+let signedEvent: IOnSignEvent;
 
 export function sendSignedTx(signedXdr: string) {
     signedEvent = {

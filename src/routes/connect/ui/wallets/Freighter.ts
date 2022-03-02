@@ -1,8 +1,8 @@
-import type { IConnectedEvent } from 'src/helpers/eventInterfaces/IConnectedEvent';
+import type { IOnConnectEvent } from 'src/helpers/eventInterfaces/IOnConnectEvent';
 import { getPublicKey } from '@stellar/freighter-api';
 import { closeWindow, sendMessage } from '../../../../helpers/sendMessageHelpers';
 import { storeItem, clearStorage } from '../../../../helpers/storage';
-let connectedEvent: IConnectedEvent;
+let connectEvent: IOnConnectEvent;
 
 export default class Freighter {
     async getPublicKey(): Promise<string> {
@@ -12,7 +12,7 @@ export default class Freighter {
 
     async logIn(): Promise<void> {
         const publicKey = await this.getPublicKey();
-        connectedEvent = {
+        connectEvent = {
             type: 'connected',
             message: {
                 publicKey,
@@ -21,7 +21,7 @@ export default class Freighter {
         };
         clearStorage();
         storeItem('freighter', publicKey);
-        sendMessage(connectedEvent);
+        sendMessage(connectEvent);
         closeWindow();
     }
 }

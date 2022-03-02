@@ -2,8 +2,8 @@ import { encryptPrivateKey, getStellarKeypair } from '../../connectHelpers';
 import { closeWindow, sendMessage } from '../../../../helpers/sendMessageHelpers';
 import InvalidPrivateKeyError from '../../errors/InvalidPrivateKeyError';
 import type { Transaction, Keypair } from 'stellar-sdk';
-import type { IConnectedEvent } from 'src/helpers/eventInterfaces/IConnectedEvent';
-let connectedEvent: IConnectedEvent;
+import type { IOnConnectEvent } from 'src/helpers/eventInterfaces/IOnConnectEvent';
+let connectEvent: IOnConnectEvent;
 
 export default class PrivateKey {
     async getPublicKey(keyPair: Keypair): Promise<string> {
@@ -15,7 +15,7 @@ export default class PrivateKey {
         try {
             const stellarKeyPair = await getStellarKeypair(privateKey);
             const publicKey = await this.getPublicKey(stellarKeyPair);
-            connectedEvent = {
+            connectEvent = {
                 type: 'connected',
                 message: {
                     publicKey,
@@ -23,7 +23,7 @@ export default class PrivateKey {
                 },
             };
             encryptPrivateKey(privateKey);
-            sendMessage(connectedEvent);
+            sendMessage(connectEvent);
             closeWindow();
         } catch (e) {
             if (e instanceof InvalidPrivateKeyError) {
