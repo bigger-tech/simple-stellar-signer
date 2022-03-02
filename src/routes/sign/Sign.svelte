@@ -4,12 +4,7 @@
     import { getParamsFromUrl } from './signHelpers';
     import { xdr, description, isXdrNull } from './signStore';
     import type IxdrInvalid from '../../lib/errors/IxdrInvalid';
-    import type { IOnReadyEvent } from 'src/helpers/eventInterfaces/IOnReadyEvent';
-
-    const readyEvent: IOnReadyEvent = {
-        type: 'ready',
-        message: 'Simple Signer is ready to operate',
-    };
+    import EventsClass from '../../helpers/EventsClass';
 
     function messageHandler(e: MessageEvent): void {
         if ('xdr' in e.data) {
@@ -29,6 +24,7 @@
         const urlParams = getParamsFromUrl(queryString);
 
         if (parent) {
+            const readyEvent = new EventsClass().onReadyEvent();
             sendMessage(readyEvent);
             window.addEventListener('message', messageHandler);
         } else if (urlParams) {

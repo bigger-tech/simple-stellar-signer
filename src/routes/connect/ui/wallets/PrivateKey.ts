@@ -1,9 +1,8 @@
+import type { Transaction, Keypair } from 'stellar-sdk';
 import { encryptPrivateKey, getStellarKeypair } from '../../connectHelpers';
 import { closeWindow, sendMessage } from '../../../../helpers/sendMessageHelpers';
 import InvalidPrivateKeyError from '../../errors/InvalidPrivateKeyError';
-import type { Transaction, Keypair } from 'stellar-sdk';
-import type { IOnConnectEvent } from 'src/helpers/eventInterfaces/IOnConnectEvent';
-let connectEvent: IOnConnectEvent;
+import EventsClass from '../../../../helpers/EventsClass';
 
 export default class PrivateKey {
     async getPublicKey(keyPair: Keypair): Promise<string> {
@@ -15,13 +14,7 @@ export default class PrivateKey {
         try {
             const stellarKeyPair = await getStellarKeypair(privateKey);
             const publicKey = await this.getPublicKey(stellarKeyPair);
-            connectEvent = {
-                type: 'connected',
-                message: {
-                    publicKey,
-                    wallet: 'privateKey',
-                },
-            };
+            const connectEvent = new EventsClass().onConnectEvent(publicKey, 'privateKey');
             encryptPrivateKey(privateKey);
             sendMessage(connectEvent);
             closeWindow();

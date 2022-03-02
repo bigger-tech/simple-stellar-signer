@@ -1,7 +1,6 @@
-import type { IOnConnectEvent } from 'src/helpers/eventInterfaces/IOnConnectEvent';
+import EventsClass from '../../../../helpers/EventsClass';
 import { closeWindow, sendMessage } from '../../../../helpers/sendMessageHelpers';
 import { storeItem, clearStorage } from '../../../../helpers/storage';
-let connectEvent: IOnConnectEvent;
 
 export default class Albedo {
     async getPublicKey(): Promise<string> {
@@ -14,13 +13,7 @@ export default class Albedo {
 
     async logIn(): Promise<void> {
         const publicKey = await this.getPublicKey();
-        connectEvent = {
-            type: 'connected',
-            message: {
-                publicKey,
-                wallet: 'albedo',
-            },
-        };
+        const connectEvent = new EventsClass().onConnectEvent(publicKey, 'albedo');
         clearStorage();
         storeItem('albedo', publicKey);
         sendMessage(connectEvent);

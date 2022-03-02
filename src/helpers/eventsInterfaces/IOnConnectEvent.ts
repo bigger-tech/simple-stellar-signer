@@ -1,4 +1,4 @@
-export interface IOnConnectEvent {
+export default interface IOnConnectEvent {
     type: 'connected';
     message: {
         wallet: string;
