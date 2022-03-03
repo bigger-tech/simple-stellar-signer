@@ -24,7 +24,7 @@
     }
 
     async function connectWithSecretKey(privateKey: string): Promise<void> {
-        return new PrivateKey(privateKey).logIn();
+        return new PrivateKey().logIn(privateKey);
     }
 </script>
 

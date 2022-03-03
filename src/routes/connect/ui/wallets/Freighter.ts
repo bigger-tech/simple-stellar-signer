@@ -5,6 +5,8 @@ import type { Transaction } from 'stellar-sdk';
 import type IWallet from './interfaces/IWallet';
 
 export default class Freighter implements IWallet {
+    public static NAME = 'freighter';
+
     async getPublicKey(): Promise<string> {
         const publicKey = await getPublicKey();
         return publicKey;

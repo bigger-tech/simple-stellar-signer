@@ -4,6 +4,8 @@ import type { Transaction } from 'stellar-sdk';
 import type IWallet from './interfaces/IWallet';
 
 export default class Rabet implements IWallet {
+    public static NAME = 'rabet';
+
     async getPublicKey(): Promise<string> {
         const publicKey = await window.rabet.connect().then((result) => {
             const data = result.publicKey;

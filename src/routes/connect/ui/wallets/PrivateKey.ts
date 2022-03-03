@@ -4,24 +4,23 @@ import InvalidPrivateKeyError from '../../errors/InvalidPrivateKeyError';
 import type { Transaction } from 'stellar-sdk';
 import { Keypair } from 'stellar-sdk';
 import type IWallet from './interfaces/IWallet';
+import { clearStorage, storeItem } from '../../../../helpers/storage';
 
 export default class PrivateKey implements IWallet {
-    privateKey: string;
-
-    constructor(privateKey: string) {
-        this.privateKey = privateKey;
-    }
+    public static NAME = 'privateKey';
 
     async getPublicKey(keyPair: Keypair): Promise<string> {
         const publicKey = keyPair.publicKey();
         return publicKey;
     }
 
-    async logIn(): Promise<void> {
+    async logIn(privateKey: string): Promise<void> {
         try {
-            const stellarKeyPair = Keypair.fromSecret(this.privateKey);
+            const stellarKeyPair = Keypair.fromSecret(privateKey);
             const publicKey = await this.getPublicKey(stellarKeyPair);
-            encryptPrivateKey(this.privateKey);
+            clearStorage();
+            storeItem('wallet', 'privateKey');
+            encryptPrivateKey(privateKey);
             sendMessage(publicKey);
         } catch (e) {
             if (e instanceof InvalidPrivateKeyError) {

@@ -4,6 +4,8 @@ import { storeItem, clearStorage } from '../../../../helpers/storage';
 import type IWallet from './interfaces/IWallet';
 
 export default class XBull implements IWallet {
+    public static NAME = 'XBull';
+
     async getPublicKey(): Promise<string> {
         await window.xBullSDK.connect({ canRequestPublicKey: true, canRequestSign: true });
         const publicKey = await window.xBullSDK.getPublicKey();

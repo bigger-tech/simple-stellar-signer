@@ -4,6 +4,8 @@ import type { Transaction } from 'stellar-sdk';
 import type IWallet from './interfaces/IWallet';
 
 export default class Albedo implements IWallet {
+    public static NAME = 'albedo';
+
     async getPublicKey(): Promise<string> {
         const requestPubKey = await window.albedo.publicKey({
             token: `${btoa(Math.random().toString() + Math.random().toString())}`,
