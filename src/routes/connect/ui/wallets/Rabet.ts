@@ -22,10 +22,12 @@ export default class Rabet implements IWallet {
     }
 
     async sign(tx: Transaction) {
-        const signedXdr = await window.rabet.sign(tx.toXDR(), 'testnet').then((result) => {
-            const xdr = result.xdr;
-            return xdr;
-        });
+        const signedXdr = await window.rabet
+            .sign(tx.toXDR(), import.meta.env.VITE_STELLAR_NETWORK_TESTNET)
+            .then((result) => {
+                const xdr = result.xdr;
+                return xdr;
+            });
         return signedXdr;
     }
 }
