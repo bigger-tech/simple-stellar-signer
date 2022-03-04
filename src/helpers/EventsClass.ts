@@ -1,16 +1,14 @@
-import type IOnReadyEvent from './eventsInterfaces/IOnReadyEvent';
-import type IOnConnectEvent from './eventsInterfaces/IOnConnectEvent';
-import type IOnSignEvent from './eventsInterfaces/IOnSignEvent';
+import type ISimpleSignerEvent from './eventsInterfaces/ISimpleSignerEvent';
 
 export default class EventsClass {
-    onReadyEvent(): IOnReadyEvent {
+    onReadyEvent(): ISimpleSignerEvent {
         return {
             type: 'onReady',
             message: 'Simple Signer is ready to operate',
         };
     }
 
-    onConnectEvent(publicKey: string, wallet: string): IOnConnectEvent {
+    onConnectEvent(publicKey: string, wallet: string): ISimpleSignerEvent {
         return {
             type: 'onConnect',
             message: {
@@ -20,7 +18,7 @@ export default class EventsClass {
         };
     }
 
-    onSignEvent(signedXDR: string): IOnSignEvent {
+    onSignEvent(signedXDR: string): ISimpleSignerEvent {
         return {
             type: 'onSign',
             message: {
