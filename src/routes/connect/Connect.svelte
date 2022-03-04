@@ -3,38 +3,8 @@
     import Freighter from './ui/wallets/Freighter';
     import XBull from './ui/wallets/XBull';
     import PrivateKey from './ui/wallets/PrivateKey';
-    import { onMount } from 'svelte';
     import { inputValue, isPrivateKeyVisible, isWalletHidden } from './connectStore';
-    import { decryptPrivatePair } from './connectHelpers';
-    import StorageKeyNotFoundError from './errors/StorageKeyNotFoundError';
     import { albedo, xBull, freighter, privateKey } from '../../assets/index';
-
-    async function connectWithAlbedo() {
-        return new Albedo().logIn();
-    }
-
-    async function connectWithFreighter() {
-        return new Freighter().logIn();
-    }
-
-    async function connectWithXBull() {
-        return new XBull().logIn();
-    }
-
-    async function connectWithSecretKey(privateKey: string): Promise<void> {
-        return new PrivateKey().logIn(privateKey);
-    }
-
-    onMount(async function connectWithStorage(): Promise<void> {
-        try {
-            const privateKey = await decryptPrivatePair();
-            return new PrivateKey().logIn(privateKey);
-        } catch (e) {
-            if (e instanceof StorageKeyNotFoundError) {
-                console.log('No key was found in storage');
-            }
-        }
-    });
 </script>
 
 <div class="simple-signer-container">
@@ -53,7 +23,7 @@
         <button
             class="simple-signer private-key-btn"
             on:click="{() => {
-                connectWithSecretKey($inputValue);
+                PrivateKey.logIn($inputValue);
             }}"
         >
             Connect with private key
@@ -61,13 +31,21 @@
     {:else}
         <div class="simple-signer-wallets">
             <div class="simple-signer albedo-container">
-                <a href="{'#'}" class="connect-albedo" on:click="{() => connectWithAlbedo()}">
+                <a
+                    href="{'#'}"
+                    class="connect-albedo"
+                    on:click="{async () => Albedo.logIn(await Albedo.getPublicKey())}"
+                >
                     <img class="simple-signer albedo-logo" src="{albedo}" alt="albedo logo" width="35" height="45" />
                     <p class="simple-signer wallet-albedo-title">Albedo</p>
                 </a>
             </div>
             <div class="simple-signer freighter-container">
-                <a href="{'#'}" class="connect-freighter" on:click="{() => connectWithFreighter()}">
+                <a
+                    href="{'#'}"
+                    class="connect-freighter"
+                    on:click="{async () => Freighter.logIn(await Freighter.getPublicKey())}"
+                >
                     <img
                         class="simple-signer freighter-logo"
                         src="{freighter}"
@@ -79,7 +57,7 @@
                 </a>
             </div>
             <div class="simple-signer xbull-container">
-                <a href="{'#'}" class="connect-xbull" on:click="{() => connectWithXBull()}">
+                <a href="{'#'}" class="connect-xbull" on:click="{async () => XBull.logIn(await XBull.getPublicKey())}">
                     <img class="simple-signer xbull-logo" src="{xBull}" alt="xbull logo" width="45" height="45" />
                     <p class="simple-signer wallet-xbull-title">xBull</p>
                 </a>

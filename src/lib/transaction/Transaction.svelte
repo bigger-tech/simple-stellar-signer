@@ -1,5 +1,4 @@
 <script lang="ts">
-    import type { Keypair } from 'stellar-sdk';
     import type { OperationComponentTypes } from './operations/OperationComponentTypes';
     import type IxdrInvalid from '../errors/IxdrInvalid';
     import type ITxParams from './ITxParams';
@@ -7,9 +6,6 @@
     import { writable } from 'svelte/store';
     import { Transaction, xdr } from 'stellar-sdk';
     import { Link } from 'svelte-navigator';
-    import { getStoredPair } from '../../helpers/keyManager';
-    import { decryptPrivateKey } from '../../helpers/security';
-    import { getStellarKeypair } from '../../routes/connect/connectHelpers';
     import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
     import Signatures from './Signatures.svelte';
     import XBull from '../../routes/connect/ui/wallets/XBull';
@@ -17,20 +13,8 @@
     import { sendSignedTx } from './transactionHelpers';
     export let txParams: ITxParams;
 
-    let keyPair: Promise<Keypair>;
     const xBull = getItem('xbull');
     const privateKey = getItem('privateKey');
-
-    async function getKeyPair(): Promise<Keypair> {
-        const storedPair = getStoredPair();
-        const privateKey = await decryptPrivateKey(storedPair.privateKey, storedPair.cryptoKey);
-        const keyPair = await getStellarKeypair(privateKey);
-        return keyPair;
-    }
-
-    if (privateKey) {
-        keyPair = getKeyPair();
-    }
 
     let tx: Transaction;
     let operationComponents: typeof OperationComponentTypes[] = [];
@@ -82,15 +66,11 @@
             </div>
 
             {#if privateKey}
-                <button
-                    class="simple-signer sign-tx"
-                    on:click="{async () => sendSignedTx(new PrivateKey().signTx(tx, await keyPair))}"
+                <button class="simple-signer sign-tx" on:click="{async () => sendSignedTx(await PrivateKey.signTx(tx))}"
                     >Sign Transaction with Private Key</button
                 >
             {:else if xBull}
-                <button
-                    class="simple-signer sign-tx"
-                    on:click="{async () => sendSignedTx(await new XBull().signTx(tx))}"
+                <button class="simple-signer sign-tx" on:click="{async () => sendSignedTx(await XBull.signTx(tx))}"
                     >Sign Transaction with xBull</button
                 >
             {/if}

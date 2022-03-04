@@ -1,9 +1,7 @@
-import EventsClass from '../../../../helpers/EventsClass';
-import { closeWindow, sendMessage } from '../../../../helpers/sendMessageHelpers';
-import { storeItem, clearStorage } from '../../../../helpers/storage';
+import AbstractWallet from './AbstractWallet';
 
-export default class Albedo {
-    async getPublicKey(): Promise<string> {
+export default class Albedo extends AbstractWallet {
+    static async getPublicKey(): Promise<string> {
         const requestPubKey = await window.albedo.publicKey({
             token: `${btoa(Math.random().toString() + Math.random().toString())}`,
         });
@@ -11,12 +9,7 @@ export default class Albedo {
         return publicKey;
     }
 
-    async logIn(): Promise<void> {
-        const publicKey = await this.getPublicKey();
-        const connectEvent = new EventsClass().onConnectEvent(publicKey, 'albedo');
-        clearStorage();
-        storeItem('albedo', publicKey);
-        sendMessage(connectEvent);
-        closeWindow();
+    static logIn(publicKey: string) {
+        super.connectWithWallet('albedo', publicKey);
     }
 }

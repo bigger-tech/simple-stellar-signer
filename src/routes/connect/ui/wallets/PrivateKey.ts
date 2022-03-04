@@ -1,23 +1,21 @@
-import type { Transaction, Keypair } from 'stellar-sdk';
-import { encryptPrivateKey, getStellarKeypair } from '../../connectHelpers';
-import { closeWindow, sendMessage } from '../../../../helpers/sendMessageHelpers';
+import type { Transaction } from 'stellar-sdk';
+import { Keypair } from 'stellar-sdk';
+import { encryptPrivateKey, decryptPrivatePair } from '../../connectHelpers';
 import InvalidPrivateKeyError from '../../errors/InvalidPrivateKeyError';
-import EventsClass from '../../../../helpers/EventsClass';
+import AbstractWallet from './AbstractWallet';
 
-export default class PrivateKey {
-    async getPublicKey(keyPair: Keypair): Promise<string> {
-        const publicKey = keyPair.publicKey();
+export default class PrivateKey extends AbstractWallet {
+    static async getPublicKey(): Promise<string> {
+        const privateKey = await decryptPrivatePair();
+        const publicKey = Keypair.fromSecret(privateKey).publicKey();
         return publicKey;
     }
 
-    async logIn(privateKey: string): Promise<void> {
+    static async logIn(privateKey: string): Promise<void> {
         try {
-            const stellarKeyPair = await getStellarKeypair(privateKey);
-            const publicKey = await this.getPublicKey(stellarKeyPair);
-            const connectEvent = new EventsClass().onConnectEvent(publicKey, 'privateKey');
+            const publicKey = Keypair.fromSecret(privateKey).publicKey();
             encryptPrivateKey(privateKey);
-            sendMessage(connectEvent);
-            closeWindow();
+            super.connectWithWallet('privateKey', publicKey);
         } catch (e) {
             if (e instanceof InvalidPrivateKeyError) {
                 console.log('Invalid key, please try again');
@@ -25,8 +23,10 @@ export default class PrivateKey {
         }
     }
 
-    signTx(tx: Transaction, secretKey: Keypair): string {
-        tx.sign(secretKey);
+    static async signTx(tx: Transaction): Promise<string> {
+        const privateKey = await decryptPrivatePair();
+        const keyPair = Keypair.fromSecret(privateKey);
+        tx.sign(keyPair);
         const signedXDR = tx.toXDR();
         return signedXDR;
     }
