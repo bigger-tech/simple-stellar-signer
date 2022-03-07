@@ -3,37 +3,42 @@ import { storeItem, clearStorage } from '../../../../helpers/storage';
 import type { Transaction } from 'stellar-sdk';
 import type IWallet from './interfaces/IWallet';
 import { StellarNetwork } from '../../../../helpers/StellarNetwork';
-export default class Albedo implements IWallet {
-    public static NAME = 'albedo';
-    public albedoNetwork: string;
+
+export default class Rabet implements IWallet {
+    public static NAME = 'rabet';
+    public rabetNetwork: string;
+    public mainNetwork = 'mainnet';
 
     constructor() {
         const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
 
         if (stellarNetwork === StellarNetwork.PUBLIC) {
-            this.albedoNetwork = StellarNetwork.PUBLIC;
+            this.rabetNetwork = this.mainNetwork;
         } else {
-            this.albedoNetwork = StellarNetwork.TESTNET;
+            this.rabetNetwork = StellarNetwork.TESTNET;
         }
     }
 
     async getPublicKey(): Promise<string> {
-        const requestPubKey = await window.albedo.publicKey({
-            token: `${btoa(Math.random().toString() + Math.random().toString())}`,
+        const publicKey = await window.rabet.connect().then((result) => {
+            const data = result.publicKey;
+            return data;
         });
-        const publicKey = requestPubKey.pubkey;
         return publicKey;
     }
 
     async logIn(): Promise<void> {
         const publicKey = await this.getPublicKey();
         clearStorage();
-        storeItem('wallet', Albedo.NAME);
+        storeItem('wallet', Rabet.NAME);
         sendMessage(publicKey);
     }
 
     async sign(tx: Transaction) {
-        const signedXdr = await window.albedo.tx({ xdr: tx.toXDR(), network: this.albedoNetwork });
-        return signedXdr.signed_envelope_xdr;
+        const signedXdr = await window.rabet.sign(tx.toXDR(), this.rabetNetwork).then((result) => {
+            const xdr = result.xdr;
+            return xdr;
+        });
+        return signedXdr;
     }
 }
