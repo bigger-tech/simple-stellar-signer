@@ -3,20 +3,19 @@ import sendMessage from '../../../../helpers/sendMessageHelpers';
 import { storeItem, clearStorage } from '../../../../helpers/storage';
 import type { Transaction } from 'stellar-sdk';
 import type IWallet from './interfaces/IWallet';
+import { StellarNetwork } from '../../../../helpers/StellarNetwork';
 
 export default class Freighter implements IWallet {
     public static NAME = 'freighter';
     public freighterNetwork: any;
-    public publicNetwork = 'PUBLIC';
-    public testnetNetwork = 'TESTNET';
 
     constructor() {
         const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
 
-        if (stellarNetwork === this.publicNetwork) {
-            this.freighterNetwork = this.publicNetwork;
+        if (stellarNetwork === StellarNetwork.PUBLIC) {
+            this.freighterNetwork = StellarNetwork.PUBLIC.toUpperCase();
         } else {
-            this.freighterNetwork = this.testnetNetwork;
+            this.freighterNetwork = StellarNetwork.TESTNET.toUpperCase();
         }
     }
 

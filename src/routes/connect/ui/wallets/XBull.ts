@@ -2,20 +2,19 @@ import sendMessage from '../../../../helpers/sendMessageHelpers';
 import type { Transaction } from 'stellar-sdk';
 import { storeItem, clearStorage } from '../../../../helpers/storage';
 import type IWallet from './interfaces/IWallet';
+import { StellarNetwork } from '../../../../helpers/StellarNetwork';
 
 export default class XBull implements IWallet {
     public static NAME = 'xbull';
     public XBullNetwork: string;
-    public publicNetwork = 'public';
-    public testnetNetwork = 'testnet';
 
     constructor() {
         const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
 
-        if (stellarNetwork === this.publicNetwork.toUpperCase()) {
-            this.XBullNetwork = this.publicNetwork;
+        if (stellarNetwork === StellarNetwork.PUBLIC.toUpperCase()) {
+            this.XBullNetwork = StellarNetwork.PUBLIC;
         } else {
-            this.XBullNetwork = this.testnetNetwork;
+            this.XBullNetwork = StellarNetwork.TESTNET;
         }
     }
 

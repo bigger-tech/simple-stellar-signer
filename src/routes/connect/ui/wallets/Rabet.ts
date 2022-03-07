@@ -2,21 +2,19 @@ import sendMessage from '../../../../helpers/sendMessageHelpers';
 import { storeItem, clearStorage } from '../../../../helpers/storage';
 import type { Transaction } from 'stellar-sdk';
 import type IWallet from './interfaces/IWallet';
+import { StellarNetwork } from '../../../../helpers/StellarNetwork';
 
 export default class Rabet implements IWallet {
     public static NAME = 'rabet';
     public rabetNetwork: string;
-    public publicNetwork = 'PUBLIC';
-    public mainNetwork = 'mainnet';
-    public testnetNetwork = 'testnet';
 
     constructor() {
         const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
 
-        if (stellarNetwork === this.publicNetwork) {
-            this.rabetNetwork = this.mainNetwork;
+        if (stellarNetwork === StellarNetwork.PUBLIC.toUpperCase()) {
+            this.rabetNetwork = StellarNetwork.MAINNET;
         } else {
-            this.rabetNetwork = this.testnetNetwork;
+            this.rabetNetwork = StellarNetwork.TESTNET;
         }
     }
 

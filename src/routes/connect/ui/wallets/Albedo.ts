@@ -2,20 +2,18 @@ import sendMessage from '../../../../helpers/sendMessageHelpers';
 import { storeItem, clearStorage } from '../../../../helpers/storage';
 import type { Transaction } from 'stellar-sdk';
 import type IWallet from './interfaces/IWallet';
-
+import { StellarNetwork } from '../../../../helpers/StellarNetwork';
 export default class Albedo implements IWallet {
     public static NAME = 'albedo';
     public albedoNetwork: string;
-    public publicNetwork = 'public';
-    public testnetNetwork = 'testnet';
 
     constructor() {
         const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
 
-        if (stellarNetwork === this.publicNetwork.toUpperCase()) {
-            this.albedoNetwork = this.publicNetwork;
+        if (stellarNetwork === StellarNetwork.PUBLIC.toUpperCase()) {
+            this.albedoNetwork = StellarNetwork.PUBLIC;
         } else {
-            this.albedoNetwork = this.testnetNetwork;
+            this.albedoNetwork = StellarNetwork.TESTNET;
         }
     }
 
