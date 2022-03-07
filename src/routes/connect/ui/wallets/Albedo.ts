@@ -5,6 +5,17 @@ import type IWallet from './interfaces/IWallet';
 
 export default class Albedo implements IWallet {
     public static NAME = 'albedo';
+    public albedoNetwork: string;
+
+    constructor() {
+        const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
+
+        if (stellarNetwork === 'PUBLIC') {
+            this.albedoNetwork = 'public';
+        } else {
+            this.albedoNetwork = 'testnet';
+        }
+    }
 
     async getPublicKey(): Promise<string> {
         const requestPubKey = await window.albedo.publicKey({
@@ -22,7 +33,7 @@ export default class Albedo implements IWallet {
     }
 
     async sign(tx: Transaction) {
-        const signedXdr = await window.albedo.tx({ xdr: tx.toXDR(), network: 'testnet' });
+        const signedXdr = await window.albedo.tx({ xdr: tx.toXDR(), network: this.albedoNetwork });
         return signedXdr.signed_envelope_xdr;
     }
 }

@@ -4,7 +4,18 @@ import { storeItem, clearStorage } from '../../../../helpers/storage';
 import type IWallet from './interfaces/IWallet';
 
 export default class XBull implements IWallet {
-    public static NAME = 'XBull';
+    public static NAME = 'xbull';
+    public XBullNetwork: string;
+
+    constructor() {
+        const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
+
+        if (stellarNetwork === 'PUBLIC') {
+            this.XBullNetwork = 'public';
+        } else {
+            this.XBullNetwork = 'testnet';
+        }
+    }
 
     async getPublicKey(): Promise<string> {
         await window.xBullSDK.connect({ canRequestPublicKey: true, canRequestSign: true });
@@ -20,7 +31,7 @@ export default class XBull implements IWallet {
     }
 
     async sign(tx: Transaction) {
-        const signedXdr = await window.xBullSDK.signXDR(tx.toXDR());
+        const signedXdr = await window.xBullSDK.signXDR(tx.toXDR(), { network: this.XBullNetwork });
         return signedXdr;
     }
 }
