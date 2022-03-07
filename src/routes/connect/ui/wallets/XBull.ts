@@ -11,7 +11,7 @@ export default class XBull implements IWallet {
     constructor() {
         const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
 
-        if (stellarNetwork === StellarNetwork.PUBLIC.toUpperCase()) {
+        if (stellarNetwork === StellarNetwork.PUBLIC) {
             this.XBullNetwork = StellarNetwork.PUBLIC;
         } else {
             this.XBullNetwork = StellarNetwork.TESTNET;

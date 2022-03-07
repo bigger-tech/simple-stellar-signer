@@ -7,12 +7,13 @@ import { StellarNetwork } from '../../../../helpers/StellarNetwork';
 export default class Rabet implements IWallet {
     public static NAME = 'rabet';
     public rabetNetwork: string;
+    public mainNetwork = 'mainnet';
 
     constructor() {
         const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
 
-        if (stellarNetwork === StellarNetwork.PUBLIC.toUpperCase()) {
-            this.rabetNetwork = StellarNetwork.MAINNET;
+        if (stellarNetwork === StellarNetwork.PUBLIC) {
+            this.rabetNetwork = this.mainNetwork;
         } else {
             this.rabetNetwork = StellarNetwork.TESTNET;
         }

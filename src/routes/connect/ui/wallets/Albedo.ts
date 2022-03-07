@@ -10,7 +10,7 @@ export default class Albedo implements IWallet {
     constructor() {
         const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
 
-        if (stellarNetwork === StellarNetwork.PUBLIC.toUpperCase()) {
+        if (stellarNetwork === StellarNetwork.PUBLIC) {
             this.albedoNetwork = StellarNetwork.PUBLIC;
         } else {
             this.albedoNetwork = StellarNetwork.TESTNET;
