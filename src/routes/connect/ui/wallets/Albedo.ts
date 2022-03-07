@@ -28,7 +28,7 @@ export default class Albedo implements IWallet {
     async logIn(): Promise<void> {
         const publicKey = await this.getPublicKey();
         clearStorage();
-        storeItem('wallet', 'albedo');
+        storeItem('wallet', Albedo.NAME);
         sendMessage(publicKey);
     }
 

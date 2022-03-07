@@ -26,7 +26,7 @@ export default class Freighter implements IWallet {
     async logIn(): Promise<void> {
         const publicKey = await this.getPublicKey();
         clearStorage();
-        storeItem('wallet', 'freighter');
+        storeItem('wallet', Freighter.NAME);
         sendMessage(publicKey);
     }
 

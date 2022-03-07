@@ -19,7 +19,7 @@ export default class PrivateKey implements IWallet {
             const stellarKeyPair = Keypair.fromSecret(privateKey);
             const publicKey = await this.getPublicKey(stellarKeyPair);
             clearStorage();
-            storeItem('wallet', 'privateKey');
+            storeItem('wallet', PrivateKey.NAME);
             encryptPrivateKey(privateKey);
             sendMessage(publicKey);
         } catch (e) {

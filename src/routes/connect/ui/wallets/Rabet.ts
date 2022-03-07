@@ -28,7 +28,7 @@ export default class Rabet implements IWallet {
     async logIn(): Promise<void> {
         const publicKey = await this.getPublicKey();
         clearStorage();
-        storeItem('wallet', 'rabet');
+        storeItem('wallet', Rabet.NAME);
         sendMessage(publicKey);
     }
 

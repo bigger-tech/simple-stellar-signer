@@ -26,7 +26,7 @@ export default class XBull implements IWallet {
     async logIn(): Promise<void> {
         const publicKey = await this.getPublicKey();
         clearStorage();
-        storeItem('wallet', 'xbull');
+        storeItem('wallet', XBull.NAME);
         sendMessage(publicKey);
     }
 
