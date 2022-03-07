@@ -6,14 +6,16 @@ import type IWallet from './interfaces/IWallet';
 export default class XBull implements IWallet {
     public static NAME = 'xbull';
     public XBullNetwork: string;
+    public publicNetwork = 'public';
+    public testnetNetwork = 'testnet';
 
     constructor() {
         const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
 
-        if (stellarNetwork === 'PUBLIC') {
-            this.XBullNetwork = 'public';
+        if (stellarNetwork === this.publicNetwork.toUpperCase()) {
+            this.XBullNetwork = this.publicNetwork;
         } else {
-            this.XBullNetwork = 'testnet';
+            this.XBullNetwork = this.testnetNetwork;
         }
     }
 

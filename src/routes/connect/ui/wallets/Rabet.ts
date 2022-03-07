@@ -6,14 +6,17 @@ import type IWallet from './interfaces/IWallet';
 export default class Rabet implements IWallet {
     public static NAME = 'rabet';
     public rabetNetwork: string;
+    public publicNetwork = 'PUBLIC';
+    public mainNetwork = 'mainnet';
+    public testnetNetwork = 'testnet';
 
     constructor() {
         const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
 
-        if (stellarNetwork === 'PUBLIC') {
-            this.rabetNetwork = 'mainnet';
+        if (stellarNetwork === this.publicNetwork) {
+            this.rabetNetwork = this.mainNetwork;
         } else {
-            this.rabetNetwork = 'testnet';
+            this.rabetNetwork = this.testnetNetwork;
         }
     }
 

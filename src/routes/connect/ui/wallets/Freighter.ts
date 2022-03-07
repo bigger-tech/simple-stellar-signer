@@ -7,14 +7,16 @@ import type IWallet from './interfaces/IWallet';
 export default class Freighter implements IWallet {
     public static NAME = 'freighter';
     public freighterNetwork: any;
+    public publicNetwork = 'PUBLIC';
+    public testnetNetwork = 'TESTNET';
 
     constructor() {
         const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
 
-        if (stellarNetwork === 'PUBLIC') {
-            this.freighterNetwork = 'PUBLIC';
+        if (stellarNetwork === this.publicNetwork) {
+            this.freighterNetwork = this.publicNetwork;
         } else {
-            this.freighterNetwork = 'TESTNET';
+            this.freighterNetwork = this.testnetNetwork;
         }
     }
 

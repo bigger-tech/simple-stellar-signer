@@ -6,14 +6,16 @@ import type IWallet from './interfaces/IWallet';
 export default class Albedo implements IWallet {
     public static NAME = 'albedo';
     public albedoNetwork: string;
+    public publicNetwork = 'public';
+    public testnetNetwork = 'testnet';
 
     constructor() {
         const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
 
-        if (stellarNetwork === 'PUBLIC') {
-            this.albedoNetwork = 'public';
+        if (stellarNetwork === this.publicNetwork.toUpperCase()) {
+            this.albedoNetwork = this.publicNetwork;
         } else {
-            this.albedoNetwork = 'testnet';
+            this.albedoNetwork = this.testnetNetwork;
         }
     }
 
