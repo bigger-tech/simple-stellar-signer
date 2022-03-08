@@ -3,8 +3,33 @@
     import Freighter from './ui/wallets/Freighter';
     import XBull from './ui/wallets/XBull';
     import PrivateKey from './ui/wallets/PrivateKey';
+    import Rabet from './ui/wallets/Rabet';
     import { inputValue, isPrivateKeyVisible, isWalletHidden } from './connectStore';
-    import { albedo, xBull, freighter, privateKey } from '../../assets/index';
+    import { albedo, xBull, freighter, privateKey, rabet } from '../../assets/index';
+
+    async function connectWithAlbedo() {
+        const albedo = new Albedo();
+        return albedo.logIn(await albedo.getPublicKey());
+    }
+
+    async function connectWithFreighter() {
+        const freighter = new Freighter();
+        return freighter.logIn(await freighter.getPublicKey());
+    }
+
+    async function connectWithXBull() {
+        const xbull = new XBull();
+        return xbull.logIn(await xbull.getPublicKey());
+    }
+
+    async function connectWithRabet() {
+        const rabet = new Rabet();
+        return rabet.logIn(await rabet.getPublicKey());
+    }
+
+    async function connectWithSecretKey(privateKey: string): Promise<void> {
+        return new PrivateKey().logIn(privateKey);
+    }
 </script>
 
 <div class="simple-signer-container">
@@ -20,32 +45,25 @@
             <input id="input-key" type="password" bind:value="{$inputValue}" />
         {/if}
 
-        <button
-            class="simple-signer private-key-btn"
-            on:click="{() => {
-                PrivateKey.logIn($inputValue);
-            }}"
-        >
+        <button class="simple-signer private-key-btn" on:click="{() => connectWithSecretKey($inputValue)}">
             Connect with private key
         </button>
     {:else}
         <div class="simple-signer-wallets">
+            <div class="simple-signer rabet-container">
+                <a href="{'#'}" class="connect-rabet" on:click="{() => connectWithRabet()}">
+                    <img class="simple-signer rabet-logo" src="{rabet}" alt="albedo logo" width="35" height="45" />
+                    <p class="simple-signer wallet-rabet-title">Rabet</p>
+                </a>
+            </div>
             <div class="simple-signer albedo-container">
-                <a
-                    href="{'#'}"
-                    class="connect-albedo"
-                    on:click="{async () => Albedo.logIn(await Albedo.getPublicKey())}"
-                >
+                <a href="{'#'}" class="connect-albedo" on:click="{() => connectWithAlbedo()}">
                     <img class="simple-signer albedo-logo" src="{albedo}" alt="albedo logo" width="35" height="45" />
                     <p class="simple-signer wallet-albedo-title">Albedo</p>
                 </a>
             </div>
             <div class="simple-signer freighter-container">
-                <a
-                    href="{'#'}"
-                    class="connect-freighter"
-                    on:click="{async () => Freighter.logIn(await Freighter.getPublicKey())}"
-                >
+                <a href="{'#'}" class="connect-freighter" on:click="{() => connectWithFreighter()}">
                     <img
                         class="simple-signer freighter-logo"
                         src="{freighter}"
@@ -57,7 +75,7 @@
                 </a>
             </div>
             <div class="simple-signer xbull-container">
-                <a href="{'#'}" class="connect-xbull" on:click="{async () => XBull.logIn(await XBull.getPublicKey())}">
+                <a href="{'#'}" class="connect-xbull" on:click="{() => connectWithXBull()}">
                     <img class="simple-signer xbull-logo" src="{xBull}" alt="xbull logo" width="45" height="45" />
                     <p class="simple-signer wallet-xbull-title">xBull</p>
                 </a>
@@ -90,6 +108,7 @@
         text-align: center;
         width: 290px;
     }
+    .rabet-logo,
     .albedo-logo,
     .xbull-logo,
     .private-key-logo {
@@ -98,6 +117,7 @@
     .freighter-logo {
         margin-top: 28px;
     }
+    .wallet-rabet-title,
     .wallet-albedo-title,
     .wallet-xbull-title,
     .wallet-private-key-title {
@@ -108,6 +128,7 @@
         margin-top: 7px;
     }
 
+    .wallet-rabet-title:hover,
     .wallet-albedo-title:hover,
     .wallet-xbull-title:hover,
     .wallet-private-key-title:hover,
@@ -119,6 +140,7 @@
         text-decoration: inherit;
         color: inherit;
     }
+    .rabet-container,
     .albedo-container,
     .freighter-container,
     .xbull-container,
@@ -132,6 +154,7 @@
         margin-top: 18px;
     }
     @media screen and (max-width: 291px) {
+        .rabet-container,
         .albedo-container,
         .freighter-container,
         .xbull-container,

@@ -1,19 +1,24 @@
 <script lang="ts">
     import type { OperationComponentTypes } from './operations/OperationComponentTypes';
     import type ITxParams from './ITxParams';
+    import type IWallet from '../../routes/connect/ui/wallets/interfaces/IWallet';
     import { getItem } from '../../helpers/storage';
     import { writable } from 'svelte/store';
     import { Transaction, xdr } from 'stellar-sdk';
     import { Link } from 'svelte-navigator';
+    import { sendSignedTx } from './transactionHelpers';
     import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
     import Signatures from './Signatures.svelte';
-    import XBull from '../../routes/connect/ui/wallets/XBull';
-    import PrivateKey from '../../routes/connect/ui/wallets/PrivateKey';
-    import { sendSignedTx } from './transactionHelpers';
+    import WalletFactory from '../../routes/connect/ui/wallets/Wallet';
     export let txParams: ITxParams;
 
-    const xBull = getItem('xbull');
-    const privateKey = getItem('privateKey');
+    let wallet: IWallet;
+    const storedWallet = getItem('wallet');
+    const walletFactory = new WalletFactory();
+
+    if (storedWallet) {
+        wallet = walletFactory.create(storedWallet);
+    }
 
     let tx: Transaction;
     let operationComponents: typeof OperationComponentTypes[] = [];
@@ -44,7 +49,7 @@
 
     <div class="simple-signer payment-tx">
         <h3>Transaction</h3>
-        {#if xBull || privateKey}
+        {#if wallet}
             <p class="src-account">
                 Source account: {tx ? tx.source : ''}
             </p>
@@ -53,6 +58,7 @@
                 Time bounds: {tx ? `Min time ${tx.timeBounds?.minTime} Max time ${tx.timeBounds?.maxTime}` : ''}
             </p>
             <p>Fee: {tx.fee}</p>
+
             <Signatures signatures="{tx.signatures}" />
 
             <div class="simple-signer operations-container">
@@ -60,16 +66,9 @@
                     <svelte:component this="{operation.component}" {...operation.props} />
                 {/each}
             </div>
-
-            {#if privateKey}
-                <button class="simple-signer sign-tx" on:click="{async () => sendSignedTx(await PrivateKey.signTx(tx))}"
-                    >Sign Transaction with Private Key</button
-                >
-            {:else if xBull}
-                <button class="simple-signer sign-tx" on:click="{async () => sendSignedTx(await XBull.signTx(tx))}"
-                    >Sign Transaction with xBull</button
-                >
-            {/if}
+            <button class="simple-signer sign-tx" on:click="{async () => sendSignedTx(await wallet.sign(tx))}"
+                >Sign Transaction with {storedWallet}</button
+            >
         {:else}
             <p class="simple-signer user-not-connected">User is not connected</p>
             <button class="simple-signer connect-btn"><Link to="/connect">Go to Connect</Link></button>

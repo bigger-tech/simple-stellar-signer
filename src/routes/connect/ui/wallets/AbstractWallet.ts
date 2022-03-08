@@ -3,10 +3,10 @@ import { closeWindow, sendMessage } from '../../../../helpers/sendMessageHelpers
 import { storeItem, clearStorage } from '../../../../helpers/storage';
 
 export default class AbstractWallet {
-    static connectWithWallet(wallet: string, publicKey: string) {
+    connectWithWallet(wallet: string, publicKey: string) {
         const connectEvent = EventsClass.onConnectEvent(publicKey, wallet);
         clearStorage();
-        storeItem(wallet, publicKey);
+        storeItem('wallet', wallet);
         sendMessage(connectEvent);
         closeWindow();
     }
