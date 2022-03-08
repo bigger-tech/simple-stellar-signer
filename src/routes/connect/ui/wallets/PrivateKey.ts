@@ -18,7 +18,7 @@ export default class PrivateKey extends AbstractWallet implements IWallet {
         try {
             const publicKey = Keypair.fromSecret(privateKey).publicKey();
             encryptPrivateKey(privateKey);
-            super.connectWithWallet('privateKey', publicKey);
+            super.connectWithWallet(PrivateKey.NAME, publicKey);
         } catch (e) {
             if (e instanceof InvalidPrivateKeyError) {
                 console.log('Invalid key, please try again');
