@@ -1,30 +1,27 @@
-import { decryptPrivatePair, encryptPrivateKey } from '../../connectHelpers';
-import sendMessage from '../../../../helpers/sendMessageHelpers';
-import InvalidPrivateKeyError from '../../errors/InvalidPrivateKeyError';
-import type { Transaction } from 'stellar-sdk';
-import { Keypair } from 'stellar-sdk';
 import type IWallet from './interfaces/IWallet';
-import { clearStorage, storeItem } from '../../../../helpers/storage';
+import type { Transaction } from 'stellar-sdk';
+import { decryptPrivatePair, encryptPrivateKey } from '../../connectHelpers';
+import { Keypair } from 'stellar-sdk';
+import AbstractWallet from './AbstractWallet';
+import InvalidPrivateKeyError from '../../errors/InvalidPrivateKeyError';
 
-export default class PrivateKey implements IWallet {
+export default class PrivateKey extends AbstractWallet implements IWallet {
     public static NAME = 'privateKey';
 
-    async getPublicKey(keyPair: Keypair): Promise<string> {
-        const publicKey = keyPair.publicKey();
+    async getPublicKey(): Promise<string> {
+        const privateKey = await decryptPrivatePair();
+        const publicKey = Keypair.fromSecret(privateKey).publicKey();
         return publicKey;
     }
 
     async logIn(privateKey: string): Promise<void> {
         try {
-            const stellarKeyPair = Keypair.fromSecret(privateKey);
-            const publicKey = await this.getPublicKey(stellarKeyPair);
-            clearStorage();
-            storeItem('wallet', PrivateKey.NAME);
+            const publicKey = Keypair.fromSecret(privateKey).publicKey();
             encryptPrivateKey(privateKey);
-            sendMessage(publicKey);
+            super.connectWithWallet(PrivateKey.NAME, publicKey);
         } catch (e) {
             if (e instanceof InvalidPrivateKeyError) {
-                sendMessage('Invalid key, please try again');
+                console.log('Invalid key, please try again');
             }
         }
     }

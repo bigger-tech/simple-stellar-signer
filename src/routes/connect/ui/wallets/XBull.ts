@@ -1,14 +1,14 @@
-import sendMessage from '../../../../helpers/sendMessageHelpers';
 import type { Transaction } from 'stellar-sdk';
-import { storeItem, clearStorage } from '../../../../helpers/storage';
+import AbstractWallet from './AbstractWallet';
 import type IWallet from './interfaces/IWallet';
 import { StellarNetwork } from '../../../../helpers/StellarNetwork';
 
-export default class XBull implements IWallet {
+export default class XBull extends AbstractWallet implements IWallet {
     public static NAME = 'xbull';
     public XBullNetwork: string;
 
     constructor() {
+        super();
         const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
 
         if (stellarNetwork === StellarNetwork.PUBLIC) {
@@ -24,11 +24,8 @@ export default class XBull implements IWallet {
         return publicKey;
     }
 
-    async logIn(): Promise<void> {
-        const publicKey = await this.getPublicKey();
-        clearStorage();
-        storeItem('wallet', XBull.NAME);
-        sendMessage(publicKey);
+    logIn(publicKey: string) {
+        super.connectWithWallet(XBull.NAME, publicKey);
     }
 
     async sign(tx: Transaction) {

@@ -8,19 +8,23 @@
     import { albedo, xBull, freighter, privateKey, rabet } from '../../assets/index';
 
     async function connectWithAlbedo() {
-        return new Albedo().logIn();
+        const albedo = new Albedo();
+        return albedo.logIn(await albedo.getPublicKey());
     }
 
     async function connectWithFreighter() {
-        return new Freighter().logIn();
+        const freighter = new Freighter();
+        return freighter.logIn(await freighter.getPublicKey());
     }
 
     async function connectWithXBull() {
-        return new XBull().logIn();
+        const xbull = new XBull();
+        return xbull.logIn(await xbull.getPublicKey());
     }
 
     async function connectWithRabet() {
-        return new Rabet().logIn();
+        const rabet = new Rabet();
+        return rabet.logIn(await rabet.getPublicKey());
     }
 
     async function connectWithSecretKey(privateKey: string): Promise<void> {
@@ -41,12 +45,7 @@
             <input id="input-key" type="password" bind:value="{$inputValue}" />
         {/if}
 
-        <button
-            class="simple-signer private-key-btn"
-            on:click="{() => {
-                connectWithSecretKey($inputValue);
-            }}"
-        >
+        <button class="simple-signer private-key-btn" on:click="{() => connectWithSecretKey($inputValue)}">
             Connect with private key
         </button>
     {:else}

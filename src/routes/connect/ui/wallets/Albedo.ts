@@ -1,15 +1,15 @@
-import sendMessage from '../../../../helpers/sendMessageHelpers';
-import { storeItem, clearStorage } from '../../../../helpers/storage';
 import type { Transaction } from 'stellar-sdk';
 import type IWallet from './interfaces/IWallet';
 import { StellarNetwork } from '../../../../helpers/StellarNetwork';
-export default class Albedo implements IWallet {
+import AbstractWallet from './AbstractWallet';
+export default class Albedo extends AbstractWallet implements IWallet {
     public static NAME = 'albedo';
     public albedoNetwork: string;
 
     constructor() {
-        const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
+        super();
 
+        const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
         if (stellarNetwork === StellarNetwork.PUBLIC) {
             this.albedoNetwork = StellarNetwork.PUBLIC;
         } else {
@@ -25,11 +25,8 @@ export default class Albedo implements IWallet {
         return publicKey;
     }
 
-    async logIn(): Promise<void> {
-        const publicKey = await this.getPublicKey();
-        clearStorage();
-        storeItem('wallet', Albedo.NAME);
-        sendMessage(publicKey);
+    logIn(publicKey: string) {
+        super.connectWithWallet(Albedo.NAME, publicKey);
     }
 
     async sign(tx: Transaction) {

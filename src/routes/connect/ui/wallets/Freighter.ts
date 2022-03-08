@@ -1,17 +1,17 @@
+import AbstractWallet from './AbstractWallet';
 import { getPublicKey, signTransaction } from '@stellar/freighter-api';
-import sendMessage from '../../../../helpers/sendMessageHelpers';
-import { storeItem, clearStorage } from '../../../../helpers/storage';
 import type { Transaction } from 'stellar-sdk';
 import type IWallet from './interfaces/IWallet';
 import { StellarNetwork } from '../../../../helpers/StellarNetwork';
 
-export default class Freighter implements IWallet {
+export default class Freighter extends AbstractWallet implements IWallet {
     public static NAME = 'freighter';
     public freighterNetwork: any;
 
     constructor() {
-        const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
+        super();
 
+        const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
         if (stellarNetwork === StellarNetwork.PUBLIC) {
             this.freighterNetwork = StellarNetwork.PUBLIC.toUpperCase();
         } else {
@@ -24,11 +24,8 @@ export default class Freighter implements IWallet {
         return publicKey;
     }
 
-    async logIn(): Promise<void> {
-        const publicKey = await this.getPublicKey();
-        clearStorage();
-        storeItem('wallet', Freighter.NAME);
-        sendMessage(publicKey);
+    logIn(publicKey: string) {
+        super.connectWithWallet(Freighter.NAME, publicKey);
     }
 
     async sign(tx: Transaction) {

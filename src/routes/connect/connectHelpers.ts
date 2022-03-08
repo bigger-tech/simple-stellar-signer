@@ -1,17 +1,6 @@
 import { getEncryptedData, decryptPrivateKey } from '../../helpers/security';
-import { Keypair } from 'stellar-sdk';
-import InvalidPrivateKeyError from './errors/InvalidPrivateKeyError';
 import { storePair, getStoredPair } from '../../helpers/keyManager';
 import StorageKeyNotFoundError from './errors/StorageKeyNotFoundError';
-
-export async function getStellarKeypair(key: string): Promise<Keypair> {
-    try {
-        const sourceKeys = Keypair.fromSecret(key);
-        return sourceKeys;
-    } catch (e) {
-        throw new InvalidPrivateKeyError();
-    }
-}
 
 export async function encryptPrivateKey(key: string): Promise<void> {
     const encryptedData = await getEncryptedData(key);

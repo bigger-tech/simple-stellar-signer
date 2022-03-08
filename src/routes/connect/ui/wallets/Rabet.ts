@@ -1,17 +1,17 @@
-import sendMessage from '../../../../helpers/sendMessageHelpers';
-import { storeItem, clearStorage } from '../../../../helpers/storage';
 import type { Transaction } from 'stellar-sdk';
 import type IWallet from './interfaces/IWallet';
 import { StellarNetwork } from '../../../../helpers/StellarNetwork';
+import AbstractWallet from './AbstractWallet';
 
-export default class Rabet implements IWallet {
+export default class Rabet extends AbstractWallet implements IWallet {
     public static NAME = 'rabet';
     public rabetNetwork: string;
     public mainNetwork = 'mainnet';
 
     constructor() {
-        const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
+        super();
 
+        const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
         if (stellarNetwork === StellarNetwork.PUBLIC) {
             this.rabetNetwork = this.mainNetwork;
         } else {
@@ -27,11 +27,8 @@ export default class Rabet implements IWallet {
         return publicKey;
     }
 
-    async logIn(): Promise<void> {
-        const publicKey = await this.getPublicKey();
-        clearStorage();
-        storeItem('wallet', Rabet.NAME);
-        sendMessage(publicKey);
+    async logIn(publicKey: string): Promise<void> {
+        super.connectWithWallet(Rabet.NAME, publicKey);
     }
 
     async sign(tx: Transaction) {
