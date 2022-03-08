@@ -1,4 +1,4 @@
-import type ISimpleSignerEvent from './eventsInterfaces/ISimpleSignerEvent';
+import type ISimpleSignerEvent from './interfaces/ISimpleSignerEvent';
 
 export function sendMessage(message: ISimpleSignerEvent): void {
     const parentWindow = window.opener;

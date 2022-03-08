@@ -1,6 +1,5 @@
 <script lang="ts">
     import type { OperationComponentTypes } from './operations/OperationComponentTypes';
-    import type IxdrInvalid from '../errors/IxdrInvalid';
     import type ITxParams from './ITxParams';
     import { getItem } from '../../helpers/storage';
     import { writable } from 'svelte/store';
@@ -31,10 +30,7 @@
             operationComponents.push(operationComponent);
         }
     } catch (e) {
-        const invalidXdr: IxdrInvalid = {
-            invalidXdrError: e,
-        };
-        console.error(invalidXdr);
+        console.error(e);
     }
 </script>
 

@@ -4,7 +4,7 @@ import { storeItem, clearStorage } from '../../../../helpers/storage';
 
 export default class AbstractWallet {
     static connectWithWallet(wallet: string, publicKey: string) {
-        const connectEvent = new EventsClass().onConnectEvent(publicKey, wallet);
+        const connectEvent = EventsClass.onConnectEvent(publicKey, wallet);
         clearStorage();
         storeItem(wallet, publicKey);
         sendMessage(connectEvent);

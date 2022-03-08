@@ -3,7 +3,6 @@
     import Transaction from '../../lib/transaction/Transaction.svelte';
     import { getParamsFromUrl } from './signHelpers';
     import { xdr, description, isXdrNull } from './signStore';
-    import type IxdrInvalid from '../../lib/errors/IxdrInvalid';
     import EventsClass from '../../helpers/EventsClass';
 
     function messageHandler(e: MessageEvent): void {
@@ -24,7 +23,7 @@
         const urlParams = getParamsFromUrl(queryString);
 
         if (parent) {
-            const readyEvent = new EventsClass().onReadyEvent();
+            const readyEvent = EventsClass.onReadyEvent();
             sendMessage(readyEvent);
             window.addEventListener('message', messageHandler);
         } else if (urlParams) {
@@ -37,10 +36,7 @@
             $isXdrNull = true;
         }
     } catch (e) {
-        const invalidXdr: IxdrInvalid = {
-            invalidXdrError: e,
-        };
-        console.error(invalidXdr);
+        console.error(e);
     }
 </script>
 
