@@ -1,4 +1,4 @@
-export default interface Albedo {
+export default interface IAlbedo {
     publicKey: (params: {
         token?: string;
         callback?: string;
