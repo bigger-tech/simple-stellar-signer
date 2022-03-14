@@ -22,6 +22,7 @@
 
     let tx: Transaction;
     let operationComponents: typeof OperationComponentTypes[] = [];
+    let opGroup: any[] = [];
     const isValidXdr = writable(false);
 
     try {
@@ -33,6 +34,29 @@
         for (let i = 0; i < tx.operations.length; i++) {
             let operationComponent = dynamicOperationComponentFactory.create(tx, tx.operations[i]!);
             operationComponents.push(operationComponent);
+        }
+
+        if (txParams.operationsDescription.length > 0) {
+            for (let i = 0; i < txParams.operationsDescription.length; i++) {
+                opGroup.push({
+                    description: txParams.operationsDescription[i]!.description,
+                    opComponents: operationComponents.slice(
+                        txParams.operationsDescription[i]!.from,
+                        txParams.operationsDescription[i]!.to + 1,
+                    ),
+                });
+            }
+
+            operationComponents.splice(
+                txParams.operationsDescription[0]!.from,
+                txParams.operationsDescription[txParams.operationsDescription.length - 1]!.to + 1,
+            );
+
+            console.log(txParams.operationsDescription[1]);
+
+            console.log(opGroup);
+
+            console.log(operationComponents);
         }
     } catch (e) {
         console.error(e);
@@ -62,6 +86,14 @@
             <Signatures signatures="{tx.signatures}" />
 
             <div class="simple-signer operations-container">
+                {#if opGroup.length > 0}
+                    {#each opGroup as group}
+                        <h3>{group.description}</h3>
+                        {#each group.opComponents as op}
+                            <svelte:component this="{op.component}" {...op.props} />
+                        {/each}
+                    {/each}
+                {/if}
                 {#each operationComponents as operation}
                     <svelte:component this="{operation.component}" {...operation.props} />
                 {/each}

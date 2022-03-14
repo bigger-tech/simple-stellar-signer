@@ -8,10 +8,10 @@ export function getParamsFromUrl(queryString: string): ITxParams | undefined {
 
     if (xdrParam && descriptionParam) {
         urlXdr = xdrParam.replace(/\s/g, '+');
-        return { xdr: urlXdr, description: descriptionParam };
+        return { xdr: urlXdr, description: descriptionParam, operationsDescription: [] };
     } else if (xdrParam) {
         urlXdr = xdrParam.replace(/\s/g, '+');
-        return { xdr: urlXdr, description: undefined };
+        return { xdr: urlXdr, description: undefined, operationsDescription: [] };
     } else {
         return undefined;
     }

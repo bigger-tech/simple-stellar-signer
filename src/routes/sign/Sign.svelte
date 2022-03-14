@@ -2,7 +2,7 @@
     import { sendMessage } from '../../helpers/sendMessageHelpers';
     import Transaction from '../../lib/transaction/Transaction.svelte';
     import { getParamsFromUrl } from './signHelpers';
-    import { xdr, description, isXdrNull } from './signStore';
+    import { xdr, description, operationsDescription, isXdrNull } from './signStore';
     import EventsClass from '../../helpers/EventsClass';
 
     function messageHandler(e: MessageEvent): void {
@@ -14,6 +14,10 @@
 
         if ('description' in e.data) {
             $description = e.data.description;
+        }
+
+        if ('operationsDescription' in e.data) {
+            $operationsDescription = e.data.operationsDescription;
         }
     }
 
@@ -43,7 +47,7 @@
 <h1>Sign</h1>
 
 {#if $xdr}
-    <Transaction txParams="{{ xdr: $xdr, description: $description }}" />
+    <Transaction txParams="{{ xdr: $xdr, description: $description, operationsDescription: $operationsDescription }}" />
 {:else if $isXdrNull}
     <h1>Sorry, an XDR wasn't provided</h1>
 {:else}
