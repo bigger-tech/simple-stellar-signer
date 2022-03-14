@@ -51,12 +51,6 @@
                 txParams.operationsDescription[0]!.from,
                 txParams.operationsDescription[txParams.operationsDescription.length - 1]!.to + 1,
             );
-
-            console.log(txParams.operationsDescription[1]);
-
-            console.log(opGroup);
-
-            console.log(operationComponents);
         }
     } catch (e) {
         console.error(e);
