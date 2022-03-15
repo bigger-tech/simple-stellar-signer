@@ -82,10 +82,12 @@
             <div class="simple-signer operations-container">
                 {#if opGroup.length > 0}
                     {#each opGroup as group}
-                        <h3>{group.description}</h3>
-                        {#each group.opComponents as op}
-                            <svelte:component this="{op.component}" {...op.props} />
-                        {/each}
+                        <div class="simple-signer operations-group">
+                            <h3>{group.description}</h3>
+                            {#each group.opComponents as op}
+                                <svelte:component this="{op.component}" {...op.props} />
+                            {/each}
+                        </div>
                     {/each}
                 {/if}
                 {#each operationComponents as operation}
