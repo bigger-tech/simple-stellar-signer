@@ -105,3 +105,9 @@
 {:else}
     <h1>Sorry, the XDR is invalid</h1>
 {/if}
+
+<style>
+    .operations-group {
+        border-style: solid;
+    }
+</style>
