@@ -6,26 +6,26 @@ on:
         branches: [main]
 jobs:
     install-cache:
-       runs-on: ubuntu-latest
-       steps:
-        - uses: actions/checkout@v2
-        - name: Cache node modules
-          uses: actions/cache@v2
-          id: npm-cache
-          env:
-            cache-name: cache-node-modules
-          with:
-            path: |
-              ~/.npm
-              node_modules
-            key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
-            restore-keys: |
-              ${{ runner.os }}-build-${{ env.cache-name }}-
-              ${{ runner.os }}-build-
-              ${{ runner.os }}-
-        - name: Install Dependencies if cache invalid
-          if: steps.npm-cache.outputs.cache-hit != 'true'
-          run: npm install
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Cache node modules
+              uses: actions/cache@v2
+              id: npm-cache
+              env:
+                  cache-name: cache-node-modules
+              with:
+                  path: |
+                      ~/.npm
+                      node_modules
+                  key: ${{ runner.os }}-node_modules-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-build-${{ env.cache-name }}-
+                      ${{ runner.os }}-build-
+                      ${{ runner.os }}-
+            - name: Install Dependencies if cache invalid
+              if: steps.npm-cache.outputs.cache-hit != 'true'
+              run: npm install
     cypress-run:
         runs-on: ubuntu-latest
         needs: install-cache
@@ -36,40 +36,42 @@ jobs:
               uses: actions/cache@v2
               id: npm-cache
               with:
-                path: ~/.npm
-                key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-                restore-keys: |
-                  ${{ runner.os }}-build-${{ env.cache-name }}-
-                  ${{ runner.os }}-build-
-                  ${{ runner.os }}-
+                  path: ~/.npm
+                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-build-${{ env.cache-name }}-
+                      ${{ runner.os }}-build-
+                      ${{ runner.os }}-
             - name: Cypress run
               uses: cypress-io/github-action@v2
               with:
                   build: npm run build
                   start: npm run dev
+              env:
+                  TEST_PRIVATE_KEY: SAP3SV3BANKBI7DVLFAOJJDHAQYVNUZX6O56FXDP6AHZNU2OYQLYWDZJ
     test:
-      runs-on: ubuntu-latest
-      needs: install-cache
-      steps:
-        - uses: actions/checkout@v2
-        - name: Setup Node.js
-          uses: actions/setup-node@v2
-          with:
-            node-version: 16
-        - name: Restore npm dependencies
-          uses: actions/cache@v2
-          id: npm-cache
-          with:
-            path: ~/.npm
-            key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-            restore-keys: |
-              ${{ runner.os }}-build-${{ env.cache-name }}-
-              ${{ runner.os }}-build-
-              ${{ runner.os }}-
-        - name: Run the tests
-          run: |
-                npm install              
-                npm run test
+        runs-on: ubuntu-latest
+        needs: install-cache
+        steps:
+            - uses: actions/checkout@v2
+            - name: Setup Node.js
+              uses: actions/setup-node@v2
+              with:
+                  node-version: 16
+            - name: Restore npm dependencies
+              uses: actions/cache@v2
+              id: npm-cache
+              with:
+                  path: ~/.npm
+                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
+                  restore-keys: |
+                      ${{ runner.os }}-build-${{ env.cache-name }}-
+                      ${{ runner.os }}-build-
+                      ${{ runner.os }}-
+            - name: Run the tests
+              run: |
+                  npm install
+                  npm run test
     build-and-deploy:
         needs: [cypress-run, test]
         runs-on: ubuntu-latest
