@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { OperationComponentTypes } from './operations/OperationComponentTypes';
-    import type ITxParams from './ITxParams';
+    import type { ITxParams, IOperationsGroup } from './ITxParams';
     import type IWallet from '../../routes/connect/ui/wallets/interfaces/IWallet';
     import { getItem } from '../../helpers/storage';
     import { writable } from 'svelte/store';
@@ -22,7 +22,7 @@
 
     let tx: Transaction;
     let operationComponents: typeof OperationComponentTypes[] = [];
-    let opGroup: any[] = [];
+    let operationsGroups: IOperationsGroup[] = [];
     const isValidXdr = writable(false);
 
     try {
@@ -36,11 +36,14 @@
             operationComponents.push(operationComponent);
         }
 
-        if (txParams.operationsGroups.length > 0) {
+        if (
+            txParams.operationsGroups.length > 0 &&
+            operationComponents[txParams.operationsGroups[txParams.operationsGroups.length - 1]!.to]
+        ) {
             for (let i = 0; i < txParams.operationsGroups.length; i++) {
-                opGroup.push({
+                operationsGroups.push({
                     description: txParams.operationsGroups[i]!.description,
-                    opComponents: operationComponents.slice(
+                    operationsComponents: operationComponents.slice(
                         txParams.operationsGroups[i]!.from,
                         txParams.operationsGroups[i]!.to + 1,
                     ),
@@ -51,6 +54,8 @@
                 txParams.operationsGroups[0]!.from,
                 txParams.operationsGroups[txParams.operationsGroups.length - 1]!.to + 1,
             );
+        } else {
+            console.error("A group of operations wasn't provided or there are fewer operations than the group says");
         }
     } catch (e) {
         console.error(e);
@@ -80,11 +85,11 @@
             <Signatures signatures="{tx.signatures}" />
 
             <div class="simple-signer operations-container">
-                {#if opGroup.length > 0}
-                    {#each opGroup as group}
+                {#if operationsGroups.length > 0}
+                    {#each operationsGroups as group}
                         <div class="simple-signer operations-group">
                             <h3>{group.description}</h3>
-                            {#each group.opComponents as op}
+                            {#each group.operationsComponents as op}
                                 <svelte:component this="{op.component}" {...op.props} />
                             {/each}
                         </div>

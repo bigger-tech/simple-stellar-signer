@@ -1,4 +1,4 @@
-import type ITxParams from 'src/lib/transaction/ITxParams';
+import type { ITxParams } from 'src/lib/transaction/ITxParams';
 
 export function getParamsFromUrl(queryString: string): ITxParams | undefined {
     const urlParams = new URLSearchParams(queryString);
