@@ -36,20 +36,20 @@
             operationComponents.push(operationComponent);
         }
 
-        if (txParams.operationsDescription.length > 0) {
-            for (let i = 0; i < txParams.operationsDescription.length; i++) {
+        if (txParams.operationsGroups.length > 0) {
+            for (let i = 0; i < txParams.operationsGroups.length; i++) {
                 opGroup.push({
-                    description: txParams.operationsDescription[i]!.description,
+                    description: txParams.operationsGroups[i]!.description,
                     opComponents: operationComponents.slice(
-                        txParams.operationsDescription[i]!.from,
-                        txParams.operationsDescription[i]!.to + 1,
+                        txParams.operationsGroups[i]!.from,
+                        txParams.operationsGroups[i]!.to + 1,
                     ),
                 });
             }
 
             operationComponents.splice(
-                txParams.operationsDescription[0]!.from,
-                txParams.operationsDescription[txParams.operationsDescription.length - 1]!.to + 1,
+                txParams.operationsGroups[0]!.from,
+                txParams.operationsGroups[txParams.operationsGroups.length - 1]!.to + 1,
             );
         }
     } catch (e) {
