@@ -60,6 +60,7 @@ describe('operations', () => {
         cy.visit(
             '/sign?xdr=AAAAAgAAAACIKmLk3p78KfXDpIWAThUMwmZDd82CRFoygG0dm+BWxgAAAGQACu0LAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAD/ISAVP71pgpaxaZBpBkjGIvdxYNxnXrN0JkP5KM3+wAAAAAAAAAAO5rKAAAAAAAAAAAA',
         );
+        cy.wait(2500);
         cy.get('.payment-operation').contains('Amount');
         cy.get('.payment-operation').contains('Destination');
         cy.get('.payment-operation').contains('Asset');
