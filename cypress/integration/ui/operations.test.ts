@@ -1,40 +1,5 @@
 /// <reference types="cypress" />
 /// <reference types="@testing-library/cypress"/>
-// import {
-//     operationsXdr,
-//     paymentXdr,
-//     createAccountXdr,
-//     beginSponsoringFutureReservesXdr,
-//     pathPaymentStrictSendXdr,
-//     pathPaymentStrictReceiveXdr,
-//     manageBuyOfferXdr,
-//     manageSellOfferXdr,
-//     createPassiveSellOfferXdr,
-//     setOptionsXdr,
-//     changeTrustLiquidityPoolAssetXdr,
-//     changeTrustXdr,
-//     accountMergeXdr,
-//     manageDataXdr,
-//     bumpSequenceXdr,
-//     createClaimableBalanceXdr,
-//     endSponsoringFutureReservesXdr,
-//     revokeAccountSponsorshipXdr,
-//     revokeClaimableBalanceSponsorshipXdr,
-//     revokeDataSponsorshipXdr,
-//     revokeLiquidityPoolSponsorshipXdr,
-//     revokeOfferSponsorshipXdr,
-//     revokeSignerSponsorshipXdr,
-//     revokeSignerSponsorshipSha256Xdr,
-//     revokeSignerSponsorshipPreaAuthTx,
-//     allowTrustXdr,
-//     claimClaimableBalanceXdr,
-//     setTrustLineFlagsXdr,
-//     liquidityPoolWithdrawXdr,
-//     clawbackXdr,
-//     liquidityPoolDepositXdr,
-//     clawbackClaimableBalanceXdr,
-//     revokeTrustLineSponsorshipXdr,
-// } from '../../fixtures/operations.json';
 
 describe('operations', () => {
     const BASE_URL = '/sign?xdr=';
