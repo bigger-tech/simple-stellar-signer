@@ -65,7 +65,7 @@
         <div class="simple-signer-wallets">
             <div class="simple-signer rabet-container">
                 <a href="{'#'}" class="connect-rabet" on:click="{() => connectWithRabet()}">
-                    <img class="simple-signer rabet-logo" src="{rabet}" alt="albedo logo" width="35" height="45" />
+                    <img class="simple-signer rabet-logo" src="{rabet}" alt="rabet logo" width="35" height="45" />
                     <p class="simple-signer wallet-rabet-title">Rabet</p>
                 </a>
             </div>
