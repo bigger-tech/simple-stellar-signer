@@ -39,6 +39,7 @@
 describe('operations', () => {
     // const BASE_URL = '/sign?xdr=';
     const TEST_PRIVATE_KEY = Cypress.env('TEST_PRIVATE_KEY');
+    const XDR_TEST = Cypress.env('XDR_TEST');
 
     it('should connect with private key', () => {
         cy.visit('/connect');
@@ -49,9 +50,7 @@ describe('operations', () => {
 
     it('should render two components if the xdr has two operations, ', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(
-            '/sign?xdr=AAAAAgAAAAAalxkVJNN8VTGsMd6h11nvZWB7V5YLM7mxQHaxy4gnEgAAAGQAAB5IAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAIH37SG6sn0/0Lg8yB+9HbuITXNX5/uGB92Zuy7eOyJwAAAAAAAAAAdzWUAAAAAAAAAAAA',
-        );
+        cy.visit(`sign?xdr=${XDR_TEST}`);
         // cy.get('.operations-container').children().should('have.length', 2);
         cy.get('.payment-operation').should('exist');
         cy.get('.sequence-number').should('exist');
