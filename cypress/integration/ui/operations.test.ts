@@ -3,8 +3,9 @@
 
 describe('operations', () => {
     const BASE_URL = '/sign?xdr=';
-    const TEST_PRIVATE_KEY = Cypress.env('TEST_PRIVATE_KEY');
+    // const TEST_PRIVATE_KEY = Cypress.env('TEST_PRIVATE_KEY');
     let operations;
+
     before(() => {
         cy.fixture('../fixtures/operations.json').as('operations');
         cy.get('@operations').then((result) => {
@@ -12,12 +13,12 @@ describe('operations', () => {
         });
     });
 
-    it('should connect with private key', () => {
-        cy.visit('/connect');
-        cy.get('.connect-private-key').click();
-        cy.get('#input-key').type(TEST_PRIVATE_KEY);
-        cy.get('.private-key-btn').click();
-    });
+    // it('should connect with private key', () => {
+    //     cy.visit('/connect');
+    //     cy.get('.connect-private-key').click();
+    //     cy.get('#input-key').type(TEST_PRIVATE_KEY);
+    //     cy.get('.private-key-btn').click();
+    // });
 
     it('should render two components if the xdr has two operations, ', () => {
         window.localStorage.setItem('wallet', 'xbull');
