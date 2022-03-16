@@ -39,7 +39,7 @@ import {
 describe('operations', () => {
     const BASE_URL = '/sign?xdr=';
     const TEST_PRIVATE_KEY = Cypress.env('TEST_PRIVATE_KEY');
-
+    const operationXdrTest = Cypress.env('XDR_TEST');
     it('should connect with private key', () => {
         cy.visit('/connect');
         cy.get('.connect-private-key').click();
@@ -49,7 +49,7 @@ describe('operations', () => {
 
     it('should render two components if the xdr has two operations, ', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${operationsXdr}`);
+        cy.visit(`${BASE_URL}${operationXdrTest}`);
         cy.get('.operations-container').children().should('have.length', 2);
         cy.get('.payment-operation').should('exist');
         cy.get('.create-account-operation').should('exist');
