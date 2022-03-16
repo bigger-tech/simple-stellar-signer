@@ -9,11 +9,6 @@
     <main>
         <Route path="/" component="{Home}" />
         <Route path="/connect" component="{Connect}" />
-        <Route path="sign/*">
-            <Route path="/">
-                <Sign />
-            </Route>
-            <Route path="?xdr=:xdr" component="{Sign}" />
-        </Route>
+        <Route path="/sign" component="{Sign}" />
     </main>
 </Router>

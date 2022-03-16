@@ -1,41 +1,48 @@
 <script lang="ts">
     import Albedo from './ui/wallets/Albedo';
-    import Freighter from './ui/wallets/Freighter';
+    // import Freighter from './ui/wallets/Freighter';
     import XBull from './ui/wallets/XBull';
     import PrivateKey from './ui/wallets/PrivateKey';
-    import { onMount } from 'svelte';
+    import Rabet from './ui/wallets/Rabet';
     import { inputValue, isPrivateKeyVisible, isWalletHidden } from './connectStore';
-    import { decryptPrivatePair } from './connectHelpers';
-    import StorageKeyNotFoundError from './errors/StorageKeyNotFoundError';
-    import { albedo, xBull, freighter, privateKey, walletConnect } from '../../assets/index';
-    import connectWithWalletConnect from './ui/wallets/WalletConnect';
+    import { albedo, xBull, freighter, privateKey, rabet } from '../../assets/index';
+    // import WalletConnect from './ui/wallets/WalletConnect';
+
+    // const PUBNET = 'stellar:pubnet';
+    // const STELLAR_METHODS = {
+    //     SIGN: 'stellar_signXDR',
+    // };
 
     async function connectWithAlbedo() {
-        return new Albedo().logIn();
+        const albedo = new Albedo();
+        return albedo.logIn(await albedo.getPublicKey());
     }
 
-    async function connectWithFreighter() {
-        return new Freighter().logIn();
-    }
+    // async function connectWithFreighter() {
+    //     const freighter = new Freighter();
+    //     return freighter.logIn(await freighter.getPublicKey());
+    // }
 
     async function connectWithXBull() {
-        return new XBull().logIn();
+        const xbull = new XBull();
+        return xbull.logIn(await xbull.getPublicKey());
+    }
+
+    async function connectWithRabet() {
+        const rabet = new Rabet();
+        return rabet.logIn(await rabet.getPublicKey());
     }
 
     async function connectWithSecretKey(privateKey: string): Promise<void> {
         return new PrivateKey().logIn(privateKey);
     }
 
-    onMount(async function connectWithStorage(): Promise<void> {
-        try {
-            const privateKey = await decryptPrivatePair();
-            return new PrivateKey().logIn(privateKey);
-        } catch (e) {
-            if (e instanceof StorageKeyNotFoundError) {
-                console.log('No key was found in storage');
-            }
-        }
-    });
+    // async function connectWithWalletConnect() {
+    //     const walletConnect = new WalletConnect();
+    //     const client = await walletConnect.initClient();
+    //     const pairing = await walletConnect.createPairing(client);
+    //     const session = await walletConnect.createSession(client);
+    // }
 </script>
 
 <div class="simple-signer-container">
@@ -51,16 +58,17 @@
             <input id="input-key" type="password" bind:value="{$inputValue}" />
         {/if}
 
-        <button
-            class="simple-signer private-key-btn"
-            on:click="{() => {
-                connectWithSecretKey($inputValue);
-            }}"
-        >
+        <button class="simple-signer private-key-btn" on:click="{() => connectWithSecretKey($inputValue)}">
             Connect with private key
         </button>
     {:else}
         <div class="simple-signer-wallets">
+            <div class="simple-signer rabet-container">
+                <a href="{'#'}" class="connect-rabet" on:click="{() => connectWithRabet()}">
+                    <img class="simple-signer rabet-logo" src="{rabet}" alt="albedo logo" width="35" height="45" />
+                    <p class="simple-signer wallet-rabet-title">Rabet</p>
+                </a>
+            </div>
             <div class="simple-signer albedo-container">
                 <a href="{'#'}" class="connect-albedo" on:click="{() => connectWithAlbedo()}">
                     <img class="simple-signer albedo-logo" src="{albedo}" alt="albedo logo" width="35" height="45" />
@@ -68,7 +76,7 @@
                 </a>
             </div>
             <div class="simple-signer freighter-container">
-                <a href="{'#'}" class="connect-freighter" on:click="{() => connectWithFreighter()}">
+                <a href="{'#'}" class="connect-freighter">
                     <img
                         class="simple-signer freighter-logo"
                         src="{freighter}"
@@ -97,7 +105,7 @@
                     <p class="simple-signer wallet-private-key-title">Private Key</p>
                 </a>
             </div>
-            <div class="simple-signer wallet-connect-container">
+            <!-- <div class="simple-signer wallet-connect-container">
                 <a href="{'#'}" class="connect-wallet-connect" on:click="{() => connectWithWalletConnect()}">
                     <img
                         class="simple-signer wallet-connect-logo"
@@ -108,7 +116,7 @@
                     />
                     <p class="simple-signer wallet-connect-title">Wallet Connect</p>
                 </a>
-            </div>
+            </div> -->
         </div>
     {/if}
 </div>
@@ -125,19 +133,21 @@
         text-align: center;
         width: 290px;
     }
+    .rabet-logo,
     .albedo-logo,
     .xbull-logo,
-    .private-key-logo,
-    .wallet-connect-logo {
+    .private-key-logo
+    /* .wallet-connect-logo */ {
         margin-top: 25px;
     }
     .freighter-logo {
         margin-top: 28px;
     }
+    .wallet-rabet-title,
     .wallet-albedo-title,
     .wallet-xbull-title,
-    .wallet-private-key-title,
-    .wallet-connect-title {
+    .wallet-private-key-title
+    /* .wallet-connect-title { */ {
         margin-top: 10px;
     }
 
@@ -145,11 +155,12 @@
         margin-top: 7px;
     }
 
+    .wallet-rabet-title:hover,
     .wallet-albedo-title:hover,
     .wallet-xbull-title:hover,
     .wallet-private-key-title:hover,
-    .wallet-freighter-title:hover,
-    .wallet-connect-title:hover {
+    .wallet-freighter-title:hover
+    /* .wallet-connect-title:hover */ {
         color: #000;
     }
 
@@ -157,11 +168,12 @@
         text-decoration: inherit;
         color: inherit;
     }
+    .rabet-container,
     .albedo-container,
     .freighter-container,
     .xbull-container,
-    .private-key-container,
-    .wallet-connect-container {
+    .private-key-container
+    /* .wallet-connect-container */ {
         font-family: 'Montserrat', sans-serif;
         font-size: 14px;
         color: #bdbdbd;
@@ -171,11 +183,12 @@
         margin-top: 18px;
     }
     @media screen and (max-width: 291px) {
+        .rabet-container,
         .albedo-container,
         .freighter-container,
         .xbull-container,
-        .private-key-container,
-        .wallet-connect-container {
+        .private-key-container
+        /* .wallet-connect-container */ {
             margin-top: 15px;
         }
     }

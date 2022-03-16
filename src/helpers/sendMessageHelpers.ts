@@ -1,14 +1,10 @@
-function messageHandler(message: string): string {
+import type ISimpleSignerEvent from './interfaces/ISimpleSignerEvent';
+
+export function sendMessage(message: ISimpleSignerEvent): void {
     const parentWindow = window.opener;
-    const sendMessage = parentWindow.postMessage(message, '*');
-    return sendMessage;
+    parentWindow.postMessage(message, '*');
 }
 
-function closeWindowHandler() {
+export function closeWindow() {
     return window.close();
-}
-
-export default function sendMessage(message: string) {
-    messageHandler(message);
-    closeWindowHandler();
 }

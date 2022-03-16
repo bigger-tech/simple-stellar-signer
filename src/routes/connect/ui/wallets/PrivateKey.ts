@@ -1,29 +1,35 @@
-import { encryptPrivateKey, getStellarKeypair } from '../../connectHelpers';
-import sendMessage from '../../../../helpers/sendMessageHelpers';
+import type IWallet from './interfaces/IWallet';
+import type { Transaction } from 'stellar-sdk';
+import { decryptPrivatePair, encryptPrivateKey } from '../../connectHelpers';
+import { Keypair } from 'stellar-sdk';
+import AbstractWallet from './AbstractWallet';
 import InvalidPrivateKeyError from '../../errors/InvalidPrivateKeyError';
-import type { Transaction, Keypair } from 'stellar-sdk';
 
-export default class PrivateKey {
-    async getPublicKey(keyPair: Keypair): Promise<string> {
-        const publicKey = keyPair.publicKey();
+export default class PrivateKey extends AbstractWallet implements IWallet {
+    public static NAME = 'privateKey';
+
+    async getPublicKey(): Promise<string> {
+        const privateKey = await decryptPrivatePair();
+        const publicKey = Keypair.fromSecret(privateKey).publicKey();
         return publicKey;
     }
 
     async logIn(privateKey: string): Promise<void> {
         try {
-            const stellarKeyPair = await getStellarKeypair(privateKey);
-            const publicKey = await this.getPublicKey(stellarKeyPair);
+            const publicKey = Keypair.fromSecret(privateKey).publicKey();
             encryptPrivateKey(privateKey);
-            sendMessage(publicKey);
+            super.connectWithWallet(PrivateKey.NAME, publicKey);
         } catch (e) {
             if (e instanceof InvalidPrivateKeyError) {
-                sendMessage('Invalid key, please try again');
+                console.log('Invalid key, please try again');
             }
         }
     }
 
-    async signTx(tx: Transaction, secretKey: Keypair): Promise<string> {
-        tx.sign(secretKey);
+    async sign(tx: Transaction): Promise<string> {
+        const privateKey = await decryptPrivatePair();
+        const keyPair = Keypair.fromSecret(privateKey);
+        tx.sign(keyPair);
         const signedXDR = tx.toXDR();
         return signedXDR;
     }
