@@ -45,7 +45,7 @@
 {#if $xdr}
     <Transaction txParams="{{ xdr: $xdr, description: $description }}" />
 {:else if $isXdrNull}
-    <h1>Sorry, an XDR wasn't provided</h1>
+    <h1 class="test-cypress">Sorry, an XDR wasn't provided</h1>
 {:else}
     <p>Loading...</p>
 {/if}

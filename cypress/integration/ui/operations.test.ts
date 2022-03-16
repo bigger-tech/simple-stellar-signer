@@ -1,44 +1,57 @@
 /// <reference types="cypress" />
 /// <reference types="@testing-library/cypress"/>
-import {
-    operationsXdr,
-    paymentXdr,
-    createAccountXdr,
-    beginSponsoringFutureReservesXdr,
-    pathPaymentStrictSendXdr,
-    pathPaymentStrictReceiveXdr,
-    manageBuyOfferXdr,
-    manageSellOfferXdr,
-    createPassiveSellOfferXdr,
-    setOptionsXdr,
-    changeTrustLiquidityPoolAssetXdr,
-    changeTrustXdr,
-    accountMergeXdr,
-    manageDataXdr,
-    bumpSequenceXdr,
-    createClaimableBalanceXdr,
-    endSponsoringFutureReservesXdr,
-    revokeAccountSponsorshipXdr,
-    revokeClaimableBalanceSponsorshipXdr,
-    revokeDataSponsorshipXdr,
-    revokeLiquidityPoolSponsorshipXdr,
-    revokeOfferSponsorshipXdr,
-    revokeSignerSponsorshipXdr,
-    revokeSignerSponsorshipSha256Xdr,
-    revokeSignerSponsorshipPreaAuthTx,
-    allowTrustXdr,
-    claimClaimableBalanceXdr,
-    setTrustLineFlagsXdr,
-    liquidityPoolWithdrawXdr,
-    clawbackXdr,
-    liquidityPoolDepositXdr,
-    clawbackClaimableBalanceXdr,
-    revokeTrustLineSponsorshipXdr,
-} from '../../fixtures/operations.json';
+// import {
+//     operationsXdr,
+//     paymentXdr,
+//     createAccountXdr,
+//     beginSponsoringFutureReservesXdr,
+//     pathPaymentStrictSendXdr,
+//     pathPaymentStrictReceiveXdr,
+//     manageBuyOfferXdr,
+//     manageSellOfferXdr,
+//     createPassiveSellOfferXdr,
+//     setOptionsXdr,
+//     changeTrustLiquidityPoolAssetXdr,
+//     changeTrustXdr,
+//     accountMergeXdr,
+//     manageDataXdr,
+//     bumpSequenceXdr,
+//     createClaimableBalanceXdr,
+//     endSponsoringFutureReservesXdr,
+//     revokeAccountSponsorshipXdr,
+//     revokeClaimableBalanceSponsorshipXdr,
+//     revokeDataSponsorshipXdr,
+//     revokeLiquidityPoolSponsorshipXdr,
+//     revokeOfferSponsorshipXdr,
+//     revokeSignerSponsorshipXdr,
+//     revokeSignerSponsorshipSha256Xdr,
+//     revokeSignerSponsorshipPreaAuthTx,
+//     allowTrustXdr,
+//     claimClaimableBalanceXdr,
+//     setTrustLineFlagsXdr,
+//     liquidityPoolWithdrawXdr,
+//     clawbackXdr,
+//     liquidityPoolDepositXdr,
+//     clawbackClaimableBalanceXdr,
+//     revokeTrustLineSponsorshipXdr,
+// } from '../../fixtures/operations.json';
 
 describe('operations', () => {
     const BASE_URL = '/sign?xdr=';
     const TEST_PRIVATE_KEY = Cypress.env('TEST_PRIVATE_KEY');
+    let operations;
+    before(() => {
+        cy.fixture('../fixtures/operations.json').as('operations');
+        cy.get('@operations').then((result) => {
+            operations = result;
+        });
+    });
+
+    it('should connect1', () => {
+        window.localStorage.setItem('wallet', 'xbull');
+        cy.visit(`${BASE_URL}${operations['operationsXdr']}`);
+        cy.get('.test-cypress').contains("Sorry, an XDR wasn't provided");
+    });
 
     it('should connect with private key', () => {
         cy.visit('/connect');
@@ -49,9 +62,7 @@ describe('operations', () => {
 
     it('should render two components if the xdr has two operations, ', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(
-            `${BASE_URL}AAAAAgAAAAA95yBD5tzTsl5iYhEepOIhzRl3kpHH8JtbRJYq/mmKKgAAAMgACxalAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAACoO+0vVD4GQIckKP0VWRPKCsg2GVjR7aObgvo8LAkjawAAAAAC+vCAAAAAAAAAAAEAAAAAqDvtL1Q+BkCHJCj9FVkTygrINhlY0e2jm4L6PCwJI2sAAAAAAAAAAB3NZQAAAAAAAAAAAA==`,
-        );
+        cy.visit(`${BASE_URL}${operations['operationsXdr']}`);
         cy.get('.operations-container').children().should('have.length', 2);
         cy.get('.payment-operation').should('exist');
         cy.get('.create-account-operation').should('exist');
@@ -59,7 +70,7 @@ describe('operations', () => {
 
     it('should render a Payment component if the xdr has a Payment operation', () => {
         window.localStorage.setItem('wallet', 'albedo');
-        cy.visit(`${BASE_URL}${paymentXdr}`);
+        cy.visit(`${BASE_URL}${operations['paymentXdr']}`);
         cy.get('.payment-operation').contains('Amount');
         cy.get('.payment-operation').contains('Destination');
         cy.get('.payment-operation').contains('Asset');
@@ -67,7 +78,7 @@ describe('operations', () => {
 
     it('should render a CreateAccount component if the xdr has a Create Account operation', () => {
         window.localStorage.setItem('wallet', 'freighter');
-        cy.visit(`${BASE_URL}${createAccountXdr}`);
+        cy.visit(`${BASE_URL}${operations['createAccountXdr']}`);
         cy.get('.create-account-operation').contains('Source Account');
         cy.get('.create-account-operation').contains('Starting Balance');
         cy.get('.create-account-operation').contains('Destination');
@@ -75,7 +86,7 @@ describe('operations', () => {
 
     it('should render begin sponsoring future reserves operation', () => {
         window.localStorage.setItem('wallet', 'rabet');
-        cy.visit(`${BASE_URL}${beginSponsoringFutureReservesXdr}`);
+        cy.visit(`${BASE_URL}${operations['beginSponsoringFutureReservesXdr']}`);
         cy.get('.begin-sponsoring-future-reserves-operation').contains('Sponsored ID');
         cy.get('.begin-sponsoring-future-reserves-operation').contains(
             'GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
@@ -83,7 +94,7 @@ describe('operations', () => {
     });
     it('should render path payment strict send operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${pathPaymentStrictSendXdr}`);
+        cy.visit(`${BASE_URL}${operations['pathPaymentStrictSendXdr']}`);
         cy.get('.path-payment-strict-send-operation').contains('Asset you are using to pay: XLM');
         cy.get('.path-payment-strict-send-operation').contains('Amount: 2.0000000');
         cy.get('.path-payment-strict-send-operation').contains(
@@ -99,7 +110,7 @@ describe('operations', () => {
 
     it('should render path payment strict receive operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${pathPaymentStrictReceiveXdr}`);
+        cy.visit(`${BASE_URL}${operations['pathPaymentStrictReceiveXdr']}`);
         cy.get('.path-payment-strict-receive-operation').contains('Asset you are using to pay: XLM');
         cy.get('.path-payment-strict-receive-operation').contains('Max amount: 3.0000000');
         cy.get('.path-payment-strict-receive-operation').contains(
@@ -112,7 +123,7 @@ describe('operations', () => {
 
     it('should render manage buy offer operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${manageBuyOfferXdr}`);
+        cy.visit(`${BASE_URL}${operations['manageBuyOfferXdr']}`);
         cy.get('.manage-buy-offer-operation').contains(
             'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
         );
@@ -125,7 +136,7 @@ describe('operations', () => {
 
     it('should render manage sell offer operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${manageSellOfferXdr}`);
+        cy.visit(`${BASE_URL}${operations['manageSellOfferXdr']}`);
         cy.get('.manage-sell-offer-operation').contains(
             'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
         );
@@ -138,7 +149,7 @@ describe('operations', () => {
 
     it('should render create passive sell offer operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${createPassiveSellOfferXdr}`);
+        cy.visit(`${BASE_URL}${operations['createPassiveSellOfferXdr']}`);
         cy.get('.create-passive-sell-offer-operation').contains(
             'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
         );
@@ -150,7 +161,7 @@ describe('operations', () => {
 
     it('should render set options operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${setOptionsXdr}`);
+        cy.visit(`${BASE_URL}${operations['setOptionsXdr']}`);
         cy.get('.set-options-operation').contains(
             'Source Account: GC3BZC6JUSOR76BHQJFO4CF7L4MCIB4GLBV7ECBXKK5BT3WLZ6ZP6EKQ',
         );
@@ -173,7 +184,7 @@ describe('operations', () => {
 
     it('should render change trust (normal asset) operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${changeTrustXdr}`);
+        cy.visit(`${BASE_URL}${operations['changeTrustXdr']}`);
         cy.get('.change-trust-operation').contains('Asset: AUD');
         cy.get('.change-trust-operation').contains(
             'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
@@ -183,7 +194,7 @@ describe('operations', () => {
 
     it('should render change trust (liquidity pool asset) operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${changeTrustLiquidityPoolAssetXdr}`);
+        cy.visit(`${BASE_URL}${operations['changeTrustLiquidityPoolAssetXdr']}`);
         cy.get('.change-trust-operation').contains(
             'Source Account: GDWTWTWO7WJF57UUXI42R4CJXT6MAKZ4K2THPJAW4EFKD5ATPNEQJ5W3',
         );
@@ -194,7 +205,7 @@ describe('operations', () => {
 
     it('should render account merge operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${accountMergeXdr}`);
+        cy.visit(`${BASE_URL}${operations['accountMergeXdr']}`);
         cy.get('.account-merge-operation').contains(
             'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
         );
@@ -205,7 +216,7 @@ describe('operations', () => {
 
     it('should render manage data operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${manageDataXdr}`);
+        cy.visit(`${BASE_URL}${operations['manageDataXdr']}`);
         cy.get('.manage-data-operation').contains(
             'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
         );
@@ -215,7 +226,7 @@ describe('operations', () => {
 
     it('should render bump sequence operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${bumpSequenceXdr}`);
+        cy.visit(`${BASE_URL}${operations['bumpSequenceXdr']}`);
         cy.get('.bump-sequence-operation').contains(
             'Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI',
         );
@@ -224,7 +235,7 @@ describe('operations', () => {
 
     it('should render create claimable balance operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${createClaimableBalanceXdr}`);
+        cy.visit(`${BASE_URL}${operations['createClaimableBalanceXdr']}`);
         cy.get('.create-claimable-balance-operation').contains(
             'Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M',
         );
@@ -238,7 +249,7 @@ describe('operations', () => {
 
     it('should render end sponsoring future reserves operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${endSponsoringFutureReservesXdr}`);
+        cy.visit(`${BASE_URL}${operations['endSponsoringFutureReservesXdr']}`);
         cy.get('.end-sponsoring-future-reserves-operation').contains('Operation: Create Passive Sell Offer');
         cy.get('.end-sponsoring-future-reserves-operation').contains(
             'Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI',
@@ -247,7 +258,7 @@ describe('operations', () => {
 
     it('should render revoke account sponsorship operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${revokeAccountSponsorshipXdr}`);
+        cy.visit(`${BASE_URL}${operations['revokeAccountSponsorshipXdr']}`);
         cy.get('.revoke-account-sponsorship-operation').contains('Operation: Revoke Account Sponsorship');
         cy.get('.revoke-account-sponsorship-operation').contains(
             'Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI',
@@ -259,7 +270,7 @@ describe('operations', () => {
 
     it('should render revoke claimable balance sponsorship operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${revokeClaimableBalanceSponsorshipXdr}`);
+        cy.visit(`${BASE_URL}${operations['revokeClaimableBalanceSponsorshipXdr']}`);
         cy.get('.revoke-claimable-balance-sponsorship-operation').contains(
             'Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI',
         );
@@ -270,7 +281,7 @@ describe('operations', () => {
 
     it('should render revoke data sponsorship operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${revokeDataSponsorshipXdr}`);
+        cy.visit(`${BASE_URL}${operations['revokeDataSponsorshipXdr']}`);
         cy.get('.revoke-data-sponsorship-operation').contains(
             'Source Account: GBGQAJHRMZ4X47KKNBEORZHK4QWBGNU2BUDKYLLWXTDZS46ZUHVO77UF',
         );
@@ -281,7 +292,7 @@ describe('operations', () => {
     });
     it('should render revoke liquidity pool sponsorship operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${revokeLiquidityPoolSponsorshipXdr}`);
+        cy.visit(`${BASE_URL}${operations['revokeLiquidityPoolSponsorshipXdr']}`);
         cy.get('.revoke-liquidity-pool-sponsorship-operation').contains(
             'Source Account: GACXTDPQUGJFX7NS4TREHBL2VOGPUFCF4ZWQYKTWOHR4XGMBATZ6SRO5',
         );
@@ -292,7 +303,7 @@ describe('operations', () => {
 
     it('should render revoke offer sponsorship operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${revokeOfferSponsorshipXdr}`);
+        cy.visit(`${BASE_URL}${operations['revokeOfferSponsorshipXdr']}`);
         cy.get('.revoke-offer-sponsorship-operation').contains(
             'Source Account: GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB',
         );
@@ -304,7 +315,7 @@ describe('operations', () => {
 
     it('should render revoke signer sponsorship operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${revokeSignerSponsorshipXdr}`);
+        cy.visit(`${BASE_URL}${operations['revokeSignerSponsorshipXdr']}`);
         cy.get('.revoke-signer-sponsorship-operation').contains(
             'Source Account: GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB',
         );
@@ -317,7 +328,7 @@ describe('operations', () => {
     });
     it('should render revoke signer sponsorship operation with sha256 signer', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${revokeSignerSponsorshipSha256Xdr}`);
+        cy.visit(`${BASE_URL}${operations['revokeSignerSponsorshipSha256Xdr']}`);
         cy.get('.revoke-signer-sponsorship-operation').contains(
             'Source Account: GA2FBCLFZZHJ2EPGCBV3SEVSFN3GPGTKAQL6R5C2PQA2IE2N3JLKHB7X',
         );
@@ -331,7 +342,7 @@ describe('operations', () => {
 
     it('should render revoke signer sponsorship operation with preAuth signer', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${revokeSignerSponsorshipPreaAuthTx}`);
+        cy.visit(`${BASE_URL}${operations['revokeSignerSponsorshipPreaAuthTx']}`);
         cy.get('.revoke-signer-sponsorship-operation').contains(
             'Source Account: GAAKB6IS2LZDFVMIWXMHNRWQPCB7DH5GSE5OQPI6LRLTGH4FXQZ2NG4Y',
         );
@@ -345,7 +356,7 @@ describe('operations', () => {
 
     it('should render allow trust operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${allowTrustXdr}`);
+        cy.visit(`${BASE_URL}${operations['allowTrustXdr']}`);
         cy.get('.allow-trust-operation').contains(
             'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
         );
@@ -357,7 +368,7 @@ describe('operations', () => {
 
     it('should render claim claimable balance operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${claimClaimableBalanceXdr}`);
+        cy.visit(`${BASE_URL}${operations['claimClaimableBalanceXdr']}`);
         cy.get('.claim-claimable-balance-operation').contains(
             'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
         );
@@ -368,7 +379,7 @@ describe('operations', () => {
 
     it('should render set trust line flags operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${setTrustLineFlagsXdr}`);
+        cy.visit(`${BASE_URL}${operations['setTrustLineFlagsXdr']}`);
         cy.get('.set-trust-line-flags-operation').contains(
             'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
         );
@@ -383,7 +394,7 @@ describe('operations', () => {
 
     it('should render liquidity pool deposit operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${liquidityPoolDepositXdr}`);
+        cy.visit(`${BASE_URL}${operations['liquidityPoolDepositXdr']}`);
         cy.get('.liquidity-pool-deposit-operation').contains(
             'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
         );
@@ -398,7 +409,7 @@ describe('operations', () => {
 
     it('should render clawback claimable balance operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${clawbackClaimableBalanceXdr}`);
+        cy.visit(`${BASE_URL}${operations['clawbackClaimableBalanceXdr']}`);
         cy.get('.clawback-claimable-balance-operation').contains(
             'Source Account: GCKIJAGP35IRNIF4U3C7Z5LQ5FJXKHQMVN7APY4OZIIGK5RKX274RJJU',
         );
@@ -409,7 +420,7 @@ describe('operations', () => {
 
     it('should render clawback operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${clawbackXdr}`);
+        cy.visit(`${BASE_URL}${operations['clawbackXdr']}`);
         cy.get('.clawback-operation').contains(
             'Source account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
         );
@@ -420,7 +431,7 @@ describe('operations', () => {
 
     it('should render liquidity pool withdraw operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${liquidityPoolWithdrawXdr}`);
+        cy.visit(`${BASE_URL}${operations['liquidityPoolWithdrawXdr']}`);
         cy.get('.liquidity-pool-withdraw-operation').contains(
             'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
         );
@@ -434,7 +445,7 @@ describe('operations', () => {
 
     it('should render revoke trustline sponsorship operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${revokeTrustLineSponsorshipXdr}`);
+        cy.visit(`${BASE_URL}${operations['revokeTrustLineSponsorshipXdr']}`);
         cy.get('.revoke-trustline-sponsorship-operation').contains(
             'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
         );
