@@ -8,7 +8,7 @@
     import { Link } from 'svelte-navigator';
     import { sendSignedTx } from './transactionHelpers';
     import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
-    import Signatures from './Signatures.svelte';
+    // import Signatures from './Signatures.svelte';
     import WalletFactory from '../../routes/connect/ui/wallets/Wallet';
     export let txParams: ITxParams;
 
@@ -57,8 +57,6 @@
             <p class="time-bounds">
                 Time bounds: {tx ? `Min time ${tx.timeBounds?.minTime} Max time ${tx.timeBounds?.maxTime}` : ''}
             </p>
-
-            <Signatures signatures="{tx.signatures}" />
 
             <div class="simple-signer operations-container">
                 {#each operationComponents as operation}
