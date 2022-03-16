@@ -28,7 +28,7 @@ import ClawbackComponent from './clawback/Clawback';
 import SetTrustLineFlagsComponent from './setTrustLineFlags/SetTrustLineFlags';
 import LiquidityPoolWithdrawComponent from './liquidityPoolWithdraw/LiquidityPoolWithdraw';
 import LiquidityPoolDepositComponent from './liquidityPoolDeposit/LiquidityPoolDeposit';
-import RevokeTrustlineSponsorshipComponent from './revokeTrustLineSponsorship/revokeTrustLineSponsorship';
+import RevokeTrustlineSponsorshipComponent from './revokeTrustLineSponsorship/RevokeTrustLineSponsorship';
 import ClawbackClaimableBalanceComponent from './clawbackClaimableBalance/ClawbackClaimableBalance';
 
 export default class DynamicOperationComponentFactory {
