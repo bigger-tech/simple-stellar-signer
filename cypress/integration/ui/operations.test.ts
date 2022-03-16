@@ -47,7 +47,7 @@ describe('operations', () => {
         cy.get('.private-key-btn').click();
     });
 
-    it('should connect1', () => {
+    it('should connect2', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${paymentXdr}`);
         cy.get('.test-cypress').contains('Sorry, the XDR is invalid');
