@@ -48,7 +48,7 @@ jobs:
                   build: npm run build
                   start: npm run dev
               env:
-                  TEST_PRIVATE_KEY: SAP3SV3BANKBI7DVLFAOJJDHAQYVNUZX6O56FXDP6AHZNU2OYQLYWDZJ
+                  CYPRESS_TEST_PRIVATE_KEY: SAP3SV3BANKBI7DVLFAOJJDHAQYVNUZX6O56FXDP6AHZNU2OYQLYWDZJ
     test:
         runs-on: ubuntu-latest
         needs: install-cache
