@@ -49,30 +49,29 @@
 
     <div class="simple-signer payment-tx">
         <h3>Transaction</h3>
-        {#if wallet}
-            <p class="src-account">
-                Source account: {tx ? tx.source : ''}
-            </p>
-            <p class="sequence-number">Sequence number: {tx ? tx.sequence : ''}</p>
-            <p class="time-bounds">
-                Time bounds: {tx ? `Min time ${tx.timeBounds?.minTime} Max time ${tx.timeBounds?.maxTime}` : ''}
-            </p>
-            <!-- <p>Fee: {tx.fee}</p> -->
 
-            <Signatures signatures="{tx.signatures}" />
+        <p class="src-account">
+            Source account: {tx ? tx.source : ''}
+        </p>
+        <p class="sequence-number">Sequence number: {tx ? tx.sequence : ''}</p>
+        <p class="time-bounds">
+            Time bounds: {tx ? `Min time ${tx.timeBounds?.minTime} Max time ${tx.timeBounds?.maxTime}` : ''}
+        </p>
+        <p>Fee: {tx.fee}</p>
 
-            <div class="simple-signer operations-container">
-                {#each operationComponents as operation}
-                    <svelte:component this="{operation.component}" {...operation.props} />
-                {/each}
-            </div>
-            <button class="simple-signer sign-tx" on:click="{async () => sendSignedTx(await wallet.sign(tx))}"
-                >Sign Transaction with {storedWallet}</button
-            >
-        {:else}
-            <p class="simple-signer user-not-connected">User is not connected</p>
-            <button class="simple-signer connect-btn"><Link to="/connect">Go to Connect</Link></button>
-        {/if}
+        <Signatures signatures="{tx.signatures}" />
+
+        <div class="simple-signer operations-container">
+            {#each operationComponents as operation}
+                <svelte:component this="{operation.component}" {...operation.props} />
+            {/each}
+        </div>
+        <button class="simple-signer sign-tx" on:click="{async () => sendSignedTx(await wallet.sign(tx))}"
+            >Sign Transaction with {storedWallet}</button
+        >
+
+        <p class="simple-signer user-not-connected">User is not connected</p>
+        <button class="simple-signer connect-btn"><Link to="/connect">Go to Connect</Link></button>
     </div>
 {:else}
     <h1>Sorry, the XDR is invalid</h1>

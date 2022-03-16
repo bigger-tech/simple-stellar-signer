@@ -48,10 +48,11 @@ describe('operations', () => {
         cy.get('.private-key-btn').click();
     });
 
-    it('should render two components if the xdr has two operations, ', () => {
-        window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`sign?xdr=${XDR_TEST}`);
-        // cy.get('.operations-container').children().should('have.length', 2);
+    it('should render two components if the xdr has two operations', () => {
+        cy.visit(
+            'sign?xdr=AAAAAgAAAAA95yBD5tzTsl5iYhEepOIhzRl3kpHH8JtbRJYq/mmKKgAAAMgACxalAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAACoO+0vVD4GQIckKP0VWRPKCsg2GVjR7aObgvo8LAkjawAAAAAC+vCAAAAAAAAAAAEAAAAAqDvtL1Q+BkCHJCj9FVkTygrINhlY0e2jm4L6PCwJI2sAAAAAAAAAAB3NZQAAAAAAAAAAAA==',
+        );
+        cy.get('.operations-container').children().should('have.length', 2);
         cy.get('.payment-operation').should('exist');
         cy.get('.sequence-number').should('exist');
     });
