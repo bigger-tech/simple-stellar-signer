@@ -75,5 +75,5 @@
         {/if}
     </div>
 {:else}
-    <h1>Sorry, the XDR is invalid</h1>
+    <h1 class="test-cypress">Sorry, the XDR is invalid</h1>
 {/if}
