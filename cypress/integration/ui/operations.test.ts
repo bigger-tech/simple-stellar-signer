@@ -12,12 +12,6 @@ describe('operations', () => {
         });
     });
 
-    it('should connect1', () => {
-        window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(`${BASE_URL}${operations['operationsXdr']}`);
-        cy.get('.test-cypress').contains("Sorry, an XDR wasn't provided");
-    });
-
     it('should connect with private key', () => {
         cy.visit('/connect');
         cy.get('.connect-private-key').click();
