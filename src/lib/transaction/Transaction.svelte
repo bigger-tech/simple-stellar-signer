@@ -57,7 +57,6 @@
             <p class="time-bounds">
                 Time bounds: {tx ? `Min time ${tx.timeBounds?.minTime} Max time ${tx.timeBounds?.maxTime}` : ''}
             </p>
-            <p>Fee: {tx.fee}</p>
 
             <Signatures signatures="{tx.signatures}" />
 
