@@ -1,14 +1,13 @@
 /// <reference types="cypress" />
 
 describe('Connect', () => {
-    const url = Cypress.env('HOST');
-
     beforeEach(() => {
-        cy.visit(`${url}connect`);
+        cy.visit('/connect');
         cy.get('.wallet-xbull-title').as('xBullTitle');
         cy.get('.wallet-freighter-title').as('freighterTitle');
         cy.get('.wallet-albedo-title').as('albedoTitle');
         cy.get('.wallet-private-key-title').as('privateKeyTitle');
+        cy.get('.wallet-rabet-title').as('rabetTitle');
         cy.get('.connect-private-key').as('privateKeyBtn');
         cy.get('.simple-signer-container').as('container');
     });
@@ -17,6 +16,7 @@ describe('Connect', () => {
         cy.get('@freighterTitle').should('contain.text', 'Freighter');
         cy.get('@albedoTitle').should('contain.text', 'Albedo');
         cy.get('@privateKeyTitle').should('contain.text', 'Private Key');
+        cy.get('@rabetTitle').should('contain.text', 'Rabet');
     });
 
     it('Should show the private key connect method', () => {
@@ -32,5 +32,6 @@ describe('Connect', () => {
         cy.get('@freighterTitle').should('contain.text', 'Freighter');
         cy.get('@albedoTitle').should('contain.text', 'Albedo');
         cy.get('@privateKeyTitle').should('contain.text', 'Private Key');
+        cy.get('@rabetTitle').should('contain.text', 'Rabet');
     });
 });

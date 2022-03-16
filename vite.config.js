@@ -7,6 +7,9 @@ import rollupNodePolyFill from 'rollup-plugin-node-polyfills';
 export default defineConfig({
     plugins: [svelte()],
     resolve: {},
+    server: {
+        port: 3001,
+    },
     optimizeDeps: {
         exclude: ['svelte-navigator'],
         esbuildOptions: {
