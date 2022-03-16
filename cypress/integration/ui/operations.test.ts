@@ -56,11 +56,9 @@ describe('operations', () => {
     });
 
     it('should render a Payment component if the xdr has a Payment operation', () => {
-        window.localStorage.setItem('wallet', 'albedo');
         cy.visit(
-            '/sign?xdr=AAAAAgAAAACIKmLk3p78KfXDpIWAThUMwmZDd82CRFoygG0dm+BWxgAAAGQACu0LAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAD/ISAVP71pgpaxaZBpBkjGIvdxYNxnXrN0JkP5KM3+wAAAAAAAAAAO5rKAAAAAAAAAAAA',
+            'https://localhost:3001/sign?xdr=AAAAAgAAAACIKmLk3p78KfXDpIWAThUMwmZDd82CRFoygG0dm+BWxgAAAGQACu0LAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAD/ISAVP71pgpaxaZBpBkjGIvdxYNxnXrN0JkP5KM3+wAAAAAAAAAAO5rKAAAAAAAAAAAA',
         );
-        cy.wait(2500);
         cy.get('.payment-operation').contains('Amount');
         cy.get('.payment-operation').contains('Destination');
         cy.get('.payment-operation').contains('Asset');
