@@ -50,7 +50,6 @@ jobs:
                   SIMPLE_SIGNER_PRIVATE_KEY: ${{ secrets.SIMPLE_SIGNER_PRIVATE_KEY }}
               env:
                   VITE_HORIZON_NETWORK_PASSPHRASE: Test SDF Network ; September 2015
-                  SIMPLE_SIGNER_PRIVATE_KEY: ${{ secrets.SIMPLE_SIGNER_PRIVATE_KEY }}
     test:
         runs-on: ubuntu-latest
         needs: install-cache
