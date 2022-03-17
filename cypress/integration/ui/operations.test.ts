@@ -38,18 +38,18 @@ import {
 
 describe('operations', () => {
     const BASE_URL = '/sign?xdr=';
-    const TEST_PRIVATE_KEY = Cypress.env('TEST_PRIVATE_KEY');
+    const SIMPLE_SIGNER_PRIVATE_KEY = Cypress.env('SIMPLE_SIGNER_PRIVATE_KEY');
 
     it('should connect with private key', () => {
         cy.visit('/connect');
         cy.get('.connect-private-key').click();
-        cy.get('#input-key').type(TEST_PRIVATE_KEY);
+        cy.get('#input-key').type(SIMPLE_SIGNER_PRIVATE_KEY);
         cy.get('.private-key-btn').click();
     });
 
     it('should render two components if the xdr has two operations, ', () => {
         window.localStorage.setItem('wallet', 'xbull');
-        cy.visit(BASE_URL + operationsXdr);
+        cy.visit(`${BASE_URL}${operationsXdr}`);
         cy.get('.operations-container').children().should('have.length', 2);
         cy.get('.payment-operation').should('exist');
         cy.get('.create-account-operation').should('exist');
@@ -57,7 +57,7 @@ describe('operations', () => {
 
     it('should render a Payment component if the xdr has a Payment operation', () => {
         window.localStorage.setItem('wallet', 'albedo');
-        cy.visit(BASE_URL + paymentXdr);
+        cy.visit(`${BASE_URL}${paymentXdr}`);
         cy.get('.payment-operation').contains('Amount');
         cy.get('.payment-operation').contains('Destination');
         cy.get('.payment-operation').contains('Asset');
@@ -65,7 +65,7 @@ describe('operations', () => {
 
     it('should render a CreateAccount component if the xdr has a Create Account operation', () => {
         window.localStorage.setItem('wallet', 'freighter');
-        cy.visit(BASE_URL + createAccountXdr);
+        cy.visit(`${BASE_URL}${createAccountXdr}`);
         cy.get('.create-account-operation').contains('Source Account');
         cy.get('.create-account-operation').contains('Starting Balance');
         cy.get('.create-account-operation').contains('Destination');
