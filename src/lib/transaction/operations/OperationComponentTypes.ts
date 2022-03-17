@@ -25,7 +25,7 @@ import type ClawbackComponent from './clawback/Clawback';
 import type SetTrustLineFlagsComponent from './setTrustLineFlags/SetTrustLineFlags';
 import type LiquidityPoolWithdrawComponent from './liquidityPoolWithdraw/LiquidityPoolWithdraw';
 import type LiquidityPoolDepositComponent from './liquidityPoolDeposit/LiquidityPoolDeposit';
-import type RevokeTrustlineSponsorshipComponent from './revokeTrustLineSponsorship/revokeTrustLineSponsorship';
+import type RevokeTrustlineSponsorshipComponent from './revokeTrustLineSponsorship/RevokeTrustLineSponsorship';
 import type ClawbackClaimableBalanceComponent from './clawbackClaimableBalance/ClawbackClaimableBalance';
 
 export let OperationComponentTypes:
