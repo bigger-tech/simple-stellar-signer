@@ -9,10 +9,10 @@ export interface IGroupsFromParam {
 export interface ITxParams {
     xdr: string;
     description: string | undefined;
-    operationsGroups: IGroupsFromParam[];
+    transactionGroups: IGroupsFromParam[];
 }
 
-export interface IOperationsGroup {
+export interface ITransactionGroup {
     description: string;
     operationsComponents: typeof OperationComponentTypes[];
 }

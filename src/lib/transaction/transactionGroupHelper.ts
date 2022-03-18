@@ -1,42 +1,44 @@
-import type { IGroupsFromParam } from './ITxParams';
+import type { IGroupsFromParam, ITransactionGroup } from './ITxParams';
 import type { OperationComponentTypes } from './operations/OperationComponentTypes';
 
-export default function groupComponents(operations: typeof OperationComponentTypes[], groups: IGroupsFromParam[]) {
+export default function groupComponents(
+    operations: typeof OperationComponentTypes[],
+    groups: IGroupsFromParam[],
+): (typeof OperationComponentTypes | ITransactionGroup)[] {
     const lastTo = groups[groups.length - 1]?.to;
-    const group: any[] = [];
+    const group: (typeof OperationComponentTypes | ITransactionGroup)[] = [];
 
     if (groups.length === 0) {
         console.log("A group of operations wasn't provided");
+        return operations;
     } else if (!operations[lastTo!]) {
         console.error('There are fewer operations than the groups says');
     } else {
         let startIndex = 0;
 
-        for (let j = 0; j < groups.length; j++) {
-            if (groups[j + 1] && groups[j]!.from > groups[j + 1]!.from) {
-                console.error('the object is wrong sorted'); // TO DO mejora esto
-                break;
+        for (let i = 0; i < groups.length; i++) {
+            if (groups[i + 1] && groups[i]!.from > groups[i + 1]!.from) {
+                console.error('The group object is not well sorted');
+                return operations;
             }
 
-            const array = [];
-            for (let i = 0; i < operations.length; i++) {
-                console.log(i);
-
-                if (i >= groups[j]!.from && i < groups[j]!.to) {
-                    array.push(operations[i]);
-                } else if (i === groups[j]!.to) {
-                    array.push(operations[i]);
-                    group.push(array);
-                    startIndex = i + 1;
-                    if (j != groups.length - 1) {
+            const array: typeof OperationComponentTypes[] = [];
+            for (let k = startIndex; k < operations.length; k++) {
+                if (k >= groups[i]!.from && k < groups[i]!.to) {
+                    array.push(operations[k]!);
+                } else if (k === groups[i]!.to) {
+                    array.push(operations[k]!);
+                    group.push({ description: groups[i]!.description, operationsComponents: array });
+                    startIndex = k + 1;
+                    if (i != groups.length - 1) {
                         break;
                     }
-                } else if (i >= startIndex) {
-                    group.push(operations[i]);
+                } else {
+                    group.push(operations[k]!);
                 }
             }
         }
     }
 
-    console.log(group);
+    return group;
 }

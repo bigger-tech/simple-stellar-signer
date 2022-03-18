@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { OperationComponentTypes } from './operations/OperationComponentTypes';
-    import type { ITxParams, IOperationsGroup } from './ITxParams';
+    import type { ITxParams, ITransactionGroup } from './ITxParams';
     import type IWallet from '../../routes/connect/ui/wallets/interfaces/IWallet';
     import { getItem } from '../../helpers/storage';
     import { writable } from 'svelte/store';
@@ -23,7 +23,7 @@
 
     let tx: Transaction;
     let operationComponents: typeof OperationComponentTypes[] = [];
-    let operationsGroups: IOperationsGroup[] = []; // TO DO change to TransactionGroup
+    let transactionGroups: (typeof OperationComponentTypes | ITransactionGroup)[] = [];
     const isValidXdr = writable(false);
 
     try {
@@ -37,7 +37,7 @@
             operationComponents.push(operationComponent);
         }
 
-        groupComponents(operationComponents, txParams.operationsGroups);
+        transactionGroups = groupComponents(operationComponents, txParams.transactionGroups);
     } catch (e) {
         console.error(e);
     }
@@ -66,18 +66,21 @@
             <Signatures signatures="{tx.signatures}" />
 
             <div class="simple-signer operations-container">
-                {#if operationsGroups.length > 0}
-                    {#each operationsGroups as group}
+                {#each transactionGroups as group}
+                    {#if 'description' in group}
                         <div class="simple-signer operations-group">
                             <h3>{group.description}</h3>
-                            {#each group.operationsComponents as op}
-                                <svelte:component this="{op.component}" {...op.props} />
+                            {#each group.operationsComponents as operation}
+                                <div class="simple-signer tx-operation">
+                                    <svelte:component this="{operation.component}" {...operation.props} />
+                                </div>
                             {/each}
                         </div>
-                    {/each}
-                {/if}
-                {#each operationComponents as operation}
-                    <svelte:component this="{operation.component}" {...operation.props} />
+                    {:else}
+                        <div class="simple-signer tx-operation">
+                            <svelte:component this="{group.component}" {...group.props} />
+                        </div>
+                    {/if}
                 {/each}
             </div>
             <button class="simple-signer sign-tx" on:click="{async () => sendSignedTx(await wallet.sign(tx))}"
