@@ -1,4 +1,4 @@
-import RevokeTrustlineSponsorshipComponentSvelte from './RevokeTrustlineSponsorship.svelte';
+import RevokeTrustlineSponsorshipComponentSvelte from './RevokeTrustLineSponsorship.svelte';
 import type { Asset, LiquidityPoolId, Operation, Transaction } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
 import type IOperationComponent from '../IOperationComponent';
