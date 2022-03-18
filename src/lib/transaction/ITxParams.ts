@@ -1,9 +1,15 @@
 import type { OperationComponentTypes } from './operations/OperationComponentTypes';
 
+export interface IGroupsFromParam {
+    from: number;
+    to: number;
+    description: string;
+}
+
 export interface ITxParams {
     xdr: string;
     description: string | undefined;
-    operationsGroups: { from: number; to: number; description: string }[];
+    operationsGroups: IGroupsFromParam[];
 }
 
 export interface IOperationsGroup {

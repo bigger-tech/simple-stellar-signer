@@ -10,6 +10,7 @@
     import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
     import Signatures from './Signatures.svelte';
     import WalletFactory from '../../routes/connect/ui/wallets/Wallet';
+    import groupComponents from './transactionGroupHelper';
     export let txParams: ITxParams;
 
     let wallet: IWallet;
@@ -22,7 +23,7 @@
 
     let tx: Transaction;
     let operationComponents: typeof OperationComponentTypes[] = [];
-    let operationsGroups: IOperationsGroup[] = [];
+    let operationsGroups: IOperationsGroup[] = []; // TO DO change to TransactionGroup
     const isValidXdr = writable(false);
 
     try {
@@ -36,27 +37,7 @@
             operationComponents.push(operationComponent);
         }
 
-        if (
-            txParams.operationsGroups.length > 0 &&
-            operationComponents[txParams.operationsGroups[txParams.operationsGroups.length - 1]!.to]
-        ) {
-            for (let i = 0; i < txParams.operationsGroups.length; i++) {
-                operationsGroups.push({
-                    description: txParams.operationsGroups[i]!.description,
-                    operationsComponents: operationComponents.slice(
-                        txParams.operationsGroups[i]!.from,
-                        txParams.operationsGroups[i]!.to + 1,
-                    ),
-                });
-            }
-
-            operationComponents.splice(
-                txParams.operationsGroups[0]!.from,
-                txParams.operationsGroups[txParams.operationsGroups.length - 1]!.to + 1,
-            );
-        } else {
-            console.error("A group of operations wasn't provided or there are fewer operations than the group says");
-        }
+        groupComponents(operationComponents, txParams.operationsGroups);
     } catch (e) {
         console.error(e);
     }
