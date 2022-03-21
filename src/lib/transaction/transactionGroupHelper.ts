@@ -13,6 +13,7 @@ export default function groupComponents(
         return operations;
     } else if (lastGroup && operations[lastGroup.to]) {
         console.error('There are fewer operations than the groups says');
+        return operations;
     } else {
         let startIndex = 0;
 
