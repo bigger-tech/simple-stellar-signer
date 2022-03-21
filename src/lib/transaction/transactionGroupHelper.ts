@@ -5,13 +5,13 @@ export default function groupComponents(
     operations: typeof OperationComponentTypes[],
     groups: IGroupsFromParam[],
 ): (typeof OperationComponentTypes | ITransactionGroup)[] {
-    const lastTo = groups[groups.length - 1];
+    const lastGroup = groups[groups.length - 1];
     const group: (typeof OperationComponentTypes | ITransactionGroup)[] = [];
 
     if (groups.length === 0) {
         console.log("A group of operations wasn't provided");
         return operations;
-    } else if (lastTo && operations[lastTo.to]) {
+    } else if (lastGroup && operations[lastGroup.to]) {
         console.error('There are fewer operations than the groups says');
     } else {
         let startIndex = 0;
