@@ -6,7 +6,7 @@ export default function groupComponents(
     groups: IGroupsFromParam[],
 ): (typeof OperationComponentTypes | ITransactionGroup)[] {
     const lastGroup = groups[groups.length - 1];
-    const group: (typeof OperationComponentTypes | ITransactionGroup)[] = [];
+    const transactionGroups: (typeof OperationComponentTypes | ITransactionGroup)[] = [];
 
     if (groups.length === 0) {
         console.log("A group of operations wasn't provided");
@@ -33,18 +33,18 @@ export default function groupComponents(
                         array.push(currentOperation);
                     } else if (j === currentGroup.to) {
                         array.push(currentOperation);
-                        group.push({ description: currentGroup.description, operationsComponents: array });
+                        transactionGroups.push({ description: currentGroup.description, operationsComponents: array });
                         startIndex = j + 1;
                         if (i != groups.length - 1) {
                             break;
                         }
                     } else {
-                        group.push(currentOperation);
+                        transactionGroups.push(currentOperation);
                     }
                 }
             }
         }
     }
 
-    return group;
+    return transactionGroups;
 }
