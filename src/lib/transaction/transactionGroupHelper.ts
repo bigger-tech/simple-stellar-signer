@@ -11,7 +11,7 @@ export default function groupComponents(
     if (groups.length === 0) {
         console.log("A group of operations wasn't provided");
         return operations;
-    } else if (lastGroup && operations[lastGroup.to]) {
+    } else if (lastGroup && !operations[lastGroup.to]) {
         console.error('There are fewer operations than the groups says');
         return operations;
     } else {
@@ -36,7 +36,7 @@ export default function groupComponents(
                         array.push(currentOperation);
                         transactionGroups.push({ description: currentGroup.description, operationsComponents: array });
                         startIndex = j + 1;
-                        if (i != groups.length - 1) {
+                        if (nextGroup) {
                             break;
                         }
                     } else {
