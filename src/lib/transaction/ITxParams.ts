@@ -1,6 +1,6 @@
 import type { OperationComponentTypes } from './operations/OperationComponentTypes';
 
-export interface IGroupsFromParam {
+export interface IGroup {
     from: number;
     to: number;
     description: string;
@@ -9,10 +9,10 @@ export interface IGroupsFromParam {
 export interface ITxParams {
     xdr: string;
     description: string | undefined;
-    transactionGroups: IGroupsFromParam[];
+    transactionGroups: IGroup[];
 }
 
 export interface ITransactionGroup {
     description: string;
-    operationsComponents: typeof OperationComponentTypes[];
+    operationComponents: typeof OperationComponentTypes[];
 }

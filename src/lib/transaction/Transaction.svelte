@@ -37,9 +37,15 @@
             operationComponents.push(operationComponent);
         }
 
-        transactionGroups = groupComponents(operationComponents, txParams.transactionGroups);
+        if (txParams.transactionGroups && txParams.transactionGroups.length > 0) {
+            transactionGroups = groupComponents(operationComponents, txParams.transactionGroups);
+        } else {
+            console.log("A transaction group object wasn't provided");
+            transactionGroups = operationComponents;
+        }
     } catch (e) {
         console.error(e);
+        transactionGroups = operationComponents;
     }
 </script>
 
@@ -70,7 +76,7 @@
                     {#if 'description' in group}
                         <div class="simple-signer operations-group">
                             <h3>{group.description}</h3>
-                            {#each group.operationsComponents as operation}
+                            {#each group.operationComponents as operation}
                                 <div class="simple-signer tx-operation">
                                     <svelte:component this="{operation.component}" {...operation.props} />
                                 </div>

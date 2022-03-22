@@ -1,19 +1,33 @@
-import type { IGroupsFromParam, ITransactionGroup } from './ITxParams';
+import type { IGroup, ITransactionGroup } from './ITxParams';
 import type { OperationComponentTypes } from './operations/OperationComponentTypes';
+import InvalidGroupsSortError from '../errors/InvalidGroupsSortError';
+import InsufficientOperationsError from '../errors/InsufficientOperationsError';
 
 export default function groupComponents(
     operations: typeof OperationComponentTypes[],
-    groups: IGroupsFromParam[],
+    groups: IGroup[],
 ): (typeof OperationComponentTypes | ITransactionGroup)[] {
+    const positions = groups
+        .map((group) => {
+            return [...new Array(group.to - group.from + 1).keys()].map((i) => group.from + i);
+        })
+        .flat();
+
+    if (
+        [...positions]
+            .sort((a, b) => {
+                return a - b;
+            })
+            .join() !== positions.join()
+    ) {
+        throw new InvalidGroupsSortError(positions.join());
+    }
+
     const lastGroup = groups[groups.length - 1];
     const transactionGroups: (typeof OperationComponentTypes | ITransactionGroup)[] = [];
 
-    if (groups.length === 0) {
-        console.log("A group of operations wasn't provided");
-        return operations;
-    } else if (lastGroup && !operations[lastGroup.to]) {
-        console.error('There are fewer operations than the groups says');
-        return operations;
+    if (lastGroup && !operations[lastGroup.to]) {
+        throw new InsufficientOperationsError(operations.length, lastGroup.to);
     } else {
         let startIndex = 0;
 
@@ -21,20 +35,18 @@ export default function groupComponents(
             const currentGroup = groups[i];
             const nextGroup = groups[i + 1];
 
-            if (nextGroup && currentGroup && currentGroup.from > nextGroup.from) {
-                console.error('The group object is not well sorted');
-                return operations;
-            }
-
-            const array: typeof OperationComponentTypes[] = [];
+            const operationComponents: typeof OperationComponentTypes[] = [];
             for (let j = startIndex; j < operations.length; j++) {
                 const currentOperation = operations[j];
                 if (currentGroup && currentOperation) {
                     if (j >= currentGroup.from && j < currentGroup.to) {
-                        array.push(currentOperation);
+                        operationComponents.push(currentOperation);
                     } else if (j === currentGroup.to) {
-                        array.push(currentOperation);
-                        transactionGroups.push({ description: currentGroup.description, operationsComponents: array });
+                        operationComponents.push(currentOperation);
+                        transactionGroups.push({
+                            description: currentGroup.description,
+                            operationComponents,
+                        });
                         startIndex = j + 1;
                         if (nextGroup) {
                             break;
