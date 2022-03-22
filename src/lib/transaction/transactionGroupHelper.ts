@@ -1,7 +1,6 @@
 import type { IGroup, ITransactionGroup } from './ITxParams';
 import type { OperationComponentTypes } from './operations/OperationComponentTypes';
 import InvalidGroupsSortError from '../errors/InvalidGroupsSortError';
-import InsufficientOperationsError from '../errors/InsufficientOperationsError';
 
 export default function groupComponents(
     operations: typeof OperationComponentTypes[],
@@ -26,8 +25,12 @@ export default function groupComponents(
     const lastGroup = groups[groups.length - 1];
     const transactionGroups: (typeof OperationComponentTypes | ITransactionGroup)[] = [];
 
-    if (lastGroup && !operations[lastGroup.to]) {
-        throw new InsufficientOperationsError(operations.length, lastGroup.to);
+    if (groups.length === 0) {
+        console.log("A group of operations wasn't provided");
+        return operations;
+    } else if (lastGroup && !operations[lastGroup.to]) {
+        console.error('There are fewer operations than the group says');
+        return operations;
     } else {
         let startIndex = 0;
 
