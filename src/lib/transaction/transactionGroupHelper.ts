@@ -12,7 +12,7 @@ export default function groupComponents(
         console.log("A group of operations wasn't provided");
         return operations;
     } else if (lastGroup && !operations[lastGroup.to]) {
-        console.error('There are fewer operations than the groups says');
+        console.error('There are fewer operations than the group says');
         return operations;
     } else {
         let startIndex = 0;
