@@ -11,6 +11,8 @@
     import Signatures from './Signatures.svelte';
     import WalletFactory from '../../routes/connect/ui/wallets/Wallet';
     import groupComponents from './transactionGroupHelper';
+    import InvalidGroupsSortError from '../errors/InvalidGroupsSortError';
+    import InsufficientOperationsError from '../errors/InsufficientOperationsError';
     export let txParams: ITxParams;
 
     let wallet: IWallet;
@@ -45,7 +47,9 @@
         }
     } catch (e) {
         console.error(e);
-        transactionGroups = operationComponents;
+        if (e instanceof InvalidGroupsSortError || InsufficientOperationsError) {
+            transactionGroups = operationComponents;
+        }
     }
 </script>
 
