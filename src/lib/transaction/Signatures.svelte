@@ -15,7 +15,7 @@
                 <ul class="simple-signer tx-signature">
                     <p>{i + 1} - {lang.SIGNATURE}</p>
                     <li>
-                        <p>{lang.HINT}: {StrKey.encodeEd25519PublicKey(signature.hint())}</p>
+                        <p>{lang.HINT} {StrKey.encodeEd25519PublicKey(signature.hint())}</p>
                     </li>
                     <li>
                         <p>{StrKey.encodeSha256Hash(signature.signature())}</p>
