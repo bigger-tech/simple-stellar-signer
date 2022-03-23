@@ -3,11 +3,7 @@ import * as spanish from './languages/spanish.json';
 
 export default class WalletLanguage {
     getLanguage() {
-        let lang: any = ((navigator.languages && navigator.languages[0] && navigator.language) || 'en').substr(0, 2);
-
-        if (!lang) {
-            lang = 'en';
-        }
+        const lang: any = ((navigator.languages && navigator.languages[0] && navigator.language) || 'en').substr(0, 2);
         return lang;
     }
     getText() {
