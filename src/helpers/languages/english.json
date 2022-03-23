@@ -104,9 +104,9 @@
     "ED5519PUBPCKEY": "ed25519PubpcKey:",
     "WEIGHT": "Weight:",
     "SHA256HASH": "sha256Hash:",
-    "PREAUTH_TX": "preAuthTx",
+    "PREAUTH_TX": "preAuthTx:",
     "OPERATION_SET_TRUSTLINE_FLAGS": "Set Trustline Flags",
-    "TRUSTOR": "Trustor",
+    "TRUSTOR": "Trustor:",
     "IS_AUTHORIZED": "Is authorized:",
     "IS_AUTHORIZED_TO_MAINTAIN_LIABILITIES": "Is authorized to maintain liabilities:",
     "IS_CLAWBACK_ENABLED": "Is clawback enabled:"

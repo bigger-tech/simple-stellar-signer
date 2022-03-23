@@ -104,9 +104,9 @@
     "ED5519PUBPCKEY": "ed25519PubpcKey:",
     "WEIGHT": "Peso:",
     "SHA256HASH": "sha256Hash:",
-    "PREAUTH_TX": "preAuthTx",
+    "PREAUTH_TX": "preAuthTx:",
     "OPERATION_SET_TRUSTLINE_FLAGS": "Establecer banderas de Trustline",
-    "TRUSTOR": "Fideicomitente",
+    "TRUSTOR": "Fideicomitente:",
     "IS_AUTHORIZED": "Está autorizado:",
     "IS_AUTHORIZED_TO_MAINTAIN_LIABILITIES": "Está autorizado a mantener pasivos:",
     "IS_CLAWBACK_ENABLED": "Está habilitada la recuperación:"
