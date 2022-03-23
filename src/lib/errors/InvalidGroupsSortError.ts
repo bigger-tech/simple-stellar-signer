@@ -3,6 +3,6 @@ export default class InvalidGroupsSortError extends Error {
     constructor(positions: string) {
         super();
         this.positions = positions;
-        this.message = `The groups aren't sorted chronologically [${this.positions}]`;
+        this.message = `The groups aren't sorted sequentially [${this.positions}]`;
     }
 }

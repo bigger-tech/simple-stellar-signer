@@ -61,6 +61,25 @@ it('should recieve an array with grouped components var2', () => {
     ]);
 });
 
+it('should recieve an array with grouped components var3', () => {
+    groups = [
+        {
+            from: 1,
+            to: 2,
+            description: 'test',
+        },
+    ];
+    const result = groupComponents(operations, groups);
+    expect(result).toStrictEqual([
+        'op0',
+        { description: 'test', operationComponents: ['op1', 'op2'] },
+        'op3',
+        'op4',
+        'op5',
+        'op6',
+    ]);
+});
+
 it("should recieve an error if the groups aren't well sorted", () => {
     groups = [
         {
@@ -75,7 +94,7 @@ it("should recieve an error if the groups aren't well sorted", () => {
         },
     ];
 
-    expect(() => groupComponents(operations, groups)).toThrow(`The groups aren't sorted chronologically [4,5,0,1]`);
+    expect(() => groupComponents(operations, groups)).toThrow(`The groups aren't sorted sequentially [4,5,0,1]`);
 });
 
 it('should recieve an error if there are less operations that the group says', () => {
