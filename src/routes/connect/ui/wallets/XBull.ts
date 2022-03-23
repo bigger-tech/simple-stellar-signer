@@ -1,6 +1,7 @@
 import type { Transaction } from 'stellar-sdk';
 import AbstractWallet from './AbstractWallet';
 import type IWallet from './interfaces/IWallet';
+import { xBull } from '../../../../assets/index';
 import { StellarNetwork } from '../../../../helpers/StellarNetwork';
 
 export default class XBull extends AbstractWallet implements IWallet {
@@ -16,6 +17,18 @@ export default class XBull extends AbstractWallet implements IWallet {
         } else {
             this.XBullNetwork = StellarNetwork.TESTNET;
         }
+    }
+
+    getConnectObject() {
+        return {
+            name: 'xBull',
+            connectMethod: async () => {
+                this.logIn(await this.getPublicKey());
+            },
+            img: xBull,
+            width: 35,
+            height: 45,
+        }; // this has to be an interface
     }
 
     async getPublicKey(): Promise<string> {

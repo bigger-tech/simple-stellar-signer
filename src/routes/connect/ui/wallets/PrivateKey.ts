@@ -4,6 +4,8 @@ import { decryptPrivatePair, encryptPrivateKey } from '../../connectHelpers';
 import { Keypair } from 'stellar-sdk';
 import AbstractWallet from './AbstractWallet';
 import InvalidPrivateKeyError from '../../errors/InvalidPrivateKeyError';
+import { privateKey } from '../../../../assets/index';
+import { isWalletHidden } from '../../connectStore';
 
 export default class PrivateKey extends AbstractWallet implements IWallet {
     public static NAME = 'privateKey';
@@ -24,6 +26,18 @@ export default class PrivateKey extends AbstractWallet implements IWallet {
                 console.log('Invalid key, please try again');
             }
         }
+    }
+
+    getConnectObject() {
+        return {
+            name: 'Private Key',
+            connectMethod: async () => {
+                isWalletHidden.set(true);
+            },
+            img: privateKey,
+            width: 45,
+            height: 45,
+        }; // this has to be an interface
     }
 
     async sign(tx: Transaction): Promise<string> {
