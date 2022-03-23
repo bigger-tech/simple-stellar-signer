@@ -1,4 +1,4 @@
-import type ITxParams from 'src/lib/transaction/ITxParams';
+import type { ITxParams } from 'src/lib/transaction/ITxParams';
 
 export function getParamsFromUrl(queryString: string): ITxParams | undefined {
     const urlParams = new URLSearchParams(queryString);
@@ -8,10 +8,10 @@ export function getParamsFromUrl(queryString: string): ITxParams | undefined {
 
     if (xdrParam && descriptionParam) {
         urlXdr = xdrParam.replace(/\s/g, '+');
-        return { xdr: urlXdr, description: descriptionParam };
+        return { xdr: urlXdr, description: descriptionParam, transactionGroups: [] };
     } else if (xdrParam) {
         urlXdr = xdrParam.replace(/\s/g, '+');
-        return { xdr: urlXdr, description: undefined };
+        return { xdr: urlXdr, description: undefined, transactionGroups: [] };
     } else {
         return undefined;
     }
