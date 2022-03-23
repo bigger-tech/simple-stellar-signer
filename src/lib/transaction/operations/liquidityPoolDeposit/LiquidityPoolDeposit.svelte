@@ -1,4 +1,6 @@
 <script lang="ts">
+    import WalletLanguage from '../../../../helpers/WalletLanguage';
+
     export let optionalSource: string | undefined;
     export let defaultSource: string;
     export let liquidityPoolId: string;
@@ -6,15 +8,17 @@
     export let maxAmountB: string;
     export let minPrice: string;
     export let maxPrice: string;
+    const language = new WalletLanguage();
+    const lang = language.getText();
 </script>
 
 <div class="simple-signer liquidity-pool-deposit-operation">
-    <h3>Operation type: Liquidity Pool Deposit</h3>
+    <h3>{lang.OPERATION_TYPE} {lang.OPERATION_LIQUIDITY_POOL_DEPOSIT}</h3>
 
-    <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
-    <p>Liquidity pool ID: {liquidityPoolId}</p>
-    <p>Max amount A: {maxAmountA}</p>
-    <p>Max amount B: {maxAmountB}</p>
-    <p>Minimum price: {minPrice}</p>
-    <p>Maximum price: {maxPrice}</p>
+    <p>{lang.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
+    <p>{lang.LIQUIDITY_POOL_ID} {liquidityPoolId}</p>
+    <p>{lang.MAX_AMOUNT_A} {maxAmountA}</p>
+    <p>{lang.MAX_AMOUNT_B} {maxAmountB}</p>
+    <p>{lang.MINIMUM_PRICE} {minPrice}</p>
+    <p>{lang.MAXIMUM_PRICE} {maxPrice}</p>
 </div>

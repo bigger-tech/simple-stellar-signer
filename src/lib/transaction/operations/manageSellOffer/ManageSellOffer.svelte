@@ -1,4 +1,5 @@
 <script lang="ts">
+    import WalletLanguage from '../../../../helpers/WalletLanguage';
     export let optionalSource: string | undefined;
     export let defaultSource: string;
     export let selling: string;
@@ -6,15 +7,17 @@
     export let amount: string;
     export let price: string;
     export let offerId: string;
+    const language = new WalletLanguage();
+    const lang = language.getText();
 </script>
 
 <div class="simple-signer manage-sell-offer-operation">
-    <h3>Operation: Manage Sell Offer</h3>
+    <h3>{lang.OPERATION} {lang.MANAGE_SELL_OFFER}</h3>
 
-    <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
-    <p>Selling asset: {selling}</p>
-    <p>Buying asset: {buying}</p>
-    <p>Amount: {amount}</p>
-    <p>Price: {price}</p>
-    <p>Offer ID: {offerId}</p>
+    <p>{lang.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
+    <p>{lang.SELLING_ASSET} {selling}</p>
+    <p>{lang.BUYING_ASSET} {buying}</p>
+    <p>{lang.AMOUNT} {amount}</p>
+    <p>{lang.PRICE} {price}</p>
+    <p>{lang.OFFER_ID} {offerId}</p>
 </div>

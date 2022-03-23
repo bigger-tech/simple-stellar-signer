@@ -1,18 +1,21 @@
 <script lang="ts">
     import { StrKey, xdr } from 'stellar-sdk';
-
+    import WalletLanguage from '../../helpers/WalletLanguage';
     export let signatures: xdr.DecoratedSignature[];
+
+    const language = new WalletLanguage();
+    const lang = language.getText();
 </script>
 
 {#if signatures.length > 0}
     <div class="simple-signer tx-signatures-container">
-        <p>Signatures:</p>
+        <p>{lang.SIGNATURES}</p>
         <div class="simple-signer tx-signatures">
             {#each signatures as signature, i}
                 <ul class="simple-signer tx-signature">
-                    <p>{i + 1} - Signature:</p>
+                    <p>{i + 1} - {lang.SIGNATURE}</p>
                     <li>
-                        <p>Hint: {StrKey.encodeEd25519PublicKey(signature.hint())}</p>
+                        <p>{lang.HINT}: {StrKey.encodeEd25519PublicKey(signature.hint())}</p>
                     </li>
                     <li>
                         <p>{StrKey.encodeSha256Hash(signature.signature())}</p>

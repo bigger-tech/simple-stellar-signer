@@ -6,6 +6,10 @@
     import Rabet from './ui/wallets/Rabet';
     import { inputValue, isPrivateKeyVisible, isWalletHidden } from './connectStore';
     import { albedo, xBull, freighter, privateKey, rabet } from '../../assets/index';
+    import WalletLanguage from '../../helpers/WalletLanguage';
+
+    const language = new WalletLanguage();
+    const lang = language.getText();
 
     async function connectWithAlbedo() {
         const albedo = new Albedo();
@@ -34,9 +38,11 @@
 
 <div class="simple-signer-container">
     {#if $isWalletHidden}
-        <button class="simple-signer return-btn" on:click="{() => ($isWalletHidden = !$isWalletHidden)}">Return</button>
+        <button class="simple-signer return-btn" on:click="{() => ($isWalletHidden = !$isWalletHidden)}"
+            >{lang.RETURN}</button
+        >
         <button class="simple-signer show-key-btn" on:click="{() => ($isPrivateKeyVisible = !$isPrivateKeyVisible)}"
-            >Show key</button
+            >{lang.SHOW_KEY}</button
         >
 
         {#if $isPrivateKeyVisible}
@@ -46,7 +52,7 @@
         {/if}
 
         <button class="simple-signer private-key-btn" on:click="{() => connectWithSecretKey($inputValue)}">
-            Connect with private key
+            {lang.CONNECT_WITH_PRIVATE_KEY}
         </button>
     {:else}
         <div class="simple-signer-wallets">
@@ -89,7 +95,7 @@
                         width="45"
                         height="45"
                     />
-                    <p class="simple-signer wallet-private-key-title">Private Key</p>
+                    <p class="simple-signer wallet-private-key-title">{lang.PRIVATE_KEY}</p>
                 </a>
             </div>
         </div>

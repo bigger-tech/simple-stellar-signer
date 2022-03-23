@@ -4,6 +4,10 @@
     import { getParamsFromUrl } from './signHelpers';
     import { xdr, description, isXdrNull } from './signStore';
     import EventsClass from '../../helpers/EventsClass';
+    import WalletLanguage from '../../helpers/WalletLanguage';
+
+    const language = new WalletLanguage();
+    const lang = language.getText();
 
     function messageHandler(e: MessageEvent): void {
         if ('xdr' in e.data) {
@@ -40,12 +44,12 @@
     }
 </script>
 
-<h1>Sign</h1>
+<h1>{lang.SIGN}</h1>
 
 {#if $xdr}
     <Transaction txParams="{{ xdr: $xdr, description: $description }}" />
 {:else if $isXdrNull}
-    <h1>Sorry, an XDR wasn't provided</h1>
+    <h1>{lang.XDR_NOT_PROVIDED}</h1>
 {:else}
-    <p>Loading...</p>
+    <p>{lang.LOADING}</p>
 {/if}
