@@ -14,6 +14,7 @@
     import groupComponents from './transactionGroupHelper';
     import InvalidGroupsSortError from '../errors/InvalidGroupsSortError';
     import InsufficientOperationsError from '../errors/InsufficientOperationsError';
+
     export let txParams: ITxParams;
 
     const language = new WalletLanguage();
