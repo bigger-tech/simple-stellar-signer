@@ -3,7 +3,7 @@
  */
 import { expect } from '@jest/globals';
 
-import { getParamsFromUrl } from '../signHelpers';
+import getParamsFromUrl from '../signHelpers';
 
 it('should get url params', () => {
     const urlWithGoodParams = 'xdr=1234&description=1234';

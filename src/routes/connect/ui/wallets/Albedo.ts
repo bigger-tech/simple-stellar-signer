@@ -3,6 +3,7 @@ import type { Transaction } from 'stellar-sdk';
 import { StellarNetwork } from '../../../../helpers/StellarNetwork';
 import { albedo } from '../../../../assets/index';
 import AbstractWallet from './AbstractWallet';
+import type IConnectObject from './interfaces/IConnectObject';
 export default class Albedo extends AbstractWallet implements IWallet {
     public static NAME = 'albedo';
     public albedoNetwork: string;
@@ -30,7 +31,7 @@ export default class Albedo extends AbstractWallet implements IWallet {
         super.connectWithWallet(Albedo.NAME, publicKey);
     }
 
-    getConnectObject() {
+    getConnectObject(): IConnectObject {
         return {
             name: 'Albedo',
             connectMethod: async () => {
@@ -39,7 +40,7 @@ export default class Albedo extends AbstractWallet implements IWallet {
             img: albedo,
             width: 35,
             height: 45,
-        }; // this has to be an interface
+        };
     }
 
     async sign(tx: Transaction) {

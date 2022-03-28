@@ -16,3 +16,19 @@ export async function decryptPrivatePair(): Promise<string> {
         throw new StorageKeyNotFoundError();
     }
 }
+
+export function toFindDuplicates(arry: string[]): string[] {
+    return arry.filter((item, index) => arry.indexOf(item) !== index);
+}
+
+export function getParamsFromUrl() {
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const walletParam = urlParams.getAll('wallets');
+
+    if (walletParam) {
+        return walletParam;
+    } else {
+        return undefined;
+    }
+}
