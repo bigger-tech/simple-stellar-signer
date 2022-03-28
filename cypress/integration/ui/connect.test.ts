@@ -3,15 +3,15 @@
 describe('Connect', () => {
     beforeEach(() => {
         cy.visit('/connect');
-        cy.get('.wallet-xbull-title').as('xBullTitle');
-        cy.get('.wallet-freighter-title').as('freighterTitle');
-        cy.get('.wallet-albedo-title').as('albedoTitle');
-        cy.get('.wallet-private-key-title').as('privateKeyTitle');
-        cy.get('.wallet-rabet-title').as('rabetTitle');
-        cy.get('.connect-private-key').as('privateKeyBtn');
+        cy.get('.wallet-title').contains('xBull').as('xBullTitle');
+        cy.get('.wallet-title').contains('Freighter').as('freighterTitle');
+        cy.get('.wallet-title').contains('Albedo').as('albedoTitle');
+        cy.get('.wallet-title').contains('Private Key').as('privateKeyTitle');
+        cy.get('.wallet-title').contains('Rabet').as('rabetTitle');
+        cy.get('.connect-wallet').contains('Private Key').as('privateKeyBtn');
         cy.get('.simple-signer-container').as('container');
     });
-    it("Should check if there's four connect methods", () => {
+    it("Should check if there's five connect methods", () => {
         cy.get('@xBullTitle').should('contain.text', 'xBull');
         cy.get('@freighterTitle').should('contain.text', 'Freighter');
         cy.get('@albedoTitle').should('contain.text', 'Albedo');
@@ -20,7 +20,7 @@ describe('Connect', () => {
     });
 
     it('Should show the private key connect method', () => {
-        cy.get('@privateKeyBtn').click().as('privateKeyBtn');
+        cy.get('@privateKeyBtn').click();
         cy.get('@container').should('contain.text', 'Connect with private key');
     });
 

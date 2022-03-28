@@ -42,7 +42,7 @@ describe('operations', () => {
 
     it('should connect with private key', () => {
         cy.visit('/connect');
-        cy.get('.connect-private-key').click();
+        cy.get('.connect-wallet').contains('Private Key').click();
         cy.get('#input-key').type(SIMPLE_SIGNER_PRIVATE_KEY);
         cy.get('.private-key-btn').click();
     });
