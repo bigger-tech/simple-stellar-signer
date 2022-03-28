@@ -27,12 +27,12 @@ describe('wallets filter', () => {
         cy.get('.simple-signer-wallets').children().should('have.length', 5);
     });
 
-    it('should render the default wallets passing duplicates wallets', () => {
+    it('should render the default wallets if there are duplicate wallets', () => {
         cy.visit('/connect?wallets=xbull&wallets=xbull');
         cy.get('.simple-signer-wallets').children().should('have.length', 5);
     });
 
-    it('should render one wallet if one of two wallets is bad written', () => {
+    it('should render one wallet if one of two wallets is badly written', () => {
         cy.visit('/connect?wallets=xbull&wallets=rabe');
         cy.get('.simple-signer-wallets').children().should('have.length', 1);
     });
