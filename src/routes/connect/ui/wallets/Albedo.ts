@@ -1,9 +1,7 @@
 import type IWallet from './interfaces/IWallet';
 import type { Transaction } from 'stellar-sdk';
 import { StellarNetwork } from '../../../../helpers/StellarNetwork';
-import { albedo } from '../../../../assets/index';
 import AbstractWallet from './AbstractWallet';
-import type IConnectObject from './interfaces/IConnectObject';
 export default class Albedo extends AbstractWallet implements IWallet {
     public static NAME = 'albedo';
     public albedoNetwork: string;
@@ -11,7 +9,7 @@ export default class Albedo extends AbstractWallet implements IWallet {
     constructor() {
         super();
 
-        const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
+        const stellarNetwork = process.env.VITE_STELLAR_NETWORK;
         if (stellarNetwork === StellarNetwork.PUBLIC) {
             this.albedoNetwork = StellarNetwork.PUBLIC;
         } else {
@@ -29,18 +27,6 @@ export default class Albedo extends AbstractWallet implements IWallet {
 
     logIn(publicKey: string) {
         super.connectWithWallet(Albedo.NAME, publicKey);
-    }
-
-    getConnectObject(): IConnectObject {
-        return {
-            name: 'Albedo',
-            connectMethod: async () => {
-                this.logIn(await this.getPublicKey());
-            },
-            img: albedo,
-            width: 35,
-            height: 45,
-        };
     }
 
     async sign(tx: Transaction) {

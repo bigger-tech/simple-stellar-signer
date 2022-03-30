@@ -30,7 +30,7 @@
 
     try {
         $isValidXdr = xdr.TransactionEnvelope.validateXDR(txParams.xdr, 'base64');
-        tx = new Transaction(txParams.xdr, import.meta.env.VITE_HORIZON_NETWORK_PASSPHRASE);
+        tx = new Transaction(txParams.xdr, process.env.VITE_HORIZON_NETWORK_PASSPHRASE);
 
         const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
 
@@ -73,7 +73,7 @@
             </p>
             <p>Fee: {tx.fee}</p>
 
-            <Signatures signatures="{tx.signatures}" />
+            <Signatures signatures={tx.signatures} />
 
             <div class="simple-signer operations-container">
                 {#each transactionGroups as group}
@@ -82,18 +82,18 @@
                             <h3>{group.description}</h3>
                             {#each group.operationComponents as operation}
                                 <div class="simple-signer tx-operation">
-                                    <svelte:component this="{operation.component}" {...operation.props} />
+                                    <svelte:component this={operation.component} {...operation.props} />
                                 </div>
                             {/each}
                         </div>
                     {:else}
                         <div class="simple-signer tx-operation">
-                            <svelte:component this="{group.component}" {...group.props} />
+                            <svelte:component this={group.component} {...group.props} />
                         </div>
                     {/if}
                 {/each}
             </div>
-            <button class="simple-signer sign-tx" on:click="{async () => sendSignedTx(await wallet.sign(tx))}"
+            <button class="simple-signer sign-tx" on:click={async () => sendSignedTx(await wallet.sign(tx))}
                 >Sign Transaction with {storedWallet}</button
             >
         {:else}
