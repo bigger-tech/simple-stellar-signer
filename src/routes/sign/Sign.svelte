@@ -47,7 +47,7 @@
 <h1>Sign</h1>
 
 {#if $xdr}
-    <Transaction txParams="{{ xdr: $xdr, description: $description, transactionGroups: $transactionGroups }}" />
+    <Transaction txParams={{ xdr: $xdr, description: $description, transactionGroups: $transactionGroups }} />
 {:else if $isXdrNull}
     <h1>Sorry, an XDR wasn't provided</h1>
 {:else}

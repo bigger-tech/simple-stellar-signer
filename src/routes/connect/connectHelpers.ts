@@ -17,18 +17,18 @@ export async function decryptPrivatePair(): Promise<string> {
     }
 }
 
-export function toFindDuplicates(arry: string[]): string[] {
-    return arry.filter((item, index) => arry.indexOf(item) !== index);
+export function removeDuplicates(array: string[]): string[] {
+    const newArray = [...new Set(array)];
+    if (newArray.length === array.length) {
+        return array;
+    } else {
+        console.warn(`One or more wallets were deleted for duplicate (Given array: ${array} - New array: ${newArray})`);
+        return newArray;
+    }
 }
 
-export function getParamsFromUrl() {
+export function getWalletsFromUrl(): string[] {
     const queryString = window.location.search;
     const urlParams = new URLSearchParams(queryString);
-    const walletParam = urlParams.getAll('wallets');
-
-    if (walletParam) {
-        return walletParam;
-    } else {
-        return undefined;
-    }
+    return urlParams.getAll('wallets');
 }
