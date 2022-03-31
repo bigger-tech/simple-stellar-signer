@@ -1,3 +1,4 @@
+import UnknownWalletError from '../errors/UnknownWalletError';
 import Albedo from './components/Albedo.svelte';
 import Freighter from './components/Freighter.svelte';
 import PrivateKey from './components/PrivateKey.svelte';
@@ -34,7 +35,7 @@ export default class WalletComponent {
         if (walletComponent) {
             return walletComponent;
         } else {
-            throw new Error(`Unknown wallet: ${wallet}`);
+            throw new UnknownWalletError(wallet);
         }
     }
 }
