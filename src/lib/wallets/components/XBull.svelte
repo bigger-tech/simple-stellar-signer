@@ -3,9 +3,9 @@
     import Wallet from '../WalletTemplate.svelte';
     import { xBull } from '../../../assets/index';
 
-    const xbull = new XBull();
+    const wallet = new XBull();
     async function connect() {
-        xbull.logIn(await xbull.getPublicKey());
+        wallet.logIn(await wallet.getPublicKey());
     }
 </script>
 

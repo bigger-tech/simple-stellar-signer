@@ -3,9 +3,9 @@
     import Wallet from '../WalletTemplate.svelte';
     import { rabet } from '../../../assets/index';
 
-    const rabetClass = new Rabet();
+    const wallet = new Rabet();
     async function connect() {
-        rabetClass.logIn(await rabetClass.getPublicKey());
+        wallet.logIn(await wallet.getPublicKey());
     }
 </script>
 

@@ -3,9 +3,9 @@
     import Wallet from '../WalletTemplate.svelte';
     import { freighter } from '../../../assets/index';
 
-    const freighterClass = new Freighter();
+    const wallet = new Freighter();
     async function connect() {
-        freighterClass.logIn(await freighterClass.getPublicKey());
+        wallet.logIn(await wallet.getPublicKey());
     }
 </script>
 

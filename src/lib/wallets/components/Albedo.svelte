@@ -3,9 +3,9 @@
     import Wallet from '../WalletTemplate.svelte';
     import { albedo } from '../../../assets/index';
 
-    const albedoClass = new Albedo();
+    const wallet = new Albedo();
     async function connect() {
-        albedoClass.logIn(await albedoClass.getPublicKey());
+        wallet.logIn(await wallet.getPublicKey());
     }
 </script>
 
