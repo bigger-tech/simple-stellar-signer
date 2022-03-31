@@ -26,7 +26,8 @@
                     "preprocess": true
                 }
             ],
-            "^.+\\.ts$": "ts-jest"
+            "^.+\\.ts$": "ts-jest",
+            "^.+\\.svg$": "<rootDir>/svgTransform.cjs"
         },
         "moduleFileExtensions": [
             "js",
