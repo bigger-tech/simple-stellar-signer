@@ -1,11 +1,12 @@
 <script lang="ts">
     import Wallets from '../../lib/wallets/Wallets.svelte';
     import PrivateKey from '../../routes/connect/ui/wallets/PrivateKey';
-    import { getWalletsFromUrl } from './connectHelpers';
     import { inputValue, isPrivateKeyVisible, isWalletHidden } from '../../routes/connect/connectStore';
     import EventsClass from '../../helpers/EventsClass';
     import { sendMessage } from '../../helpers/sendMessageHelpers';
     import DefaultWallets from '../../lib/wallets/DefaultWallets.svelte';
+    import { getWalletsFromUrl } from '../../lib/wallets/walletsHelper';
+
     const urlParams = getWalletsFromUrl();
     const parent = window.opener;
     let wallets: string[] | undefined = [];

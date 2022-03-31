@@ -1,6 +1,6 @@
 <script lang="ts">
     import WalletComponent from './WalletComponent';
-    import { removeDuplicates } from '../../routes/connect/connectHelpers';
+    import { removeDuplicates } from './walletsHelper';
     export let wallets: string[];
     const duplicateFilter = removeDuplicates(wallets);
 
