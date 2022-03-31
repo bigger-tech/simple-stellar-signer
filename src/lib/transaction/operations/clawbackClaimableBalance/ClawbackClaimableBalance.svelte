@@ -1,12 +1,13 @@
 <script lang="ts">
+    import { language } from '../../../../store/store';
     export let optionalSource: string | undefined;
     export let defaultSource: string;
     export let balanceId: string;
 </script>
 
 <div class="simple-signer clawback-claimable-balance-operation">
-    <h3>Operation: Clawback Claimable Balance</h3>
+    <h3>{$language.OPERATION} {$language.OPERATION_CLAWBACK_CLAIMABLE_BALANCE}</h3>
 
-    <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
-    <p>Balance ID: {balanceId}</p>
+    <p>{$language.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
+    <p>{$language.BALANCE_ID} {balanceId}</p>
 </div>

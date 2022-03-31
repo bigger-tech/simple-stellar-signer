@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { language } from '../../../../store/store';
     export let optionalSource: string | undefined;
     export let defaultSource: string;
     export let name: string;
@@ -6,11 +7,11 @@
 </script>
 
 <div class="simple-signer manage-data-operation">
-    <h3>Operation: Manage Data</h3>
+    <h3>{$language.OPERATION} {$language.OPERATION_MANAGE_DATA}</h3>
 
-    <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
-    <p>Name: {name}</p>
+    <p>{$language.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
+    <p>{$language.NAME} {name}</p>
     {#if value}
-        <p>Data: {value}</p>
+        <p>{$language.DATA} {value}</p>
     {/if}
 </div>

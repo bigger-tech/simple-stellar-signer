@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { language } from '../../../../store/store';
     export let optionalSource: string;
     export let defaultSource: string;
     export let seller: string;
@@ -6,9 +7,9 @@
 </script>
 
 <div class="simple-signer revoke-offer-sponsorship-operation">
-    <h3>Operation: Revoke Offer Sponsorship</h3>
+    <h3>{$language.OPERATION} {$language.OPERATION_REVOKE_OFFER_SPONSORSHIP}</h3>
 
-    <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
-    <p>Seller: {seller}</p>
-    <p>Offer ID: {offerId}</p>
+    <p>{$language.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
+    <p>{$language.SELLER} {seller}</p>
+    <p>{$language.OFFER_ID} {offerId}</p>
 </div>

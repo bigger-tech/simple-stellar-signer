@@ -1,11 +1,12 @@
 <script lang="ts">
+    import { language } from '../../../../store/store';
     export let defaultSource: string;
     export let optionalSource: string | undefined;
     export let sponsoredId: string;
 </script>
 
 <div class="simple-signer begin-sponsoring-future-reserves-operation">
-    <h3>Operation type: Begin Sponsoring Future Reserves</h3>
-    <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
-    <p>Sponsored ID: {sponsoredId}</p>
+    <h3>{$language.OPERATION_TYPE} {$language.OPERATION_BEGIN_SPONSORING_FUTURE_RESERVES}</h3>
+    <p>{$language.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
+    <p>{$language.SPONSORED_ID} {sponsoredId}</p>
 </div>

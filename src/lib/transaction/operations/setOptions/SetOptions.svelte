@@ -3,7 +3,7 @@
     import type Sha256Hash from 'stellar-sdk';
     import type PreAuthTx from 'stellar-sdk';
     import { StrKey } from 'stellar-sdk';
-
+    import { language } from '../../../../store/store';
     export let optionalSource: string | undefined;
     export let defaultSource: string;
     export let inflationDest: string | undefined;
@@ -19,45 +19,44 @@
 </script>
 
 <div class="simple-signer set-options-operation">
-    <h3>Operation: Set Options</h3>
-
-    <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
+    <h3>{$language.OPERATION} {$language.OPERATION_SET_OPTIONS}</h3>
+    <p>{$language.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
     {#if inflationDest}
-        <p>Destination inflation: {inflationDest}</p>
+        <p>{$language.DESTINATION_INFLATION} {inflationDest}</p>
     {/if}
     {#if clearFlags}
-        <p>Clear Flags: {clearFlags}</p>
+        <p>{$language.CLEAR_FLAGS} {clearFlags}</p>
     {/if}
     {#if setFlags}
-        <p>Set Flags: {setFlags}</p>
+        <p>{$language.SET_FLAGS} {setFlags}</p>
     {/if}
     {#if masterWeight}
-        <p>Master Weight: {masterWeight}</p>
+        <p>{$language.MASTER_WEIGHT} {masterWeight}</p>
     {/if}
     {#if lowThreshold}
-        <p>Low Threshold: {lowThreshold}</p>
+        <p>{$language.LOW_THRESHOLD} {lowThreshold}</p>
     {/if}
     {#if medThreshold}
-        <p>Medium Threshold: {medThreshold}</p>
+        <p>{$language.MEDIUM_THRESHOLD} {medThreshold}</p>
     {/if}
     {#if highThreshold}
-        <p>High Threshold: {highThreshold}</p>
+        <p>{$language.HIGH_THRESHOLD} {highThreshold}</p>
     {/if}
     {#if homeDomain}
-        <p>Home Domain: {homeDomain}</p>
+        <p>{$language.HOME_DOMAIN} {homeDomain}</p>
     {/if}
 
     {#if signer}
-        <h3>Signer</h3>
+        <h3>{$language.SIGNER}</h3>
         {#if signer.ed25519PubpcKey}
-            <p>ed25519PubpcKey: {signer.ed25519PubpcKey}</p>
-            <p>Weight: {weight}</p>
+            <p>{$language.ED5519PUBPCKEY} {signer.ed25519PubpcKey}</p>
+            <p>{$language.WEIGHT} {weight}</p>
         {:else if signer.sha256Hash}
-            <p>sha256Hash: {StrKey.encodeSha256Hash(signer.sha256Hash)}</p>
-            <p>Weight: {weight}</p>
+            <p>{$language.SHA256HASH} {StrKey.encodeSha256Hash(signer.sha256Hash)}</p>
+            <p>{$language.WEIGHT} {weight}</p>
         {:else if signer.preAuthTx}
-            <p>preAuthTx: {StrKey.encodeSha256Hash(signer.preAuthTx)}</p>
-            <p>Weight: {weight}</p>
+            <p>{$language.PREAUTH_TX} {StrKey.encodeSha256Hash(signer.preAuthTx)}</p>
+            <p>{$language.WEIGHT} {weight}</p>
         {/if}
     {/if}
 </div>

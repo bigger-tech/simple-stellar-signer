@@ -1,10 +1,11 @@
 <script lang="ts">
+    import { language } from '../../../../store/store';
     export let optionalSource: string | undefined;
     export let defaultSource: string;
 </script>
 
 <div class="simple-signer end-sponsoring-future-reserves-operation">
-    <h3>Operation: Create Passive Sell Offer</h3>
+    <h3>{$language.OPERATION} {$language.OPERATION_END_SPONSORING_FUTURE_RESERVES}</h3>
 
-    <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
+    <p>{$language.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
 </div>

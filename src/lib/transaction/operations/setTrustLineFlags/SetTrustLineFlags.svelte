@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { language } from '../../../../store/store';
     export let optionalSource: string;
     export let defaultSource: string;
     export let trustor: string;
@@ -9,11 +10,11 @@
 </script>
 
 <div class="simple-signer set-trust-line-flags-operation">
-    <h3>Operation: Set Trustline Flags</h3>
-    <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
-    <p>Trustor: {trustor}</p>
-    <p>Asset: {asset}</p>
-    <p>Is authorized: {authorized ? 'True' : 'False'}</p>
-    <p>Is authorized to maintain liabilities: {authorizedToMaintainLiabilities ? 'True' : 'False'}</p>
-    <p>Is clawback enabled: {clawbackEnabled ? 'True' : 'False'}</p>
+    <h3>{$language.OPERATION} {$language.OPERATION_SET_TRUSTLINE_FLAGS}</h3>
+    <p>{$language.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
+    <p>{$language.TRUSTOR} {trustor}</p>
+    <p>{$language.ASSET} {asset}</p>
+    <p>{$language.IS_AUTHORIZED} {authorized ? 'True' : 'False'}</p>
+    <p>{$language.IS_AUTHORIZED_TO_MAINTAIN_LIABILITIES} {authorizedToMaintainLiabilities ? 'True' : 'False'}</p>
+    <p>{$language.IS_CLAWBACK_ENABLED} {clawbackEnabled ? 'True' : 'False'}</p>
 </div>

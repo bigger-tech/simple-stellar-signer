@@ -99,12 +99,12 @@ describe('operations', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${pathPaymentStrictReceiveXdr}`);
         cy.get('.path-payment-strict-receive-operation').contains('Asset you are using to pay: XLM');
-        cy.get('.path-payment-strict-receive-operation').contains('Max amount: 3.0000000');
+        cy.get('.path-payment-strict-receive-operation').contains('Max Amount: 3.0000000');
         cy.get('.path-payment-strict-receive-operation').contains(
             'Destination: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
         );
         cy.get('.path-payment-strict-receive-operation').contains('Path: XLM');
-        cy.get('.path-payment-strict-receive-operation').contains('Destination asset: XLM');
+        cy.get('.path-payment-strict-receive-operation').contains('Destination Asset: XLM');
         cy.get('.path-payment-strict-receive-operation').contains('Amount: 2.0000000');
     });
 
@@ -114,9 +114,9 @@ describe('operations', () => {
         cy.get('.manage-buy-offer-operation').contains(
             'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
         );
-        cy.get('.manage-buy-offer-operation').contains('Selling asset: XLM');
-        cy.get('.manage-buy-offer-operation').contains('Buying asset: XLM');
-        cy.get('.manage-buy-offer-operation').contains('Buy amount: 2.0000000');
+        cy.get('.manage-buy-offer-operation').contains('Selling Asset: XLM');
+        cy.get('.manage-buy-offer-operation').contains('Buying Asset: XLM');
+        cy.get('.manage-buy-offer-operation').contains('Buy Amount: 2.0000000');
         cy.get('.manage-buy-offer-operation').contains('Price: 1');
         cy.get('.manage-buy-offer-operation').contains('Offer ID: 0');
     });
@@ -127,8 +127,8 @@ describe('operations', () => {
         cy.get('.manage-sell-offer-operation').contains(
             'Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T',
         );
-        cy.get('.manage-sell-offer-operation').contains('Selling asset: XLM');
-        cy.get('.manage-sell-offer-operation').contains('Buying asset: XLM');
+        cy.get('.manage-sell-offer-operation').contains('Selling Asset: XLM');
+        cy.get('.manage-sell-offer-operation').contains('Buying Asset: XLM');
         cy.get('.manage-sell-offer-operation').contains('Amount: 2.0000000');
         cy.get('.manage-sell-offer-operation').contains('Price: 1');
         cy.get('.manage-sell-offer-operation').contains('Offer ID: 0');
@@ -237,7 +237,7 @@ describe('operations', () => {
     it('should render end sponsoring future reserves operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${endSponsoringFutureReservesXdr}`);
-        cy.get('.end-sponsoring-future-reserves-operation').contains('Operation: Create Passive Sell Offer');
+        cy.get('.end-sponsoring-future-reserves-operation').contains('Operation: End Sponsoring Future Reserves');
         cy.get('.end-sponsoring-future-reserves-operation').contains(
             'Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI',
         );
@@ -386,12 +386,12 @@ describe('operations', () => {
             'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
         );
         cy.get('.liquidity-pool-deposit-operation').contains(
-            'Liquidity pool ID: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9',
+            'Liquidity Pool ID: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9',
         );
-        cy.get('.liquidity-pool-deposit-operation').contains('Max amount A: 20.0000000');
-        cy.get('.liquidity-pool-deposit-operation').contains('Max amount B: 20.0000000');
-        cy.get('.liquidity-pool-deposit-operation').contains('Minimum price: 1');
-        cy.get('.liquidity-pool-deposit-operation').contains('Maximum price: 1');
+        cy.get('.liquidity-pool-deposit-operation').contains('Max Amount A: 20.0000000');
+        cy.get('.liquidity-pool-deposit-operation').contains('Max Amount B: 20.0000000');
+        cy.get('.liquidity-pool-deposit-operation').contains('Minimum Price: 1');
+        cy.get('.liquidity-pool-deposit-operation').contains('Maximum Price: 1');
     });
 
     it('should render clawback claimable balance operation', () => {
@@ -409,7 +409,7 @@ describe('operations', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${clawbackXdr}`);
         cy.get('.clawback-operation').contains(
-            'Source account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
+            'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
         );
         cy.get('.clawback-operation').contains('Asset: AUD');
         cy.get('.clawback-operation').contains('Amount: 2.0000000');
@@ -423,11 +423,11 @@ describe('operations', () => {
             'Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3',
         );
         cy.get('.liquidity-pool-withdraw-operation').contains(
-            'Liquidity pool ID: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9',
+            'Liquidity Pool ID: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9',
         );
         cy.get('.liquidity-pool-withdraw-operation').contains('Amount: 20.0000000');
-        cy.get('.liquidity-pool-withdraw-operation').contains('Minimum amount A: 2.0000000');
-        cy.get('.liquidity-pool-withdraw-operation').contains('Minimum amount B: 2.0000000');
+        cy.get('.liquidity-pool-withdraw-operation').contains('Min Amount A: 2.0000000');
+        cy.get('.liquidity-pool-withdraw-operation').contains('Min Amount B: 2.0000000');
     });
 
     it('should render revoke trustline sponsorship operation', () => {

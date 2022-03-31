@@ -13,6 +13,7 @@
     import groupComponents from './transactionGroupHelper';
     import InvalidGroupsSortError from '../errors/InvalidGroupsSortError';
     import InsufficientOperationsError from '../errors/InsufficientOperationsError';
+    import { language } from '../../store/store';
     export let txParams: ITxParams;
 
     let wallet: IWallet;
@@ -56,22 +57,26 @@
 {#if $isValidXdr}
     {#if txParams.description}
         <div class="simple-signer tx-description">
-            <h3>Description</h3>
+            <h3>{$language.DESCRIPTION}</h3>
             <p>{txParams.description}</p>
         </div>
     {/if}
 
     <div class="simple-signer payment-tx">
-        <h3>Transaction</h3>
+        <h3>{$language.TRANSACTION}</h3>
         {#if wallet}
             <p class="src-account">
-                Source account: {tx ? tx.source : ''}
+                {$language.SOURCE_ACCOUNT}
+                {tx ? tx.source : ''}
             </p>
-            <p class="sequence-number">Sequence number: {tx ? tx.sequence : ''}</p>
+            <p class="sequence-number">{$language.SEQUENCE_NUMBER} {tx ? tx.sequence : ''}</p>
             <p class="time-bounds">
-                Time bounds: {tx ? `Min time ${tx.timeBounds?.minTime} Max time ${tx.timeBounds?.maxTime}` : ''}
+                {$language.TIME_BOUNDS}
+                {tx
+                    ? `${$language.MIN_TIME} ${tx.timeBounds?.minTime} ${$language.MAX_TIME} ${tx.timeBounds?.maxTime}`
+                    : ''}
             </p>
-            <p>Fee: {tx.fee}</p>
+            <p>{$language.FEE} {tx.fee}</p>
 
             <Signatures signatures="{tx.signatures}" />
 
@@ -94,15 +99,15 @@
                 {/each}
             </div>
             <button class="simple-signer sign-tx" on:click="{async () => sendSignedTx(await wallet.sign(tx))}"
-                >Sign Transaction with {storedWallet}</button
+                >{$language.SIGN_TRANSACTION} {storedWallet}</button
             >
         {:else}
-            <p class="simple-signer user-not-connected">User is not connected</p>
-            <button class="simple-signer connect-btn"><Link to="/connect">Go to Connect</Link></button>
+            <p class="simple-signer user-not-connected">{$language.USER_IS_NOT_CONNECTED}</p>
+            <button class="simple-signer connect-btn"><Link to="/connect">{$language.GO_TO_CONNECT}</Link></button>
         {/if}
     </div>
 {:else}
-    <h1>Sorry, the XDR is invalid</h1>
+    <h1>{$language.XDR_INVALID}</h1>
 {/if}
 
 <style>
