@@ -1,18 +1,15 @@
 <script lang="ts">
-    import WalletLanguage from '../../../../helpers/WalletLanguage';
+    import { language } from '../../../../store/store';
     export let optionalSource: string;
     export let defaultSource: string;
     export let seller: string;
     export let offerId: string;
-
-    const language = new WalletLanguage();
-    const lang = language.getText();
 </script>
 
 <div class="simple-signer revoke-offer-sponsorship-operation">
-    <h3>{lang.OPERATION} {lang.OPERATION_REVOKE_OFFER_SPONSORSHIP}</h3>
+    <h3>{$language.OPERATION} {$language.OPERATION_REVOKE_OFFER_SPONSORSHIP}</h3>
 
-    <p>{lang.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
-    <p>{lang.SELLER} {seller}</p>
-    <p>{lang.OFFER_ID} {offerId}</p>
+    <p>{$language.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
+    <p>{$language.SELLER} {seller}</p>
+    <p>{$language.OFFER_ID} {offerId}</p>
 </div>

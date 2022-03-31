@@ -3,8 +3,7 @@
     import type Sha256Hash from 'stellar-sdk';
     import type PreAuthTx from 'stellar-sdk';
     import { StrKey } from 'stellar-sdk';
-    import WalletLanguage from '../../../../helpers/WalletLanguage';
-
+    import { language } from '../../../../store/store';
     export let optionalSource: string | undefined;
     export let defaultSource: string;
     export let inflationDest: string | undefined;
@@ -17,51 +16,47 @@
     export let homeDomain: string | undefined;
     export let signer: typeof Ed25519PubpcKey | typeof Sha256Hash | typeof PreAuthTx;
     export let weight: number | undefined;
-
-    const language = new WalletLanguage();
-    const lang = language.getText();
 </script>
 
 <div class="simple-signer set-options-operation">
-    <h3>{lang.OPERATION} {lang.OPERATION_SET_OPTIONS}</h3>
-
-    <p>{lang.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
+    <h3>{$language.OPERATION} {$language.OPERATION_SET_OPTIONS}</h3>
+    <p>{$language.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
     {#if inflationDest}
-        <p>{lang.DESTINATION_INFLATION} {inflationDest}</p>
+        <p>{$language.DESTINATION_INFLATION} {inflationDest}</p>
     {/if}
     {#if clearFlags}
-        <p>{lang.CLEAR_FLAGS} {clearFlags}</p>
+        <p>{$language.CLEAR_FLAGS} {clearFlags}</p>
     {/if}
     {#if setFlags}
-        <p>{lang.SET_FLAGS} {setFlags}</p>
+        <p>{$language.SET_FLAGS} {setFlags}</p>
     {/if}
     {#if masterWeight}
-        <p>{lang.MASTER_WEIGHT} {masterWeight}</p>
+        <p>{$language.MASTER_WEIGHT} {masterWeight}</p>
     {/if}
     {#if lowThreshold}
-        <p>{lang.LOW_THRESHOLD} {lowThreshold}</p>
+        <p>{$language.LOW_THRESHOLD} {lowThreshold}</p>
     {/if}
     {#if medThreshold}
-        <p>{lang.MEDIUM_THRESHOLD} {medThreshold}</p>
+        <p>{$language.MEDIUM_THRESHOLD} {medThreshold}</p>
     {/if}
     {#if highThreshold}
-        <p>{lang.HIGH_THRESHOLD} {highThreshold}</p>
+        <p>{$language.HIGH_THRESHOLD} {highThreshold}</p>
     {/if}
     {#if homeDomain}
-        <p>{lang.HOME_DOMAIN} {homeDomain}</p>
+        <p>{$language.HOME_DOMAIN} {homeDomain}</p>
     {/if}
 
     {#if signer}
-        <h3>{lang.SIGNER}</h3>
+        <h3>{$language.SIGNER}</h3>
         {#if signer.ed25519PubpcKey}
-            <p>{lang.ED5519PUBPCKEY} {signer.ed25519PubpcKey}</p>
-            <p>{lang.WEIGHT} {weight}</p>
+            <p>{$language.ED5519PUBPCKEY} {signer.ed25519PubpcKey}</p>
+            <p>{$language.WEIGHT} {weight}</p>
         {:else if signer.sha256Hash}
-            <p>{lang.SHA256HASH} {StrKey.encodeSha256Hash(signer.sha256Hash)}</p>
-            <p>{lang.WEIGHT} {weight}</p>
+            <p>{$language.SHA256HASH} {StrKey.encodeSha256Hash(signer.sha256Hash)}</p>
+            <p>{$language.WEIGHT} {weight}</p>
         {:else if signer.preAuthTx}
-            <p>{lang.PREAUTH_TX} {StrKey.encodeSha256Hash(signer.preAuthTx)}</p>
-            <p>{lang.WEIGHT} {weight}</p>
+            <p>{$language.PREAUTH_TX} {StrKey.encodeSha256Hash(signer.preAuthTx)}</p>
+            <p>{$language.WEIGHT} {weight}</p>
         {/if}
     {/if}
 </div>
