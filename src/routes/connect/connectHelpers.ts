@@ -18,13 +18,11 @@ export async function decryptPrivatePair(): Promise<string> {
 }
 
 export function removeDuplicates(array: string[]): string[] {
-    const newArray = [...new Set(array)];
-    if (newArray.length === array.length) {
-        return array;
-    } else {
-        console.warn(`One or more wallets were deleted for duplicate (Given array: ${array} - New array: ${newArray})`);
-        return newArray;
+    const deduplicatedArray = [...new Set(array)];
+    if (deduplicatedArray.length !== array.length) {
+        console.warn(`One or more wallets were deleted for duplicate (Given array: ${array} - Deduplicated array: ${deduplicatedArray})`);
     }
+    return deduplicatedArray;
 }
 
 export function getWalletsFromUrl(): string[] {
