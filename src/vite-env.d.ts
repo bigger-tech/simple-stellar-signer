@@ -6,6 +6,7 @@ interface ImportMetaEnv {
     readonly VITE_HOST_SIMPLE_SIGNER_DEMO: string;
     readonly VITE_WALLET_CONNECT_PROJECT_ID: string;
     readonly VITE_STELLAR_NETWORK: string;
+    readonly VITE_WALLET_CONNECT_METADATA_URL: string;
 }
 
 interface ImportMeta {

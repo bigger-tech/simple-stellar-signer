@@ -21,9 +21,9 @@ export default class WalletConnect extends AbstractWallet implements IWalletConn
             projectId: import.meta.env.VITE_WALLET_CONNECT_PROJECT_ID,
             relayUrl: 'wss://relay.walletconnect.org',
             metadata: {
-                name: 'Simple Signer Stellar #3',
-                description: 'Example Dapp',
-                url: 'https://localhost:3000/',
+                name: 'Simple Signer',
+                description: 'Simple Signer provides multiple methods to sign transactions and is easy to use',
+                url: import.meta.env.VITE_WALLET_CONNECT_METADATA_URL,
                 icons: ['https://walletconnect.com/walletconnect-logo.png'],
             },
         });
