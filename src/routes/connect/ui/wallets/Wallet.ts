@@ -5,6 +5,7 @@ import Freighter from './Freighter';
 import PrivateKey from './PrivateKey';
 import Rabet from './Rabet';
 import XBull from './XBull';
+import WalletConnect from './WalletConnect';
 
 export default class WalletFactory {
     create(name: string) {
@@ -24,6 +25,11 @@ export default class WalletFactory {
                 break;
             case PrivateKey.NAME:
                 wallet = new PrivateKey();
+                break;
+            case WalletConnect.NAME:
+                // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+                // @ts-ignore:next-line
+                wallet = new WalletConnect();
                 break;
             default:
                 throw new InvalidWalletException();

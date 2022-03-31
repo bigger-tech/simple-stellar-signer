@@ -25,6 +25,7 @@ export default class XBull extends AbstractWallet implements IWallet {
     }
 
     logIn(publicKey: string) {
+        console.log(publicKey, 'public key xbull');
         super.connectWithWallet(XBull.NAME, publicKey);
     }
 

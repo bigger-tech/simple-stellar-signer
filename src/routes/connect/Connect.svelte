@@ -5,7 +5,8 @@
     import PrivateKey from './ui/wallets/PrivateKey';
     import Rabet from './ui/wallets/Rabet';
     import { inputValue, isPrivateKeyVisible, isWalletHidden } from './connectStore';
-    import { albedo, xBull, freighter, privateKey, rabet } from '../../assets/index';
+    import { albedo, xBull, freighter, privateKey, rabet, walletConnect } from '../../assets/index';
+    import WalletConnect from './ui/wallets/WalletConnect';
 
     async function connectWithAlbedo() {
         const albedo = new Albedo();
@@ -29,6 +30,11 @@
 
     async function connectWithSecretKey(privateKey: string): Promise<void> {
         return new PrivateKey().logIn(privateKey);
+    }
+
+    async function connectWithWalletConnect() {
+        const walletConnect = new WalletConnect();
+        return walletConnect.logIn();
     }
 </script>
 
@@ -92,6 +98,18 @@
                     <p class="simple-signer wallet-private-key-title">Private Key</p>
                 </a>
             </div>
+            <div class="simple-signer wallet-connect-container">
+                <a href="{'#'}" class="connect-wallet-connect" on:click="{() => connectWithWalletConnect()}">
+                    <img
+                        class="simple-signer wallet-connect-logo"
+                        src="{walletConnect}"
+                        alt="wallet connect logo"
+                        width="45"
+                        height="45"
+                    />
+                    <p class="simple-signer wallet-connect-title">Wallet Connect</p>
+                </a>
+            </div>
         </div>
     {/if}
 </div>
@@ -111,7 +129,8 @@
     .rabet-logo,
     .albedo-logo,
     .xbull-logo,
-    .private-key-logo {
+    .private-key-logo,
+    .wallet-connect-logo {
         margin-top: 25px;
     }
     .freighter-logo {
@@ -120,7 +139,8 @@
     .wallet-rabet-title,
     .wallet-albedo-title,
     .wallet-xbull-title,
-    .wallet-private-key-title {
+    .wallet-private-key-title,
+    .wallet-connect-title {
         margin-top: 10px;
     }
 
@@ -132,7 +152,8 @@
     .wallet-albedo-title:hover,
     .wallet-xbull-title:hover,
     .wallet-private-key-title:hover,
-    .wallet-freighter-title:hover {
+    .wallet-freighter-title:hover,
+    .wallet-connect-title:hover {
         color: #000;
     }
 
@@ -144,7 +165,8 @@
     .albedo-container,
     .freighter-container,
     .xbull-container,
-    .private-key-container {
+    .private-key-container,
+    .wallet-connect-container {
         font-family: 'Montserrat', sans-serif;
         font-size: 14px;
         color: #bdbdbd;
@@ -158,7 +180,8 @@
         .albedo-container,
         .freighter-container,
         .xbull-container,
-        .private-key-container {
+        .private-key-container,
+        .wallet-connect-container {
             margin-top: 15px;
         }
     }
