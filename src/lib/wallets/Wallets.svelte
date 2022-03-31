@@ -2,15 +2,10 @@
     import WalletComponent from './WalletComponent';
     import { removeDuplicates } from '../../routes/connect/connectHelpers';
     export let wallets: string[];
-    let walletComponents: WalletComponent[] = [];
-
     const duplicateFilter = removeDuplicates(wallets);
-    wallets = duplicateFilter;
 
-    for (let i = 0; i < wallets.length; i++) {
-        const walletComponent = new WalletComponent(wallets[i]!);
-        walletComponents.push(walletComponent);
-    }
+    wallets = duplicateFilter;
+    const walletComponents = wallets.map((wallet) => new WalletComponent(wallet));
 </script>
 
 {#each walletComponents as wallet}

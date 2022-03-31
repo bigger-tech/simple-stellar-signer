@@ -34,10 +34,7 @@
 
         const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
 
-        for (let i = 0; i < tx.operations.length; i++) {
-            let operationComponent = dynamicOperationComponentFactory.create(tx, tx.operations[i]!);
-            operationComponents.push(operationComponent);
-        }
+        operationComponents = tx.operations.map((operation) => dynamicOperationComponentFactory.create(tx, operation));
 
         if (txParams.transactionGroups && txParams.transactionGroups.length > 0) {
             transactionGroups = groupComponents(operationComponents, txParams.transactionGroups);
