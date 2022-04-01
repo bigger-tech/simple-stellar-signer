@@ -2,10 +2,11 @@
     import Wallet from '../WalletTemplate.svelte';
     import { privateKey } from '../../../assets/index';
     import { isWalletHidden } from '../../../routes/connect/connectStore';
+    import { language } from '../../../store/store';
 
     async function showPrivateKeyInput() {
         $isWalletHidden = !$isWalletHidden;
     }
 </script>
 
-<Wallet title="Private Key" img={privateKey} width={45} connectMethod={showPrivateKeyInput} />
+<Wallet title={$language.PRIVATE_KEY} img={privateKey} width={45} connectMethod={showPrivateKeyInput} />

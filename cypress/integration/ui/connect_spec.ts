@@ -21,12 +21,12 @@ describe('Connect', () => {
 
     it('Should show the private key connect method', () => {
         cy.get('@privateKeyBtn').click();
-        cy.get('@container').should('contain.text', 'Connect with private key');
+        cy.get('.private-key-btn').should('contain.text', 'Connect');
     });
 
     it('Should return to the four connect methods', () => {
         cy.get('@privateKeyBtn').click();
-        cy.get('@container').should('contain.text', 'Connect with private key');
+        cy.get('@container').should('contain.text', 'Connect');
         cy.get('.return-btn').click();
         cy.get('@xBullTitle').should('contain.text', 'xBull');
         cy.get('@freighterTitle').should('contain.text', 'Freighter');

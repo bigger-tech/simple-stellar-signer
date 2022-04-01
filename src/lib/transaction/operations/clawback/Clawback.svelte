@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { language } from '../../../../store/store';
     export let optionalSource: string | undefined;
     export let defaultSource: string;
     export let asset: string;
@@ -7,10 +8,10 @@
 </script>
 
 <div class="simple-signer clawback-operation">
-    <h3>Operation: Clawback</h3>
+    <h3>{$language.OPERATION} {$language.OPERATION_CLAWBACK}</h3>
 
-    <p>Source account: {optionalSource ? optionalSource : defaultSource}</p>
-    <p>Asset: {asset}</p>
-    <p>Amount: {amount}</p>
-    <p>From: {from}</p>
+    <p>{$language.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
+    <p>{$language.ASSET} {asset}</p>
+    <p>{$language.AMOUNT} {amount}</p>
+    <p>{$language.FROM} {from}</p>
 </div>

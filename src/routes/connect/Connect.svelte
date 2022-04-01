@@ -6,6 +6,7 @@
     import { sendMessage } from '../../helpers/sendMessageHelpers';
     import DefaultWallets from '../../lib/wallets/DefaultWallets.svelte';
     import { getWalletsFromUrl } from '../../lib/wallets/walletsHelper';
+    import { language } from '../../store/store';
 
     const urlParams = getWalletsFromUrl();
     const parent = window.opener;
@@ -40,10 +41,12 @@
 
 <div class="simple-signer-container">
     {#if $isWalletHidden}
-        <button class="simple-signer return-btn" on:click={() => ($isWalletHidden = !$isWalletHidden)}>Return</button>
-        <button class="simple-signer show-key-btn" on:click={() => ($isPrivateKeyVisible = !$isPrivateKeyVisible)}>
-            Show key
-        </button>
+        <button class="simple-signer return-btn" on:click={() => ($isWalletHidden = !$isWalletHidden)}
+            >{$language.RETURN}</button
+        >
+        <button class="simple-signer show-key-btn" on:click={() => ($isPrivateKeyVisible = !$isPrivateKeyVisible)}
+            >{$language.SHOW_KEY}</button
+        >
 
         {#if $isPrivateKeyVisible}
             <input id="input-key" type="text" bind:value={$inputValue} />
@@ -52,7 +55,7 @@
         {/if}
 
         <button class="simple-signer private-key-btn" on:click={() => connectWithSecretKey($inputValue)}>
-            Connect with private key
+            {$language.CONNECT_WITH_PRIVATE_KEY}
         </button>
     {:else}
         <div class="simple-signer-wallets">

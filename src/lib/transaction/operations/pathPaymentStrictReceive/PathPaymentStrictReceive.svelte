@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { Asset } from 'stellar-sdk';
-
+    import { language } from '../../../../store/store';
     export let optionalSource: string | undefined;
     export let defaultSource: string;
     export let sendAsset: string;
@@ -12,18 +12,18 @@
 </script>
 
 <div class="simple-signer path-payment-strict-receive-operation">
-    <h3>Operation type: Path Payment Strict Receive</h3>
+    <h3>{$language.OPERATION_TYPE} {$language.OPERATION_PATH_PAYMENT_STRICT_RECEIVE}</h3>
 
-    <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
-    <p>Asset you are using to pay: {sendAsset}</p>
-    <p>Max amount: {sendMax}</p>
-    <p>Destination: {destination}</p>
+    <p>{$language.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
+    <p>{$language.ASSET_TO_PAY} {sendAsset}</p>
+    <p>{$language.MAX_AMOUNT} {sendMax}</p>
+    <p>{$language.DESTINATION} {destination}</p>
     {#if path.length >= 1}
-        <p>Path:</p>
+        <p>{$language.PATH}</p>
         {#each path as path}
             <p>{path.code}</p>
         {/each}
     {/if}
-    <p>Destination asset: {destAsset}</p>
-    <p>Amount: {destAmount}</p>
+    <p>{$language.DESTINATION_ASSET} {destAsset}</p>
+    <p>{$language.AMOUNT} {destAmount}</p>
 </div>

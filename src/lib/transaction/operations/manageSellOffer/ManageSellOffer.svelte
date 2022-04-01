@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { language } from '../../../../store/store';
     export let optionalSource: string | undefined;
     export let defaultSource: string;
     export let selling: string;
@@ -9,12 +10,12 @@
 </script>
 
 <div class="simple-signer manage-sell-offer-operation">
-    <h3>Operation: Manage Sell Offer</h3>
+    <h3>{$language.OPERATION} {$language.OPERATION_MANAGE_SELL_OFFER}</h3>
 
-    <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
-    <p>Selling asset: {selling}</p>
-    <p>Buying asset: {buying}</p>
-    <p>Amount: {amount}</p>
-    <p>Price: {price}</p>
-    <p>Offer ID: {offerId}</p>
+    <p>{$language.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
+    <p>{$language.SELLING_ASSET} {selling}</p>
+    <p>{$language.BUYING_ASSET} {buying}</p>
+    <p>{$language.AMOUNT} {amount}</p>
+    <p>{$language.PRICE} {price}</p>
+    <p>{$language.OFFER_ID} {offerId}</p>
 </div>

@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { TrustLineFlag } from 'stellar-sdk';
+    import { language } from '../../../../store/store';
     export let optionalSource: string | undefined;
     export let defaultSource: string;
     export let assetCode: string;
@@ -7,16 +8,20 @@
 </script>
 
 <div class="simple-signer allow-trust-operation">
-    <h3>Operation: {authorize ? 'Allow' : 'Disallow'} Trust</h3>
+    <h3>
+        {$language.OPERATION}
+        {authorize ? `${$language.ALLOW_TRUST}` : `${$language.DISALLOW_TRUST}`}
+        {$language.OPERATION_ACCOUNT_TRUST}
+    </h3>
 
-    <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
-    <p>Asset: {assetCode}</p>
+    <p>{$language.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
+    <p>{$language.ASSET} {assetCode}</p>
 
     {#if authorize === 2}
-        <p>Authorization: The account is authorized to maintain orders, but not to perform other transactions</p>
+        <p>{$language.AUTHORIZED_TO_MANTAIN_ORDERS}</p>
     {:else if authorize}
-        <p>Authorization: The account is authorized to transact with the asset</p>
+        <p>{$language.AUTHORIZED_TO_TRANSACT}</p>
     {:else}
-        <p>Authorization: The account is not authorized to transact with the asset</p>
+        <p>{$language.NOT_AUTHORIZED_TO_TRANSACT}</p>
     {/if}
 </div>

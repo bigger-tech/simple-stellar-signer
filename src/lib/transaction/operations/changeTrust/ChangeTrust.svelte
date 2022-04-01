@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Asset, LiquidityPoolAsset } from 'stellar-sdk';
-
+    import { language } from '../../../../store/store';
     export let optionalSource: string | undefined;
     export let defaultSource: string;
     export let assetType: Asset | LiquidityPoolAsset;
@@ -17,15 +17,15 @@
 </script>
 
 <div class="simple-signer change-trust-operation">
-    <h3>Operation: Change Trust</h3>
+    <h3>{$language.OPERATION} {$language.OPERATION_CHANGE_TRUST}</h3>
 
-    <p>Source Account: {optionalSource ? optionalSource : defaultSource}</p>
+    <p>{$language.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
     {#if asset}
-        <p>Asset: {asset.code}</p>
+        <p>{$language.ASSET} {asset.code}</p>
     {:else if liquidityPoolAsset}
-        <p>Asset A: {liquidityPoolAsset.assetA.code}</p>
-        <p>Asset B: {liquidityPoolAsset.assetB.code}</p>
+        <p>{$language.ASSET_A} {liquidityPoolAsset.assetA.code}</p>
+        <p>{$language.ASSET_B} {liquidityPoolAsset.assetB.code}</p>
     {/if}
 
-    <p>Limit: {limit}</p>
+    <p>{$language.LIMIT} {limit}</p>
 </div>
