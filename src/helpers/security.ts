@@ -5,19 +5,28 @@ function uint8ArrayFromCharCode(data: string): Uint8Array {
     return array;
 }
 
-const keyPair = window.crypto.subtle.generateKey(
-    {
-        name: 'RSA-OAEP',
-        modulusLength: 4096,
-        publicExponent: new Uint8Array([1, 0, 1]),
-        hash: 'SHA-256',
-    },
-    true,
-    ['encrypt', 'decrypt'],
-);
+let keyPair: CryptoKeyPair;
+
+window.crypto.subtle
+    .generateKey(
+        {
+            name: 'RSA-OAEP',
+            modulusLength: 4096,
+            publicExponent: new Uint8Array([1, 0, 1]),
+            hash: { name: 'SHA-256' },
+        },
+        true,
+        ['encrypt', 'decrypt'],
+    )
+    .then((key) => {
+        keyPair = key;
+    })
+    .catch((e) => {
+        throw new Error(`${e}`);
+    });
 
 async function exportCryptoKey(): Promise<string> {
-    const privateKey = (await keyPair).privateKey;
+    const privateKey = keyPair.privateKey;
 
     const cryptoKey = await window.crypto.subtle.exportKey('pkcs8', privateKey!);
     const cryptoKeyToUint8Array = new Uint8Array(cryptoKey);
@@ -27,7 +36,7 @@ async function exportCryptoKey(): Promise<string> {
 }
 
 async function encryptPrivateKey(key: string): Promise<string> {
-    const publicKey = (await keyPair).publicKey;
+    const publicKey = keyPair.publicKey;
     const encodeKey = new TextEncoder().encode(key);
 
     const encryptKey = async (publicKey: CryptoKey) => {
