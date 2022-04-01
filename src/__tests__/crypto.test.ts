@@ -18,8 +18,8 @@ it('should work', async () => {
     console.log(
         window.crypto.subtle.generateKey(
             {
-                name: 'AES-GCM',
-                length: 256,
+                name: 'HMAC',
+                hash: { name: 'SHA-512' },
             },
             true,
             ['encrypt', 'decrypt'],
