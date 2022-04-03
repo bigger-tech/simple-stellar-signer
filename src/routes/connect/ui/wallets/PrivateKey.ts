@@ -28,6 +28,8 @@ export default class PrivateKey extends AbstractWallet implements IWallet {
 
     async sign(tx: Transaction): Promise<string> {
         const privateKey = await decryptPrivatePair();
+        console.log(privateKey);
+
         const keyPair = Keypair.fromSecret(privateKey);
         tx.sign(keyPair);
         const signedXDR = tx.toXDR();

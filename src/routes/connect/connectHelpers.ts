@@ -1,16 +1,16 @@
-import { getEncryptedData, decryptPrivateKey } from '../../helpers/security';
+import { getEncryptedData, getDecryptedData } from '../../helpers/security';
 import { storePair, getStoredPair } from '../../helpers/keyManager';
 import StorageKeyNotFoundError from './errors/StorageKeyNotFoundError';
 
 export async function encryptPrivateKey(key: string): Promise<void> {
     const encryptedData = await getEncryptedData(key);
-    storePair(encryptedData.privateKey, encryptedData.cryptoKey);
+    storePair(encryptedData.privateKey, encryptedData.cryptoKey, encryptedData.iv);
 }
 
 export async function decryptPrivatePair(): Promise<string> {
     try {
         const storedPair = getStoredPair();
-        const privateKey = await decryptPrivateKey(storedPair.privateKey, storedPair.cryptoKey);
+        const privateKey = await getDecryptedData(storedPair.privateKey, storedPair.cryptoKey, storedPair.iv);
         return privateKey;
     } catch (e) {
         throw new StorageKeyNotFoundError();

@@ -2,7 +2,6 @@
     import { onMount } from 'svelte';
 
     import { Router, Route } from 'svelte-navigator';
-    import { testCrypto } from './helpers/security2';
     import WalletLanguage from './helpers/WalletLanguage';
     import Connect from './routes/connect/Connect.svelte';
     import Home from './routes/Home.svelte';
@@ -11,8 +10,6 @@
     onMount(async () => {
         return ($language = await new WalletLanguage().getText());
     });
-
-    testCrypto();
 </script>
 
 {#if $detectedLanguage}
