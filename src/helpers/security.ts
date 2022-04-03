@@ -80,19 +80,15 @@ async function decrypt(encryptedData: string, importedKey: CryptoKey, iv: string
     const data = uint8ArrayFromCharCode(encryptedData);
     const vector = uint8ArrayFromCharCode(iv);
 
-    const decryptedData = await window.crypto.subtle
-        .decrypt(
-            {
-                name: 'AES-GCM',
-                iv: vector,
-                tagLength: 128,
-            },
-            importedKey,
-            data,
-        )
-        .catch((e) => {
-            console.error(e);
-        });
+    const decryptedData = await window.crypto.subtle.decrypt(
+        {
+            name: 'AES-GCM',
+            iv: vector,
+            tagLength: 128,
+        },
+        importedKey,
+        data,
+    );
 
     const decodedData = new TextDecoder().decode(decryptedData);
 
@@ -101,7 +97,5 @@ async function decrypt(encryptedData: string, importedKey: CryptoKey, iv: string
 
 export async function getDecryptedData(encryptedData: string, exportedCryptoKey: string, iv: string) {
     const importedKey = await importKey(exportedCryptoKey);
-    const decryptedData = await decrypt(encryptedData, importedKey, iv);
-
-    return decryptedData;
+    return decrypt(encryptedData, importedKey, iv);
 }
