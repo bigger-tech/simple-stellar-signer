@@ -1,88 +1,101 @@
 import type { IStoredPair } from '../routes/connect/IStoredPair';
+let INITIALIZATION_VECTORS: Uint8Array;
 
 function uint8ArrayFromCharCode(data: string): Uint8Array {
     const array = new Uint8Array([...data].map((char) => char.charCodeAt(0)));
     return array;
 }
 
-const keyPair = window.crypto.subtle.generateKey(
-    {
-        name: 'RSA-OAEP',
-        modulusLength: 4096,
-        publicExponent: new Uint8Array([1, 0, 1]),
-        hash: 'SHA-256',
-    },
-    true,
-    ['encrypt', 'decrypt'],
-);
-
-async function exportCryptoKey(): Promise<string> {
-    const privateKey = (await keyPair).privateKey;
-
-    const cryptoKey = await window.crypto.subtle.exportKey('pkcs8', privateKey!);
-    const cryptoKeyToUint8Array = new Uint8Array(cryptoKey);
-    const cryptoKeyString = String.fromCharCode.apply(null, Array.from(cryptoKeyToUint8Array));
-
-    return cryptoKeyString;
+function getCharCode(buffer: ArrayBuffer | Uint8Array) {
+    if (buffer instanceof ArrayBuffer) {
+        const uintArray = new Uint8Array(buffer);
+        return String.fromCharCode.apply(null, Array.from(uintArray));
+    } else {
+        return String.fromCharCode.apply(null, Array.from(buffer));
+    }
 }
 
-async function encryptPrivateKey(key: string): Promise<string> {
-    const publicKey = (await keyPair).publicKey;
-    const encodeKey = new TextEncoder().encode(key);
-
-    const encryptKey = async (publicKey: CryptoKey) => {
-        return await window.crypto.subtle.encrypt(
-            {
-                name: 'RSA-OAEP',
-            },
-            publicKey,
-            encodeKey,
-        );
-    };
-
-    const uintArray = new Uint8Array(await encryptKey(publicKey!));
-    const stringArray = String.fromCharCode.apply(null, Array.from(uintArray));
-
-    return stringArray;
-}
-
-async function importCrypoKey(key: string): Promise<CryptoKey> {
-    const arrayFromCharCode = uint8ArrayFromCharCode(key);
-
-    const importedKey = await window.crypto.subtle.importKey(
-        'pkcs8',
-        arrayFromCharCode,
+async function generateKey() {
+    const cryptoKey = await window.crypto.subtle.generateKey(
         {
-            name: 'RSA-OAEP',
-            hash: { name: 'SHA-256' },
+            name: 'AES-GCM',
+            length: 256,
         },
-        false,
-        ['decrypt'],
+        true,
+        ['encrypt', 'decrypt'],
+    );
+
+    return cryptoKey;
+}
+
+async function exportKey(cryptoKey: CryptoKey) {
+    const exportedCryptoKey = await window.crypto.subtle.exportKey('raw', cryptoKey);
+    const exportedCryptoKeyCharCode = getCharCode(exportedCryptoKey);
+
+    return exportedCryptoKeyCharCode;
+}
+
+async function encryptData(data: string, cryptoKey: CryptoKey) {
+    const encodedData = new TextEncoder().encode(data);
+    INITIALIZATION_VECTORS = window.crypto.getRandomValues(new Uint8Array(12));
+    const encryptedData = await window.crypto.subtle.encrypt(
+        {
+            name: 'AES-GCM',
+            iv: INITIALIZATION_VECTORS,
+            tagLength: 128,
+        },
+        cryptoKey,
+        encodedData,
+    );
+
+    const encryptedDataCharCode = getCharCode(encryptedData);
+    return encryptedDataCharCode;
+}
+
+export async function getEncryptedData(data: string): Promise<IStoredPair> {
+    const cryptoKey = await generateKey();
+    const exportedKey = await exportKey(cryptoKey);
+    const encryptedData = await encryptData(data, cryptoKey);
+    const vectorCharCode = getCharCode(INITIALIZATION_VECTORS);
+
+    return { privateKey: encryptedData, cryptoKey: exportedKey, iv: vectorCharCode };
+}
+
+async function importKey(exportedCryptoKey: string) {
+    const cryptoKey = uint8ArrayFromCharCode(exportedCryptoKey);
+    const importedKey = window.crypto.subtle.importKey(
+        'raw',
+        cryptoKey,
+        {
+            name: 'AES-GCM',
+        },
+        true,
+        ['encrypt', 'decrypt'],
     );
 
     return importedKey;
 }
 
-export async function getEncryptedData(key: string): Promise<IStoredPair> {
-    const encryptedKey = await encryptPrivateKey(key);
-    const encryptedCryptoKey = await exportCryptoKey();
+async function decrypt(encryptedData: string, importedKey: CryptoKey, iv: string) {
+    const data = uint8ArrayFromCharCode(encryptedData);
+    const vector = uint8ArrayFromCharCode(iv);
 
-    return { privateKey: encryptedKey, cryptoKey: encryptedCryptoKey };
-}
-
-export async function decryptPrivateKey(key: string, cryptoKey: string): Promise<string> {
-    const arrayFromCharCode = uint8ArrayFromCharCode(key);
-
-    const privateKey = await importCrypoKey(cryptoKey);
-
-    const decryptedKey = await window.crypto.subtle.decrypt(
+    const decryptedData = await window.crypto.subtle.decrypt(
         {
-            name: 'RSA-OAEP',
+            name: 'AES-GCM',
+            iv: vector,
+            tagLength: 128,
         },
-        privateKey!,
-        arrayFromCharCode,
+        importedKey,
+        data,
     );
 
-    const decoderData = new TextDecoder().decode(decryptedKey);
-    return decoderData;
+    const decodedData = new TextDecoder().decode(decryptedData);
+
+    return decodedData;
+}
+
+export async function getDecryptedData(encryptedData: string, exportedCryptoKey: string, iv: string) {
+    const importedKey = await importKey(exportedCryptoKey);
+    return decrypt(encryptedData, importedKey, iv);
 }
