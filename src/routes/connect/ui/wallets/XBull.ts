@@ -9,7 +9,7 @@ export default class XBull extends AbstractWallet implements IWallet {
 
     constructor() {
         super();
-        const stellarNetwork = import.meta.env.VITE_STELLAR_NETWORK;
+        const stellarNetwork = process.env.VITE_STELLAR_NETWORK;
 
         if (stellarNetwork === StellarNetwork.PUBLIC) {
             this.XBullNetwork = StellarNetwork.PUBLIC;

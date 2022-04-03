@@ -1,6 +1,6 @@
 import type { ITxParams } from 'src/lib/transaction/ITxParams';
 
-export function getParamsFromUrl(queryString: string): ITxParams | undefined {
+export default function getParamsFromUrl(queryString: string): ITxParams | undefined {
     const urlParams = new URLSearchParams(queryString);
     const xdrParam = urlParams.get('xdr');
     const descriptionParam = urlParams.get('description');

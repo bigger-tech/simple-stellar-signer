@@ -1,7 +1,7 @@
 <script lang="ts">
     import { sendMessage } from '../../helpers/sendMessageHelpers';
     import Transaction from '../../lib/transaction/Transaction.svelte';
-    import { getParamsFromUrl } from './signHelpers';
+    import getParamsFromUrl from './signHelpers';
     import { xdr, description, transactionGroups, isXdrNull } from './signStore';
     import EventsClass from '../../helpers/EventsClass';
     import { language } from '../../store/store';
@@ -48,7 +48,7 @@
 <h1>{$language.SIGN}</h1>
 
 {#if $xdr}
-    <Transaction txParams="{{ xdr: $xdr, description: $description, transactionGroups: $transactionGroups }}" />
+    <Transaction txParams={{ xdr: $xdr, description: $description, transactionGroups: $transactionGroups }} />
 {:else if $isXdrNull}
     <h1>{$language.XDR_NOT_PROVIDED}</h1>
 {:else}

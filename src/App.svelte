@@ -13,11 +13,11 @@
 </script>
 
 {#if $detectedLanguage}
-    <Router primary="{false}">
+    <Router primary={false}>
         <main>
-            <Route path="/" component="{Home}" />
-            <Route path="/connect" component="{Connect}" />
-            <Route path="/sign" component="{Sign}" />
+            <Route path="/" component={Home} />
+            <Route path="/connect" component={Connect} />
+            <Route path="/sign" component={Sign} />
         </main>
     </Router>
 {/if}

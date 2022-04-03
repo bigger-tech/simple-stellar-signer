@@ -32,28 +32,24 @@ export default function groupComponents(
         let startIndex = 0;
 
         for (let i = 0; i < groups.length; i++) {
-            const currentGroup = groups[i];
             const nextGroup = groups[i + 1];
 
             const operationComponents: typeof OperationComponentTypes[] = [];
             for (let j = startIndex; j < operations.length; j++) {
-                const currentOperation = operations[j];
-                if (currentGroup && currentOperation) {
-                    if (j >= currentGroup.from && j < currentGroup.to) {
-                        operationComponents.push(currentOperation);
-                    } else if (j === currentGroup.to) {
-                        operationComponents.push(currentOperation);
-                        transactionGroups.push({
-                            description: currentGroup.description,
-                            operationComponents,
-                        });
-                        startIndex = j + 1;
-                        if (nextGroup) {
-                            break;
-                        }
-                    } else {
-                        transactionGroups.push(currentOperation);
+                if (j >= groups[i]!.from && j < groups[i]!.to) {
+                    operationComponents.push(operations[j]!);
+                } else if (j === groups[i]!.to) {
+                    operationComponents.push(operations[j]!);
+                    transactionGroups.push({
+                        description: groups[i]!.description,
+                        operationComponents,
+                    });
+                    startIndex = j + 1;
+                    if (nextGroup) {
+                        break;
                     }
+                } else {
+                    transactionGroups.push(operations[j]!);
                 }
             }
         }
