@@ -1,5 +1,5 @@
 import type { IStoredPair } from '../routes/connect/IStoredPair';
-let iv: Uint8Array;
+let INITIALIZATION_VECTORS: Uint8Array;
 
 function uint8ArrayFromCharCode(data: string): Uint8Array {
     const array = new Uint8Array([...data].map((char) => char.charCodeAt(0)));
@@ -37,11 +37,11 @@ async function exportKey(cryptoKey: CryptoKey) {
 
 async function encryptData(data: string, cryptoKey: CryptoKey) {
     const encodedData = new TextEncoder().encode(data);
-    iv = window.crypto.getRandomValues(new Uint8Array(12));
+    INITIALIZATION_VECTORS = window.crypto.getRandomValues(new Uint8Array(12));
     const encryptedData = await window.crypto.subtle.encrypt(
         {
             name: 'AES-GCM',
-            iv,
+            iv: INITIALIZATION_VECTORS,
             tagLength: 128,
         },
         cryptoKey,
@@ -56,7 +56,7 @@ export async function getEncryptedData(data: string): Promise<IStoredPair> {
     const cryptoKey = await generateKey();
     const exportedKey = await exportKey(cryptoKey);
     const encryptedData = await encryptData(data, cryptoKey);
-    const vectorCharCode = getCharCode(iv);
+    const vectorCharCode = getCharCode(INITIALIZATION_VECTORS);
 
     return { privateKey: encryptedData, cryptoKey: exportedKey, iv: vectorCharCode };
 }
