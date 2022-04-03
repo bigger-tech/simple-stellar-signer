@@ -9,7 +9,7 @@
 </script>
 
 <div class="simple-signer liquidity-pool-withdraw-operation">
-    <h3>{$language.OPERATION_TYPE} {$language.OPERATION_TYPE_LIQUIDITY_POOL_WITHDRAW}</h3>
+    <h3>{$language.OPERATION_TYPE} {$language.OPERATION_LIQUIDITY_POOL_WITHDRAW}</h3>
 
     <p>{$language.SOURCE_ACCOUNT} {optionalSource ? optionalSource : defaultSource}</p>
     <p>{$language.LIQUIDITY_POOL_ID} {liquidityPoolId}</p>

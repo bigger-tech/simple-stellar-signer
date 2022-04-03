@@ -7,6 +7,5 @@ export function storeItem(key: string, value: string): void {
 }
 
 export function getItem(key: string): string | null {
-    const data = window.localStorage.getItem(key);
-    return data;
+    return window.localStorage.getItem(key);
 }

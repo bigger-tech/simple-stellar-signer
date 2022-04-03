@@ -18,7 +18,7 @@
     <p>{$language.ASSET} {assetCode}</p>
 
     {#if authorize === 2}
-        <p>{$language.AUTHORIZED_TO_MANTAIN_ORDERS}</p>
+        <p>{$language.AUTHORIZED_TO_MAINTAIN_ORDERS}</p>
     {:else if authorize}
         <p>{$language.AUTHORIZED_TO_TRANSACT}</p>
     {:else}

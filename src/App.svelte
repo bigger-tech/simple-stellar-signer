@@ -1,15 +1,9 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-
-    import { Router, Route } from 'svelte-navigator';
-    import WalletLanguage from './helpers/WalletLanguage';
+    import { Route, Router } from 'svelte-navigator';
     import Connect from './routes/connect/Connect.svelte';
     import Home from './routes/Home.svelte';
     import Sign from './routes/sign/Sign.svelte';
-    import { detectedLanguage, language } from './store/store';
-    onMount(async () => {
-        return ($language = await new WalletLanguage().getText());
-    });
+    import { detectedLanguage } from './store/store';
 </script>
 
 {#if $detectedLanguage}
