@@ -1,5 +1,11 @@
 import type { IStoredPair } from '../routes/connect/IStoredPair';
 const encoder = new TextEncoder();
+let arrayBufferIv: any;
+function arrayUint() {
+    const uint = window.crypto.getRandomValues(new Uint8Array(12));
+    arrayBufferIv = uint;
+    return arrayBufferIv;
+}
 
 function uint8ArrayFromCharCode(data: string): Uint8Array {
     const array = new Uint8Array([...data].map((char) => char.charCodeAt(0)));
@@ -32,18 +38,16 @@ async function exportCryptoKey(): Promise<Uint8Array> {
     const cryptoKeyString = JSON.stringify(cryptoKey);
     const cryptoKeyToUint8Array = encoder.encode(cryptoKeyString);
 
-    console.log(new Uint8Array(cryptoKeyToUint8Array));
-
     return cryptoKeyToUint8Array;
 }
 
-async function importCrypoKey(key: ArrayBuffer): Promise<CryptoKey> {
+async function importCrypoKey(key: string): Promise<CryptoKey> {
     // TYPO
     // const arrayFromCharCode = uint8ArrayFromCharCode(key);
-
+    const bufferKey = JSON.parse(key);
     const importedKey = await window.crypto.subtle.importKey(
         'raw', //can be "jwk" or "raw"
-        key,
+        bufferKey,
         {
             //this is the algorithm options
             name: 'AES-GCM',
@@ -55,7 +59,7 @@ async function importCrypoKey(key: ArrayBuffer): Promise<CryptoKey> {
     return importedKey;
 }
 
-async function encrypt(data: string): Promise<any> {
+async function encrypt(data: string): Promise<ArrayBufferLike> {
     const bufferData = encoder.encode(data);
     const encodedData = window.crypto.subtle.encrypt(
         {
@@ -64,7 +68,7 @@ async function encrypt(data: string): Promise<any> {
             //Don't re-use initialization vectors!
             //Always generate a new iv every time your encrypt!
             //Recommended to use 12 bytes length
-            iv: window.crypto.getRandomValues(new Uint8Array(12)),
+            iv: arrayUint(),
 
             //Tag length (optional)
             tagLength: 128, //can be 32, 64, 96, 104, 112, 120 or 128 (default)
@@ -81,20 +85,24 @@ export async function getEncryptedData(key: string): Promise<IStoredPair> {
     const encryptedCryptoKey = await exportCryptoKey();
     const stringKey = JSON.stringify(encryptedCryptoKey);
 
-    return { privateKey: encryptedKey, cryptoKey: stringKey };
+    const uintArray = new Uint8Array(encryptedKey);
+    const stringArray = String.fromCharCode.apply(null, Array.from(uintArray));
+    console.log(stringArray);
+
+    return { privateKey: stringArray, cryptoKey: stringKey };
 }
 
-export async function decryptPrivateKey(key: string, cryptoKey: any): Promise<string> {
+export async function decryptPrivateKey(key: string, cryptoKey: string): Promise<string> {
     const arrayFromCharCode = uint8ArrayFromCharCode(key);
-
     const privateKey = await importCrypoKey(cryptoKey);
 
     const decryptedKey = await window.crypto.subtle.decrypt(
         {
-            name: 'RSA-OAEP',
+            name: 'AES-GCM',
+            iv: arrayBufferIv, //The initialization vector you used to encrypt
         },
-        privateKey!,
-        arrayFromCharCode,
+        privateKey, //from generateKey or importKey above
+        arrayFromCharCode, //ArrayBuffer of the data
     );
 
     const decoderData = new TextDecoder().decode(decryptedKey);
