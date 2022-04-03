@@ -7,7 +7,7 @@ export async function encryptPrivateKey(key: string): Promise<void> {
     storePair(encryptedData.privateKey, encryptedData.cryptoKey, encryptedData.iv);
 }
 
-export async function decryptPrivatePair(): Promise<string> {
+export async function decryptPrivateKey(): Promise<string> {
     try {
         const storedPair = getStoredPair();
         const privateKey = await getDecryptedData(storedPair.privateKey, storedPair.cryptoKey, storedPair.iv);

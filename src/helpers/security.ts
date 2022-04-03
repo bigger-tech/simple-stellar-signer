@@ -1,13 +1,19 @@
 import type { IStoredPair } from '../routes/connect/IStoredPair';
-
-let arrayBuffer: Uint8Array;
+let iv: Uint8Array;
 
 function uint8ArrayFromCharCode(data: string): Uint8Array {
     const array = new Uint8Array([...data].map((char) => char.charCodeAt(0)));
     return array;
 }
 
-// ENCRYPT PART
+function getCharCode(buffer: ArrayBuffer | Uint8Array) {
+    if (buffer instanceof ArrayBuffer) {
+        const uintArray = new Uint8Array(buffer);
+        return String.fromCharCode.apply(null, Array.from(uintArray));
+    } else {
+        return String.fromCharCode.apply(null, Array.from(buffer));
+    }
+}
 
 async function generateKey() {
     const cryptoKey = await window.crypto.subtle.generateKey(
@@ -23,52 +29,43 @@ async function generateKey() {
 }
 
 async function exportKey(cryptoKey: CryptoKey) {
-    const key = await window.crypto.subtle.exportKey(
-        'raw', //can be "jwk" or "raw"
-        cryptoKey, //extractable must be true
-    );
-    const uintArray = new Uint8Array(key);
-    const stringArray = String.fromCharCode.apply(null, Array.from(uintArray));
+    const exportedCryptoKey = await window.crypto.subtle.exportKey('raw', cryptoKey);
+    const exportedCryptoKeyCharCode = getCharCode(exportedCryptoKey);
 
-    return stringArray;
+    return exportedCryptoKeyCharCode;
 }
 
 async function encryptData(data: string, cryptoKey: CryptoKey) {
-    const dataBuffer = new TextEncoder().encode(data);
-    arrayBuffer = window.crypto.getRandomValues(new Uint8Array(12));
+    const encodedData = new TextEncoder().encode(data);
+    iv = window.crypto.getRandomValues(new Uint8Array(12));
     const encryptedData = await window.crypto.subtle.encrypt(
         {
             name: 'AES-GCM',
-            iv: arrayBuffer,
-            tagLength: 128, //can be 32, 64, 96, 104, 112, 120 or 128 (default)
+            iv,
+            tagLength: 128,
         },
-        cryptoKey, //from generateKey or importKey above
-        dataBuffer, //ArrayBuffer of data you want to encrypt
+        cryptoKey,
+        encodedData,
     );
 
-    const uintArray = new Uint8Array(encryptedData);
-    const stringArray = String.fromCharCode.apply(null, Array.from(uintArray));
-    return stringArray;
+    const encryptedDataCharCode = getCharCode(encryptedData);
+    return encryptedDataCharCode;
 }
 
 export async function getEncryptedData(data: string): Promise<IStoredPair> {
     const cryptoKey = await generateKey();
     const exportedKey = await exportKey(cryptoKey);
     const encryptedData = await encryptData(data, cryptoKey);
-    console.log(arrayBuffer);
+    const vectorCharCode = getCharCode(iv);
 
-    const stringArray = String.fromCharCode.apply(null, Array.from(arrayBuffer));
-
-    return { privateKey: encryptedData, cryptoKey: exportedKey, iv: stringArray };
+    return { privateKey: encryptedData, cryptoKey: exportedKey, iv: vectorCharCode };
 }
 
-// DECRYPT PART
-
 async function importKey(exportedCryptoKey: string) {
-    const arrayFromCharCode = uint8ArrayFromCharCode(exportedCryptoKey);
+    const cryptoKey = uint8ArrayFromCharCode(exportedCryptoKey);
     const importedKey = window.crypto.subtle.importKey(
         'raw',
-        arrayFromCharCode,
+        cryptoKey,
         {
             name: 'AES-GCM',
         },
@@ -80,29 +77,24 @@ async function importKey(exportedCryptoKey: string) {
 }
 
 async function decrypt(encryptedData: string, importedKey: CryptoKey, iv: string) {
-    console.log(iv);
+    const data = uint8ArrayFromCharCode(encryptedData);
+    const vector = uint8ArrayFromCharCode(iv);
 
-    const arrayFromCharCode = uint8ArrayFromCharCode(encryptedData);
-    const ivFromCharCode = uint8ArrayFromCharCode(iv);
-
-    console.log(ivFromCharCode);
-
-    const decryptData = await window.crypto.subtle
+    const decryptedData = await window.crypto.subtle
         .decrypt(
             {
                 name: 'AES-GCM',
-                iv: ivFromCharCode.buffer, //The initialization vector you used to encrypt
+                iv: vector, //The initialization vector you used to encrypt
                 tagLength: 128, //The tagLength you used to encrypt (if any)
             },
             importedKey, //from generateKey or importKey above
-            arrayFromCharCode, //ArrayBuffer of the data
+            data, //ArrayBuffer of the data
         )
         .catch((e) => {
             console.error(e);
         });
-    console.log({ arrayFromCharCode, ivFromCharCode, importedKey, decryptData });
 
-    const decodedData = new TextDecoder().decode(decryptData);
+    const decodedData = new TextDecoder().decode(decryptedData);
 
     return decodedData;
 }
