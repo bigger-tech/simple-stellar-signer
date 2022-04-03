@@ -1,6 +1,6 @@
 import type IWallet from './interfaces/IWallet';
 import type { Transaction } from 'stellar-sdk';
-import { decryptPrivatePair, encryptPrivateKey } from '../../connectHelpers';
+import { decryptPrivateKey, encryptPrivateKey } from '../../connectHelpers';
 import { Keypair } from 'stellar-sdk';
 import AbstractWallet from './AbstractWallet';
 import InvalidPrivateKeyError from '../../errors/InvalidPrivateKeyError';
@@ -9,7 +9,7 @@ export default class PrivateKey extends AbstractWallet implements IWallet {
     public static NAME = 'privateKey';
 
     async getPublicKey(): Promise<string> {
-        const privateKey = await decryptPrivatePair();
+        const privateKey = await decryptPrivateKey();
         const publicKey = Keypair.fromSecret(privateKey).publicKey();
         return publicKey;
     }
@@ -27,7 +27,7 @@ export default class PrivateKey extends AbstractWallet implements IWallet {
     }
 
     async sign(tx: Transaction): Promise<string> {
-        const privateKey = await decryptPrivatePair();
+        const privateKey = await decryptPrivateKey();
         const keyPair = Keypair.fromSecret(privateKey);
         tx.sign(keyPair);
         const signedXDR = tx.toXDR();
