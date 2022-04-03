@@ -84,11 +84,11 @@ async function decrypt(encryptedData: string, importedKey: CryptoKey, iv: string
         .decrypt(
             {
                 name: 'AES-GCM',
-                iv: vector, //The initialization vector you used to encrypt
-                tagLength: 128, //The tagLength you used to encrypt (if any)
+                iv: vector,
+                tagLength: 128,
             },
-            importedKey, //from generateKey or importKey above
-            data, //ArrayBuffer of the data
+            importedKey,
+            data,
         )
         .catch((e) => {
             console.error(e);
