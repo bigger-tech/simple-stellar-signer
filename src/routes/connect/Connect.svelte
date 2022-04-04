@@ -1,13 +1,17 @@
 <script lang="ts">
-    import { wallets } from '../../store/global';
+    import { isWaitingForWallets, wallets } from '../../store/global';
     import Bridge from '../../lib/bridge/Bridge';
     import Wallets from '../../lib/components/wallets/Wallets.svelte';
     import type IWallet from '../../lib/wallets/IWallet';
     const bridge = new Bridge();
     const urlParams = bridge.getWalletsFromUrl();
+    const parent = window.opener;
 
-    if (urlParams) {
+    if (urlParams.length > 0) {
         $wallets = urlParams;
+        $isWaitingForWallets = false;
+    } else if (!parent) {
+        $isWaitingForWallets = false;
     }
 
     bridge.addAvailableWalletsMessageHandler((message) => {
@@ -25,7 +29,9 @@
 
 <div class="simple-signer-container">
     <div class="simple-signer-wallets">
-        <Wallets on:connect={handleOnConnect} wallets={$wallets} />
+        {#if !$isWaitingForWallets}
+            <Wallets on:connect={handleOnConnect} wallets={$wallets} />
+        {/if}
     </div>
 </div>
 

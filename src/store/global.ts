@@ -10,5 +10,6 @@ export const language = writable({} as ITranslation);
 export const detectedLanguage = writable(walletLanguage.getLanguage());
 export const transaction = writable({} as ITransactionMessage);
 export const wallets = writable([] as string[]);
+export const isWaitingForWallets = writable(true);
 
 walletLanguage.getText().then((lang) => language.set(lang));
