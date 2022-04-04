@@ -1,74 +1,84 @@
 import type IDecryptableValue from './IDecryptableValue';
-
-const keyPair = window.crypto.subtle.generateKey(
-    {
-        name: 'RSA-OAEP',
-        modulusLength: 4096,
-        publicExponent: new Uint8Array([1, 0, 1]),
-        hash: 'SHA-256',
-    },
-    true,
-    ['encrypt', 'decrypt'],
-);
+let INITIALIZATION_VECTORS: Uint8Array;
 
 export async function decryptValue(decryptableValue: IDecryptableValue): Promise<string> {
-    const valueCharCodes = uint8ArrayFromCharCode(decryptableValue.value);
-    const privateKey = await importCryptoKey(decryptableValue.cryptoKey);
+    const importedCryptoKey = await importCryptoKey(decryptableValue.cryptoKey);
+    const value = uint8ArrayFromCharCode(decryptableValue.value);
+    const iv = uint8ArrayFromCharCode(decryptableValue.initializationVectors);
 
     const decryptedValue = await window.crypto.subtle.decrypt(
         {
-            name: 'RSA-OAEP',
+            name: 'AES-GCM',
+            iv,
+            tagLength: 128,
         },
-        privateKey,
-        valueCharCodes,
+        importedCryptoKey,
+        value,
     );
 
     return new TextDecoder().decode(decryptedValue);
 }
 
 export async function encryptValue(value: string): Promise<IDecryptableValue> {
-    const publicKey = (await keyPair).publicKey!;
-    const encodedKey = new TextEncoder().encode(value);
-
-    const encryptKey = async (publicKey: CryptoKey) => {
-        return await window.crypto.subtle.encrypt(
-            {
-                name: 'RSA-OAEP',
-            },
-            publicKey,
-            encodedKey,
-        );
-    };
-
-    const uintArray = new Uint8Array(await encryptKey(publicKey));
-    const encryptedValue = String.fromCharCode.apply(null, Array.from(uintArray));
-
-    const encryptedCryptoKey = await exportCryptoKey();
-
-    return { value: encryptedValue, cryptoKey: encryptedCryptoKey };
-}
-
-async function exportCryptoKey(): Promise<string> {
-    const privateKey = (await keyPair).privateKey!;
-
-    const cryptoKey = await window.crypto.subtle.exportKey('pkcs8', privateKey);
-    const cryptoKeyToUint8Array = new Uint8Array(cryptoKey);
-    return String.fromCharCode.apply(null, Array.from(cryptoKeyToUint8Array));
-}
-
-async function importCryptoKey(key: string): Promise<CryptoKey> {
-    const arrayFromCharCode = uint8ArrayFromCharCode(key);
-
-    return await window.crypto.subtle.importKey(
-        'pkcs8',
-        arrayFromCharCode,
+    const cryptoKey = await generateKey();
+    const encodedValue = new TextEncoder().encode(value);
+    INITIALIZATION_VECTORS = window.crypto.getRandomValues(new Uint8Array(12));
+    const encryptValue = await window.crypto.subtle.encrypt(
         {
-            name: 'RSA-OAEP',
-            hash: { name: 'SHA-256' },
+            name: 'AES-GCM',
+            iv: INITIALIZATION_VECTORS,
+            tagLength: 128,
         },
-        false,
-        ['decrypt'],
+        cryptoKey,
+        encodedValue,
     );
+
+    const encryptedVectors = getCharCode(INITIALIZATION_VECTORS);
+    const exportedCryptoKey = await exportCryptoKey(cryptoKey);
+    const encryptedValue = getCharCode(encryptValue);
+    return { value: encryptedValue, cryptoKey: exportedCryptoKey, initializationVectors: encryptedVectors };
+}
+
+async function generateKey() {
+    const cryptoKey = await window.crypto.subtle.generateKey(
+        {
+            name: 'AES-GCM',
+            length: 256,
+        },
+        true,
+        ['encrypt', 'decrypt'],
+    );
+    return cryptoKey;
+}
+
+async function exportCryptoKey(cryptoKey: CryptoKey): Promise<string> {
+    const exportedCryptoKey = await window.crypto.subtle.exportKey('raw', cryptoKey);
+    const exportedCryptoKeyCharCode = getCharCode(exportedCryptoKey);
+    return exportedCryptoKeyCharCode;
+}
+
+async function importCryptoKey(exportedCryptoKey: string): Promise<CryptoKey> {
+    const cryptoKey = uint8ArrayFromCharCode(exportedCryptoKey);
+    const importedKey = window.crypto.subtle.importKey(
+        'raw',
+        cryptoKey,
+        {
+            name: 'AES-GCM',
+        },
+        true,
+        ['encrypt', 'decrypt'],
+    );
+
+    return importedKey;
+}
+
+function getCharCode(buffer: ArrayBuffer | Uint8Array) {
+    if (buffer instanceof ArrayBuffer) {
+        const uintArray = new Uint8Array(buffer);
+        return String.fromCharCode.apply(null, Array.from(uintArray));
+    } else {
+        return String.fromCharCode.apply(null, Array.from(buffer));
+    }
 }
 
 function uint8ArrayFromCharCode(data: string): Uint8Array {
