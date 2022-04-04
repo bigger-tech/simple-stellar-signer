@@ -1,7 +1,6 @@
 <script lang="ts">
     import { Transaction, xdr } from 'stellar-sdk';
     import { Link } from 'svelte-navigator';
-    import { writable } from 'svelte/store';
 
     import { language } from '../../../store/global';
     import Bridge from '../../bridge/Bridge';
@@ -33,11 +32,10 @@
     let tx: Transaction;
     let operationComponents: OperationComponent[] = [];
     let transactionGroups: (OperationComponent | IOperationComponentGroup)[] = [];
-    const isValidXdr = writable(false);
+    let isValidXdr = false;
 
     try {
-        console.log(transactionMessage);
-        $isValidXdr = xdr.TransactionEnvelope.validateXDR(transactionMessage.xdr, 'base64');
+        isValidXdr = xdr.TransactionEnvelope.validateXDR(transactionMessage.xdr, 'base64');
         tx = new Transaction(transactionMessage.xdr, CURRENT_NETWORK_PASSPHRASE);
 
         const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
@@ -58,7 +56,7 @@
     }
 </script>
 
-{#if $isValidXdr}
+{#if isValidXdr}
     {#if transactionMessage.description}
         <div class="simple-signer tx-description">
             <h3>{$language.DESCRIPTION}</h3>
