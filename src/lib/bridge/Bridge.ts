@@ -5,7 +5,6 @@ export type IAvailableWalletsMessageHandler = (message: IAvailableWalletsMessage
 export type ITransactionMessageHandler = (message: ITransactionMessage) => void;
 import InvalidMessageError from './InvalidMessageError';
 import EventFactory from './EventFactory';
-import { isWaitingForWallets, transaction, wallets } from '../../store/global';
 
 export default class Bridge {
     constructor() {
@@ -60,12 +59,15 @@ export default class Bridge {
 
     private messageHandler(e: MessageEvent): void {
         if ('wallets' in e.data) {
-            wallets.set(e.data.wallets);
-            isWaitingForWallets.set(false);
+            const message = e.data as IAvailableWalletsMessage;
+            this.availableWalletsMessageHandlers.forEach((handler) => handler(message));
+            return;
         }
 
         if ('xdr' in e.data) {
-            transaction.set(e.data as ITransactionMessage);
+            const message = e.data as ITransactionMessage;
+            this.transactionMessageHandlers.forEach((handler) => handler(message));
+            return;
         }
 
         throw new InvalidMessageError();
