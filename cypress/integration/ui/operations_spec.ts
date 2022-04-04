@@ -1,39 +1,39 @@
 /// <reference types="cypress" />
 /// <reference types="@testing-library/cypress"/>
 import {
-    operationsXdr,
-    paymentXdr,
-    createAccountXdr,
+    accountMergeXdr,
+    allowTrustXdr,
     beginSponsoringFutureReservesXdr,
-    pathPaymentStrictSendXdr,
-    pathPaymentStrictReceiveXdr,
-    manageBuyOfferXdr,
-    manageSellOfferXdr,
-    createPassiveSellOfferXdr,
-    setOptionsXdr,
+    bumpSequenceXdr,
     changeTrustLiquidityPoolAssetXdr,
     changeTrustXdr,
-    accountMergeXdr,
-    manageDataXdr,
-    bumpSequenceXdr,
+    claimClaimableBalanceXdr,
+    clawbackClaimableBalanceXdr,
+    clawbackXdr,
+    createAccountXdr,
     createClaimableBalanceXdr,
+    createPassiveSellOfferXdr,
     endSponsoringFutureReservesXdr,
+    liquidityPoolDepositXdr,
+    liquidityPoolWithdrawXdr,
+    manageBuyOfferXdr,
+    manageDataXdr,
+    manageSellOfferXdr,
+    operationsXdr,
+    pathPaymentStrictReceiveXdr,
+    pathPaymentStrictSendXdr,
+    paymentXdr,
     revokeAccountSponsorshipXdr,
     revokeClaimableBalanceSponsorshipXdr,
     revokeDataSponsorshipXdr,
     revokeLiquidityPoolSponsorshipXdr,
     revokeOfferSponsorshipXdr,
-    revokeSignerSponsorshipXdr,
-    revokeSignerSponsorshipSha256Xdr,
     revokeSignerSponsorshipPreaAuthTx,
-    allowTrustXdr,
-    claimClaimableBalanceXdr,
-    setTrustLineFlagsXdr,
-    liquidityPoolWithdrawXdr,
-    clawbackXdr,
-    liquidityPoolDepositXdr,
-    clawbackClaimableBalanceXdr,
+    revokeSignerSponsorshipSha256Xdr,
+    revokeSignerSponsorshipXdr,
     revokeTrustLineSponsorshipXdr,
+    setOptionsXdr,
+    setTrustLineFlagsXdr,
 } from '../../fixtures/operations.json';
 
 describe('operations', () => {
@@ -42,7 +42,7 @@ describe('operations', () => {
 
     it('should connect with private key', () => {
         cy.visit('/connect');
-        cy.get('.connect-private-key').click();
+        cy.get('.connect-wallet').contains('Private Key').click();
         cy.get('#input-key').type(SIMPLE_SIGNER_PRIVATE_KEY);
         cy.get('.private-key-btn').click();
     });

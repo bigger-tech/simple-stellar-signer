@@ -1,22 +1,24 @@
 <script lang="ts">
-    import type { OperationComponentTypes } from './operations/OperationComponentTypes';
-    import type { ITransactionGroup, ITxParams } from './ITxParams';
-    import type IWallet from '../../wallets/IWallet';
-    import { writable } from 'svelte/store';
     import { Transaction, xdr } from 'stellar-sdk';
     import { Link } from 'svelte-navigator';
-    import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
-    import Signatures from './Signatures.svelte';
-    import WalletFactory from '../../wallets/WalletFactory';
-    import groupComponents from './transactionGroupHelper';
-    import InvalidGroupsSortError from './errors/InvalidGroupsSortError';
-    import InsufficientOperationsError from './errors/InsufficientOperationsError';
+    import { writable } from 'svelte/store';
+
     import { language } from '../../../store/global';
+    import Bridge from '../../bridge/Bridge';
+    import type { ITransactionMessage } from '../../bridge/transactionMessage/ITransactionMessage';
     import { CURRENT_NETWORK_PASSPHRASE } from '../../stellar/StellarNetwork';
     import LocalStorage from '../../storage/storage';
-    import Bridge from '../../bridge/Bridge';
+    import type IWallet from '../../wallets/IWallet';
+    import WalletFactory from '../../wallets/WalletFactory';
+    import type { IOperationComponentGroup } from './IOperationComponentGroup';
+    import Signatures from './Signatures.svelte';
+    import InsufficientOperationsError from './errors/InsufficientOperationsError';
+    import InvalidGroupsSortError from './errors/InvalidGroupsSortError';
+    import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
+    import type { OperationComponent } from './operations/OperationComponent';
+    import groupOperationComponents from './transactionGroupHelper';
 
-    export let txParams: ITxParams;
+    export let transactionMessage: ITransactionMessage;
     const storage = new LocalStorage();
     const bridge = new Bridge();
 
@@ -29,25 +31,23 @@
     }
 
     let tx: Transaction;
-    let operationComponents: typeof OperationComponentTypes[] = [];
-    let transactionGroups: (typeof OperationComponentTypes | ITransactionGroup)[] = [];
+    let operationComponents: OperationComponent[] = [];
+    let transactionGroups: (OperationComponent | IOperationComponentGroup)[] = [];
     const isValidXdr = writable(false);
 
     try {
-        $isValidXdr = xdr.TransactionEnvelope.validateXDR(txParams.xdr, 'base64');
-        tx = new Transaction(txParams.xdr, CURRENT_NETWORK_PASSPHRASE);
+        console.log(transactionMessage);
+        $isValidXdr = xdr.TransactionEnvelope.validateXDR(transactionMessage.xdr, 'base64');
+        tx = new Transaction(transactionMessage.xdr, CURRENT_NETWORK_PASSPHRASE);
 
         const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
 
-        for (let i = 0; i < tx.operations.length; i++) {
-            let operationComponent = dynamicOperationComponentFactory.create(tx, tx.operations[i]!);
-            operationComponents.push(operationComponent);
-        }
+        operationComponents = tx.operations.map((operation) => dynamicOperationComponentFactory.create(tx, operation));
 
-        if (txParams.transactionGroups && txParams.transactionGroups.length > 0) {
-            transactionGroups = groupComponents(operationComponents, txParams.transactionGroups);
+        if (transactionMessage.operationGroups && transactionMessage.operationGroups.length > 0) {
+            transactionGroups = groupOperationComponents(operationComponents, transactionMessage.operationGroups);
         } else {
-            console.log("A transaction group object wasn't provided");
+            console.info("A transaction group object wasn't provided");
             transactionGroups = operationComponents;
         }
     } catch (e) {
@@ -59,10 +59,10 @@
 </script>
 
 {#if $isValidXdr}
-    {#if txParams.description}
+    {#if transactionMessage.description}
         <div class="simple-signer tx-description">
             <h3>{$language.DESCRIPTION}</h3>
-            <p>{txParams.description}</p>
+            <p>{transactionMessage.description}</p>
         </div>
     {/if}
 
@@ -82,7 +82,7 @@
             </p>
             <p>{$language.FEE} {tx.fee}</p>
 
-            <Signatures signatures="{tx.signatures}" />
+            <Signatures signatures={tx.signatures} />
 
             <div class="simple-signer operations-container">
                 {#each transactionGroups as group}
@@ -91,18 +91,18 @@
                             <h3>{group.description}</h3>
                             {#each group.operationComponents as operation}
                                 <div class="simple-signer tx-operation">
-                                    <svelte:component this="{operation.component}" {...operation.props} />
+                                    <svelte:component this={operation.component} {...operation.props} />
                                 </div>
                             {/each}
                         </div>
                     {:else}
                         <div class="simple-signer tx-operation">
-                            <svelte:component this="{group.component}" {...group.props} />
+                            <svelte:component this={group.component} {...group.props} />
                         </div>
                     {/if}
                 {/each}
             </div>
-            <button class="simple-signer sign-tx" on:click="{async () => bridge.sendSignedTx(await wallet.sign(tx))}"
+            <button class="simple-signer sign-tx" on:click={async () => bridge.sendSignedTx(await wallet.sign(tx))}
                 >{$language.SIGN_TRANSACTION} {storedWallet}</button
             >
         {:else}

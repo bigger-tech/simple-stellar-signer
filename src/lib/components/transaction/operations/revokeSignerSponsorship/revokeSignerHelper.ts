@@ -1,4 +1,5 @@
 import { SignerKeyOptions, StrKey } from 'stellar-sdk';
+
 import InvalidSignerTypeError from '../../errors/InvalidSignerTypeError';
 
 export function getSignerType(signer: SignerKeyOptions): string {

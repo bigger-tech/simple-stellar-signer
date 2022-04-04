@@ -1,7 +1,8 @@
-import RevokeClaimableBalanceSponsorshipComponentSvelte from './RevokeClaimableBalanceSponsorship.svelte';
 import type { Operation, Transaction } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
+
 import type IOperationComponent from '../IOperationComponent';
+import RevokeClaimableBalanceSponsorshipComponentSvelte from './RevokeClaimableBalanceSponsorship.svelte';
 
 export default class RevokeClaimableBalanceSponsorshipComponent implements IOperationComponent {
     public component: typeof SvelteComponent;

@@ -1,7 +1,8 @@
-import RevokeDataSponsorshipComponentSvelte from './RevokeDataSponsorship.svelte';
 import type { Operation, Transaction } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
+
 import type IOperationComponent from '../IOperationComponent';
+import RevokeDataSponsorshipComponentSvelte from './RevokeDataSponsorship.svelte';
 
 export default class RevokeDataSponsorshipComponent implements IOperationComponent {
     public component: typeof SvelteComponent;

@@ -10,6 +10,6 @@ export default class LocalStorage implements IStorage {
     }
 
     storeItem(key: string, value: string): void {
-        window.localStorage.setItem(key, value);
+        return window.localStorage.setItem(key, value);
     }
 }

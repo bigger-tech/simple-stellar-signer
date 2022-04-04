@@ -1,7 +1,8 @@
-import LiquidityPoolWithdrawComponentSvelte from './LiquidityPoolWithdraw.svelte';
 import type { Operation, Transaction } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
+
 import type IOperationComponent from '../IOperationComponent';
+import LiquidityPoolWithdrawComponentSvelte from './LiquidityPoolWithdraw.svelte';
 
 export default class LiquidityPoolWithdrawComponent implements IOperationComponent {
     public component: typeof SvelteComponent;

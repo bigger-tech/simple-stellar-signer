@@ -1,7 +1,8 @@
-import PathPaymentStrictReceiveComponentSvelte from './PathPaymentStrictReceive.svelte';
 import type { Asset, Operation, Transaction } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
+
 import type IOperationComponent from '../IOperationComponent';
+import PathPaymentStrictReceiveComponentSvelte from './PathPaymentStrictReceive.svelte';
 
 export default class PathPaymentStrictReceiveComponent implements IOperationComponent {
     public component: typeof SvelteComponent;

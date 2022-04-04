@@ -1,10 +1,11 @@
-import type { SvelteComponent } from 'svelte';
-import SetOptionsComponentSvelte from './SetOptions.svelte';
 import type Ed25519PublicKey from 'stellar-sdk';
 import type Sha256Hash from 'stellar-sdk';
 import type PreAuthTx from 'stellar-sdk';
 import type { Operation, Transaction } from 'stellar-sdk';
+import type { SvelteComponent } from 'svelte';
+
 import type IOperationComponent from '../IOperationComponent';
+import SetOptionsComponentSvelte from './SetOptions.svelte';
 
 export default class SetOptionsComponent implements IOperationComponent {
     public component: typeof SvelteComponent;

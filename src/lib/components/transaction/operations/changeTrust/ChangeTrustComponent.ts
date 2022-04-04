@@ -1,6 +1,7 @@
-import ChangeTrustComponentSvelte from './ChangeTrust.svelte';
 import type { Asset, LiquidityPoolAsset, Operation, Transaction } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
+
+import ChangeTrustComponentSvelte from './ChangeTrust.svelte';
 
 export default class ChangeTrustComponent {
     public component: typeof SvelteComponent;

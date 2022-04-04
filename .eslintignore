@@ -1,3 +1,6 @@
-node_modules/
-dist/
-bin/
+node_modules/*
+dist/*
+bin/*
+cypress/support*
+cypress/fixtures/*
+/**/dist/*

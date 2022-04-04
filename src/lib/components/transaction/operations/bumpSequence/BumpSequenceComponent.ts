@@ -1,6 +1,7 @@
-import BumpSequenceComponentSvelte from './BumpSequence.svelte';
 import type { Operation, Transaction } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
+
+import BumpSequenceComponentSvelte from './BumpSequence.svelte';
 
 export default class BumpSequenceComponent {
     public component: typeof SvelteComponent;

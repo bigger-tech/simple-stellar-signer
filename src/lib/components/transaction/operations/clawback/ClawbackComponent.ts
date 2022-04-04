@@ -1,7 +1,8 @@
-import ClawbackComponentSvelte from './Clawback.svelte';
 import type { Operation, Transaction } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
+
 import type IOperationComponent from '../IOperationComponent';
+import ClawbackComponentSvelte from './Clawback.svelte';
 
 export default class ClawbackComponent implements IOperationComponent {
     public component: typeof SvelteComponent;

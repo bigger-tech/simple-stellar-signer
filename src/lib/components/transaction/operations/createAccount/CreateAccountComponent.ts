@@ -1,7 +1,8 @@
-import CreateAccountComponentSvelte from './CreateAccount.svelte';
-import type IOperationComponent from '../IOperationComponent';
 import type { Operation, Transaction } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
+
+import type IOperationComponent from '../IOperationComponent';
+import CreateAccountComponentSvelte from './CreateAccount.svelte';
 
 export default class CreateAccountComponent implements IOperationComponent {
     public component: typeof SvelteComponent;

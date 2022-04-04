@@ -1,38 +1,39 @@
 import type { Operation, Transaction } from 'stellar-sdk';
-import PaymentComponent from './payment/PaymentComponent';
-import CreateAccountComponent from './createAccount/CreateAccountComponent';
+
 import InvalidComponentTypeError from '../errors/InvalidComponentTypeError';
-import type { OperationComponentTypes } from './OperationComponentTypes';
-import BeginSponsoringFutureReservesComponent from './beginSponsoringFutureReserves/BeginSponsoringFutureReservesComponent';
-import PathPaymentStrictSendComponent from './pathPaymentStrictSend/PathPaymentStrictSendComponent';
-import PathPaymentStrictReceiveComponent from './pathPaymentStrictReceive/PathPaymentStrictReceiveComponent';
-import ManageBuyOfferComponent from './manageBuyOffer/ManageBuyOfferComponent';
-import ManageSellOfferComponent from './manageSellOffer/ManageSellOfferComponent';
-import CreatePassiveSellOfferComponent from './createPassiveSellOffer/CreatePassiveSellOfferComponent';
-import SetOptionsComponent from './setOptions/SetOptionsComponent';
-import ChangeTrustComponent from './changeTrust/ChangeTrustComponent';
+import type { OperationComponent } from './OperationComponent';
 import AccountMergeComponent from './accountMerge/AccountMergeComponent';
-import ManageDataComponent from './manageData/ManageDataComponent';
+import AllowTrustComponent from './allowTrust/AllowTrustComponent';
+import BeginSponsoringFutureReservesComponent from './beginSponsoringFutureReserves/BeginSponsoringFutureReservesComponent';
 import BumpSequenceComponent from './bumpSequence/BumpSequenceComponent';
+import ChangeTrustComponent from './changeTrust/ChangeTrustComponent';
+import ClaimClaimableBalanceComponent from './claimClaimableBalance/ClaimClaimableBalanceComponent';
+import ClawbackComponent from './clawback/ClawbackComponent';
+import ClawbackClaimableBalanceComponent from './clawbackClaimableBalance/ClawbackClaimableBalanceComponent';
+import CreateAccountComponent from './createAccount/CreateAccountComponent';
 import CreateClaimableBalanceComponent from './createClaimableBalance/CreateClaimableBalanceComponent';
+import CreatePassiveSellOfferComponent from './createPassiveSellOffer/CreatePassiveSellOfferComponent';
 import EndSponsoringFutureReservesComponent from './endSponsoringFutureReserves/EndSponsoringFutureReservesComponent';
+import LiquidityPoolDepositComponent from './liquidityPoolDeposit/LiquidityPoolDepositComponent';
+import LiquidityPoolWithdrawComponent from './liquidityPoolWithdraw/LiquidityPoolWithdrawComponent';
+import ManageBuyOfferComponent from './manageBuyOffer/ManageBuyOfferComponent';
+import ManageDataComponent from './manageData/ManageDataComponent';
+import ManageSellOfferComponent from './manageSellOffer/ManageSellOfferComponent';
+import PathPaymentStrictReceiveComponent from './pathPaymentStrictReceive/PathPaymentStrictReceiveComponent';
+import PathPaymentStrictSendComponent from './pathPaymentStrictSend/PathPaymentStrictSendComponent';
+import PaymentComponent from './payment/PaymentComponent';
 import RevokeAccountSponsorshipComponent from './revokeAccountSponsorship/RevokeAccountSponsorshipComponent';
 import RevokeClaimableBalanceSponsorshipComponent from './revokeClaimableBalanceSponsorship/RevokeClaimableBalanceSponsorshipComponent';
 import RevokeDataSponsorshipComponent from './revokeDataSponsorship/RevokeDataSponsorshipComponent';
 import RevokeLiquidityPoolSponsorshipComponent from './revokeLiquidityPoolSponsorship/RevokeLiquidityPoolSponsorshipComponent';
 import RevokeOfferSponsorshipComponent from './revokeOfferSponsorship/RevokeOfferSponsorshipComponent';
 import RevokeSignerSponsorshipComponent from './revokeSignerSponsorship/RevokeSignerSponsorshipComponent';
-import AllowTrustComponent from './allowTrust/AllowTrustComponent';
-import ClaimClaimableBalanceComponent from './claimClaimableBalance/ClaimClaimableBalanceComponent';
-import ClawbackComponent from './clawback/ClawbackComponent';
-import SetTrustLineFlagsComponent from './setTrustLineFlags/SetTrustLineFlagsComponent';
-import LiquidityPoolWithdrawComponent from './liquidityPoolWithdraw/LiquidityPoolWithdrawComponent';
-import LiquidityPoolDepositComponent from './liquidityPoolDeposit/LiquidityPoolDepositComponent';
 import RevokeTrustlineSponsorshipComponent from './revokeTrustLineSponsorship/RevokeTrustLineSponsorshipComponent';
-import ClawbackClaimableBalanceComponent from './clawbackClaimableBalance/ClawbackClaimableBalanceComponent';
+import SetOptionsComponent from './setOptions/SetOptionsComponent';
+import SetTrustLineFlagsComponent from './setTrustLineFlags/SetTrustLineFlagsComponent';
 
 export default class DynamicOperationComponentFactory {
-    create(tx: Transaction, operation: Operation): typeof OperationComponentTypes {
+    create(tx: Transaction, operation: Operation): OperationComponent {
         let operationComponent;
 
         switch (operation.type) {

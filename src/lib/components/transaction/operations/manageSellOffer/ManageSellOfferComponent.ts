@@ -1,6 +1,7 @@
-import ManageSellOfferComponentSvelte from './ManageSellOffer.svelte';
 import type { Operation, Transaction } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
+
+import ManageSellOfferComponentSvelte from './ManageSellOffer.svelte';
 
 export default class ManageSellOfferComponent {
     public component: typeof SvelteComponent;

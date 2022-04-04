@@ -1,5 +1,6 @@
 <script lang="ts">
     import { StrKey, xdr } from 'stellar-sdk';
+
     import { language } from '../../../store/global';
 
     export let signatures: xdr.DecoratedSignature[];

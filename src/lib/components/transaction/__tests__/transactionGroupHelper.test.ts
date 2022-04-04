@@ -2,11 +2,12 @@
  * @jest-environment jsdom
  */
 import { expect } from '@jest/globals';
-import type { IGroup } from '../ITxParams';
-import type IOperationComponent from '../operations/IOperationComponent';
-import groupComponents from '../transactionGroupHelper';
 
-let groups: IGroup[];
+import type { ITransactionMessageComponentGroup } from '../../../bridge/transactionMessage/ITransactionMessageComponentGroup';
+import type IOperationComponent from '../operations/IOperationComponent';
+import groupOperationComponents from '../transactionGroupHelper';
+
+let groups: ITransactionMessageComponentGroup[];
 
 const operations = ['op0', 'op1', 'op2', 'op3', 'op4', 'op5', 'op6'] as unknown as IOperationComponent[];
 
@@ -29,7 +30,7 @@ it('should recieve an array with grouped components var1', () => {
         },
     ];
 
-    const result = groupComponents(operations, groups);
+    const result = groupOperationComponents(operations, groups);
     expect(result).toStrictEqual([
         { description: 'test', operationComponents: ['op0', 'op1'] },
         { description: 'test', operationComponents: ['op2', 'op3'] },
@@ -51,7 +52,7 @@ it('should recieve an array with grouped components var2', () => {
             description: 'test',
         },
     ];
-    const result = groupComponents(operations, groups);
+    const result = groupOperationComponents(operations, groups);
     expect(result).toStrictEqual([
         { description: 'test', operationComponents: ['op0', 'op1'] },
         'op2',
@@ -69,7 +70,7 @@ it('should recieve an array with grouped components var3', () => {
             description: 'test',
         },
     ];
-    const result = groupComponents(operations, groups);
+    const result = groupOperationComponents(operations, groups);
     expect(result).toStrictEqual([
         'op0',
         { description: 'test', operationComponents: ['op1', 'op2'] },
@@ -94,7 +95,9 @@ it("should recieve an error if the groups aren't well sorted", () => {
         },
     ];
 
-    expect(() => groupComponents(operations, groups)).toThrow(`The groups aren't sorted sequentially [4,5,0,1]`);
+    expect(() => groupOperationComponents(operations, groups)).toThrow(
+        `The groups aren't sorted sequentially [4,5,0,1]`,
+    );
 });
 
 it('should recieve an error if there are less operations that the group says', () => {
@@ -111,7 +114,7 @@ it('should recieve an error if there are less operations that the group says', (
         },
     ];
 
-    expect(() => groupComponents(operations, groups)).toThrow(
+    expect(() => groupOperationComponents(operations, groups)).toThrow(
         'There are fewer operations than the groups says. (7) operations | (11) operations on the groups',
     );
 });

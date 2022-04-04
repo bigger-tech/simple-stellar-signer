@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { Claimant } from 'stellar-sdk';
+
     import { language } from '../../../../../store/global';
 
     export let optionalSource: string | undefined;

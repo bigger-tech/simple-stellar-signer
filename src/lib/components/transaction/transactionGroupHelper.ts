@@ -1,12 +1,13 @@
-import type { IGroup, ITransactionGroup } from './ITxParams';
-import type { OperationComponentTypes } from './operations/OperationComponentTypes';
-import InvalidGroupsSortError from './errors/InvalidGroupsSortError';
+import type { ITransactionMessageComponentGroup } from '../../bridge/transactionMessage/ITransactionMessageComponentGroup';
+import type { IOperationComponentGroup } from './IOperationComponentGroup';
 import InsufficientOperationsError from './errors/InsufficientOperationsError';
+import InvalidGroupsSortError from './errors/InvalidGroupsSortError';
+import type { OperationComponent } from './operations/OperationComponent';
 
-export default function groupComponents(
-    operations: typeof OperationComponentTypes[],
-    groups: IGroup[],
-): (typeof OperationComponentTypes | ITransactionGroup)[] {
+export default function groupOperationComponents(
+    operations: OperationComponent[],
+    groups: ITransactionMessageComponentGroup[],
+): (OperationComponent | IOperationComponentGroup)[] {
     const positions = groups
         .map((group) => {
             return [...new Array(group.to - group.from + 1).keys()].map((i) => group.from + i);
@@ -24,7 +25,7 @@ export default function groupComponents(
     }
 
     const lastGroup = groups[groups.length - 1];
-    const transactionGroups: (typeof OperationComponentTypes | ITransactionGroup)[] = [];
+    const transactionGroups: (OperationComponent | IOperationComponentGroup)[] = [];
 
     if (lastGroup && !operations[lastGroup.to]) {
         throw new InsufficientOperationsError(operations.length, lastGroup.to);
@@ -32,28 +33,24 @@ export default function groupComponents(
         let startIndex = 0;
 
         for (let i = 0; i < groups.length; i++) {
-            const currentGroup = groups[i];
             const nextGroup = groups[i + 1];
 
-            const operationComponents: typeof OperationComponentTypes[] = [];
+            const operationComponents: OperationComponent[] = [];
             for (let j = startIndex; j < operations.length; j++) {
-                const currentOperation = operations[j];
-                if (currentGroup && currentOperation) {
-                    if (j >= currentGroup.from && j < currentGroup.to) {
-                        operationComponents.push(currentOperation);
-                    } else if (j === currentGroup.to) {
-                        operationComponents.push(currentOperation);
-                        transactionGroups.push({
-                            description: currentGroup.description,
-                            operationComponents,
-                        });
-                        startIndex = j + 1;
-                        if (nextGroup) {
-                            break;
-                        }
-                    } else {
-                        transactionGroups.push(currentOperation);
+                if (j >= groups[i]!.from && j < groups[i]!.to) {
+                    operationComponents.push(operations[j]!);
+                } else if (j === groups[i]!.to) {
+                    operationComponents.push(operations[j]!);
+                    transactionGroups.push({
+                        description: groups[i]!.description,
+                        operationComponents,
+                    });
+                    startIndex = j + 1;
+                    if (nextGroup) {
+                        break;
                     }
+                } else {
+                    transactionGroups.push(operations[j]!);
                 }
             }
         }

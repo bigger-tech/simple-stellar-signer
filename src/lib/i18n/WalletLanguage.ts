@@ -1,5 +1,5 @@
-import WalletLanguageFactory from './WalletLanguageFactory';
 import type { ITranslation } from './ITranslation';
+import WalletLanguageFactory from './WalletLanguageFactory';
 
 export default class WalletLanguage {
     getLanguage(): string {

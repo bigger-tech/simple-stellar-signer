@@ -1,6 +1,7 @@
-import EndSponsoringFutureReservesComponentSvelte from './EndSponsoringFutureReserves.svelte';
 import type { Operation, Transaction } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
+
+import EndSponsoringFutureReservesComponentSvelte from './EndSponsoringFutureReserves.svelte';
 
 export default class EndSponsoringFutureReservesComponent {
     public component: typeof SvelteComponent;

@@ -3,7 +3,10 @@
     "semi": true,
     "singleQuote": true,
     "trailingComma": "all",
-    "svelteStrictMode": true,
+    "svelteStrictMode": false,
     "svelteSortOrder": "options-scripts-markup-styles",
-    "svelteAllowShorthand": false
+    "svelteAllowShorthand": false,
+    "importOrder": ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true
 }

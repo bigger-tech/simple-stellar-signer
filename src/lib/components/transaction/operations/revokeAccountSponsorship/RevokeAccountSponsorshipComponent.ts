@@ -1,6 +1,7 @@
-import RevokeAccountSponsorshipComponentSvelte from './RevokeAccountSponsorship.svelte';
 import type { Operation, Transaction } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
+
+import RevokeAccountSponsorshipComponentSvelte from './RevokeAccountSponsorship.svelte';
 
 export default class RevokeAccountSponsorshipComponent {
     public component: typeof SvelteComponent;

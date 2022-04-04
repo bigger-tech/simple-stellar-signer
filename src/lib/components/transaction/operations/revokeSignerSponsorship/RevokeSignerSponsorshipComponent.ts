@@ -1,6 +1,7 @@
-import RevokeSignerSponsorshipComponentSvelte from './RevokeSignerSponsorship.svelte';
 import type { Operation, Transaction } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
+
+import RevokeSignerSponsorshipComponentSvelte from './RevokeSignerSponsorship.svelte';
 import { getSignerType } from './revokeSignerHelper';
 
 export default class RevokeSignerSponsorshipComponent {

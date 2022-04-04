@@ -1,13 +1,16 @@
 import type { Transaction } from 'stellar-sdk';
-import type IWallet from '../IWallet';
-import { CURRENT_STELLAR_NETWORK, StellarNetwork } from '../../stellar/StellarNetwork';
-import AbstractWallet from '../AbstractWallet';
+
+import { rabet } from '../../../assets';
 import type Bridge from '../../bridge/Bridge';
+import { CURRENT_STELLAR_NETWORK, StellarNetwork } from '../../stellar/StellarNetwork';
 import type IStorage from '../../storage/IStorage';
+import AbstractWallet from '../AbstractWallet';
+import type IWallet from '../IWallet';
 
 type RabetNetwork = 'mainnet' | 'testnet';
 export default class Rabet extends AbstractWallet implements IWallet {
     public static NAME = 'rabet';
+    public static FRIENDLY_NAME = 'Rabet';
     public rabetNetwork: RabetNetwork;
     public mainNetwork: RabetNetwork = 'mainnet';
 
@@ -21,15 +24,25 @@ export default class Rabet extends AbstractWallet implements IWallet {
         }
     }
 
-    async getPublicKey(): Promise<string> {
-        return window.rabet.connect().then((result) => result.publicKey);
+    public override async getPublicKey(): Promise<string> {
+        const result = await window.rabet.connect();
+        super.persistWallet();
+        return result.publicKey;
     }
 
-    async logIn(publicKey: string): Promise<void> {
-        super.connectWithWallet(Rabet.NAME, publicKey);
-    }
-
-    async sign(tx: Transaction) {
+    public override async sign(tx: Transaction): Promise<string> {
         return window.rabet.sign(tx.toXDR(), this.rabetNetwork).then((result) => result.xdr);
+    }
+
+    public override getFriendlyName(): string {
+        return Rabet.FRIENDLY_NAME;
+    }
+
+    public override getName(): string {
+        return Rabet.NAME;
+    }
+
+    public override getImage(): string {
+        return rabet;
     }
 }

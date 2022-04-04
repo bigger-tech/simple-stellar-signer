@@ -1,7 +1,8 @@
-import ManageDataComponentSvelte from './ManageData.svelte';
 import type { Operation, Transaction } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
+
 import type IOperationComponent from '../IOperationComponent';
+import ManageDataComponentSvelte from './ManageData.svelte';
 
 export default class ManageDataComponent implements IOperationComponent {
     public component: typeof SvelteComponent;

@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Link } from 'svelte-navigator';
+
     import { language } from '../store/global';
 </script>
 

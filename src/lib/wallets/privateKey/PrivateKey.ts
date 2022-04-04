@@ -1,41 +1,53 @@
-import type IWallet from '../IWallet';
 import type { Transaction } from 'stellar-sdk';
 import { Keypair } from 'stellar-sdk';
+
+import { privateKey } from '../../../assets';
+import type IDecryptableValue from '../../security/IDecryptableValue';
+import { decryptValue, encryptValue } from '../../security/securityHelper';
 import AbstractWallet from '../AbstractWallet';
+import type IWallet from '../IWallet';
 import InvalidPrivateKeyError from './errors/InvalidPrivateKeyError';
 import PrivateKeyStorageKeyNotFoundError from './errors/PrivateKeyStorageKeyNotFoundError';
-import { decryptValue, encryptValue } from '../../security/securityHelper';
-import type IDecryptableValue from '../../security/IDecryptableValue';
 
 export default class PrivateKey extends AbstractWallet implements IWallet {
     public static NAME = 'privateKey';
+    public static FRIENDLY_NAME = 'Private Key';
     private CRYPTO_KEY_ITEM_NAME = 'cryptoKey';
     private PRIVATE_KEY_ITEM_NAME = 'privateKey';
 
-    async getPublicKey(): Promise<string> {
-        const privateKey = await this.getDecryptedStoredPrivateKey();
-        return Keypair.fromSecret(privateKey).publicKey();
-    }
-
-    async logIn(privateKey: string): Promise<void> {
+    public override async getPublicKey(privateKey: string): Promise<string> {
+        let publicKey: string;
         try {
-            const publicKey = Keypair.fromSecret(privateKey).publicKey();
+            publicKey = Keypair.fromSecret(privateKey).publicKey();
+            super.persistWallet();
             await this.storeEncryptedPrivateKey(privateKey);
-            super.connectWithWallet(PrivateKey.NAME, publicKey);
         } catch (e) {
             if (e instanceof InvalidPrivateKeyError) {
                 console.error('Invalid key, please try again');
-            } else {
-                throw e;
             }
+            throw e;
         }
+        publicKey = await this.getDecryptedStoredPrivateKey();
+        return Keypair.fromSecret(publicKey).publicKey();
     }
 
-    async sign(tx: Transaction): Promise<string> {
+    public override async sign(tx: Transaction): Promise<string> {
         const privateKey = await this.getDecryptedStoredPrivateKey();
         const keyPair = Keypair.fromSecret(privateKey);
         tx.sign(keyPair);
         return tx.toXDR();
+    }
+
+    public override getFriendlyName(): string {
+        return PrivateKey.FRIENDLY_NAME;
+    }
+
+    public override getName(): string {
+        return PrivateKey.NAME;
+    }
+
+    public override getImage(): string {
+        return privateKey;
     }
 
     private async storeEncryptedPrivateKey(key: string): Promise<void> {

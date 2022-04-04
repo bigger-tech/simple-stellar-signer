@@ -1,6 +1,7 @@
-import CreateClaimableBalanceComponentSvelte from './CreateClaimableBalance.svelte';
 import type { Claimant, Operation, Transaction } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
+
+import CreateClaimableBalanceComponentSvelte from './CreateClaimableBalance.svelte';
 
 export default class CreateClaimableBalanceComponent {
     public component: typeof SvelteComponent;

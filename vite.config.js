@@ -1,8 +1,9 @@
-import { defineConfig } from 'vite';
-import { svelte } from '@sveltejs/vite-plugin-svelte';
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
 import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
+import { svelte } from '@sveltejs/vite-plugin-svelte';
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills';
+import { defineConfig } from 'vite';
+
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [svelte()],
@@ -26,6 +27,9 @@ export default defineConfig({
                 NodeModulesPolyfillPlugin(),
             ],
         },
+    },
+    define: {
+        'process.env': 'import.meta.env',
     },
     build: {
         target: 'esnext',

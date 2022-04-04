@@ -1,7 +1,8 @@
-import AllowTrustComponentSvelte from './AllowTrust.svelte';
 import type { Operation, Transaction, TrustLineFlag } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
+
 import type IOperationComponent from '../IOperationComponent';
+import AllowTrustComponentSvelte from './AllowTrust.svelte';
 
 export default class AllowTrustComponent implements IOperationComponent {
     public component: typeof SvelteComponent;

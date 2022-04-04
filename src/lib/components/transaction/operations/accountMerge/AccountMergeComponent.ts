@@ -1,6 +1,7 @@
-import AccountMergeComponentSvelte from './AccountMerge.svelte';
 import type { Operation, Transaction } from 'stellar-sdk';
 import type { SvelteComponent } from 'svelte';
+
+import AccountMergeComponentSvelte from './AccountMerge.svelte';
 
 export default class AccountMergeComponent {
     component: typeof SvelteComponent;

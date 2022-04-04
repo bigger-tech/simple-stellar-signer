@@ -2,8 +2,9 @@
  * @jest-environment jsdom
  */
 import { expect } from '@jest/globals';
-import WalletLanguage from '../WalletLanguage';
+
 import { LanguageName } from '../LanguageName';
+import WalletLanguage from '../WalletLanguage';
 
 const language = new WalletLanguage().getLanguage();
 let languagesMock: jest.SpyInstance;

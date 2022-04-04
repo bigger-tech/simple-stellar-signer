@@ -1,5 +1,6 @@
 <script lang="ts">
     import type { TrustLineFlag } from 'stellar-sdk';
+
     import { language } from '../../../../../store/global';
 
     export let optionalSource: string | undefined;

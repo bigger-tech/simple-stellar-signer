@@ -1,15 +1,18 @@
-import AbstractWallet from '../AbstractWallet';
 import { getPublicKey, signTransaction } from '@stellar/freighter-api';
 import type { Transaction } from 'stellar-sdk';
-import type IWallet from '../IWallet';
-import { CURRENT_STELLAR_NETWORK, StellarNetwork } from '../../stellar/StellarNetwork';
+
+import { freighter } from '../../../assets';
 import type Bridge from '../../bridge/Bridge';
+import { CURRENT_STELLAR_NETWORK, StellarNetwork } from '../../stellar/StellarNetwork';
 import type IStorage from '../../storage/IStorage';
+import AbstractWallet from '../AbstractWallet';
+import type IWallet from '../IWallet';
 
 type FreighterNetwork = 'PUBLIC' | 'TESTNET';
 
 export default class Freighter extends AbstractWallet implements IWallet {
     public static NAME = 'freighter';
+    public static FRIENDLY_NAME = 'Freighter';
     public freighterNetwork: FreighterNetwork;
 
     constructor(bridge: Bridge, storage: IStorage) {
@@ -22,15 +25,25 @@ export default class Freighter extends AbstractWallet implements IWallet {
         }
     }
 
-    async getPublicKey(): Promise<string> {
-        return getPublicKey();
+    public override async getPublicKey(): Promise<string> {
+        const publicKey = await getPublicKey();
+        super.persistWallet();
+        return publicKey;
     }
 
-    logIn(publicKey: string) {
-        super.connectWithWallet(Freighter.NAME, publicKey);
-    }
-
-    async sign(tx: Transaction) {
+    public override async sign(tx: Transaction): Promise<string> {
         return signTransaction(tx.toXDR(), this.freighterNetwork);
+    }
+
+    public override getFriendlyName(): string {
+        return Freighter.FRIENDLY_NAME;
+    }
+
+    public override getName(): string {
+        return Freighter.NAME;
+    }
+
+    public override getImage(): string {
+        return freighter;
     }
 }

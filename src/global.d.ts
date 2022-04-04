@@ -1,6 +1,6 @@
-import type IXBull from './lib/wallets/xBull/IXBull';
 import type IAlbedo from './lib/wallets/albedo/IAlbedo';
 import type IRabet from './lib/wallets/rabet/IRabet';
+import type IXBull from './lib/wallets/xBull/IXBull';
 
 declare global {
     interface Window {
