@@ -7,11 +7,11 @@
     const urlParams = bridge.getWalletsFromUrl();
     const parent = window.opener;
 
+    if (parent) {
+        $isWaitingForWallets = true;
+    }
     if (urlParams.length > 0) {
         $wallets = urlParams;
-        $isWaitingForWallets = false;
-    } else if (!parent) {
-        $isWaitingForWallets = false;
     }
 
     bridge.addAvailableWalletsMessageHandler((message) => {
@@ -25,6 +25,7 @@
         bridge.sendOnConnectEvent(publicKey, wallet.getName());
     }
     bridge.sendOnReadyEvent();
+    console.log($isWaitingForWallets);
 </script>
 
 <div class="simple-signer-container">
