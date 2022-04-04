@@ -1,13 +1,15 @@
 <script lang="ts">
     import { Link } from 'svelte-navigator';
+
+    import { language } from '../store/global';
 </script>
 
 <h1>Simple Signer</h1>
 <div>
     <div>
-        <Link to="/connect">Go to Connect</Link>
+        <Link to="/connect">{$language.GO_TO_CONNECT}</Link>
     </div>
     <div>
-        <Link to="/sign">Go to Sign</Link>
+        <Link to="/sign">{$language.GO_TO_SIGN}</Link>
     </div>
 </div>

@@ -1,55 +1,23 @@
 <script lang="ts">
-    import { sendMessage } from '../../helpers/sendMessageHelpers';
-    import Transaction from '../../lib/transaction/Transaction.svelte';
-    import getParamsFromUrl from './signHelpers';
-    import { xdr, description, transactionGroups, isXdrNull } from './signStore';
-    import EventsClass from '../../helpers/EventsClass';
-    import { language } from '../../store/store';
+    import Bridge from '../../lib/bridge/Bridge';
+    import Transaction from '../../lib/components/transaction/Transaction.svelte';
+    import { language } from '../../store/global';
 
-    function messageHandler(e: MessageEvent): void {
-        if ('xdr' in e.data) {
-            $xdr = e.data.xdr;
-        } else {
-            $isXdrNull = true;
-        }
+    const bridge = new Bridge();
+    let transactionMessage = bridge.getTransactionMessageFromUrl();
 
-        if ('description' in e.data) {
-            $description = e.data.description;
-        }
+    bridge.addTransactionMessageHandler((message) => {
+        transactionMessage = message;
+    });
 
-        if ('transactionGroups' in e.data) {
-            $transactionGroups = e.data.transactionGroups;
-        }
-    }
-
-    try {
-        const parent = window.opener;
-        const queryString = window.location.search;
-        const urlParams = getParamsFromUrl(queryString);
-
-        if (parent) {
-            const readyEvent = EventsClass.onReadyEvent();
-            sendMessage(readyEvent);
-            window.addEventListener('message', messageHandler);
-        } else if (urlParams) {
-            $xdr = urlParams.xdr;
-
-            if (urlParams.description) {
-                $description = urlParams.description;
-            }
-        } else {
-            $isXdrNull = true;
-        }
-    } catch (e) {
-        console.error(e);
-    }
+    bridge.sendOnReadyEvent();
 </script>
 
 <h1>{$language.SIGN}</h1>
 
-{#if $xdr}
-    <Transaction txParams={{ xdr: $xdr, description: $description, transactionGroups: $transactionGroups }} />
-{:else if $isXdrNull}
+{#if transactionMessage?.xdr}
+    <Transaction transactionMessage={transactionMessage} />
+{:else if !transactionMessage?.xdr}
     <h1>{$language.XDR_NOT_PROVIDED}</h1>
 {:else}
     <p>{$language.LOADING}</p>

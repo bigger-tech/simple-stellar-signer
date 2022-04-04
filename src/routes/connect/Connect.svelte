@@ -1,76 +1,28 @@
 <script lang="ts">
-    import Wallets from '../../lib/wallets/Wallets.svelte';
-    import PrivateKey from '../../routes/connect/ui/wallets/PrivateKey';
-    import { inputValue, isPrivateKeyVisible, isWalletHidden } from '../../routes/connect/connectStore';
-    import EventsClass from '../../helpers/EventsClass';
-    import { sendMessage } from '../../helpers/sendMessageHelpers';
-    import DefaultWallets from '../../lib/wallets/DefaultWallets.svelte';
-    import { getWalletsFromUrl } from '../../lib/wallets/walletsHelper';
-    import { language } from '../../store/store';
+    import Bridge from '../../lib/bridge/Bridge';
+    import Wallets from '../../lib/components/wallets/Wallets.svelte';
+    import type IWallet from '../../lib/wallets/IWallet';
 
-    const urlParams = getWalletsFromUrl();
-    const parent = window.opener;
-    let wallets: string[] | undefined = [];
+    const bridge = new Bridge();
+    let availableWallets = bridge.getWalletsFromUrl();
 
-    async function connectWithSecretKey(privateKey: string): Promise<void> {
-        return new PrivateKey().logIn(privateKey);
+    bridge.addAvailableWalletsMessageHandler((message) => {
+        availableWallets = message.wallets;
+    });
+
+    function handleOnConnect(event: CustomEvent) {
+        const detail = event.detail;
+        const publicKey: string = detail.publicKey;
+        const wallet: IWallet = detail.wallet;
+        bridge.sendOnConnectEvent(publicKey, wallet.getName());
     }
-
-    function messageHandler(e: MessageEvent): void {
-        if ('wallets' in e.data) {
-            if (!e.data.wallets) {
-                wallets = undefined;
-            }
-
-            if (e.data.wallets.length > 0) {
-                wallets = e.data.wallets;
-            } else {
-                throw new Error('The wallets array is empty');
-            }
-        }
-    }
-
-    if (parent) {
-        const readyEvent = EventsClass.onReadyEvent();
-        sendMessage(readyEvent);
-        window.addEventListener('message', messageHandler);
-    } else if (urlParams && urlParams.length > 0) {
-        wallets = urlParams;
-    }
+    bridge.sendOnReadyEvent();
 </script>
 
 <div class="simple-signer-container">
-    {#if $isWalletHidden}
-        <button class="simple-signer return-btn" on:click={() => ($isWalletHidden = !$isWalletHidden)}
-            >{$language.RETURN}</button
-        >
-        <button class="simple-signer show-key-btn" on:click={() => ($isPrivateKeyVisible = !$isPrivateKeyVisible)}
-            >{$language.SHOW_KEY}</button
-        >
-
-        {#if $isPrivateKeyVisible}
-            <input id="input-key" type="text" bind:value={$inputValue} />
-        {:else}
-            <input id="input-key" type="password" bind:value={$inputValue} />
-        {/if}
-
-        <button class="simple-signer private-key-btn" on:click={() => connectWithSecretKey($inputValue)}>
-            {$language.CONNECT_WITH_PRIVATE_KEY}
-        </button>
-    {:else}
-        <div class="simple-signer-wallets">
-            {#if parent || urlParams.length > 0}
-                {#if wallets && wallets.length > 0}
-                    <Wallets wallets={wallets} />
-                {/if}
-                {#if !wallets}
-                    <DefaultWallets />
-                {/if}
-            {:else}
-                <DefaultWallets />
-            {/if}
-        </div>
-    {/if}
+    <div class="simple-signer-wallets">
+        <Wallets on:connect={handleOnConnect} wallets={availableWallets} />
+    </div>
 </div>
 
 <style>

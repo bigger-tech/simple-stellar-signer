@@ -1,5 +1,5 @@
-export { default as albedo } from './logo-wallets/albedo.svg';
-export { default as xBull } from './logo-wallets/xbull.svg';
-export { default as privateKey } from './logo-wallets/private-key.svg';
-export { default as freighter } from './logo-wallets/freighter.svg';
-export { default as rabet } from './logo-wallets/rabet.svg';
+export { default as albedo } from './wallets-logos/albedo.svg';
+export { default as xBull } from './wallets-logos/xbull.svg';
+export { default as privateKey } from './wallets-logos/private-key.svg';
+export { default as freighter } from './wallets-logos/freighter.svg';
+export { default as rabet } from './wallets-logos/rabet.svg';

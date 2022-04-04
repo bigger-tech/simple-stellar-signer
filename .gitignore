@@ -6,3 +6,5 @@
 .env
 .env.test
 cypress.env.json
+/cypress/screenshots
+/cypress/videos

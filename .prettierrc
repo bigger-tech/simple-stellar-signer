@@ -5,5 +5,8 @@
     "trailingComma": "all",
     "svelteStrictMode": false,
     "svelteSortOrder": "options-scripts-markup-styles",
-    "svelteAllowShorthand": false
+    "svelteAllowShorthand": false,
+    "importOrder": ["^@core/(.*)$", "^@server/(.*)$", "^@ui/(.*)$", "^[./]"],
+    "importOrderSeparation": true,
+    "importOrderSortSpecifiers": true
 }

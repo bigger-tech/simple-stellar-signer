@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 /// <reference types="@testing-library/cypress"/>
-import { sourceAccount, paymentRecipient } from '../../fixtures/sign.json';
-import { paymentXdr, signedXdr, multiSignedXdr } from '../../fixtures/operations.json';
+import { multiSignedXdr, paymentXdr, signedXdr } from '../../fixtures/operations.json';
+import { paymentRecipient, sourceAccount } from '../../fixtures/sign.json';
 
 describe('checks that the /sign component works', () => {
     const BASE_URL = '/sign?xdr=';
