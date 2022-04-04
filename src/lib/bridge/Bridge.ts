@@ -58,7 +58,7 @@ export default class Bridge {
         return urlParams.getAll('wallets');
     }
 
-    public messageHandler(e: MessageEvent): void {
+    private messageHandler(e: MessageEvent): void {
         if ('wallets' in e.data) {
             wallets.set(e.data.wallets);
             isWaitingForWallets.set(false);
