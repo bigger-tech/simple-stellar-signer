@@ -1,6 +1,6 @@
 <script lang="ts">
     import { Link } from 'svelte-navigator';
-    import { language } from '../store/store';
+    import { language } from '../store/global';
 </script>
 
 <h1>Simple Signer</h1>

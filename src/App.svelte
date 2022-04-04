@@ -3,7 +3,7 @@
     import Connect from './routes/connect/Connect.svelte';
     import Home from './routes/Home.svelte';
     import Sign from './routes/sign/Sign.svelte';
-    import { detectedLanguage } from './store/store';
+    import { detectedLanguage } from './store/global';
 </script>
 
 {#if $detectedLanguage}

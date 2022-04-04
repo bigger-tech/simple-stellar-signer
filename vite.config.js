@@ -28,6 +28,7 @@ export default defineConfig({
         },
     },
     build: {
+        target: 'esnext',
         rollupOptions: {
             plugins: [
                 // Enable rollup polyfills plugin

@@ -1,10 +1,11 @@
 <script lang="ts">
-    import { sendMessage } from '../../helpers/sendMessageHelpers';
-    import Transaction from '../../lib/transaction/Transaction.svelte';
+    import Transaction from '../../lib/components/transaction/Transaction.svelte';
     import { getParamsFromUrl } from './signHelpers';
-    import { xdr, description, transactionGroups, isXdrNull } from './signStore';
-    import EventsClass from '../../helpers/EventsClass';
-    import { language } from '../../store/store';
+    import { description, isXdrNull, transactionGroups, xdr } from './signStore';
+    import { language } from '../../store/global';
+    import Bridge from '../../lib/bridge/Bridge';
+
+    const bridge = new Bridge();
 
     function messageHandler(e: MessageEvent): void {
         if ('xdr' in e.data) {
@@ -28,8 +29,7 @@
         const urlParams = getParamsFromUrl(queryString);
 
         if (parent) {
-            const readyEvent = EventsClass.onReadyEvent();
-            sendMessage(readyEvent);
+            bridge.sendOnReadyEvent();
             window.addEventListener('message', messageHandler);
         } else if (urlParams) {
             $xdr = urlParams.xdr;
