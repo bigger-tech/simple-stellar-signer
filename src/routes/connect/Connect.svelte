@@ -1,13 +1,17 @@
 <script lang="ts">
+    import { wallets } from '../../store/global';
     import Bridge from '../../lib/bridge/Bridge';
     import Wallets from '../../lib/components/wallets/Wallets.svelte';
     import type IWallet from '../../lib/wallets/IWallet';
-
     const bridge = new Bridge();
-    let availableWallets = bridge.getWalletsFromUrl();
+    const urlParams = bridge.getWalletsFromUrl();
+
+    if (urlParams) {
+        $wallets = urlParams;
+    }
 
     bridge.addAvailableWalletsMessageHandler((message) => {
-        availableWallets = message.wallets;
+        $wallets = message.wallets;
     });
 
     function handleOnConnect(event: CustomEvent) {
@@ -21,7 +25,7 @@
 
 <div class="simple-signer-container">
     <div class="simple-signer-wallets">
-        <Wallets on:connect={handleOnConnect} wallets={availableWallets} />
+        <Wallets on:connect={handleOnConnect} wallets={$wallets} />
     </div>
 </div>
 

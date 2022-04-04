@@ -1,18 +1,19 @@
-import EventFactory from './EventFactory';
 import type ISimpleSignerEvent from './ISimpleSignerEvent';
-import InvalidMessageError from './InvalidMessageError';
 import type IAvailableWalletsMessage from './availableWalletsMessage/IAvailableWalletsMessage';
 import type { ITransactionMessage } from './transactionMessage/ITransactionMessage';
-
 export type IAvailableWalletsMessageHandler = (message: IAvailableWalletsMessage) => void;
 export type ITransactionMessageHandler = (message: ITransactionMessage) => void;
+import InvalidMessageError from './InvalidMessageError';
+import EventFactory from './EventFactory';
+import { transaction, wallets } from '../../store/global';
 
 export default class Bridge {
-    private availableWalletsMessageHandlers: IAvailableWalletsMessageHandler[] = [];
-    private transactionMessageHandlers: ITransactionMessageHandler[] = [];
     constructor() {
         window.addEventListener('message', this.messageHandler);
     }
+    private availableWalletsMessageHandlers: IAvailableWalletsMessageHandler[] = [];
+    private transactionMessageHandlers: ITransactionMessageHandler[] = [];
+
     public sendSignedTx(signedXDR: string) {
         this.sendMessage(EventFactory.createOnSignEvent(signedXDR));
         this.closeWindow();
@@ -57,17 +58,13 @@ export default class Bridge {
         return urlParams.getAll('wallets');
     }
 
-    private messageHandler(e: MessageEvent): void {
+    public messageHandler(e: MessageEvent): void {
         if ('wallets' in e.data) {
-            const message = e.data as IAvailableWalletsMessage;
-            this.availableWalletsMessageHandlers.forEach((handler) => handler(message));
-            return;
+            wallets.set(e.data);
         }
 
         if ('xdr' in e.data) {
-            const message = e.data as ITransactionMessage;
-            this.transactionMessageHandlers.forEach((handler) => handler(message));
-            return;
+            transaction.set(e.data as ITransactionMessage);
         }
 
         throw new InvalidMessageError();
