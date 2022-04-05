@@ -8,7 +8,7 @@ import EventFactory from './EventFactory';
 
 export default class Bridge {
     constructor() {
-        window.addEventListener('message', this.messageHandler);
+        window.addEventListener('message', (e) => this.messageHandler(e));
     }
     private availableWalletsMessageHandlers: IAvailableWalletsMessageHandler[] = [];
     private transactionMessageHandlers: ITransactionMessageHandler[] = [];
@@ -30,6 +30,7 @@ export default class Bridge {
     public addAvailableWalletsMessageHandler(handler: IAvailableWalletsMessageHandler) {
         this.availableWalletsMessageHandlers.push(handler);
     }
+
     public addTransactionMessageHandler(handler: ITransactionMessageHandler) {
         this.transactionMessageHandlers.push(handler);
     }

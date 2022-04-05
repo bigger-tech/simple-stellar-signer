@@ -1,21 +1,19 @@
 <script lang="ts">
-    import { isWaitingForWallets, wallets } from '../../store/global';
+    import { isWaitingForWallets } from './connectStore';
     import Bridge from '../../lib/bridge/Bridge';
     import Wallets from '../../lib/components/wallets/Wallets.svelte';
     import type IWallet from '../../lib/wallets/IWallet';
     const bridge = new Bridge();
-    const urlParams = bridge.getWalletsFromUrl();
+    let availableWallets = bridge.getWalletsFromUrl();
     const parent = window.opener;
 
     if (parent) {
         $isWaitingForWallets = true;
     }
-    if (urlParams.length > 0) {
-        $wallets = urlParams;
-    }
 
     bridge.addAvailableWalletsMessageHandler((message) => {
-        $wallets = message.wallets;
+        availableWallets = message.wallets;
+        $isWaitingForWallets = false;
     });
 
     function handleOnConnect(event: CustomEvent) {
@@ -24,14 +22,14 @@
         const wallet: IWallet = detail.wallet;
         bridge.sendOnConnectEvent(publicKey, wallet.getName());
     }
+
     bridge.sendOnReadyEvent();
-    console.log($isWaitingForWallets);
 </script>
 
 <div class="simple-signer-container">
     <div class="simple-signer-wallets">
         {#if !$isWaitingForWallets}
-            <Wallets on:connect={handleOnConnect} wallets={$wallets} />
+            <Wallets on:connect={handleOnConnect} wallets={availableWallets} />
         {/if}
     </div>
 </div>
