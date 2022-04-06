@@ -13,6 +13,7 @@
     }
 
     bridge.addAvailableWalletsMessageHandler((message) => {
+        $urlOrDefaultWallets = false;
         $wallets = message.wallets;
         $postMessageWallets = true;
     });
