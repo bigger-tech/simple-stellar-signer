@@ -24,8 +24,6 @@
 </script>
 
 {#if $isTransactionVisible}
-    <h1>{$language.SIGN}</h1>
-
     {#if $transaction?.xdr}
         <Transaction transactionMessage={$transaction} />
     {:else if !$transaction?.xdr}
