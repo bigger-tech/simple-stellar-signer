@@ -2,23 +2,35 @@
     import Bridge from '../../lib/bridge/Bridge';
     import Transaction from '../../lib/components/transaction/Transaction.svelte';
     import { language } from '../../store/global';
-
+    import { transaction, isTransactionVisible } from './signStore';
+    const parent = window.opener;
     const bridge = new Bridge();
-    let transactionMessage = bridge.getTransactionMessageFromUrl();
+    const urlParams = bridge.getTransactionMessageFromUrl();
+
+    if (parent) {
+        $isTransactionVisible = false;
+    }
+
+    if (urlParams) {
+        $transaction = urlParams;
+    }
 
     bridge.addTransactionMessageHandler((message) => {
-        transactionMessage = message;
+        $transaction = message;
+        $isTransactionVisible = true;
     });
 
     bridge.sendOnReadyEvent();
 </script>
 
-<h1>{$language.SIGN}</h1>
+{#if $isTransactionVisible}
+    <h1>{$language.SIGN}</h1>
 
-{#if transactionMessage?.xdr}
-    <Transaction transactionMessage={transactionMessage} />
-{:else if !transactionMessage?.xdr}
-    <h1>{$language.XDR_NOT_PROVIDED}</h1>
-{:else}
-    <p>{$language.LOADING}</p>
+    {#if $transaction?.xdr}
+        <Transaction transactionMessage={$transaction} />
+    {:else if !$transaction?.xdr}
+        <h1>{$language.XDR_NOT_PROVIDED}</h1>
+    {:else}
+        <p>{$language.LOADING}</p>
+    {/if}
 {/if}
