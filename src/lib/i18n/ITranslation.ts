@@ -112,4 +112,5 @@ export interface ITranslation {
     WEIGHT: string;
     XDR_INVALID: string;
     XDR_NOT_PROVIDED: string;
+    INSTALL: string;
 }
