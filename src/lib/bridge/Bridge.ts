@@ -43,10 +43,10 @@ export default class Bridge {
 
         if (xdrParam && descriptionParam) {
             urlXdr = xdrParam.replace(/\s/g, '+');
-            return { xdr: urlXdr, description: descriptionParam, transactionGroups: [] };
+            return { xdr: urlXdr, description: descriptionParam, operationGroups: [] };
         } else if (xdrParam) {
             urlXdr = xdrParam.replace(/\s/g, '+');
-            return { xdr: urlXdr, description: undefined, transactionGroups: [] };
+            return { xdr: urlXdr, description: undefined, operationGroups: [] };
         } else {
             return null;
         }

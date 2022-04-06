@@ -43,8 +43,8 @@
 
         operationComponents = tx.operations.map((operation) => dynamicOperationComponentFactory.create(tx, operation));
 
-        if (transactionMessage.transactionGroups && transactionMessage.transactionGroups.length > 0) {
-            transactionGroups = groupOperationComponents(operationComponents, transactionMessage.transactionGroups);
+        if (transactionMessage.operationGroups && transactionMessage.operationGroups.length > 0) {
+            transactionGroups = groupOperationComponents(operationComponents, transactionMessage.operationGroups);
         } else {
             console.info("A transaction group object wasn't provided");
             transactionGroups = operationComponents;

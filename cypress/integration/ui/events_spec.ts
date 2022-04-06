@@ -21,7 +21,7 @@ describe('Events', () => {
                 {
                     xdr: operationsXdr,
                     description: operationDescription,
-                    transactionGroups: [{ from: 0, to: 0, description: operationGroupDescription }],
+                    operationGroups: [{ from: 0, to: 0, description: operationGroupDescription }],
                 },
                 '*',
             );

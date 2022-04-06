@@ -3,5 +3,5 @@ import type { ITransactionMessageComponentGroup } from './ITransactionMessageCom
 export interface ITransactionMessage {
     xdr: string;
     description: string | undefined;
-    transactionGroups: ITransactionMessageComponentGroup[];
+    operationGroups: ITransactionMessageComponentGroup[];
 }
