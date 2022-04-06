@@ -7,5 +7,9 @@ const walletLanguage = new WalletLanguage();
 export const publicKey = writable('');
 export const language = writable({} as ITranslation);
 export const detectedLanguage = writable(walletLanguage.getLanguage());
+export const isLanguageLoading = writable(true);
 
-walletLanguage.getText().then((lang) => language.set(lang));
+walletLanguage.getText().then((lang) => {
+    language.set(lang);
+    isLanguageLoading.set(false);
+});
