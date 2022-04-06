@@ -45,4 +45,9 @@ export default class Rabet extends AbstractWallet implements IWallet {
     public override getImage(): string {
         return rabet;
     }
+
+    public override isConnected(): boolean {
+        console.log(!window.rabet);
+        return !window.rabet;
+    }
 }

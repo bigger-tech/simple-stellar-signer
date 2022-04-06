@@ -44,4 +44,9 @@ export default class XBull extends AbstractWallet implements IWallet {
     public override getImage(): string {
         return xBull;
     }
+
+    public override isConnected(): boolean {
+        console.log(!window.xBullSDK);
+        return !window.xBullSDK;
+    }
 }

@@ -6,4 +6,5 @@ export default interface IWallet {
     getName(): string;
     getFriendlyName(): string;
     getImage(): string;
+    isConnected(): boolean;
 }

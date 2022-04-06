@@ -13,4 +13,5 @@ export default interface IAlbedo {
             submit?: boolean;
         };
     }) => Promise<{ xdr: string; tx_hash: string; signed_envelope_xdr: string; network: string; result: string }>;
+    isConnected: () => boolean;
 }

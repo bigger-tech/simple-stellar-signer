@@ -5,4 +5,5 @@ export default interface IXBull {
     }) => Promise<{ canRequestPublicKey: boolean; canRequestSign: boolean }>;
     getPublicKey: () => Promise<string>;
     signXDR: (xdr: string, opParams?: { publicKey?: string; network?: string }) => Promise<string>;
+    isConnected: () => boolean;
 }

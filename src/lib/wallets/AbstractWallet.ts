@@ -29,6 +29,10 @@ export default abstract class AbstractWallet implements IWallet {
         throw new NotImplementedError();
     }
 
+    public isConnected(): boolean {
+        throw new NotImplementedError();
+    }
+
     protected persistWallet(): void {
         this.storage.clearStorage();
         this.storage.storeItem(this.WALLET_STORAGE_KEY, this.getName());

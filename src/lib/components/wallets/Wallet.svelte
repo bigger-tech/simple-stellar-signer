@@ -1,6 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
-
+    import { language } from '../../../store/global';
     import type IWallet from '../../wallets/IWallet';
     import PrivateKey from '../../wallets/privateKey/PrivateKey';
 
@@ -28,7 +28,10 @@
             src={wallet.getImage()}
             width={width}
         />
-        <p class="simple-signer wallet-title">{wallet.getFriendlyName()}</p>
+        <p class="simple-signer wallet-title">
+            {wallet.isConnected() ? '' : $language.INSTALL}
+            {wallet.getFriendlyName()}
+        </p>
     </a>
 </div>
 
