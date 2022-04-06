@@ -1,13 +1,21 @@
 <script lang="ts">
+    import { urlOrDefaultWallets, postMessageWallets, wallets } from './connectStore';
     import Bridge from '../../lib/bridge/Bridge';
     import Wallets from '../../lib/components/wallets/Wallets.svelte';
     import type IWallet from '../../lib/wallets/IWallet';
+    const parent = window.opener;
 
     const bridge = new Bridge();
-    let availableWallets = bridge.getWalletsFromUrl();
+    $wallets = bridge.getWalletsFromUrl();
+
+    if (parent) {
+        $urlOrDefaultWallets = false;
+    }
 
     bridge.addAvailableWalletsMessageHandler((message) => {
-        availableWallets = message.wallets;
+        $urlOrDefaultWallets = false;
+        $wallets = message.wallets;
+        $postMessageWallets = true;
     });
 
     function handleOnConnect(event: CustomEvent) {
@@ -16,12 +24,18 @@
         const wallet: IWallet = detail.wallet;
         bridge.sendOnConnectEvent(publicKey, wallet.getName());
     }
+
     bridge.sendOnReadyEvent();
 </script>
 
 <div class="simple-signer-container">
     <div class="simple-signer-wallets">
-        <Wallets on:connect={handleOnConnect} wallets={availableWallets} />
+        {#if $urlOrDefaultWallets}
+            <Wallets on:connect={handleOnConnect} wallets={$wallets} />
+        {/if}
+        {#if $postMessageWallets}
+            <Wallets on:connect={handleOnConnect} wallets={$wallets} />
+        {/if}
     </div>
 </div>
 

@@ -1,23 +1,23 @@
 <script lang="ts">
+    import type { ITransactionMessage } from '../../bridge/transactionMessage/ITransactionMessage';
+    import type IWallet from '../../wallets/IWallet';
+    import type { IOperationComponentGroup } from './IOperationComponentGroup';
+    import type { OperationComponent } from './operations/OperationComponent';
     import { Transaction, xdr } from 'stellar-sdk';
     import { Link } from 'svelte-navigator';
-
     import { language } from '../../../store/global';
-    import Bridge from '../../bridge/Bridge';
-    import type { ITransactionMessage } from '../../bridge/transactionMessage/ITransactionMessage';
     import { CURRENT_NETWORK_PASSPHRASE } from '../../stellar/StellarNetwork';
+    import Bridge from '../../bridge/Bridge';
     import LocalStorage from '../../storage/storage';
-    import type IWallet from '../../wallets/IWallet';
     import WalletFactory from '../../wallets/WalletFactory';
-    import type { IOperationComponentGroup } from './IOperationComponentGroup';
     import Signatures from './Signatures.svelte';
     import InsufficientOperationsError from './errors/InsufficientOperationsError';
     import InvalidGroupsSortError from './errors/InvalidGroupsSortError';
     import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
-    import type { OperationComponent } from './operations/OperationComponent';
     import groupOperationComponents from './transactionGroupHelper';
 
     export let transactionMessage: ITransactionMessage;
+
     const storage = new LocalStorage();
     const bridge = new Bridge();
 
@@ -30,6 +30,7 @@
     }
 
     let tx: Transaction;
+
     let operationComponents: OperationComponent[] = [];
     let transactionGroups: (OperationComponent | IOperationComponentGroup)[] = [];
     let isValidXdr = false;
@@ -57,14 +58,14 @@
 </script>
 
 {#if isValidXdr}
-    {#if transactionMessage.description}
-        <div class="simple-signer tx-description">
-            <h3>{$language.DESCRIPTION}</h3>
-            <p>{transactionMessage.description}</p>
-        </div>
-    {/if}
+    <div class="simple-signer tx-container">
+        {#if transactionMessage.description}
+            <div class="simple-signer tx-description-container">
+                <h3>{$language.DESCRIPTION}</h3>
+                <p>{transactionMessage.description}</p>
+            </div>
+        {/if}
 
-    <div class="simple-signer payment-tx">
         <h3>{$language.TRANSACTION}</h3>
         {#if wallet}
             <p class="src-account">
@@ -85,16 +86,16 @@
             <div class="simple-signer operations-container">
                 {#each transactionGroups as group}
                     {#if 'description' in group}
-                        <div class="simple-signer operations-group">
-                            <h3>{group.description}</h3>
+                        <div class="simple-signer operations-group-container">
+                            <h3 class="simple-signer operations-group-title">{group.description}</h3>
                             {#each group.operationComponents as operation}
-                                <div class="simple-signer tx-operation">
+                                <div class="simple-signer tx-operation-container">
                                     <svelte:component this={operation.component} {...operation.props} />
                                 </div>
                             {/each}
                         </div>
                     {:else}
-                        <div class="simple-signer tx-operation">
+                        <div class="simple-signer tx-operation-container">
                             <svelte:component this={group.component} {...group.props} />
                         </div>
                     {/if}
@@ -115,7 +116,7 @@
 {/if}
 
 <style>
-    .operations-group {
+    .operations-group-container {
         border-style: solid;
     }
 </style>
