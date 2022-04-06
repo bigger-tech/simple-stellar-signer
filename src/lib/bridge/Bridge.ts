@@ -1,18 +1,18 @@
-import EventFactory from './EventFactory';
 import type ISimpleSignerEvent from './ISimpleSignerEvent';
-import InvalidMessageError from './InvalidMessageError';
 import type IAvailableWalletsMessage from './availableWalletsMessage/IAvailableWalletsMessage';
 import type { ITransactionMessage } from './transactionMessage/ITransactionMessage';
-
 export type IAvailableWalletsMessageHandler = (message: IAvailableWalletsMessage) => void;
 export type ITransactionMessageHandler = (message: ITransactionMessage) => void;
+import InvalidMessageError from './InvalidMessageError';
+import EventFactory from './EventFactory';
 
 export default class Bridge {
+    constructor() {
+        window.addEventListener('message', (e) => this.messageHandler(e));
+    }
     private availableWalletsMessageHandlers: IAvailableWalletsMessageHandler[] = [];
     private transactionMessageHandlers: ITransactionMessageHandler[] = [];
-    constructor() {
-        window.addEventListener('message', this.messageHandler);
-    }
+
     public sendSignedTx(signedXDR: string) {
         this.sendMessage(EventFactory.createOnSignEvent(signedXDR));
         this.closeWindow();
@@ -30,6 +30,7 @@ export default class Bridge {
     public addAvailableWalletsMessageHandler(handler: IAvailableWalletsMessageHandler) {
         this.availableWalletsMessageHandlers.push(handler);
     }
+
     public addTransactionMessageHandler(handler: ITransactionMessageHandler) {
         this.transactionMessageHandlers.push(handler);
     }
