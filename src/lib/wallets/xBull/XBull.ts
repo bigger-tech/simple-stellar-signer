@@ -1,15 +1,14 @@
 import type { Transaction } from 'stellar-sdk';
-
 import { xBull } from '../../../assets';
 import { CURRENT_STELLAR_NETWORK, StellarNetwork } from '../../stellar/StellarNetwork';
 import type IStorage from '../../storage/IStorage';
 import AbstractWallet from '../AbstractWallet';
 import type IWallet from '../IWallet';
-
 type XBullNetwork = 'public' | 'testnet';
 export default class XBull extends AbstractWallet implements IWallet {
     public static NAME = 'xbull';
     public static FRIENDLY_NAME = 'xBull';
+    public static XBullInjected = 'XBULL_INJECTED';
     public XBullNetwork: XBullNetwork;
 
     constructor(storage: IStorage) {
@@ -44,8 +43,12 @@ export default class XBull extends AbstractWallet implements IWallet {
         return xBull;
     }
 
-    public override isConnected(): boolean {
-        console.log(!window.xBullSDK);
-        return !window.xBullSDK;
+    public override isConnected(): any {
+        window.addEventListener('message', (event) => {
+            if (event.data.type === XBull.XBullInjected && !!window.xBullSDK) {
+                console.log('On message', window.xBullSDK);
+            }
+        });
+        return window.xBullSDK;
     }
 }

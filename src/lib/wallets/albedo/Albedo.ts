@@ -46,8 +46,7 @@ export default class Albedo extends AbstractWallet implements IWallet {
         return albedo;
     }
 
-    public override isConnected(): boolean {
-        console.log(!!window.albedo);
-        return !!window.albedo;
+    public override isConnected(): any {
+        return window.sessionStorage.getItem('albedoExtensionInstalled') === '1';
     }
 }

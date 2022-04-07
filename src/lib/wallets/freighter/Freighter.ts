@@ -47,7 +47,6 @@ export default class Freighter extends AbstractWallet implements IWallet {
     }
 
     public override isConnected(): boolean {
-        console.log(isConnected());
         return isConnected();
     }
 }
