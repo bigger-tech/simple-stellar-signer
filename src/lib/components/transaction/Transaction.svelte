@@ -136,6 +136,10 @@
         padding: 0;
     }
 
+    :global(body) {
+        margin: 0;
+    }
+
     .sign-container {
         display: flex;
         justify-content: center;
@@ -151,7 +155,7 @@
         background: #ffffff00 0% 0% no-repeat padding-box;
         opacity: 1;
         width: 90%;
-        margin-top: 13px;
+        margin-top: 30px;
     }
 
     .tx-separator {
@@ -166,6 +170,7 @@
         width: 100%;
         background: #f5f5f5 0% 0% no-repeat padding-box;
         opacity: 1;
+        margin-top: 23px;
     }
 
     .tx-network-container {
@@ -184,16 +189,19 @@
         letter-spacing: 0.14px;
         color: #757575;
         opacity: 1;
+        margin-top: 20px;
     }
 
     .tx-description-text {
         padding: 10px;
         font-weight: 500;
+        margin: 0;
     }
 
     .tx-title {
         font-size: 17px;
         text-transform: uppercase;
+        margin: 0;
     }
 
     .tx-operation-list-title {
@@ -201,6 +209,10 @@
         font-size: 15px;
         text-transform: uppercase;
         width: 100%;
+    }
+
+    .tx-operation-container {
+        margin-bottom: 25px;
     }
 
     .operation-list-container {
