@@ -32,6 +32,7 @@ export interface ITranslation {
     HIGH_THRESHOLD: string;
     HINT: string;
     HOME_DOMAIN: string;
+    INSTALL: string;
     IS_AUTHORIZED: string;
     IS_AUTHORIZED_TO_MAINTAIN_LIABILITIES: string;
     IS_CLAWBACK_ENABLED: string;
@@ -112,5 +113,4 @@ export interface ITranslation {
     WEIGHT: string;
     XDR_INVALID: string;
     XDR_NOT_PROVIDED: string;
-    INSTALL: string;
 }

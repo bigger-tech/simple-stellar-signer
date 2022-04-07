@@ -32,6 +32,7 @@
     "HIGH_THRESHOLD": "Umbral alto:",
     "HINT": "Indicio:",
     "HOME_DOMAIN": "Dominio principal:",
+    "INSTALL": "Instalar",
     "IS_AUTHORIZED": "Está autorizado:",
     "IS_AUTHORIZED_TO_MAINTAIN_LIABILITIES": "Está autorizado a mantener pasivos:",
     "IS_CLAWBACK_ENABLED": "Está habilitada la recuperación:",
@@ -111,6 +112,5 @@
     "USER_IS_NOT_CONNECTED": "El usuario no está conectado",
     "WEIGHT": "Peso:",
     "XDR_INVALID": "Lo sentimos, el XDR es inválido",
-    "XDR_NOT_PROVIDED": "Lo sentimos, no encontramos ningún XDR",
-    "INSTALL": "Instalar"
+    "XDR_NOT_PROVIDED": "Lo sentimos, no encontramos ningún XDR"
 }

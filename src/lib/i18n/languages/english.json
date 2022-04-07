@@ -32,6 +32,7 @@
     "HIGH_THRESHOLD": "High Threshold:",
     "HINT": "Hint:",
     "HOME_DOMAIN": "Home Domain:",
+    "INSTALL": "Install",
     "IS_AUTHORIZED": "Is authorized:",
     "IS_AUTHORIZED_TO_MAINTAIN_LIABILITIES": "Is authorized to maintain liabilities:",
     "IS_CLAWBACK_ENABLED": "Is clawback enabled:",
@@ -111,6 +112,5 @@
     "USER_IS_NOT_CONNECTED": "User is not connected",
     "WEIGHT": "Weight:",
     "XDR_INVALID": "Sorry, the XDR is invalid",
-    "XDR_NOT_PROVIDED": "Sorry, an XDR wasn't provided",
-    "INSTALL": "Install"
+    "XDR_NOT_PROVIDED": "Sorry, an XDR wasn't provided"
 }
