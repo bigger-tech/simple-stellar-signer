@@ -1,33 +1,23 @@
-import type { Asset, Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
-
+import type { Operation, Transaction } from 'stellar-sdk';
 import type IOperationComponent from '../IOperationComponent';
-import PathPaymentStrictSendComponentSvelte from './PathPaymentStrictSend.svelte';
+import AbstractOperationComponent from '../AbstractOperationComponent';
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
 
-export default class PathPaymentStrictSendComponent implements IOperationComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        sendAsset: string;
-        sendAmount: string;
-        destination: string;
-        destAsset: string;
-        destMin: string;
-        path: Asset[];
-    };
+export default class PathPaymentStrictSendComponent extends AbstractOperationComponent implements IOperationComponent {
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.PathPaymentStrictSend) {
+        const paths = operation.path.map((path) => path.code);
 
-    constructor(tx: Transaction, operation: Operation.PathPaymentStrictSend) {
-        this.component = PathPaymentStrictSendComponentSvelte;
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            sendAsset: operation.sendAsset.code,
-            sendAmount: operation.sendAmount,
-            destination: operation.destination,
-            destAsset: operation.destAsset.code,
-            destMin: operation.destMin,
-            path: operation.path,
-        };
+        super({
+            title: language.OPERATION_PATH_PAYMENT_STRICT_RECEIVE,
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.ASSET_TO_PAY, value: operation.sendAsset.code },
+                { title: language.AMOUNT, value: operation.sendAmount },
+                { title: language.DESTINATION, value: operation.destination },
+                { title: language.DESTINATION_ASSET, value: operation.destAsset.code },
+                { title: language.MINIMUM_AMOUNT_DESTINATION_ASSET, value: operation.destMin },
+                { title: language.PATH, value: paths },
+            ],
+        });
     }
 }

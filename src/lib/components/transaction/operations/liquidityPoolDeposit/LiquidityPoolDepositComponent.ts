@@ -1,31 +1,20 @@
 import type { Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
-
 import type IOperationComponent from '../IOperationComponent';
-import LiquidityPoolDepositComponentSvelte from './LiquidityPoolDeposit.svelte';
+import AbstractOperationComponent from '../AbstractOperationComponent';
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
 
-export default class LiquidityPoolDepositComponent implements IOperationComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        liquidityPoolId: string;
-        maxAmountA: string;
-        maxAmountB: string;
-        minPrice: string;
-        maxPrice: string;
-    };
-
-    constructor(tx: Transaction, operation: Operation.LiquidityPoolDeposit) {
-        this.component = LiquidityPoolDepositComponentSvelte;
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            liquidityPoolId: operation.liquidityPoolId,
-            maxAmountA: operation.maxAmountA,
-            maxAmountB: operation.maxAmountB,
-            minPrice: operation.minPrice,
-            maxPrice: operation.maxPrice,
-        };
+export default class LiquidityPoolDepositComponent extends AbstractOperationComponent implements IOperationComponent {
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.LiquidityPoolDeposit) {
+        super({
+            title: language.OPERATION_LIQUIDITY_POOL_DEPOSIT,
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.LIQUIDITY_POOL_ID, value: operation.liquidityPoolId },
+                { title: language.MAX_AMOUNT_A, value: operation.maxAmountA },
+                { title: language.MAX_AMOUNT_B, value: operation.maxAmountB },
+                { title: language.MINIMUM_PRICE, value: operation.minPrice },
+                { title: language.MAXIMUM_PRICE, value: operation.maxPrice },
+            ],
+        });
     }
 }

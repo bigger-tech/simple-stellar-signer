@@ -43,7 +43,9 @@
         shortedSourceAccount = getShortedStellarKey(tx.source);
         const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
 
-        operationComponents = tx.operations.map((operation) => dynamicOperationComponentFactory.create(tx, operation));
+        operationComponents = tx.operations.map((operation) =>
+            dynamicOperationComponentFactory.create($language, tx, operation),
+        );
 
         if (transactionMessage.operationGroups && transactionMessage.operationGroups.length > 0) {
             transactionGroups = groupOperationComponents(operationComponents, transactionMessage.operationGroups);
@@ -116,9 +118,16 @@
                     &nbsp;
                     <p>{tx.fee}</p>
                 </div>
-                <button class="simple-signer sign-tx" on:click={async () => bridge.sendSignedTx(await wallet.sign(tx))}
-                    >{$language.SIGN_TRANSACTION} {storedWallet}</button
-                >
+                <div class="simple-signer confirmation-buttons">
+                    <button
+                        class="simple-signer cancel-button"
+                        on:click={async () => bridge.sendSignedTx(await wallet.sign(tx))}>Confirm</button
+                    >
+                    <button
+                        class="simple-signer sign-tx-button"
+                        on:click={async () => bridge.sendSignedTx(await wallet.sign(tx))}>Confirm</button
+                    >
+                </div>
             {:else}
                 <p class="simple-signer user-not-connected">{$language.USER_IS_NOT_CONNECTED}</p>
                 <button class="simple-signer connect-btn">
@@ -151,7 +160,6 @@
         top: 107px;
         left: 977px;
         width: 100%;
-        height: 800px;
         background: #ffffff00 0% 0% no-repeat padding-box;
         opacity: 1;
         width: 90%;
@@ -216,20 +224,7 @@
     }
 
     .operation-list-container {
-        /* border-left: 2px solid #e5e5e5; */
         position: relative;
-    }
-
-    .operation-list-container::before {
-        content: '';
-        height: 82%;
-        width: 2px;
-
-        position: absolute;
-        right: 1;
-        top: 53px;
-
-        background-color: #e5e5e5;
     }
 
     .operation-list {
@@ -249,5 +244,32 @@
         display: flex;
         flex-direction: row;
         margin-top: 25px;
+    }
+
+    .confirmation-buttons {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+    }
+
+    .confirmation-buttons button {
+        width: 140px;
+        height: 39px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+            'Helvetica Neue', sans-serif;
+        font-size: 16px;
+        font-weight: bold;
+        box-shadow: 0px 4px 2px #00000029;
+        opacity: 1;
+        border: none;
+    }
+
+    .cancel-button {
+        background: #f5f5f5 0% 0% no-repeat padding-box;
+    }
+
+    .sign-tx-button {
+        color: #f5f5f5;
+        background: #2f69b7 0% 0% no-repeat padding-box;
     }
 </style>

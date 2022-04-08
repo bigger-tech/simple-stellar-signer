@@ -1,22 +1,16 @@
 import type { Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
+import type IOperationComponent from '../IOperationComponent';
+import AbstractOperationComponent from '../AbstractOperationComponent';
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
 
-import RevokeAccountSponsorshipComponentSvelte from './RevokeAccountSponsorship.svelte';
-
-export default class RevokeAccountSponsorshipComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        account: string;
-    };
-
-    constructor(tx: Transaction, operation: Operation.RevokeAccountSponsorship) {
-        this.component = RevokeAccountSponsorshipComponentSvelte;
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            account: operation.account,
-        };
+export default class RevokeAccountSponsorship extends AbstractOperationComponent implements IOperationComponent {
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.RevokeAccountSponsorship) {
+        super({
+            title: language.OPERATION_REVOKE_ACCOUNT_SPONSORSHIP,
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.ACCOUNT, value: operation.account },
+            ],
+        });
     }
 }

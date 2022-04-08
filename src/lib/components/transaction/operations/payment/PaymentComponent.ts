@@ -1,27 +1,18 @@
-import type { Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
-
+import type { Operation as OperationType, Transaction } from 'stellar-sdk';
 import type IOperationComponent from '../IOperationComponent';
-import PaymentComponentSvelte from './Payment.svelte';
+import AbstractOperationComponent from '../AbstractOperationComponent';
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
 
-export default class PaymentComponent implements IOperationComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        amount: string;
-        asset: string;
-        destination: string;
-        optionalSource: string | undefined;
-        defaultSource: string;
-    };
-
-    constructor(tx: Transaction, operation: Operation.Payment) {
-        this.component = PaymentComponentSvelte;
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            amount: operation.amount,
-            asset: operation.asset.code,
-            destination: operation.destination,
-        };
+export default class PaymentComponent extends AbstractOperationComponent implements IOperationComponent {
+    constructor(language: ITranslation, tx: Transaction, operation: OperationType.Payment) {
+        super({
+            title: language.OPERATION_PAYMENT,
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.AMOUNT, value: operation.amount },
+                { title: language.ASSET, value: operation.asset.code },
+                { title: language.DESTINATION, value: operation.destination },
+            ],
+        });
     }
 }

@@ -1,25 +1,27 @@
-import type { Operation, Transaction, TrustLineFlag } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
-
+import type { Operation, Transaction } from 'stellar-sdk';
 import type IOperationComponent from '../IOperationComponent';
-import AllowTrustComponentSvelte from './AllowTrust.svelte';
+import AbstractOperationComponent from '../AbstractOperationComponent';
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
 
-export default class AllowTrustComponent implements IOperationComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        assetCode: string;
-        authorize: boolean | TrustLineFlag | undefined;
-    };
+export default class AllowTrustComponent extends AbstractOperationComponent implements IOperationComponent {
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.AllowTrust) {
+        let authorization;
 
-    constructor(tx: Transaction, operation: Operation.AllowTrust) {
-        this.component = AllowTrustComponentSvelte;
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            assetCode: operation.assetCode,
-            authorize: operation.authorize,
-        };
+        if (operation.authorize === 2) {
+            authorization = language.AUTHORIZED_TO_MAINTAIN_ORDERS;
+        } else if (operation.authorize) {
+            authorization = language.AUTHORIZED_TO_TRANSACT;
+        } else {
+            authorization = language.NOT_AUTHORIZED_TO_TRANSACT;
+        }
+
+        super({
+            title: operation.authorize ? language.ALLOW_TRUST : language.DISALLOW_TRUST,
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.ASSET, value: operation.assetCode },
+                { title: '', value: authorization },
+            ],
+        });
     }
 }

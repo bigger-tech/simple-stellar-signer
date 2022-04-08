@@ -1,25 +1,17 @@
 import type { Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
-
 import type IOperationComponent from '../IOperationComponent';
-import ManageDataComponentSvelte from './ManageData.svelte';
+import AbstractOperationComponent from '../AbstractOperationComponent';
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
 
-export default class ManageDataComponent implements IOperationComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        name: string;
-        value: Buffer | undefined;
-    };
-
-    constructor(tx: Transaction, operation: Operation.ManageData) {
-        this.component = ManageDataComponentSvelte;
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            name: operation.name,
-            value: operation.value,
-        };
+export default class ManageDataComponent extends AbstractOperationComponent implements IOperationComponent {
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.ManageData) {
+        super({
+            title: language.OPERATION_MANAGE_DATA,
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.NAME, value: operation.name },
+                operation.value ? { title: language.DATA, value: operation.value } : { title: '', value: '' },
+            ],
+        });
     }
 }

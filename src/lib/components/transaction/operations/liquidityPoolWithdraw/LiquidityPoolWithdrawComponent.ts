@@ -1,30 +1,19 @@
 import type { Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
-
 import type IOperationComponent from '../IOperationComponent';
-import LiquidityPoolWithdrawComponentSvelte from './LiquidityPoolWithdraw.svelte';
+import AbstractOperationComponent from '../AbstractOperationComponent';
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
 
-export default class LiquidityPoolWithdrawComponent implements IOperationComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        liquidityPoolId: string;
-        amount: string;
-        minAmountA: string;
-        minAmountB: string;
-    };
-
-    constructor(tx: Transaction, operation: Operation.LiquidityPoolWithdraw) {
-        this.component = LiquidityPoolWithdrawComponentSvelte;
-
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            liquidityPoolId: operation.liquidityPoolId,
-            amount: operation.amount,
-            minAmountA: operation.minAmountA,
-            minAmountB: operation.minAmountB,
-        };
+export default class LiquidityPoolWithdrawComponent extends AbstractOperationComponent implements IOperationComponent {
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.LiquidityPoolWithdraw) {
+        super({
+            title: language.OPERATION_LIQUIDITY_POOL_WITHDRAW,
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.LIQUIDITY_POOL_ID, value: operation.liquidityPoolId },
+                { title: language.AMOUNT, value: operation.amount },
+                { title: language.MIN_AMOUNT_A, value: operation.minAmountA },
+                { title: language.MIN_AMOUNT_B, value: operation.minAmountB },
+            ],
+        });
     }
 }

@@ -1,31 +1,23 @@
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
 import type { Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
-
+import AbstractOperationComponent from '../AbstractOperationComponent';
 import type IOperationComponent from '../IOperationComponent';
-import SetTrustLineFlagsComponentSvelte from './SetTrustLineFlags.svelte';
 
-export default class SetTrustLineFlagsComponent implements IOperationComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        trustor: string;
-        asset: string;
-        authorized: boolean | undefined;
-        authorizedToMaintainLiabilities: boolean | undefined;
-        clawbackEnabled: boolean | undefined;
-    };
-
-    constructor(tx: Transaction, operation: Operation.SetTrustLineFlags) {
-        this.component = SetTrustLineFlagsComponentSvelte;
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            trustor: operation.trustor,
-            asset: operation.asset.code,
-            authorized: operation.flags.authorized,
-            authorizedToMaintainLiabilities: operation.flags.authorizedToMaintainLiabilities,
-            clawbackEnabled: operation.flags.clawbackEnabled,
-        };
+export default class SetTrustLineFlags extends AbstractOperationComponent implements IOperationComponent {
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.SetTrustLineFlags) {
+        super({
+            title: language.OPERATION_SET_TRUSTLINE_FLAGS,
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.TRUSTOR, value: operation.trustor },
+                { title: language.ASSET, value: operation.asset.code },
+                { title: language.IS_AUTHORIZED, value: operation.flags.authorized ? 'True' : 'False' },
+                {
+                    title: language.IS_AUTHORIZED_TO_MAINTAIN_LIABILITIES,
+                    value: operation.flags.authorizedToMaintainLiabilities ? 'True' : 'False',
+                },
+                { title: language.IS_CLAWBACK_ENABLED, value: operation.flags.clawbackEnabled ? 'True' : 'False' },
+            ],
+        });
     }
 }

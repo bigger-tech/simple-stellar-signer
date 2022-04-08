@@ -1,7 +1,7 @@
 import type { Operation, Transaction } from 'stellar-sdk';
-
-import InvalidComponentTypeError from '../errors/InvalidComponentTypeError';
 import type { OperationComponent } from './OperationComponent';
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
+import InvalidComponentTypeError from '../errors/InvalidComponentTypeError';
 import AccountMergeComponent from './accountMerge/AccountMergeComponent';
 import AllowTrustComponent from './allowTrust/AllowTrustComponent';
 import BeginSponsoringFutureReservesComponent from './beginSponsoringFutureReserves/BeginSponsoringFutureReservesComponent';
@@ -33,81 +33,86 @@ import SetOptionsComponent from './setOptions/SetOptionsComponent';
 import SetTrustLineFlagsComponent from './setTrustLineFlags/SetTrustLineFlagsComponent';
 
 export default class DynamicOperationComponentFactory {
-    create(tx: Transaction, operation: Operation): OperationComponent {
+    create(language: ITranslation, tx: Transaction, operation: Operation): OperationComponent {
         let operationComponent;
 
         switch (operation.type) {
             case 'payment':
-                operationComponent = new PaymentComponent(tx, operation);
+                operationComponent = new PaymentComponent(language, tx, operation);
                 break;
             case 'createAccount':
-                operationComponent = new CreateAccountComponent(tx, operation);
+                operationComponent = new CreateAccountComponent(language, tx, operation);
                 break;
             case 'beginSponsoringFutureReserves':
-                operationComponent = new BeginSponsoringFutureReservesComponent(tx, operation);
+                operationComponent = new BeginSponsoringFutureReservesComponent(language, tx, operation);
                 break;
             case 'pathPaymentStrictSend':
-                operationComponent = new PathPaymentStrictSendComponent(tx, operation);
+                operationComponent = new PathPaymentStrictSendComponent(language, tx, operation);
                 break;
             case 'pathPaymentStrictReceive':
-                operationComponent = new PathPaymentStrictReceiveComponent(tx, operation);
+                operationComponent = new PathPaymentStrictReceiveComponent(language, tx, operation);
                 break;
             case 'manageBuyOffer':
-                operationComponent = new ManageBuyOfferComponent(tx, operation);
+                operationComponent = new ManageBuyOfferComponent(language, tx, operation);
                 break;
             case 'manageSellOffer':
-                operationComponent = new ManageSellOfferComponent(tx, operation);
+                operationComponent = new ManageSellOfferComponent(language, tx, operation);
                 break;
             case 'createPassiveSellOffer':
-                operationComponent = new CreatePassiveSellOfferComponent(tx, operation);
+                operationComponent = new CreatePassiveSellOfferComponent(language, tx, operation);
                 break;
             case 'setOptions':
-                operationComponent = new SetOptionsComponent(tx, operation);
+                operationComponent = new SetOptionsComponent(language, tx, operation);
                 break;
             case 'changeTrust':
-                operationComponent = new ChangeTrustComponent(tx, operation);
+                operationComponent = new ChangeTrustComponent(language, tx, operation);
                 break;
             case 'accountMerge':
-                operationComponent = new AccountMergeComponent(tx, operation);
+                operationComponent = new AccountMergeComponent(language, tx, operation);
                 break;
             case 'manageData':
-                operationComponent = new ManageDataComponent(tx, operation);
+                operationComponent = new ManageDataComponent(language, tx, operation);
                 break;
             case 'bumpSequence':
-                operationComponent = new BumpSequenceComponent(tx, operation);
+                operationComponent = new BumpSequenceComponent(language, tx, operation);
                 break;
             case 'createClaimableBalance':
-                operationComponent = new CreateClaimableBalanceComponent(tx, operation);
+                operationComponent = new CreateClaimableBalanceComponent(language, tx, operation);
                 break;
             case 'endSponsoringFutureReserves':
-                operationComponent = new EndSponsoringFutureReservesComponent(tx, operation);
+                operationComponent = new EndSponsoringFutureReservesComponent(language, tx, operation);
                 break;
             case 'revokeAccountSponsorship' as 'revokeSponsorship':
                 operationComponent = new RevokeAccountSponsorshipComponent(
+                    language,
                     tx,
                     operation as Operation.RevokeAccountSponsorship,
                 );
                 break;
             case 'revokeClaimableBalanceSponsorship' as 'revokeSponsorship':
                 operationComponent = new RevokeClaimableBalanceSponsorshipComponent(
+                    language,
                     tx,
                     operation as Operation.RevokeClaimableBalanceSponsorship,
                 );
                 break;
             case 'revokeDataSponsorship' as 'revokeSponsorship':
                 operationComponent = new RevokeDataSponsorshipComponent(
+                    language,
                     tx,
                     operation as Operation.RevokeDataSponsorship,
                 );
                 break;
             case 'revokeLiquidityPoolSponsorship' as 'revokeSponsorship':
                 operationComponent = new RevokeLiquidityPoolSponsorshipComponent(
+                    language,
                     tx,
                     operation as Operation.RevokeLiquidityPoolSponsorship,
                 );
                 break;
             case 'revokeOfferSponsorship' as 'revokeSponsorship':
                 operationComponent = new RevokeOfferSponsorshipComponent(
+                    language,
                     tx,
                     operation as Operation.RevokeOfferSponsorship,
                 );
@@ -115,41 +120,43 @@ export default class DynamicOperationComponentFactory {
 
             case 'revokeSignerSponsorship' as 'revokeSponsorship':
                 operationComponent = new RevokeSignerSponsorshipComponent(
+                    language,
                     tx,
                     operation as Operation.RevokeSignerSponsorship,
                 );
                 break;
 
             case 'allowTrust':
-                operationComponent = new AllowTrustComponent(tx, operation);
+                operationComponent = new AllowTrustComponent(language, tx, operation);
                 break;
 
             case 'claimClaimableBalance':
-                operationComponent = new ClaimClaimableBalanceComponent(tx, operation);
+                operationComponent = new ClaimClaimableBalanceComponent(language, tx, operation);
                 break;
             case 'clawback':
-                operationComponent = new ClawbackComponent(tx, operation);
+                operationComponent = new ClawbackComponent(language, tx, operation);
                 break;
 
             case 'setTrustLineFlags':
-                operationComponent = new SetTrustLineFlagsComponent(tx, operation);
+                operationComponent = new SetTrustLineFlagsComponent(language, tx, operation);
                 break;
 
             case 'liquidityPoolDeposit':
-                operationComponent = new LiquidityPoolDepositComponent(tx, operation);
+                operationComponent = new LiquidityPoolDepositComponent(language, tx, operation);
                 break;
 
             case 'liquidityPoolWithdraw':
-                operationComponent = new LiquidityPoolWithdrawComponent(tx, operation);
+                operationComponent = new LiquidityPoolWithdrawComponent(language, tx, operation);
                 break;
             case 'revokeTrustlineSponsorship' as 'revokeSponsorship':
                 operationComponent = new RevokeTrustlineSponsorshipComponent(
+                    language,
                     tx,
                     operation as Operation.RevokeTrustlineSponsorship,
                 );
                 break;
             case 'clawbackClaimableBalance':
-                operationComponent = new ClawbackClaimableBalanceComponent(tx, operation);
+                operationComponent = new ClawbackClaimableBalanceComponent(language, tx, operation);
                 break;
             default:
                 undefined;

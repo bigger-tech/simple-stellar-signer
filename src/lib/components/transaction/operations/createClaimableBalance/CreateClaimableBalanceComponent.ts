@@ -1,27 +1,20 @@
-import type { Claimant, Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
+import type { Operation, Transaction } from 'stellar-sdk';
+import type IOperationComponent from '../IOperationComponent';
+import AbstractOperationComponent from '../AbstractOperationComponent';
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
 
-import CreateClaimableBalanceComponentSvelte from './CreateClaimableBalance.svelte';
+export default class CreateClaimableBalanceComponent extends AbstractOperationComponent implements IOperationComponent {
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.CreateClaimableBalance) {
+        const claimantsDestinations = operation.claimants.map((claimant) => claimant.destination);
 
-export default class CreateClaimableBalanceComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        amount: string;
-        asset: string;
-        claimants: Claimant[];
-    };
-
-    constructor(tx: Transaction, operation: Operation.CreateClaimableBalance) {
-        this.component = CreateClaimableBalanceComponentSvelte;
-
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            amount: operation.amount,
-            asset: operation.asset.code,
-            claimants: operation.claimants,
-        };
+        super({
+            title: language.OPERATION_CREATE_CLAIMABLE_BALANCE,
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.AMOUNT, value: operation.amount },
+                { title: language.ASSET, value: operation.asset.code },
+                { title: language.CLAIMANTS, value: claimantsDestinations },
+            ],
+        });
     }
 }

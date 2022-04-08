@@ -1,28 +1,18 @@
 import type { Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
-
 import type IOperationComponent from '../IOperationComponent';
-import ClawbackComponentSvelte from './Clawback.svelte';
+import AbstractOperationComponent from '../AbstractOperationComponent';
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
 
-export default class ClawbackComponent implements IOperationComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        asset: string;
-        amount: string;
-        from: string;
-    };
-
-    constructor(tx: Transaction, operation: Operation.Clawback) {
-        this.component = ClawbackComponentSvelte;
-
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            asset: operation.asset.code,
-            amount: operation.amount,
-            from: operation.from,
-        };
+export default class ClawbackComponent extends AbstractOperationComponent implements IOperationComponent {
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.Clawback) {
+        super({
+            title: language.OPERATION_CLAWBACK,
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.ASSET, value: operation.asset.code },
+                { title: language.AMOUNT, value: operation.amount },
+                { title: language.FROM, value: operation.from },
+            ],
+        });
     }
 }

@@ -1,44 +1,45 @@
-import type Ed25519PublicKey from 'stellar-sdk';
-import type Sha256Hash from 'stellar-sdk';
-import type PreAuthTx from 'stellar-sdk';
 import type { Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
-
 import type IOperationComponent from '../IOperationComponent';
-import SetOptionsComponentSvelte from './SetOptions.svelte';
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
+import AbstractOperationComponent from '../AbstractOperationComponent';
+import getValue from './setOptionsHelper';
 
-export default class SetOptionsComponent implements IOperationComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        inflationDest: string | undefined;
-        clearFlags: number | undefined;
-        setFlags: number | undefined;
-        masterWeight: number | undefined;
-        lowThreshold: number | undefined;
-        medThreshold: number | undefined;
-        highThreshold: number | undefined;
-        homeDomain: string | undefined;
-        signer: typeof Ed25519PublicKey | typeof Sha256Hash | typeof PreAuthTx;
-        weight: number | undefined;
-    };
+export default class SetOptionsComponent extends AbstractOperationComponent implements IOperationComponent {
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.SetOptions) {
+        const signerValue = getValue(operation);
 
-    constructor(tx: Transaction, operation: Operation.SetOptions) {
-        this.component = SetOptionsComponentSvelte;
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            inflationDest: operation.inflationDest,
-            clearFlags: operation.clearFlags,
-            setFlags: operation.setFlags,
-            masterWeight: operation.masterWeight,
-            lowThreshold: operation.lowThreshold,
-            medThreshold: operation.medThreshold,
-            highThreshold: operation.highThreshold,
-            homeDomain: operation.homeDomain,
-            signer: operation.signer,
-            weight: operation.signer.weight,
-        };
+        super({
+            title: language.OPERATION_SET_OPTIONS,
+
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+
+                operation.inflationDest
+                    ? { title: language.DESTINATION_INFLATION, value: operation.inflationDest }
+                    : { title: '', value: '' },
+                operation.clearFlags
+                    ? { title: language.CLEAR_FLAGS, value: operation.clearFlags }
+                    : { title: '', value: '' },
+                operation.setFlags
+                    ? { title: language.SET_FLAGS, value: operation.setFlags }
+                    : { title: '', value: '' },
+                operation.masterWeight
+                    ? { title: language.MASTER_WEIGHT, value: operation.masterWeight }
+                    : { title: '', value: '' },
+                operation.lowThreshold
+                    ? { title: language.LOW_THRESHOLD, value: operation.lowThreshold }
+                    : { title: '', value: '' },
+                operation.medThreshold
+                    ? { title: language.MEDIUM_THRESHOLD, value: operation.medThreshold }
+                    : { title: '', value: '' },
+                operation.highThreshold
+                    ? { title: language.HIGH_THRESHOLD, value: operation.highThreshold }
+                    : { title: '', value: '' },
+                operation.homeDomain
+                    ? { title: language.HOME_DOMAIN, value: operation.homeDomain }
+                    : { title: '', value: '' },
+                { title: language.SIGNER, value: signerValue },
+            ],
+        });
     }
 }
