@@ -51,6 +51,15 @@ export default class PrivateKey extends AbstractWallet implements IWallet {
         return privateKey;
     }
 
+    public override isInstalled(): Promise<boolean> {
+        const privateKeyPromise: Promise<boolean> = new Promise((resolve) => {
+            const isPrivateKeyInstalled = true;
+            if (isPrivateKeyInstalled) {
+                resolve(true);
+            }
+        });
+        return privateKeyPromise;
+    }
     private async storeEncryptedPrivateKey(key: string): Promise<void> {
         const decryptableValue = await encryptValue(key);
         this.storage.storeItem(this.CRYPTO_KEY_ITEM_NAME, decryptableValue.cryptoKey);

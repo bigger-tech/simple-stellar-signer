@@ -44,4 +44,20 @@ export default class Rabet extends AbstractWallet implements IWallet {
     public override getImage(): string {
         return rabet;
     }
+
+    public override isInstalled(): Promise<boolean> {
+        const rabetPromise: Promise<boolean> = new Promise((resolve) => {
+            if (window.rabet) {
+                resolve(true);
+            }
+            setTimeout(() => {
+                if (window.rabet) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            }, 100);
+        });
+        return rabetPromise;
+    }
 }

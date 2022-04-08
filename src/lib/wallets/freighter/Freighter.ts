@@ -1,4 +1,4 @@
-import { getPublicKey, signTransaction } from '@stellar/freighter-api';
+import { getPublicKey, isConnected, signTransaction } from '@stellar/freighter-api';
 import type { Transaction } from 'stellar-sdk';
 
 import { freighter } from '../../../assets';
@@ -44,5 +44,16 @@ export default class Freighter extends AbstractWallet implements IWallet {
 
     public override getImage(): string {
         return freighter;
+    }
+
+    public override isInstalled(): Promise<boolean> {
+        const freighterPromise: Promise<boolean> = new Promise((resolve) => {
+            if (isConnected()) {
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        });
+        return freighterPromise;
     }
 }

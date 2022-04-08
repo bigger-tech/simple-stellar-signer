@@ -45,4 +45,16 @@ export default class Albedo extends AbstractWallet implements IWallet {
     public override getImage(): string {
         return albedo;
     }
+
+    public override isInstalled(): Promise<boolean> {
+        const albedoPromise: Promise<boolean> = new Promise((resolve) => {
+            const isAlbedoInstalled = window.sessionStorage.getItem('albedoExtensionInstalled') === '1';
+            if (isAlbedoInstalled) {
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        });
+        return albedoPromise;
+    }
 }
