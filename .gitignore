@@ -1,6 +1,7 @@
 /node_modules/
 /dist/
 /.vscode/
+/coverage
 .DS_Store
 # dotenv environment variables file
 .env
