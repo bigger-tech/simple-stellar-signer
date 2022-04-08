@@ -43,12 +43,21 @@ export default class XBull extends AbstractWallet implements IWallet {
         return xBull;
     }
 
-    public override isConnected(): any {
-        window.addEventListener('message', (event) => {
-            if (event.data.type === XBull.XBullInjected && !!window.xBullSDK) {
-                console.log('On message', window.xBullSDK);
-            }
+    public override isInstalled(): Promise<boolean> {
+        const xBullPromise: Promise<boolean> = new Promise((resolve) => {
+            window.addEventListener('message', (event) => {
+                if (event.data.type === XBull.XBullInjected && !!window.xBullSDK) {
+                    resolve(true);
+                }
+            });
+            setTimeout(() => {
+                if (window.xBullSDK) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            }, 100);
         });
-        return window.xBullSDK;
+        return xBullPromise;
     }
 }

@@ -28,7 +28,7 @@ export default abstract class AbstractWallet implements IWallet {
         throw new NotImplementedError();
     }
 
-    public isConnected(): boolean {
+    public isInstalled(): Promise<boolean> {
         throw new NotImplementedError();
     }
 

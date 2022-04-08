@@ -9,6 +9,7 @@
     export let wallet: IWallet;
 
     const dispatch = createEventDispatcher();
+    const isInstalled = wallet.isInstalled();
 
     async function connect(): Promise<void> {
         if (wallet.getName() === PrivateKey.NAME) {
@@ -28,10 +29,12 @@
             src={wallet.getImage()}
             width={width}
         />
-        <p class="simple-signer wallet-title">
-            {wallet.isConnected() ? '' : $language.INSTALL}
-            {wallet.getFriendlyName()}
-        </p>
+        {#await isInstalled then isInstalled}
+            <p class="simple-signer wallet-title">
+                {isInstalled ? '' : $language.INSTALL}
+                {wallet.getFriendlyName()}
+            </p>
+        {/await}
     </a>
 </div>
 
