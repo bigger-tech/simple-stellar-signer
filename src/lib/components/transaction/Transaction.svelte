@@ -1,31 +1,28 @@
 <script lang="ts">
-    import type { ITransactionMessage } from '../../bridge/transactionMessage/ITransactionMessage';
-    import type IWallet from '../../wallets/IWallet';
-    import type { IOperationComponentGroup } from './IOperationComponentGroup';
-    import type { OperationComponent } from './operations/OperationComponent';
     import { Transaction, xdr } from 'stellar-sdk';
     import { Link } from 'svelte-navigator';
+
     import { language } from '../../../store/global';
-    import { CURRENT_NETWORK_PASSPHRASE } from '../../stellar/StellarNetwork';
     import Bridge from '../../bridge/Bridge';
+    import type { ITransactionMessage } from '../../bridge/transactionMessage/ITransactionMessage';
+    import { CURRENT_NETWORK_PASSPHRASE } from '../../stellar/StellarNetwork';
     import LocalStorage from '../../storage/storage';
+    import type IWallet from '../../wallets/IWallet';
     import WalletFactory from '../../wallets/WalletFactory';
+    import type { IOperationComponentGroup } from './IOperationComponentGroup';
     import Signatures from './Signatures.svelte';
     import InsufficientOperationsError from './errors/InsufficientOperationsError';
     import InvalidGroupsSortError from './errors/InvalidGroupsSortError';
     import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
+    import Operation from './operations/Operation.svelte';
+    import type { OperationComponent } from './operations/OperationComponent';
+    import OperationsGroup from './operations/OperationsGroup.svelte';
     import groupOperationComponents from './transactionGroupHelper';
     import { getShortedStellarKey } from './transactionHelper';
-    import Operation from './operations/Operation.svelte';
-    import OperationsGroup from './operations/OperationsGroup.svelte';
+
     export let transactionMessage: ITransactionMessage;
     const storage = new LocalStorage();
     const bridge = new Bridge();
-
-    let arrowUp = false;
-    function rotateArroy() {
-        arrowUp = !arrowUp;
-    }
 
     let wallet: IWallet;
     const storedWallet = storage.getItem('wallet');
@@ -65,6 +62,35 @@
         }
     }
 
+    let arrowsUp: boolean[] = [];
+    let allArrowsUp: boolean = false;
+
+    function registerArrows() {
+        transactionGroups.forEach(() => {
+            arrowsUp.push(false);
+        });
+    }
+    registerArrows();
+
+    function rotateArrow(i: number) {
+        arrowsUp[i] = !arrowsUp[i];
+    }
+    function rotateAllArrows() {
+        if (!allArrowsUp) {
+            arrowsUp.forEach((arrow, i) => {
+                if(arrow===false){
+                arrowsUp[i] = !arrow;}
+            });
+            allArrowsUp = !allArrowsUp;
+        } else{
+            arrowsUp.forEach((arrow, i) => {
+                if(arrow===true){
+                arrowsUp[i] = !arrow;}
+            });
+            allArrowsUp = !allArrowsUp;
+        }
+    }
+
     console.log(transactionGroups);
 </script>
 
@@ -97,18 +123,25 @@
                 <Signatures signatures={tx.signatures} />
                 <hr class="simple-signer tx-separator" />
                 <div class="simple-signer operations-container">
-                    <h1 class="simple-signer tx-operation-list-title">Lista de Operaciones</h1>
+                    <div class="operation-list-title-container">
+                        <h1 class="simple-signer tx-operation-list-title">Lista de Operaciones</h1>
+                        <a class="simple-signer expand-all-button" on:click={rotateAllArrows} href="#"
+                            ><span>{allArrowsUp ? 'Hide all' : 'Expand all'}</span></a
+                        >
+                    </div>
                     <div class="simple-signer operation-list-container">
                         {#each transactionGroups as group, i}
                             <div class="simple-signer operation-head">
                                 <h3 class="simple-signer operation-title-head">
                                     {i + 1}. {'title' in group ? group.title : group.props.title}
                                 </h3>
-                                <button on:click={rotateArroy}
-                                    ><i class="arrow down {arrowUp ? 'spin-up' : ''}" /></button
+                                <button
+                                    on:click={() => {
+                                        rotateArrow(i);
+                                    }}><i class="arrow down {arrowsUp[i] ? 'spin-up' : ''}" /></button
                                 >
                             </div>
-                            <div class="simple-signer tx-operation-container {arrowUp ? 'show-operation' : ''}">
+                            <div class="simple-signer tx-operation-container {arrowsUp[i] ? 'show-operation' : ''}">
                                 {#if 'description' in group}
                                     <OperationsGroup
                                         description={group.description}
@@ -180,7 +213,12 @@
         transform: rotate(45deg);
         -webkit-transform: rotate(45deg);
     }
-
+    .expand-all-button {
+        color: #2f69b7;
+        text-align: left;
+        min-width: fit-content;
+        font-size: 12px;
+    }
     .spin-up {
         transform: rotate(-135deg);
         -webkit-transform: rotate(-135deg);
@@ -203,10 +241,14 @@
     .operation-head button:hover {
         cursor: pointer;
     }
-
-    .sign-container {
+    .operation-list-title-container {
         display: flex;
         justify-content: space-between;
+        align-items: baseline;
+    }
+    .sign-container {
+        display: flex;
+        justify-content: space-around;
         margin-left: 30px;
         margin-right: 30px;
     }
