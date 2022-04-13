@@ -13,6 +13,7 @@ export interface ITranslation {
     BUYING: string;
     BUYING_ASSET: string;
     BUY_AMOUNT: string;
+    CANCEL: string;
     CLAIMANTS: string;
     CLEAR_FLAGS: string;
     CONNECT_WITH_PRIVATE_KEY: string;
@@ -90,7 +91,7 @@ export interface ITranslation {
     PREAUTH_TX: string;
     PRICE: string;
     PRIVATE_KEY: string;
-    RETURN: string;
+    SELECT_WALLET: string;
     SELLER: string;
     SELLING: string;
     SELLING_ASSET: string;
