@@ -164,7 +164,8 @@
         color: white;
         background: #2f69b7 0% 0% no-repeat padding-box;
         box-shadow: 0px 4px 2px #00000029;
-        width: 145px;
+        width: 142px;
+        margin-left: 2.5px;
         height: 39px;
         border: 1px solid #e5e5e5;
         cursor: pointer;
@@ -174,7 +175,8 @@
         color: #000000;
         font-weight: bold;
         box-shadow: 0px 4px 2px #00000029;
-        width: 142px;
+        width: 140px;
+        margin-right: 2.5px;
         height: 39px;
         border: 1px solid #e5e5e5;
         cursor: pointer;
