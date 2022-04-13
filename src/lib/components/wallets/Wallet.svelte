@@ -1,11 +1,12 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
+
     import { language } from '../../../store/global';
     import type IWallet from '../../wallets/IWallet';
     import PrivateKey from '../../wallets/privateKey/PrivateKey';
 
     export let width = 35;
-    export let height = 45;
+    export let height = 37;
     export let wallet: IWallet;
 
     const dispatch = createEventDispatcher();
@@ -21,30 +22,61 @@
 </script>
 
 <div class="simple-signer wallet-container">
-    <a class="connect-wallet" href="#" on:click={connect}>
-        <img
-            alt="{wallet.getFriendlyName()} logo"
-            class="simple-signer wallet-logo"
-            height={height}
-            src={wallet.getImage()}
-            width={width}
-        />
-        {#await isInstalled then isInstalled}
-            <p class="simple-signer wallet-title">
-                {isInstalled ? '' : $language.INSTALL}
-                {wallet.getFriendlyName()}
-            </p>
-        {/await}
-    </a>
+    {#await isInstalled then isInstalled}
+        <div class="simple-signer wallet-items-container {isInstalled ? '' : 'wallet-opacity'}" on:click={connect}>
+            <div class="simple-signer wallet-items">
+                <a class="connect-wallet" href="#">
+                    <img
+                        alt="{wallet.getFriendlyName()} logo"
+                        class="simple-signer wallet-logo"
+                        height={height}
+                        src={wallet.getImage()}
+                        width={width}
+                    />
+                </a>
+            </div>
+            <div class="simple-signer wallet-title-container">
+                <span class="simple-signer wallet-title {isInstalled ? '' : 'wallet-title-opacity'}">
+                    {wallet.getFriendlyName()}
+                </span>
+            </div>
+        </div>
+        <a class="simple-signer {isInstalled ? '' : 'install-wallet'}" target="_blank" href={wallet.getExtension()}
+            >{isInstalled ? '' : $language.INSTALL}</a
+        >
+    {/await}
 </div>
 
 <style>
+    .wallet-title-container {
+        display: flex;
+    }
+    .wallet-opacity,
+    .wallet-title-opacity {
+        opacity: 0.3;
+    }
+    .install-wallet {
+        position: absolute;
+        color: #2f69b7;
+        text-align: center;
+        line-height: 22px;
+        background-color: #bbd8ff;
+        width: 90px;
+        height: 20px;
+        margin-top: 35px;
+        margin-left: 190px;
+        box-shadow: 0px 3px 3px -2px;
+    }
     .wallet-logo {
-        margin-top: 25px;
+        margin-left: 15px;
+        margin-top: 11px;
     }
 
     .wallet-title {
-        margin-top: 7px;
+        margin-left: 15px;
+        margin-top: 22px;
+        letter-spacing: 0.14px;
+        color: #1a1a1a;
     }
 
     .wallet-title:hover {
@@ -55,19 +87,20 @@
         text-decoration: inherit;
         color: inherit;
     }
-
-    .wallet-container {
-        font-family: 'Montserrat', sans-serif;
-        font-size: 14px;
+    .wallet-items-container {
+        display: flex;
         color: #bdbdbd;
         outline: 0.1px solid #e5e5e5;
-        width: 130px;
-        height: 120px;
-        margin-top: 18px;
+        box-shadow: 0px 6px 8px -2px;
+        width: 310px;
+        height: 58px;
+        margin-top: 15px;
+        cursor: pointer;
     }
-    @media screen and (max-width: 291px) {
-        .wallet-container {
-            margin-top: 15px;
-        }
+    .wallet-container {
+        display: flex;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 600;
+        font-size: 14px;
     }
 </style>
