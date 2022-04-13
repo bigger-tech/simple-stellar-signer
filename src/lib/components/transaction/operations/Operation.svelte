@@ -1,13 +1,11 @@
 <script lang="ts">
-    export let title: string;
-    export let operationItems: { title: string; value: string | string[] | number }[];
+    export let operationItems: any[];
 </script>
 
-<h3 class="simple-signer operation-title">{title}</h3>
 <div class="simple-signer operation-container">
     <div class="simple-signer operation-info-container">
-        <div class="simple-signer operation-info">
-            {#each operationItems as item}
+        {#each operationItems as item}
+            <div class="simple-signer operation-info">
                 <p class="simple-signer operation-info-title">{item.title}</p>
                 {#if Array.isArray(item.value)}
                     {#each item.value as value}
@@ -16,8 +14,8 @@
                 {:else}
                     <p class="simple-signer break-key">{item.value}</p>
                 {/if}
-            {/each}
-        </div>
+            </div>
+        {/each}
     </div>
 </div>
 
@@ -28,19 +26,23 @@
 
     :global(.operation-info) {
         margin-bottom: 18px;
+        margin-left: 15px;
     }
 
     :global(.operation-info-title) {
         font-weight: bold;
     }
 
-    .operation-info-container {
-        border-left: 2px solid #e5e5e5;
-        width: 100%;
+    :global(.operation-title) {
         margin: 0;
+        margin-bottom: 13px;
+        margin-left: 15px;
     }
 
     .break-key {
         word-wrap: break-word;
+        letter-spacing: 0.14px;
+        color: #757575;
+        opacity: 1;
     }
 </style>

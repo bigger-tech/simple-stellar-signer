@@ -42,6 +42,7 @@ export default function groupOperationComponents(
                 } else if (j === groups[i]!.to) {
                     operationComponents.push(operations[j]!);
                     transactionGroups.push({
+                        title: groups[i]!.title,
                         description: groups[i]!.description,
                         operationComponents,
                     });

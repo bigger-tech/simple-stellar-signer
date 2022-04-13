@@ -16,11 +16,16 @@
     import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
     import groupOperationComponents from './transactionGroupHelper';
     import { getShortedStellarKey } from './transactionHelper';
-
+    import Operation from './operations/Operation.svelte';
+    import OperationsGroup from './operations/OperationsGroup.svelte';
     export let transactionMessage: ITransactionMessage;
-
     const storage = new LocalStorage();
     const bridge = new Bridge();
+
+    let arrowUp = false;
+    function rotateArroy() {
+        arrowUp = !arrowUp;
+    }
 
     let wallet: IWallet;
     const storedWallet = storage.getItem('wallet');
@@ -59,6 +64,8 @@
             transactionGroups = operationComponents;
         }
     }
+
+    console.log(transactionGroups);
 </script>
 
 {#if isValidXdr}
@@ -77,52 +84,51 @@
                         &nbsp;
                         <p class="simple-signer tx-network-text">Testnet</p>
                     </div>
-                    <p class="sequence-number">{$language.SEQUENCE_NUMBER} {tx ? tx.sequence : ''}</p>
-                    <p class="simple-signer source-account">
-                        {$language.SOURCE_ACCOUNT}
-                        {shortedSourceAccount}
-                    </p>
+                    <div class="simple-signer tx-sequence-number">
+                        <p class="sequence-number">{$language.SEQUENCE_NUMBER} {tx ? tx.sequence : ''}</p>
+                    </div>
+                    <div class="simple-signer tx-source-account">
+                        <p class="simple-signer source-account">
+                            {$language.SOURCE_ACCOUNT}
+                            {shortedSourceAccount}
+                        </p>
+                    </div>
                 </div>
                 <Signatures signatures={tx.signatures} />
                 <hr class="simple-signer tx-separator" />
                 <div class="simple-signer operations-container">
                     <h1 class="simple-signer tx-operation-list-title">Lista de Operaciones</h1>
                     <div class="simple-signer operation-list-container">
-                        <ol class="simple-signer operation-list">
-                            {#each transactionGroups as group}
+                        {#each transactionGroups as group, i}
+                            <div class="simple-signer operation-head">
+                                <h3 class="simple-signer operation-title-head">
+                                    {i + 1}. {'title' in group ? group.title : group.props.title}
+                                </h3>
+                                <button on:click={rotateArroy}
+                                    ><i class="arrow down {arrowUp ? 'spin-up' : ''}" /></button
+                                >
+                            </div>
+                            <div class="simple-signer tx-operation-container {arrowUp ? 'show-operation' : ''}">
                                 {#if 'description' in group}
-                                    <li>
-                                        <div class="simple-signer operations-group-container">
-                                            <h3 class="simple-signer operations-group-title">{group.description}</h3>
-                                            {#each group.operationComponents as operation}
-                                                <div class="simple-signer tx-operation-container">
-                                                    <svelte:component this={operation.component} {...operation.props} />
-                                                </div>
-                                            {/each}
-                                        </div>
-                                    </li>
+                                    <OperationsGroup
+                                        description={group.description}
+                                        operationComponents={group.operationComponents}
+                                    />
                                 {:else}
-                                    <li>
-                                        <div class="simple-signer tx-operation-container">
-                                            <svelte:component this={group.component} {...group.props} />
-                                        </div>
-                                    </li>
+                                    <Operation operationItems={group.props.operationItems} />
                                 {/if}
-                            {/each}
-                        </ol>
+                            </div>
+                        {/each}
                     </div>
                 </div>
                 <hr class="simple-signer tx-separator" />
-                <div class="simple-signer operation-info tx-fee-container">
+                <div class="simple-signer tx-fee-container">
                     <p class="simple-signer operation-info-title">{$language.FEE}</p>
                     &nbsp;
                     <p>{tx.fee}</p>
                 </div>
                 <div class="simple-signer confirmation-buttons">
-                    <button
-                        class="simple-signer cancel-button"
-                        on:click={async () => bridge.sendSignedTx(await wallet.sign(tx))}>Confirm</button
-                    >
+                    <button class="simple-signer cancel-button">Cancel</button>
                     <button
                         class="simple-signer sign-tx-button"
                         on:click={async () => bridge.sendSignedTx(await wallet.sign(tx))}>Confirm</button
@@ -145,13 +151,64 @@
         padding: 0;
     }
 
+    :global(body::-webkit-scrollbar) {
+        display: none;
+    }
+
     :global(body) {
         margin: 0;
     }
 
+    p {
+        margin: 0;
+    }
+
+    .show-operation {
+        max-height: 300px !important;
+        margin-bottom: 25px;
+    }
+
+    .arrow {
+        border: solid #757575;
+        border-width: 0 2px 2px 0;
+        display: inline-block;
+        padding: 3px;
+        transition: transform 0.3s;
+    }
+
+    .down {
+        transform: rotate(45deg);
+        -webkit-transform: rotate(45deg);
+    }
+
+    .spin-up {
+        transform: rotate(-135deg);
+        -webkit-transform: rotate(-135deg);
+    }
+
+    .operation-head {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .operation-head button {
+        border: none;
+        margin-top: -2px;
+        padding: 0;
+        background-color: transparent;
+    }
+
+    .operation-head button:hover {
+        cursor: pointer;
+    }
+
     .sign-container {
         display: flex;
-        justify-content: center;
+        justify-content: space-between;
+        margin-left: 30px;
+        margin-right: 30px;
     }
 
     .tx-container {
@@ -162,7 +219,7 @@
         width: 100%;
         background: #ffffff00 0% 0% no-repeat padding-box;
         opacity: 1;
-        width: 90%;
+        width: 100%;
         margin-top: 30px;
     }
 
@@ -170,9 +227,10 @@
         border: 1px solid #e5e5e5;
         width: 100%;
         margin: 0;
+        margin-top: 12px;
     }
 
-    .tx-description-container {
+    :global(.tx-description-container) {
         top: 183px;
         left: 1008px;
         width: 100%;
@@ -181,11 +239,19 @@
         margin-top: 23px;
     }
 
+    .operation-title-head {
+        margin: 0;
+        margin-bottom: 15px;
+        font-size: 14px;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+
     .tx-network-container {
         display: flex;
         flex-direction: row;
-        margin-bottom: -16px;
-        margin-top: -16px;
+        margin-bottom: 8px;
     }
 
     .tx-network-text {
@@ -198,42 +264,59 @@
         color: #757575;
         opacity: 1;
         margin-top: 20px;
+        margin-bottom: 27px;
+        font-size: 14px;
     }
 
-    .tx-description-text {
+    .tx-sequence-number {
+        margin-bottom: 8px;
+    }
+
+    .tx-source-account {
+        margin-bottom: 20px;
+    }
+
+    :global(.tx-description-text) {
         padding: 10px;
         font-weight: 500;
         margin: 0;
     }
 
     .tx-title {
-        font-size: 17px;
+        font-size: 16px;
         text-transform: uppercase;
         margin: 0;
     }
 
     .tx-operation-list-title {
-        margin-top: 30px;
-        font-size: 15px;
+        margin-top: 31px;
+        margin-bottom: 23px;
+        font-size: 14px;
         text-transform: uppercase;
         width: 100%;
     }
 
     .tx-operation-container {
-        margin-bottom: 25px;
+        overflow: hidden;
+        max-height: 0px;
+        transition: max-height 0.3s;
+        position: relative;
+        font-size: 14px;
+    }
+
+    .tx-operation-container::after {
+        content: '';
+        height: 100%;
+        width: 2px;
+
+        position: absolute;
+        top: 6px;
+
+        background-color: #e5e5e5;
     }
 
     .operation-list-container {
         position: relative;
-    }
-
-    .operation-list {
-        padding: 0;
-        margin-left: 15px;
-    }
-
-    .operations-group-container {
-        border-style: solid;
     }
 
     .operations-container {
@@ -243,13 +326,14 @@
     .tx-fee-container {
         display: flex;
         flex-direction: row;
-        margin-top: 25px;
+        margin-top: 31px;
+        margin-bottom: 32px;
     }
 
     .confirmation-buttons {
         display: flex;
         flex-direction: row;
-        justify-content: space-around;
+        justify-content: space-between;
     }
 
     .confirmation-buttons button {
@@ -262,6 +346,7 @@
         box-shadow: 0px 4px 2px #00000029;
         opacity: 1;
         border: none;
+        margin-bottom: 30px;
     }
 
     .cancel-button {

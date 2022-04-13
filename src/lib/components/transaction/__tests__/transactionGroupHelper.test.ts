@@ -17,16 +17,19 @@ it('should recieve an array with grouped components var1', () => {
             from: 0,
             to: 1,
             description: 'test',
+            title: 'test',
         },
         {
             from: 2,
             to: 3,
             description: 'test',
+            title: 'test',
         },
         {
             from: 4,
             to: 5,
             description: 'test',
+            title: 'test',
         },
     ];
 
@@ -45,11 +48,13 @@ it('should recieve an array with grouped components var2', () => {
             from: 0,
             to: 1,
             description: 'test',
+            title: 'test',
         },
         {
             from: 4,
             to: 5,
             description: 'test',
+            title: 'test',
         },
     ];
     const result = groupOperationComponents(operations, groups);
@@ -68,6 +73,7 @@ it('should recieve an array with grouped components var3', () => {
             from: 1,
             to: 2,
             description: 'test',
+            title: 'test',
         },
     ];
     const result = groupOperationComponents(operations, groups);
@@ -87,11 +93,13 @@ it("should recieve an error if the groups aren't well sorted", () => {
             from: 4,
             to: 5,
             description: 'test',
+            title: 'test',
         },
         {
             from: 0,
             to: 1,
             description: 'test',
+            title: 'test',
         },
     ];
 
@@ -106,11 +114,13 @@ it('should recieve an error if there are less operations that the group says', (
             from: 4,
             to: 5,
             description: 'test',
+            title: 'test',
         },
         {
             from: 6,
             to: 10,
             description: 'test',
+            title: 'test',
         },
     ];
 
