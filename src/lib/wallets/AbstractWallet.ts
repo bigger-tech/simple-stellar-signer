@@ -28,6 +28,10 @@ export default abstract class AbstractWallet implements IWallet {
         throw new NotImplementedError();
     }
 
+    public getExtension(): string {
+        throw new NotImplementedError();
+    }
+
     public isInstalled(): Promise<boolean> {
         throw new NotImplementedError();
     }

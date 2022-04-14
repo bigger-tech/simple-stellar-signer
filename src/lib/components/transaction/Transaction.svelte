@@ -1,19 +1,20 @@
 <script lang="ts">
-    import type { ITransactionMessage } from '../../bridge/transactionMessage/ITransactionMessage';
-    import type IWallet from '../../wallets/IWallet';
-    import type { IOperationComponentGroup } from './IOperationComponentGroup';
-    import type { OperationComponent } from './operations/OperationComponent';
     import { Transaction, xdr } from 'stellar-sdk';
     import { Link } from 'svelte-navigator';
+
     import { language } from '../../../store/global';
-    import { CURRENT_NETWORK_PASSPHRASE } from '../../stellar/StellarNetwork';
     import Bridge from '../../bridge/Bridge';
+    import type { ITransactionMessage } from '../../bridge/transactionMessage/ITransactionMessage';
+    import { CURRENT_NETWORK_PASSPHRASE } from '../../stellar/StellarNetwork';
     import LocalStorage from '../../storage/storage';
+    import type IWallet from '../../wallets/IWallet';
     import WalletFactory from '../../wallets/WalletFactory';
+    import type { IOperationComponentGroup } from './IOperationComponentGroup';
     import Signatures from './Signatures.svelte';
     import InsufficientOperationsError from './errors/InsufficientOperationsError';
     import InvalidGroupsSortError from './errors/InvalidGroupsSortError';
     import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
+    import type { OperationComponent } from './operations/OperationComponent';
     import groupOperationComponents from './transactionGroupHelper';
 
     export let transactionMessage: ITransactionMessage;

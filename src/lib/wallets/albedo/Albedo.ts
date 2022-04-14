@@ -9,6 +9,7 @@ import type IWallet from '../IWallet';
 export default class Albedo extends AbstractWallet implements IWallet {
     public static NAME = 'albedo';
     public static FRIENDLY_NAME = 'Albedo';
+    public static albedoExtension = 'https://albedo.link/';
     public albedoNetwork: string;
 
     constructor(storage: IStorage) {
@@ -44,6 +45,10 @@ export default class Albedo extends AbstractWallet implements IWallet {
 
     public override getImage(): string {
         return albedo;
+    }
+
+    public override getExtension(): string {
+        return Albedo.albedoExtension;
     }
 
     public override isInstalled(): Promise<boolean> {

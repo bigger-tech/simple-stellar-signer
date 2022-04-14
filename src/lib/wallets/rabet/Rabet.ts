@@ -10,6 +10,7 @@ type RabetNetwork = 'mainnet' | 'testnet';
 export default class Rabet extends AbstractWallet implements IWallet {
     public static NAME = 'rabet';
     public static FRIENDLY_NAME = 'Rabet';
+    public static rabetExtension = 'https://rabet.io/';
     public rabetNetwork: RabetNetwork;
     public mainNetwork: RabetNetwork = 'mainnet';
 
@@ -43,6 +44,10 @@ export default class Rabet extends AbstractWallet implements IWallet {
 
     public override getImage(): string {
         return rabet;
+    }
+
+    public override getExtension(): string {
+        return Rabet.rabetExtension;
     }
 
     public override isInstalled(): Promise<boolean> {
