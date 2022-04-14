@@ -8,7 +8,7 @@
     import WalletFactory from '../../wallets/WalletFactory';
     import PrivateKey from '../../wallets/privateKey/PrivateKey';
     import Wallet from './Wallet.svelte';
-    import { inputValue, isPrivateKeyFormVisible, isPrivateKeyVisible } from './walletsStore';
+    import { inputValue, isPrivateKeyFormVisible, isPrivateKeyInvalid, isPrivateKeyVisible } from './walletsStore';
 
     export let wallets: string[];
     const walletFactory = new WalletFactory();
@@ -23,6 +23,7 @@
 
     async function connectWithPrivateKey(privateKey: string): Promise<void> {
         const wallet = walletFactory.create(PrivateKey.NAME);
+        validateInputPrivateKey(privateKey);
         const publicKey = await wallet.getPublicKey(privateKey);
         dispatchOnConnectEvent(wallet, publicKey);
     }
@@ -34,6 +35,13 @@
         } else {
             const publicKey = await wallet.getPublicKey();
             dispatchOnConnectEvent(wallet, publicKey);
+        }
+    }
+
+    function validateInputPrivateKey(privateKey: string) {
+        const privateKeyRegEx = /^S[A-Za-z0-9]{55}$/;
+        if (!privateKeyRegEx.test(privateKey)) {
+            $isPrivateKeyInvalid = true;
         }
     }
 
@@ -56,7 +64,7 @@
                 <div class="simple-signer input-form">
                     {#if $isPrivateKeyVisible}
                         <input
-                            class="simple-signer input-private-key"
+                            class="simple-signer input-private-key {$isPrivateKeyInvalid ? 'invalid-key' : ''}"
                             id="input-key"
                             type="text"
                             bind:value={$inputValue}
@@ -64,7 +72,7 @@
                         />
                     {:else}
                         <input
-                            class="simple-signer input-private-key"
+                            class="simple-signer input-private-key {$isPrivateKeyInvalid ? 'invalid-key' : ''}"
                             id="input-key"
                             type="password"
                             bind:value={$inputValue}
@@ -90,6 +98,9 @@
                         {$language.CONNECT_WITH_PRIVATE_KEY}
                     </button>
                 </div>
+                {#if $isPrivateKeyInvalid}
+                    <span class="simple-signer error-private-key">{$language.INVALID_KEY}</span>
+                {/if}
             </div>
         </div>
     </form>
@@ -100,6 +111,13 @@
 {/if}
 
 <style>
+    .error-private-key {
+        position: absolute;
+        color: #ff6565;
+        font-weight: 300;
+        margin-top: 122px;
+        margin-left: 10px;
+    }
     .input-form {
         margin-top: 30px;
         margin-left: 10px;
@@ -131,6 +149,10 @@
         width: 240px;
         height: 36px;
         border: 1px solid #e5e5e5;
+    }
+    .invalid-key {
+        outline: none;
+        border-color: #ff6565;
     }
     .input-private-key:focus::placeholder {
         color: transparent;
