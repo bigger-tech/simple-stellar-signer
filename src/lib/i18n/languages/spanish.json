@@ -34,6 +34,7 @@
     "HINT": "Indicio:",
     "HOME_DOMAIN": "Dominio principal:",
     "INSTALL": "Instalar",
+    "INVALID_KEY": "Key invalida",
     "IS_AUTHORIZED": "Está autorizado:",
     "IS_AUTHORIZED_TO_MAINTAIN_LIABILITIES": "Está autorizado a mantener pasivos:",
     "IS_CLAWBACK_ENABLED": "Está habilitada la recuperación:",

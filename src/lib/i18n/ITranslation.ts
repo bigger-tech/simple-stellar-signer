@@ -34,6 +34,7 @@ export interface ITranslation {
     HINT: string;
     HOME_DOMAIN: string;
     INSTALL: string;
+    INVALID_KEY: string;
     IS_AUTHORIZED: string;
     IS_AUTHORIZED_TO_MAINTAIN_LIABILITIES: string;
     IS_CLAWBACK_ENABLED: string;
