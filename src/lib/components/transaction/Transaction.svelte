@@ -2,6 +2,8 @@
     import { Transaction, xdr } from 'stellar-sdk';
     import { Link } from 'svelte-navigator';
 
+    import languageIcon from '../../../assets/icons/language.svg';
+    import xMarkIcon from '../../../assets/icons/xmark.svg';
     import { language } from '../../../store/global';
     import Bridge from '../../bridge/Bridge';
     import type { ITransactionMessage } from '../../bridge/transactionMessage/ITransactionMessage';
@@ -39,6 +41,37 @@
     let shortedSourceAccount: string;
     let isValidXdr = false;
 
+    let arrowsUp: boolean[] = [];
+    let allArrowsUp = false;
+
+    function registerArrows() {
+        transactionGroups.forEach(() => {
+            arrowsUp.push(false);
+        });
+    }
+    registerArrows();
+
+    function rotateArrow(i: number) {
+        arrowsUp[i] = !arrowsUp[i];
+    }
+    function rotateAllArrows() {
+        if (!allArrowsUp) {
+            arrowsUp.forEach((arrow, i) => {
+                if (arrow === false) {
+                    arrowsUp[i] = !arrow;
+                }
+            });
+            allArrowsUp = !allArrowsUp;
+        } else {
+            arrowsUp.forEach((arrow, i) => {
+                if (arrow === true) {
+                    arrowsUp[i] = !arrow;
+                }
+            });
+            allArrowsUp = !allArrowsUp;
+        }
+    }
+
     try {
         isValidXdr = xdr.TransactionEnvelope.validateXDR(transactionMessage.xdr, 'base64');
         tx = new Transaction(transactionMessage.xdr, CURRENT_NETWORK_PASSPHRASE);
@@ -62,39 +95,14 @@
         }
     }
 
-    let arrowsUp: boolean[] = [];
-    let allArrowsUp: boolean = false;
-
-    function registerArrows() {
-        transactionGroups.forEach(() => {
-            arrowsUp.push(false);
-        });
-    }
-    registerArrows();
-
-    function rotateArrow(i: number) {
-        arrowsUp[i] = !arrowsUp[i];
-    }
-    function rotateAllArrows() {
-        if (!allArrowsUp) {
-            arrowsUp.forEach((arrow, i) => {
-                if(arrow===false){
-                arrowsUp[i] = !arrow;}
-            });
-            allArrowsUp = !allArrowsUp;
-        } else{
-            arrowsUp.forEach((arrow, i) => {
-                if(arrow===true){
-                arrowsUp[i] = !arrow;}
-            });
-            allArrowsUp = !allArrowsUp;
-        }
-    }
-
     console.log(transactionGroups);
 </script>
 
 {#if isValidXdr}
+    <div class="simple-signer language-container">
+        <button class="simple-signer language-button"><img src={languageIcon} alt="*" /></button>
+        <button class="simple-signer xmark-button"><img src={xMarkIcon} alt="*" /></button>
+    </div>
     <div class="simple-signer sign-container">
         <div class="simple-signer tx-container">
             <h1 class="simple-signer tx-title">{$language.SIGN}</h1>
@@ -231,6 +239,46 @@
         align-items: flex-start;
     }
 
+    .language-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        margin-right: 11px;
+    }
+
+    .language-button {
+        margin-top: 11px;
+    }
+
+    .xmark-button {
+        margin-top: 10px;
+    }
+
+    .language-button img {
+        height: 21px;
+    }
+
+    .xmark-button img {
+        height: 23px;
+    }
+
+    .language-container button {
+        height: 0;
+        border: none;
+        margin-left: 8px;
+        padding: 0;
+        background-color: transparent;
+    }
+
+    .language-container img {
+        filter: invert(51%) sepia(0%) saturate(1810%) hue-rotate(221deg) brightness(89%) contrast(89%);
+    }
+
+    .language-container button:hover {
+        cursor: pointer;
+        color: red;
+    }
+
     .operation-head button {
         border: none;
         margin-top: -2px;
@@ -249,6 +297,7 @@
     .sign-container {
         display: flex;
         justify-content: space-around;
+        flex-direction: column;
         margin-left: 30px;
         margin-right: 30px;
     }
@@ -262,7 +311,7 @@
         background: #ffffff00 0% 0% no-repeat padding-box;
         opacity: 1;
         width: 100%;
-        margin-top: 30px;
+        margin-top: 20px;
     }
 
     .tx-separator {
