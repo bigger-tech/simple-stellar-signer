@@ -20,7 +20,8 @@
     import type { OperationComponent } from './operations/OperationComponent';
     import OperationsGroup from './operations/OperationsGroup.svelte';
     import groupOperationComponents from './transactionGroupHelper';
-    import { getShortedStellarKey } from './transactionHelper';
+    import { allAreFalse, allAreTrue, getShortedStellarKey } from './transactionHelper';
+    import { operationsExpanded, operationsVisibility } from './transactionStore';
 
     export let transactionMessage: ITransactionMessage;
     const storage = new LocalStorage();
@@ -41,35 +42,18 @@
     let shortedSourceAccount: string;
     let isValidXdr = false;
 
-    let arrowsUp: boolean[] = [];
-    let allArrowsUp = false;
-
-    function registerArrows() {
-        transactionGroups.forEach(() => {
-            arrowsUp.push(false);
-        });
+    function toggleOperationVisibility(i: number) {
+        $operationsVisibility[i] = !$operationsVisibility[i];
     }
-    registerArrows();
 
-    function rotateArrow(i: number) {
-        arrowsUp[i] = !arrowsUp[i];
-    }
-    function rotateAllArrows() {
-        if (!allArrowsUp) {
-            arrowsUp.forEach((arrow, i) => {
-                if (arrow === false) {
-                    arrowsUp[i] = !arrow;
-                }
-            });
-            allArrowsUp = !allArrowsUp;
-        } else {
-            arrowsUp.forEach((arrow, i) => {
-                if (arrow === true) {
-                    arrowsUp[i] = !arrow;
-                }
-            });
-            allArrowsUp = !allArrowsUp;
+    function toggleOperationsVisibility() {
+        if (allAreFalse($operationsVisibility) || !$operationsExpanded) {
+            $operationsExpanded = true;
+        } else if (allAreTrue($operationsVisibility) || $operationsExpanded) {
+            $operationsExpanded = false;
         }
+
+        $operationsVisibility = $operationsVisibility.map(() => $operationsExpanded);
     }
 
     try {
@@ -95,7 +79,7 @@
         }
     }
 
-    console.log(transactionGroups);
+    $operationsVisibility = transactionGroups.map(() => false);
 </script>
 
 {#if isValidXdr}
@@ -133,8 +117,8 @@
                 <div class="simple-signer operations-container">
                     <div class="operation-list-title-container">
                         <h1 class="simple-signer tx-operation-list-title">Lista de Operaciones</h1>
-                        <a class="simple-signer expand-all-button" on:click={rotateAllArrows} href="#"
-                            ><span>{allArrowsUp ? 'Hide all' : 'Expand all'}</span></a
+                        <a class="simple-signer expand-all-button" on:click={toggleOperationsVisibility} href="#"
+                            ><span>{$operationsExpanded ? 'Hide all' : 'Expand all'}</span></a
                         >
                     </div>
                     <div class="simple-signer operation-list-container">
@@ -145,11 +129,15 @@
                                 </h3>
                                 <button
                                     on:click={() => {
-                                        rotateArrow(i);
-                                    }}><i class="arrow down {arrowsUp[i] ? 'spin-up' : ''}" /></button
+                                        toggleOperationVisibility(i);
+                                    }}><i class="arrow {$operationsVisibility[i] ? 'spin-up' : ''}" /></button
                                 >
                             </div>
-                            <div class="simple-signer tx-operation-container {arrowsUp[i] ? 'show-operation' : ''}">
+                            <div
+                                class="simple-signer tx-operation-container {$operationsVisibility[i]
+                                    ? 'show-operation'
+                                    : ''}"
+                            >
                                 {#if 'description' in group}
                                     <OperationsGroup
                                         description={group.description}
@@ -215,12 +203,10 @@
         display: inline-block;
         padding: 3px;
         transition: transform 0.3s;
-    }
-
-    .down {
         transform: rotate(45deg);
         -webkit-transform: rotate(45deg);
     }
+
     .expand-all-button {
         color: #2f69b7;
         text-align: left;

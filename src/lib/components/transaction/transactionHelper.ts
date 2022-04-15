@@ -5,3 +5,11 @@ export function getShortedStellarKey(string: string) {
         throw new Error();
     }
 }
+
+export function allAreTrue(arr: boolean[]) {
+    return arr.every((element) => element === true);
+}
+
+export function allAreFalse(arr: boolean[]) {
+    return arr.every((element) => element === false);
+}
