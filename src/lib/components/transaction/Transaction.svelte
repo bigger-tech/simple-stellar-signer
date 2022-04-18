@@ -47,13 +47,14 @@
     }
 
     function toggleOperationsVisibility() {
-        if (allAreFalse($operationsVisibility) || !$operationsExpanded) {
-            $operationsExpanded = true;
-        } else if (allAreTrue($operationsVisibility) || $operationsExpanded) {
-            $operationsExpanded = false;
-        }
-
+        $operationsExpanded = !$operationsExpanded;
         $operationsVisibility = $operationsVisibility.map(() => $operationsExpanded);
+    }
+
+    $: if (allAreFalse($operationsVisibility)) {
+        $operationsExpanded = false;
+    } else if (allAreTrue($operationsVisibility)) {
+        $operationsExpanded = true;
     }
 
     try {
@@ -190,6 +191,10 @@
 
     p {
         margin: 0;
+    }
+
+    a {
+        text-decoration: none;
     }
 
     .show-operation {
