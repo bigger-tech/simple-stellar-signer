@@ -2,7 +2,6 @@
     import { Transaction, xdr } from 'stellar-sdk';
     import { Link } from 'svelte-navigator';
 
-    import languageIcon from '../../../assets/icons/language.svg';
     import { language } from '../../../store/global';
     import Bridge from '../../bridge/Bridge';
     import type { ITransactionMessage } from '../../bridge/transactionMessage/ITransactionMessage';
@@ -10,6 +9,7 @@
     import LocalStorage from '../../storage/storage';
     import type IWallet from '../../wallets/IWallet';
     import WalletFactory from '../../wallets/WalletFactory';
+    import Language from '../language/Language.svelte';
     import type { IOperationComponentGroup } from './IOperationComponentGroup';
     import Signatures from './Signatures.svelte';
     import InsufficientOperationsError from './errors/InsufficientOperationsError';
@@ -20,7 +20,7 @@
     import OperationsGroup from './operations/OperationsGroup.svelte';
     import groupOperationComponents from './transactionGroupHelper';
     import { checkIfAllAreFalse, checkIfAllAreTrue, getShortedStellarKey } from './transactionHelper';
-    import { areOperationsExpanded, isLanguageMenuVisible, operationsVisibility } from './transactionStore';
+    import { areOperationsExpanded, operationsVisibility } from './transactionStore';
 
     export let transactionMessage: ITransactionMessage;
     const storage = new LocalStorage();
@@ -56,10 +56,6 @@
         $areOperationsExpanded = true;
     }
 
-    function toggleLanguageMenu() {
-        $isLanguageMenuVisible = !$isLanguageMenuVisible;
-    }
-
     try {
         isValidXdr = xdr.TransactionEnvelope.validateXDR(transactionMessage.xdr, 'base64');
         tx = new Transaction(transactionMessage.xdr, CURRENT_NETWORK_PASSPHRASE);
@@ -87,22 +83,8 @@
 </script>
 
 <!-- svelte-ignore a11y-invalid-attribute -->
-<!-- svelte-ignore a11y-mouse-events-have-key-events -->
 {#if isValidXdr}
-    <div class="simple-signer language-container">
-        <div
-            on:mouseover={toggleLanguageMenu}
-            on:mouseout={toggleLanguageMenu}
-            class="simple-signer language-container-icon"
-        >
-            <img class="simple-signer language-icon" src={languageIcon} alt="*" />
-
-            <div class="simple-signer language-selector-container {$isLanguageMenuVisible ? '' : 'hidden'}">
-                <a class="active" href="#">English</a>
-                <a class="default" href="#">Spanish</a>
-            </div>
-        </div>
-    </div>
+    <Language />
     <div class="simple-signer sign-container">
         <div class="simple-signer tx-container">
             <h1 class="simple-signer tx-title">{$language.SIGN}</h1>
@@ -208,57 +190,6 @@
         margin: 0;
     }
 
-    a {
-        text-decoration: none;
-    }
-
-    .language-container-icon {
-        margin-top: 7px;
-        display: flex;
-        flex-direction: column;
-        align-items: flex-end;
-        justify-content: space-between;
-    }
-
-    .language-selector-container {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        position: absolute;
-        background: #ffffff 0% 0% no-repeat padding-box;
-        border-radius: 6px;
-        min-width: 90px;
-        box-shadow: 3px 3px 8px #00000029;
-        z-index: 1;
-        margin-top: 20px;
-    }
-
-    .language-selector-container a {
-        font-size: 14px;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
-            'Helvetica Neue', sans-serif;
-
-        margin-bottom: 12px;
-    }
-
-    .language-selector-container a:first-child {
-        margin-top: 12px;
-    }
-
-    .active {
-        font-weight: bold;
-        color: #2f69b7;
-    }
-
-    .default {
-        color: #757575;
-        font-weight: 500;
-    }
-
-    .hidden {
-        display: none;
-    }
-
     .show-operation {
         max-height: 300px !important;
         margin-bottom: 25px;
@@ -290,21 +221,6 @@
         flex-direction: row;
         justify-content: space-between;
         align-items: flex-start;
-    }
-
-    .language-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
-        margin-right: 11px;
-    }
-
-    .language-icon {
-        height: 21px;
-    }
-
-    .language-container img {
-        filter: invert(51%) sepia(0%) saturate(1810%) hue-rotate(221deg) brightness(89%) contrast(89%);
     }
 
     .operation-head button {
