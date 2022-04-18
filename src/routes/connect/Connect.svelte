@@ -1,5 +1,6 @@
 <script lang="ts">
     import Bridge from '../../lib/bridge/Bridge';
+    import Language from '../../lib/components/language/Language.svelte';
     import Wallets from '../../lib/components/wallets/Wallets.svelte';
     import type IWallet from '../../lib/wallets/IWallet';
     import { language } from '../../store/global';
@@ -30,6 +31,7 @@
     bridge.sendOnReadyEvent();
 </script>
 
+<Language />
 <div class="simple-signer-container">
     <div class="simple-signer-wallets">
         <span class="simple-signer {$language.SELECT_WALLET.replace(/ /g, '-').toLowerCase()}"

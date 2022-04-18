@@ -247,15 +247,13 @@
     }
 
     .tx-container {
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
-            'Helvetica Neue', sans-serif;
+        font-family: 'Roboto', sans-serif;
         top: 107px;
         left: 977px;
         width: 100%;
         background: #ffffff00 0% 0% no-repeat padding-box;
         opacity: 1;
         width: 100%;
-        margin-top: 20px;
     }
 
     .tx-separator {
@@ -374,8 +372,7 @@
     .confirmation-buttons button {
         width: 140px;
         height: 39px;
-        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
-            'Helvetica Neue', sans-serif;
+        font-family: 'Roboto', sans-serif;
         font-size: 16px;
         font-weight: bold;
         box-shadow: 0px 4px 2px #00000029;
