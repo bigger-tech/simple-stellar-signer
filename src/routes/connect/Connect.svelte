@@ -2,6 +2,7 @@
     import Bridge from '../../lib/bridge/Bridge';
     import Wallets from '../../lib/components/wallets/Wallets.svelte';
     import type IWallet from '../../lib/wallets/IWallet';
+    import { language } from '../../store/global';
     import { postMessageWallets, urlOrDefaultWallets, wallets } from './connectStore';
 
     const parent = window.opener;
@@ -31,6 +32,9 @@
 
 <div class="simple-signer-container">
     <div class="simple-signer-wallets">
+        <span class="simple-signer {$language.SELECT_WALLET.replace(/ /g, '-').toLowerCase()}"
+            >{$language.SELECT_WALLET}</span
+        >
         {#if $urlOrDefaultWallets}
             <Wallets on:connect={handleOnConnect} wallets={$wallets} />
         {/if}
@@ -41,6 +45,18 @@
 </div>
 
 <style>
+    .seleccionar-wallet {
+        margin-right: 141px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
+    .select-wallet {
+        margin-right: 190px;
+        font-family: 'Roboto', sans-serif;
+        font-weight: 600;
+        text-transform: uppercase;
+    }
     .simple-signer-container {
         display: flex;
         justify-content: center;
@@ -50,6 +66,6 @@
         flex-wrap: wrap;
         justify-content: space-evenly;
         text-align: center;
-        width: 290px;
+        width: 310px;
     }
 </style>

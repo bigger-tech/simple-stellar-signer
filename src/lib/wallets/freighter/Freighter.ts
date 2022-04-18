@@ -1,4 +1,4 @@
-import { getPublicKey, signTransaction } from '@stellar/freighter-api';
+import { getPublicKey, isConnected, signTransaction } from '@stellar/freighter-api';
 import type { Transaction } from 'stellar-sdk';
 
 import { freighter } from '../../../assets';
@@ -12,6 +12,7 @@ type FreighterNetwork = 'PUBLIC' | 'TESTNET';
 export default class Freighter extends AbstractWallet implements IWallet {
     public static NAME = 'freighter';
     public static FRIENDLY_NAME = 'Freighter';
+    public static freighterExtension = 'https://www.freighter.app/';
     public freighterNetwork: FreighterNetwork;
 
     constructor(storage: IStorage) {
@@ -44,5 +45,20 @@ export default class Freighter extends AbstractWallet implements IWallet {
 
     public override getImage(): string {
         return freighter;
+    }
+
+    public override getExtension(): string {
+        return Freighter.freighterExtension;
+    }
+
+    public override isInstalled(): Promise<boolean> {
+        const freighterPromise: Promise<boolean> = new Promise((resolve) => {
+            if (isConnected()) {
+                resolve(true);
+            } else {
+                resolve(false);
+            }
+        });
+        return freighterPromise;
     }
 }

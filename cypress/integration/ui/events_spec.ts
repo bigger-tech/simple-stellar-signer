@@ -11,7 +11,7 @@ describe('Events', () => {
         cy.window().then((win) => {
             win.postMessage({ wallets: ['xbull'] }, '*');
         });
-        cy.get('.simple-signer-wallets').children().should('have.length', 1);
+        cy.get('.simple-signer-wallets').last().should('have.length', 1);
     });
 
     it('should render a transaction, with groups and description', () => {
