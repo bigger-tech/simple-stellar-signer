@@ -3,7 +3,6 @@
     import { Link } from 'svelte-navigator';
 
     import languageIcon from '../../../assets/icons/language.svg';
-    import xMarkIcon from '../../../assets/icons/xmark.svg';
     import { language } from '../../../store/global';
     import Bridge from '../../bridge/Bridge';
     import type { ITransactionMessage } from '../../bridge/transactionMessage/ITransactionMessage';
@@ -20,8 +19,8 @@
     import type { OperationComponent } from './operations/OperationComponent';
     import OperationsGroup from './operations/OperationsGroup.svelte';
     import groupOperationComponents from './transactionGroupHelper';
-    import { allAreFalse, allAreTrue, getShortedStellarKey } from './transactionHelper';
-    import { operationsExpanded, operationsVisibility } from './transactionStore';
+    import { checkIfAllAreFalse, checkIfAllAreTrue, getShortedStellarKey } from './transactionHelper';
+    import { areOperationsExpanded, isLanguageMenuVisible, operationsVisibility } from './transactionStore';
 
     export let transactionMessage: ITransactionMessage;
     const storage = new LocalStorage();
@@ -47,14 +46,18 @@
     }
 
     function toggleOperationsVisibility() {
-        $operationsExpanded = !$operationsExpanded;
-        $operationsVisibility = $operationsVisibility.map(() => $operationsExpanded);
+        $areOperationsExpanded = !$areOperationsExpanded;
+        $operationsVisibility = $operationsVisibility.map(() => $areOperationsExpanded);
     }
 
-    $: if (allAreFalse($operationsVisibility)) {
-        $operationsExpanded = false;
-    } else if (allAreTrue($operationsVisibility)) {
-        $operationsExpanded = true;
+    $: if (checkIfAllAreFalse($operationsVisibility)) {
+        $areOperationsExpanded = false;
+    } else if (checkIfAllAreTrue($operationsVisibility)) {
+        $areOperationsExpanded = true;
+    }
+
+    function toggleLanguageMenu() {
+        $isLanguageMenuVisible = !$isLanguageMenuVisible;
     }
 
     try {
@@ -83,10 +86,22 @@
     $operationsVisibility = transactionGroups.map(() => false);
 </script>
 
+<!-- svelte-ignore a11y-invalid-attribute -->
+<!-- svelte-ignore a11y-mouse-events-have-key-events -->
 {#if isValidXdr}
     <div class="simple-signer language-container">
-        <button class="simple-signer language-button"><img src={languageIcon} alt="*" /></button>
-        <button class="simple-signer xmark-button"><img src={xMarkIcon} alt="*" /></button>
+        <div
+            on:mouseover={toggleLanguageMenu}
+            on:mouseout={toggleLanguageMenu}
+            class="simple-signer language-container-icon"
+        >
+            <img class="simple-signer language-icon" src={languageIcon} alt="*" />
+
+            <div class="simple-signer language-selector-container {$isLanguageMenuVisible ? '' : 'hidden'}">
+                <a class="active" href="#">English</a>
+                <a class="default" href="#">Spanish</a>
+            </div>
+        </div>
     </div>
     <div class="simple-signer sign-container">
         <div class="simple-signer tx-container">
@@ -119,7 +134,7 @@
                     <div class="operation-list-title-container">
                         <h1 class="simple-signer tx-operation-list-title">Lista de Operaciones</h1>
                         <a class="simple-signer expand-all-button" on:click={toggleOperationsVisibility} href="#"
-                            ><span>{$operationsExpanded ? 'Hide all' : 'Expand all'}</span></a
+                            ><span>{$areOperationsExpanded ? 'Hide all' : 'Expand all'}</span></a
                         >
                     </div>
                     <div class="simple-signer operation-list-container">
@@ -197,6 +212,53 @@
         text-decoration: none;
     }
 
+    .language-container-icon {
+        margin-top: 7px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-end;
+        justify-content: space-between;
+    }
+
+    .language-selector-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        position: absolute;
+        background: #ffffff 0% 0% no-repeat padding-box;
+        border-radius: 6px;
+        min-width: 90px;
+        box-shadow: 3px 3px 8px #00000029;
+        z-index: 1;
+        margin-top: 20px;
+    }
+
+    .language-selector-container a {
+        font-size: 14px;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans',
+            'Helvetica Neue', sans-serif;
+
+        margin-bottom: 12px;
+    }
+
+    .language-selector-container a:first-child {
+        margin-top: 12px;
+    }
+
+    .active {
+        font-weight: bold;
+        color: #2f69b7;
+    }
+
+    .default {
+        color: #757575;
+        font-weight: 500;
+    }
+
+    .hidden {
+        display: none;
+    }
+
     .show-operation {
         max-height: 300px !important;
         margin-bottom: 25px;
@@ -237,37 +299,12 @@
         margin-right: 11px;
     }
 
-    .language-button {
-        margin-top: 11px;
-    }
-
-    .xmark-button {
-        margin-top: 10px;
-    }
-
-    .language-button img {
+    .language-icon {
         height: 21px;
-    }
-
-    .xmark-button img {
-        height: 23px;
-    }
-
-    .language-container button {
-        height: 0;
-        border: none;
-        margin-left: 8px;
-        padding: 0;
-        background-color: transparent;
     }
 
     .language-container img {
         filter: invert(51%) sepia(0%) saturate(1810%) hue-rotate(221deg) brightness(89%) contrast(89%);
-    }
-
-    .language-container button:hover {
-        cursor: pointer;
-        color: red;
     }
 
     .operation-head button {
