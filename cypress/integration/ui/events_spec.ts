@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 /// <reference types="@testing-library/cypress"/>
 import { operationsXdr } from '../../fixtures/operations.json';
+
 const operationGroupDescription = 'This is a merge account operation';
 const operationDescription = 'This is a transaction';
 

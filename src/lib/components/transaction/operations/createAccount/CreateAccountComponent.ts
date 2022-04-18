@@ -1,7 +1,8 @@
-import type { Operation, Transaction } from 'stellar-sdk';
 import type { ITranslation } from 'src/lib/i18n/ITranslation';
-import type IOperationComponent from '../IOperationComponent';
+import type { Operation, Transaction } from 'stellar-sdk';
+
 import AbstractOperationComponent from '../AbstractOperationComponent';
+import type IOperationComponent from '../IOperationComponent';
 
 export default class CreateAccountComponent extends AbstractOperationComponent implements IOperationComponent {
     constructor(language: ITranslation, tx: Transaction, operation: Operation.CreateAccount) {

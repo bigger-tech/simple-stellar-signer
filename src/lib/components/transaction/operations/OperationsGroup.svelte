@@ -1,6 +1,7 @@
 <script lang="ts">
     import type IOperationComponent from './IOperationComponent';
     import Operation from './Operation.svelte';
+
     export let description: string;
     export let operationComponents: IOperationComponent[];
 </script>

@@ -1,7 +1,8 @@
-import type { Operation, Transaction } from 'stellar-sdk';
-import type { OperationComponent } from './OperationComponent';
 import type { ITranslation } from 'src/lib/i18n/ITranslation';
+import type { Operation, Transaction } from 'stellar-sdk';
+
 import InvalidComponentTypeError from '../errors/InvalidComponentTypeError';
+import type { OperationComponent } from './OperationComponent';
 import AccountMergeComponent from './accountMerge/AccountMergeComponent';
 import AllowTrustComponent from './allowTrust/AllowTrustComponent';
 import BeginSponsoringFutureReservesComponent from './beginSponsoringFutureReserves/BeginSponsoringFutureReservesComponent';

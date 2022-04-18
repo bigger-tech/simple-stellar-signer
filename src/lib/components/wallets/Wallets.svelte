@@ -1,5 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
+
     import { language } from '../../../store/global';
     import { removeDuplicates } from '../../utils/utils';
     import type IWallet from '../../wallets/IWallet';
@@ -7,6 +8,7 @@
     import PrivateKey from '../../wallets/privateKey/PrivateKey';
     import Wallet from './Wallet.svelte';
     import { inputValue, isPrivateKeyFormVisible, isPrivateKeyVisible } from './walletsStore';
+
     export let wallets: string[];
     const walletFactory = new WalletFactory();
     const dispatch = createEventDispatcher();

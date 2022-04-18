@@ -1,8 +1,9 @@
 <script lang="ts">
-    import { urlOrDefaultWallets, postMessageWallets, wallets } from './connectStore';
     import Bridge from '../../lib/bridge/Bridge';
     import Wallets from '../../lib/components/wallets/Wallets.svelte';
     import type IWallet from '../../lib/wallets/IWallet';
+    import { postMessageWallets, urlOrDefaultWallets, wallets } from './connectStore';
+
     const parent = window.opener;
 
     const bridge = new Bridge();

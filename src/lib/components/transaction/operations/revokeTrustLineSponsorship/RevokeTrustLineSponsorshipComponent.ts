@@ -1,7 +1,8 @@
-import { Asset, Operation, Transaction } from 'stellar-sdk';
-import type IOperationComponent from '../IOperationComponent';
-import AbstractOperationComponent from '../AbstractOperationComponent';
 import type { ITranslation } from 'src/lib/i18n/ITranslation';
+import { Asset, Operation, Transaction } from 'stellar-sdk';
+
+import AbstractOperationComponent from '../AbstractOperationComponent';
+import type IOperationComponent from '../IOperationComponent';
 
 export default class AllowTrustComponent extends AbstractOperationComponent implements IOperationComponent {
     constructor(language: ITranslation, tx: Transaction, operation: Operation.RevokeTrustlineSponsorship) {

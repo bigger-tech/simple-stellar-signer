@@ -1,4 +1,5 @@
 import type IDecryptableValue from './IDecryptableValue';
+
 let INITIALIZATION_VECTORS: Uint8Array;
 
 export async function decryptValue(decryptableValue: IDecryptableValue): Promise<string> {
