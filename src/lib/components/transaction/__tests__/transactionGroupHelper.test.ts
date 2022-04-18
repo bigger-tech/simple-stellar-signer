@@ -35,9 +35,9 @@ it('should recieve an array with grouped components var1', () => {
 
     const result = groupOperationComponents(operations, groups);
     expect(result).toStrictEqual([
-        { description: 'test', operationComponents: ['op0', 'op1'] },
-        { description: 'test', operationComponents: ['op2', 'op3'] },
-        { description: 'test', operationComponents: ['op4', 'op5'] },
+        { title: 'test', description: 'test', operationComponents: ['op0', 'op1'] },
+        { title: 'test', description: 'test', operationComponents: ['op2', 'op3'] },
+        { title: 'test', description: 'test', operationComponents: ['op4', 'op5'] },
         'op6',
     ]);
 });
@@ -59,10 +59,10 @@ it('should recieve an array with grouped components var2', () => {
     ];
     const result = groupOperationComponents(operations, groups);
     expect(result).toStrictEqual([
-        { description: 'test', operationComponents: ['op0', 'op1'] },
+        { title: 'test', description: 'test', operationComponents: ['op0', 'op1'] },
         'op2',
         'op3',
-        { description: 'test', operationComponents: ['op4', 'op5'] },
+        { title: 'test', description: 'test', operationComponents: ['op4', 'op5'] },
         'op6',
     ]);
 });
@@ -79,7 +79,7 @@ it('should recieve an array with grouped components var3', () => {
     const result = groupOperationComponents(operations, groups);
     expect(result).toStrictEqual([
         'op0',
-        { description: 'test', operationComponents: ['op1', 'op2'] },
+        { title: 'test', description: 'test', operationComponents: ['op1', 'op2'] },
         'op3',
         'op4',
         'op5',
