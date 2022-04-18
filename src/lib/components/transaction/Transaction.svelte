@@ -241,7 +241,6 @@
     .sign-container {
         display: flex;
         justify-content: space-around;
-        flex-direction: column;
         margin-left: 30px;
         margin-right: 30px;
         flex-direction: column;
