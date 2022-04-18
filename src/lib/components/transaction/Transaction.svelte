@@ -244,16 +244,18 @@
         flex-direction: column;
         margin-left: 30px;
         margin-right: 30px;
+        flex-direction: column;
+        align-items: center;
     }
 
     .tx-container {
         font-family: 'Roboto', sans-serif;
         top: 107px;
         left: 977px;
-        width: 100%;
         background: #ffffff00 0% 0% no-repeat padding-box;
         opacity: 1;
         width: 100%;
+        max-width: 360px;
     }
 
     .tx-separator {
