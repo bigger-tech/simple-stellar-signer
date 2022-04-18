@@ -265,8 +265,6 @@
     }
 
     :global(.tx-description-container) {
-        top: 183px;
-        left: 1008px;
         width: 100%;
         background: #f5f5f5 0% 0% no-repeat padding-box;
         opacity: 1;
