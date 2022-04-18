@@ -51,6 +51,11 @@
             publicKey,
         });
     }
+
+    function clearPrivateKeyInput() {
+        $isPrivateKeyFormVisible = !$isPrivateKeyFormVisible;
+        $inputValue = '';
+    }
 </script>
 
 {#if $isPrivateKeyFormVisible}
@@ -89,9 +94,7 @@
                     /></button
                 >
                 <div class="simple-signer btn-form">
-                    <button
-                        class="simple-signer cancel-btn"
-                        on:click={() => ($isPrivateKeyFormVisible = !$isPrivateKeyFormVisible)}
+                    <button class="simple-signer cancel-btn" on:click={() => clearPrivateKeyInput()}
                         >{$language.CANCEL}</button
                     >
                     <button class="simple-signer connect-btn" on:click={() => connectWithPrivateKey($inputValue)}>
