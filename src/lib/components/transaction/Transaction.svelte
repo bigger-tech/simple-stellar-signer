@@ -84,8 +84,8 @@
 
 <!-- svelte-ignore a11y-invalid-attribute -->
 {#if isValidXdr}
-    <Language />
     <div class="simple-signer sign-container">
+        <Language />
         <div class="simple-signer tx-container">
             <h1 class="simple-signer tx-title">{$language.SIGN}</h1>
             {#if transactionMessage.description}
@@ -174,18 +174,6 @@
 {/if}
 
 <style>
-    hr {
-        padding: 0;
-    }
-
-    :global(body::-webkit-scrollbar) {
-        display: none;
-    }
-
-    :global(body) {
-        margin: 0;
-    }
-
     p {
         margin: 0;
     }
@@ -211,6 +199,11 @@
         min-width: fit-content;
         font-size: 12px;
     }
+
+    .expand-all-button span {
+        margin-right: 10px;
+    }
+
     .spin-up {
         transform: rotate(-135deg);
         -webkit-transform: rotate(-135deg);
@@ -241,8 +234,6 @@
     .sign-container {
         display: flex;
         justify-content: space-around;
-        margin-left: 30px;
-        margin-right: 30px;
         flex-direction: column;
         align-items: center;
     }
@@ -253,8 +244,8 @@
         left: 977px;
         background: #ffffff00 0% 0% no-repeat padding-box;
         opacity: 1;
-        width: 100%;
-        max-width: 360px;
+        width: 85%;
+        max-width: 316px;
     }
 
     .tx-separator {
@@ -283,7 +274,7 @@
     .tx-network-container {
         display: flex;
         flex-direction: row;
-        margin-bottom: 8px;
+        margin-bottom: 10px;
     }
 
     .tx-network-text {
@@ -321,7 +312,7 @@
     }
 
     .tx-operation-list-title {
-        margin-top: 31px;
+        margin-top: 33px;
         margin-bottom: 23px;
         font-size: 14px;
         text-transform: uppercase;

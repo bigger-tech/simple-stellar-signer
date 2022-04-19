@@ -9,11 +9,12 @@
 
 <!-- svelte-ignore a11y-mouse-events-have-key-events -->
 <!-- svelte-ignore a11y-invalid-attribute -->
+
 <div class="simple-signer language-container">
     <div
         on:mouseover={toggleLanguageMenu}
         on:mouseout={toggleLanguageMenu}
-        class="simple-signer language-container-icon"
+        class="simple-signer language-container-icon  {$isLanguageMenuVisible ? 'active' : ''}"
     >
         <img class="simple-signer language-icon" src={languageIcon} alt="*" />
 
@@ -25,12 +26,9 @@
 </div>
 
 <style>
-    :global(a) {
-        text-decoration: none;
-    }
-
     .language-container-icon {
         margin-top: 7px;
+        margin-right: 10px;
         display: flex;
         flex-direction: column;
         align-items: flex-end;
@@ -78,7 +76,8 @@
         display: flex;
         flex-direction: row;
         justify-content: flex-end;
-        margin-right: 11px;
+        max-width: 360px;
+        width: 100%;
     }
 
     .language-icon {
@@ -87,5 +86,9 @@
 
     .language-container img {
         filter: invert(51%) sepia(0%) saturate(1810%) hue-rotate(221deg) brightness(89%) contrast(89%);
+    }
+
+    .active img {
+        filter: brightness(0%);
     }
 </style>

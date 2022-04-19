@@ -31,8 +31,8 @@
     bridge.sendOnReadyEvent();
 </script>
 
-<Language />
 <div class="simple-signer-container">
+    <Language />
     <div class="simple-signer-wallets">
         <span class="simple-signer {$language.SELECT_WALLET.replace(/ /g, '-').toLowerCase()}"
             >{$language.SELECT_WALLET}</span
@@ -62,6 +62,8 @@
     .simple-signer-container {
         display: flex;
         justify-content: center;
+        flex-direction: column;
+        align-items: center;
     }
     .simple-signer-wallets {
         display: flex;

@@ -22,6 +22,7 @@
 <style>
     :global(.operation-info p) {
         margin: 0;
+        margin-bottom: 5px;
     }
 
     :global(.operation-info) {
@@ -40,8 +41,9 @@
     }
 
     .break-key {
-        word-wrap: break-word;
+        word-break: break-all;
         letter-spacing: 0.14px;
+        line-height: 21px;
         color: #757575;
         opacity: 1;
     }
