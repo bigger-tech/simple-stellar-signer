@@ -22,7 +22,7 @@
 <style>
     :global(.operation-info p) {
         margin: 0;
-        margin-bottom: 5px;
+        margin-bottom: 7px;
     }
 
     :global(.operation-info) {

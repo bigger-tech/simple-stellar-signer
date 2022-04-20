@@ -45,6 +45,7 @@
 
     .operation-group-description p {
         letter-spacing: 0.14px;
+        margin: 0;
         color: #757575;
         opacity: 1;
     }
