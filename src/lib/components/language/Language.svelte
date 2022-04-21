@@ -68,6 +68,10 @@
         font-weight: 500;
     }
 
+    .default:hover {
+        font-weight: bold;
+    }
+
     .hidden {
         display: none;
     }

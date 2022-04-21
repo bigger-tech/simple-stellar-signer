@@ -139,6 +139,7 @@
                                     }}><i class="arrow {$operationsVisibility[i] ? 'spin-up' : ''}" /></button
                                 >
                             </div>
+                            <!-- <div class="operation-separator" /> -->
                             <div
                                 class="simple-signer operation-border {$operationsVisibility[i]
                                     ? 'operation-show-margin'
@@ -159,6 +160,7 @@
                                     {/if}
                                 </div>
                             </div>
+                            <!-- <div class="operation-separator" /> -->
                         {/each}
                     </div>
                 </div>
@@ -192,17 +194,22 @@
         margin: 0;
     }
 
-    /* .show-operation {
-        transition: all 0.3s ease-in-out;
-        
-    } */
+    .operation-border {
+        transition: all 0.2s linear;
+        border-left: 2px solid #e5e5e5;
+    }
+
+    .operation-show-margin {
+        margin-top: 15px;
+    }
 
     .tx-operation-container {
         overflow: auto;
         position: relative;
         font-size: 14px;
+        margin-bottom: 15px;
         max-height: 0px;
-        transition: max-height 0.2s linear;
+        transition: all 0.6s ease;
     }
 
     .tx-operation-container::-webkit-scrollbar {
@@ -210,7 +217,7 @@
     }
 
     .tx-operation-container.show-operation {
-        max-height: 600px;
+        max-height: 380px;
     }
 
     .arrow {
@@ -348,24 +355,6 @@
         width: 100%;
     }
 
-    /* .tx-operation-container::after {
-        content: '';
-        height: 100%;
-        width: 2px;
-        position: absolute;
-        top: 6px;
-        background-color: #e5e5e5;
-    } */
-
-    .operation-border {
-        margin-top: 15px;
-        border-left: 2px solid #e5e5e5;
-    }
-
-    .operation-show-margin {
-        margin-bottom: 15px;
-    }
-
     .operation-list-container {
         position: relative;
     }
@@ -411,5 +400,6 @@
     .cancel-button:hover,
     .sign-tx-button:hover {
         opacity: 50%;
+        cursor: pointer;
     }
 </style>
