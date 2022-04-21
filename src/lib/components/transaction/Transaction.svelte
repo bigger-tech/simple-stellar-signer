@@ -35,6 +35,7 @@
     }
 
     let tx: Transaction;
+    let network: string;
 
     let operationComponents: OperationComponent[] = [];
     let transactionGroups: (OperationComponent | IOperationComponentGroup)[] = [];
@@ -59,6 +60,13 @@
     try {
         isValidXdr = xdr.TransactionEnvelope.validateXDR(transactionMessage.xdr, 'base64');
         tx = new Transaction(transactionMessage.xdr, CURRENT_NETWORK_PASSPHRASE);
+
+        if (tx.networkPassphrase === 'Test SDF Network ; September 2015') {
+            network = 'Testnet';
+        } else {
+            network = 'Public';
+        }
+
         shortedSourceAccount = getShortedStellarKey(tx.source);
         const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
 
@@ -96,9 +104,9 @@
             {#if wallet}
                 <div class="simple-signer tx-data-container">
                     <div class="simple-signer tx-network-container">
-                        <p>Network:</p>
+                        <p>{$language.NETWORK}:</p>
                         &nbsp;
-                        <p class="simple-signer tx-network-text">Testnet</p>
+                        <p class="simple-signer tx-network-text">{network}</p>
                     </div>
                     <div class="simple-signer tx-sequence-number">
                         <p class="sequence-number">{$language.SEQUENCE_NUMBER} {tx ? tx.sequence : ''}</p>
@@ -116,7 +124,7 @@
                     <div class="operation-list-title-container">
                         <h1 class="simple-signer tx-operation-list-title">Lista de Operaciones</h1>
                         <a class="simple-signer expand-all-button" on:click={toggleOperationsVisibility} href="#"
-                            ><span>{$areOperationsExpanded ? 'Hide all' : 'Expand all'}</span></a
+                            ><span>{$areOperationsExpanded ? $language.HIDE_ALL : $language.EXPAND_ALL}</span></a
                         >
                     </div>
                     <div class="simple-signer operation-list-container">
@@ -132,18 +140,24 @@
                                 >
                             </div>
                             <div
-                                class="simple-signer tx-operation-container {$operationsVisibility[i]
-                                    ? 'show-operation'
+                                class="simple-signer operation-border {$operationsVisibility[i]
+                                    ? 'operation-show-margin'
                                     : ''}"
                             >
-                                {#if 'description' in group}
-                                    <OperationsGroup
-                                        description={group.description}
-                                        operationComponents={group.operationComponents}
-                                    />
-                                {:else}
-                                    <Operation operationItems={group.props.operationItems} />
-                                {/if}
+                                <div
+                                    class="simple-signer tx-operation-container {$operationsVisibility[i]
+                                        ? 'show-operation'
+                                        : ''}"
+                                >
+                                    {#if 'description' in group}
+                                        <OperationsGroup
+                                            description={group.description}
+                                            operationComponents={group.operationComponents}
+                                        />
+                                    {:else}
+                                        <Operation operationItems={group.props.operationItems} />
+                                    {/if}
+                                </div>
                             </div>
                         {/each}
                     </div>
@@ -155,10 +169,10 @@
                     <p>{tx.fee}</p>
                 </div>
                 <div class="simple-signer confirmation-buttons">
-                    <button class="simple-signer cancel-button">Cancel</button>
+                    <button class="simple-signer cancel-button">{$language.CANCEL}</button>
                     <button
                         class="simple-signer sign-tx-button"
-                        on:click={async () => bridge.sendSignedTx(await wallet.sign(tx))}>Confirm</button
+                        on:click={async () => bridge.sendSignedTx(await wallet.sign(tx))}>{$language.CONFIRM}</button
                     >
                 </div>
             {:else}
@@ -178,9 +192,25 @@
         margin: 0;
     }
 
-    .show-operation {
-        max-height: 300px !important;
-        margin-bottom: 25px;
+    /* .show-operation {
+        transition: all 0.3s ease-in-out;
+        
+    } */
+
+    .tx-operation-container {
+        overflow: auto;
+        position: relative;
+        font-size: 14px;
+        max-height: 0px;
+        transition: max-height 0.2s linear;
+    }
+
+    .tx-operation-container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .tx-operation-container.show-operation {
+        max-height: 600px;
     }
 
     .arrow {
@@ -264,7 +294,6 @@
 
     .operation-title-head {
         margin: 0;
-        margin-bottom: 15px;
         font-size: 14px;
         overflow: hidden;
         white-space: nowrap;
@@ -319,23 +348,22 @@
         width: 100%;
     }
 
-    .tx-operation-container {
-        overflow: hidden;
-        max-height: 0px;
-        transition: max-height 0.3s;
-        position: relative;
-        font-size: 14px;
-    }
-
-    .tx-operation-container::after {
+    /* .tx-operation-container::after {
         content: '';
         height: 100%;
         width: 2px;
-
         position: absolute;
         top: 6px;
-
         background-color: #e5e5e5;
+    } */
+
+    .operation-border {
+        margin-top: 15px;
+        border-left: 2px solid #e5e5e5;
+    }
+
+    .operation-show-margin {
+        margin-bottom: 15px;
     }
 
     .operation-list-container {
@@ -378,5 +406,10 @@
     .sign-tx-button {
         color: #f5f5f5;
         background: #2f69b7 0% 0% no-repeat padding-box;
+    }
+
+    .cancel-button:hover,
+    .sign-tx-button:hover {
+        opacity: 50%;
     }
 </style>
