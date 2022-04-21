@@ -4,8 +4,8 @@ import type { SvelteComponent } from 'svelte';
 import AccountMergeComponentSvelte from './AccountMerge.svelte';
 
 export default class AccountMergeComponent {
-    component: typeof SvelteComponent;
-    props: {
+    public component: typeof SvelteComponent;
+    public props: {
         optionalSource: string | undefined;
         defaultSource: string;
         destination: string;
