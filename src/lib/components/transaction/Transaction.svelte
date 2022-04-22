@@ -212,8 +212,24 @@
         transition: all 0.6s ease;
     }
 
+    .tx-operation-container {
+        direction: rtl;
+    }
+
     .tx-operation-container::-webkit-scrollbar {
-        display: none;
+        width: 5px;
+    }
+
+    .tx-operation-container::-webkit-scrollbar-track {
+        background: none;
+    }
+
+    .tx-operation-container::-webkit-scrollbar-thumb {
+        background: #bfbfbf;
+    }
+
+    .tx-operation-container:hover::-webkit-scrollbar-thumb {
+        background: #888888;
     }
 
     .tx-operation-container.show-operation {

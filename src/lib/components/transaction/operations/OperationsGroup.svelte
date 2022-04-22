@@ -21,6 +21,10 @@
 </div>
 
 <style>
+    .operation-group-container {
+        direction: ltr;
+    }
+
     .operation-group-description {
         margin: 0;
         margin-left: 15px;

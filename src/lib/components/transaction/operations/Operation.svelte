@@ -20,6 +20,10 @@
 </div>
 
 <style>
+    .operation-container {
+        direction: ltr;
+    }
+
     :global(.operation-info p) {
         margin: 0;
         margin-bottom: 7px;
