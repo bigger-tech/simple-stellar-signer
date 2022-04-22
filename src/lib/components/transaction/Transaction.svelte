@@ -10,7 +10,7 @@
     import type IWallet from '../../wallets/IWallet';
     import WalletFactory from '../../wallets/WalletFactory';
     import Language from '../language/Language.svelte';
-    import type { IOperationComponentGroup } from './IOperationComponentGroup';
+    import type { IOperationGroupComponent } from './IOperationGroupComponent';
     import Signatures from './Signatures.svelte';
     import InsufficientOperationsError from './errors/InsufficientOperationsError';
     import InvalidGroupsSortError from './errors/InvalidGroupsSortError';
@@ -38,7 +38,7 @@
     let network: string;
 
     let operationComponents: OperationComponent[] = [];
-    let transactionGroups: (OperationComponent | IOperationComponentGroup)[] = [];
+    let transactionGroups: (OperationComponent | IOperationGroupComponent)[] = [];
     let shortedSourceAccount: string;
     let isValidXdr = false;
 
@@ -139,7 +139,6 @@
                                     }}><i class="arrow {$operationsVisibility[i] ? 'spin-up' : ''}" /></button
                                 >
                             </div>
-                            <!-- <div class="operation-separator" /> -->
                             <div
                                 class="simple-signer operation-border {$operationsVisibility[i]
                                     ? 'operation-show-margin'
@@ -148,7 +147,7 @@
                                 <div
                                     class="simple-signer tx-operation-container {$operationsVisibility[i]
                                         ? 'show-operation'
-                                        : ''}"
+                                        : ''} "
                                 >
                                     {#if 'description' in group}
                                         <OperationsGroup
@@ -160,7 +159,6 @@
                                     {/if}
                                 </div>
                             </div>
-                            <!-- <div class="operation-separator" /> -->
                         {/each}
                     </div>
                 </div>
@@ -204,12 +202,13 @@
     }
 
     .tx-operation-container {
-        overflow: auto;
+        overflow-y: scroll;
         position: relative;
         font-size: 14px;
         margin-bottom: 15px;
         max-height: 0px;
         transition: all 0.6s ease;
+        margin-left: -1px;
     }
 
     .tx-operation-container {

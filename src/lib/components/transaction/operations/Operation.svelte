@@ -31,7 +31,7 @@
 
     :global(.operation-info) {
         margin-bottom: 18px;
-        margin-left: 15px;
+        margin-left: 10px;
     }
 
     :global(.operation-info-title) {
@@ -41,7 +41,7 @@
     :global(.operation-title) {
         margin: 0;
         margin-bottom: 13px;
-        margin-left: 15px;
+        margin-left: 10px;
     }
 
     .break-key {

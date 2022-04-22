@@ -27,7 +27,8 @@
 
     .operation-group-description {
         margin: 0;
-        margin-left: 15px;
+        margin-left: 10px;
+        width: 250px;
     }
 
     ul {
