@@ -28,7 +28,6 @@
     .operation-group-description {
         margin: 0;
         margin-left: 10px;
-        width: 250px;
     }
 
     ul {
