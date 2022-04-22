@@ -201,14 +201,14 @@ describe('operations', () => {
     it('should render end sponsoring future reserves operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${endSponsoringFutureReservesXdr}`);
-        cy.get('.operation-title').contains('End Sponsoring Future Reserves');
+        cy.get('.operation-title-head').contains('End Sponsoring Future Reserves');
         cy.get('.operation-info').contains('Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
     });
 
     it('should render revoke account sponsorship operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${revokeAccountSponsorshipXdr}`);
-        cy.get('.operation-title').contains('Revoke Account Sponsorship');
+        cy.get('.operation-title-head').contains('Revoke Account Sponsorship');
         cy.get('.operation-info').contains('Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
         cy.get('.operation-info').contains('Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
     });
