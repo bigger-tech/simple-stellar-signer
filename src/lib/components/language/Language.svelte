@@ -2,26 +2,43 @@
     import { isLanguageMenuVisible } from './languageStore';
     import languageIcon from '../../../assets/icons/language.svg';
     import { language } from '../../../store/global';
-    import { showMenu, hideMenu } from './languageHelper';
+    import ClickOutside from '../customEvent/ClickOutside.svelte';
+    import { hideMenu } from './languageHelper';
+    let activeLanguage = 'en';
+
+    function toggleMenuVisibility() {
+        $isLanguageMenuVisible = !$isLanguageMenuVisible;
+    }
 </script>
 
 <div class="simple-signer language-container">
-    <div
-        tabindex="-1"
-        on:focus={showMenu}
-        on:blur={hideMenu}
-        class="simple-signer language-container-icon  {$isLanguageMenuVisible ? 'active' : ''}"
-    >
-        <img class="simple-signer language-icon" src={languageIcon} alt="*" />
-
-        <div class="simple-signer language-selector-container {$isLanguageMenuVisible ? '' : 'hidden'}">
-            <button class="language-active">{$language.ENGLISH}</button>
-            <button class="default">{$language.SPANISH}</button>
+    <ClickOutside on:clickoutside={hideMenu}>
+        <div class="simple-signer language-container-icon  {$isLanguageMenuVisible ? 'active' : ''}">
+            <button on:click={toggleMenuVisibility} class="simple-signer invisible-button">
+                <img class="simple-signer language-icon" src={languageIcon} alt="*" />
+            </button>
+            <div class="simple-signer language-selector-container {$isLanguageMenuVisible ? '' : 'hidden'}">
+                <label class={activeLanguage === 'en' ? 'language-active' : 'default'}>
+                    <input type="radio" bind:group={activeLanguage} name="language" value={'en'} />
+                    {$language.ENGLISH}
+                </label>
+                <label class={activeLanguage === 'es' ? 'language-active' : 'default'}>
+                    <input type="radio" bind:group={activeLanguage} name="language" value={'es'} />
+                    {$language.SPANISH}
+                </label>
+            </div>
         </div>
-    </div>
+    </ClickOutside>
 </div>
 
 <style>
+    .invisible-button {
+        padding: 0;
+        border: none;
+        background: none;
+        margin: 0;
+    }
+
     .language-container-icon {
         margin-top: 7px;
         margin-right: 10px;
@@ -44,7 +61,14 @@
         margin-top: 20px;
     }
 
-    .language-selector-container button {
+    .language-selector-container input {
+        margin: 0;
+        padding: 0;
+        border: none;
+        appearance: none;
+    }
+
+    .language-selector-container label {
         font-family: 'Roboto', sans-serif;
         border: none;
         background: none;
@@ -53,7 +77,7 @@
         margin-bottom: 12px;
     }
 
-    .language-selector-container button:first-child {
+    .language-selector-container label:first-child {
         margin-top: 12px;
     }
 
@@ -68,6 +92,10 @@
     }
 
     .default:hover {
+        font-weight: bold;
+    }
+
+    .default:focus {
         font-weight: bold;
     }
 
