@@ -85,7 +85,6 @@ export default class WalletConnect extends AbstractWallet {
         const sessionStorage = getItem('walletConnectSession');
         const sessionParsed = await JSON.parse(sessionStorage!);
 
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         client.on(CLIENT_EVENTS.session.response, async (response: any) => {
             console.log(response, 'ADENTRO DEL LISTENER');
             signedXDR.set(response.response.result.signedXDR);

@@ -5,22 +5,6 @@
     import Connect from './routes/connect/Connect.svelte';
     import Sign from './routes/sign/Sign.svelte';
     import { detectedLanguage, isLanguageLoading } from './store/global';
-
-    // async function getClient() {
-    //     const client = await WalletConnectClient.init({
-    //         projectId: process.env.VITE_WALLET_CONNECT_PROJECT_ID,
-    //         relayUrl: 'wss://relay.walletconnect.org',
-    //         metadata: {
-    //             name: 'Simple Signer #1',
-    //             description: 'Stellar Simple Signer',
-    //             url: 'https://localhost:3001/',
-    //             icons: ['https://walletconnect.com/walletconnect-logo.png'],
-    //         },
-    //     });
-
-    //     window.localStorage.setItem('client', JSON.stringify(client));
-    // }
-    // getClient();
 </script>
 
 {#if $detectedLanguage && !$isLanguageLoading}
