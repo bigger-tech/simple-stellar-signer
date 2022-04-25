@@ -121,7 +121,7 @@
                 <hr class="simple-signer tx-separator" />
                 <div class="simple-signer operations-container">
                     <div class="operation-list-title-container">
-                        <h1 class="simple-signer tx-operation-list-title">Lista de Operaciones</h1>
+                        <h1 class="simple-signer tx-operation-list-title">{$language.OPERATIONS_LIST}</h1>
                         <button class="simple-signer expand-all-button" on:click={toggleOperationsVisibility}
                             ><span>{$areOperationsExpanded ? $language.HIDE_ALL : $language.EXPAND_ALL}</span>
                         </button>
@@ -194,7 +194,7 @@
     .operation-border {
         transition: all 0.2s linear;
         border-left: 2px solid #e5e5e5;
-        margin-top: 20px;
+        margin-top: 27px;
     }
 
     .operation-show-margin.operation-border {

@@ -1,10 +1,16 @@
 <script>
     import { isLanguageMenuVisible } from './languageStore';
     import languageIcon from '../../../assets/icons/language.svg';
-    import { language } from '../../../store/global';
+    import { detectedLanguage, language } from '../../../store/global';
     import ClickOutside from '../customEvent/ClickOutside.svelte';
     import { hideMenu } from './languageHelper';
-    let activeLanguage = 'en';
+    import WalletLanguage from '../../../lib/i18n/WalletLanguage';
+    let activeLanguage = $detectedLanguage;
+    const walletLanguage = new WalletLanguage();
+
+    function changeLanguage() {
+        walletLanguage.changeLanguage(activeLanguage);
+    }
 
     function toggleMenuVisibility() {
         $isLanguageMenuVisible = !$isLanguageMenuVisible;
@@ -18,12 +24,12 @@
                 <img class="simple-signer language-icon" src={languageIcon} alt="*" />
             </button>
             <div class="simple-signer language-selector-container {$isLanguageMenuVisible ? '' : 'hidden'}">
-                <label class={activeLanguage === 'en' ? 'language-active' : 'default'}>
-                    <input type="radio" bind:group={activeLanguage} name="language" value={'en'} />
+                <label class={activeLanguage === 'en' ? 'language-active' : 'default'} on:change={changeLanguage}>
+                    <input bind:group={activeLanguage} value={'en'} type="radio" name="language" />
                     {$language.ENGLISH}
                 </label>
-                <label class={activeLanguage === 'es' ? 'language-active' : 'default'}>
-                    <input type="radio" bind:group={activeLanguage} name="language" value={'es'} />
+                <label class={activeLanguage === 'es' ? 'language-active' : 'default'} on:change={changeLanguage}>
+                    <input bind:group={activeLanguage} value={'es'} type="radio" name="language" />
                     {$language.SPANISH}
                 </label>
             </div>

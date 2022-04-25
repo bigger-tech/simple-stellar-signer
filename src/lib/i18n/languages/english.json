@@ -76,6 +76,7 @@
     "OPERATION_END_SPONSORING_FUTURE_RESERVES": "End Sponsoring Future Reserves",
     "OPERATION_LIQUIDITY_POOL_DEPOSIT": "Liquidity Pool Deposit",
     "OPERATION_LIQUIDITY_POOL_WITHDRAW": "Liquidity Pool Withdraw",
+    "OPERATIONS_LIST": "Operations list",
     "OPERATION_MANAGE_BUY_OFFER": "Manage Buy Offer",
     "OPERATION_MANAGE_DATA": "Manage Data",
     "OPERATION_MANAGE_SELL_OFFER": "Manage Sell Offer",

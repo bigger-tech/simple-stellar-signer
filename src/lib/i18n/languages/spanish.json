@@ -93,6 +93,7 @@
     "OPERATION_SET_TRUSTLINE_FLAGS": "Establecer banderas de la línea de confianza",
     "OPERATION_TYPE": "Operación de tipo:",
     "OPERATION": "Operación:",
+    "OPERATIONS_LIST": "Lista de operaciones",
     "PATH": "Ruta:",
     "PREAUTH_TX": "preAuthTx:",
     "PRICE": "Precio:",

@@ -93,6 +93,7 @@ export interface ITranslation {
     OPERATION_SET_TRUSTLINE_FLAGS: string;
     OPERATION_TYPE: string;
     OPERATION: string;
+    OPERATIONS_LIST: string;
     PATH: string;
     PREAUTH_TX: string;
     PRICE: string;

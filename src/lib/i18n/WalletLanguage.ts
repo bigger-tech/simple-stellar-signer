@@ -1,3 +1,4 @@
+import { language } from '../../store/global';
 import type { ITranslation } from './ITranslation';
 import WalletLanguageFactory from './WalletLanguageFactory';
 
@@ -13,5 +14,10 @@ export default class WalletLanguage {
 
     async getText(): Promise<ITranslation> {
         return await new WalletLanguageFactory().create(this.getLanguage());
+    }
+
+    async changeLanguage(languageISO: string): Promise<void> {
+        const newLanguage = await new WalletLanguageFactory().create(languageISO);
+        language.set(newLanguage);
     }
 }
