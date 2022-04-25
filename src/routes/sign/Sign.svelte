@@ -2,7 +2,8 @@
     import Bridge from '../../lib/bridge/Bridge';
     import Transaction from '../../lib/components/transaction/Transaction.svelte';
     import { language } from '../../store/global';
-    import { transaction, isTransactionVisible } from './signStore';
+    import { isTransactionVisible, transaction } from './signStore';
+
     const parent = window.opener;
     const bridge = new Bridge();
     const urlParams = bridge.getTransactionMessageFromUrl();

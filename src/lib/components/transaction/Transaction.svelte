@@ -16,6 +16,7 @@
     import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
     import type { OperationComponent } from './operations/OperationComponent';
     import groupOperationComponents from './transactionGroupHelper';
+    import signedXDR from './transactionStore';
 
     export let transactionMessage: ITransactionMessage;
 
@@ -56,6 +57,11 @@
             transactionGroups = operationComponents;
         }
     }
+    $: if ($signedXDR) {
+        bridge.sendSignedTx($signedXDR);
+    }
+
+    $: console.log($signedXDR, 'signedXDR en transaction');
 </script>
 
 {#if isValidXdr}
@@ -102,6 +108,7 @@
                     {/if}
                 {/each}
             </div>
+
             <button class="simple-signer sign-tx" on:click={async () => bridge.sendSignedTx(await wallet.sign(tx))}
                 >{$language.SIGN_TRANSACTION} {storedWallet}</button
             >

@@ -5,11 +5,14 @@ import Albedo from './albedo/Albedo';
 import Freighter from './freighter/Freighter';
 import PrivateKey from './privateKey/PrivateKey';
 import Rabet from './rabet/Rabet';
+import WalletConnect from './walletConnect/WalletConnect';
 import XBull from './xBull/XBull';
 
 export default class WalletFactory {
     createAll(): IWallet[] {
-        return [Albedo.NAME, XBull.NAME, Rabet.NAME, Freighter.NAME, PrivateKey.NAME].map(this.create);
+        return [Albedo.NAME, XBull.NAME, Rabet.NAME, Freighter.NAME, WalletConnect.NAME, PrivateKey.NAME].map(
+            this.create,
+        );
     }
 
     create(name: string) {
@@ -27,6 +30,9 @@ export default class WalletFactory {
                 break;
             case Freighter.NAME:
                 wallet = new Freighter(storage);
+                break;
+            case WalletConnect.NAME:
+                wallet = new WalletConnect(storage);
                 break;
             case PrivateKey.NAME:
                 wallet = new PrivateKey(storage);
