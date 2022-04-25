@@ -53,7 +53,6 @@ export default class WalletConnect extends AbstractWallet {
         client.once(CLIENT_EVENTS.pairing.proposal, async (proposal: PairingTypes.Proposal) => {
             const { uri } = proposal.signal.params;
             QRCodeModal.open(uri, 'Scan QR Code');
-            console.log(proposal, 'proposal');
         });
 
         const session = await client.connect({
@@ -86,7 +85,6 @@ export default class WalletConnect extends AbstractWallet {
         const sessionParsed = await JSON.parse(sessionStorage!);
 
         client.on(CLIENT_EVENTS.session.response, async (response: any) => {
-            console.log(response, 'ADENTRO DEL LISTENER');
             signedXDR.set(response.response.result.signedXDR);
         });
 

@@ -60,8 +60,6 @@
     $: if ($signedXDR) {
         bridge.sendSignedTx($signedXDR);
     }
-
-    $: console.log($signedXDR, 'signedXDR en transaction');
 </script>
 
 {#if isValidXdr}
