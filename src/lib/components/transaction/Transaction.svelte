@@ -90,7 +90,6 @@
     $operationsVisibility = transactionGroups.map(() => false);
 </script>
 
-<!-- svelte-ignore a11y-invalid-attribute -->
 {#if isValidXdr}
     <div class="simple-signer sign-container">
         <Language />
@@ -123,9 +122,9 @@
                 <div class="simple-signer operations-container">
                     <div class="operation-list-title-container">
                         <h1 class="simple-signer tx-operation-list-title">Lista de Operaciones</h1>
-                        <a class="simple-signer expand-all-button" on:click={toggleOperationsVisibility} href="#"
-                            ><span>{$areOperationsExpanded ? $language.HIDE_ALL : $language.EXPAND_ALL}</span></a
-                        >
+                        <button class="simple-signer expand-all-button" on:click={toggleOperationsVisibility}
+                            ><span>{$areOperationsExpanded ? $language.HIDE_ALL : $language.EXPAND_ALL}</span>
+                        </button>
                     </div>
                     <div class="simple-signer operation-list-container">
                         {#each transactionGroups as group, i}
@@ -247,6 +246,10 @@
     }
 
     .expand-all-button {
+        font-family: 'Roboto', sans-serif;
+        border: none;
+        background: none;
+        cursor: pointer;
         color: #2f69b7;
         text-align: left;
         min-width: fit-content;

@@ -1,26 +1,22 @@
 <script>
     import { isLanguageMenuVisible } from './languageStore';
     import languageIcon from '../../../assets/icons/language.svg';
-
-    function toggleLanguageMenu() {
-        $isLanguageMenuVisible = !$isLanguageMenuVisible;
-    }
+    import { language } from '../../../store/global';
+    import { showMenu, hideMenu } from './languageHelper';
 </script>
-
-<!-- svelte-ignore a11y-mouse-events-have-key-events -->
-<!-- svelte-ignore a11y-invalid-attribute -->
 
 <div class="simple-signer language-container">
     <div
-        on:mouseover={toggleLanguageMenu}
-        on:mouseout={toggleLanguageMenu}
+        tabindex="-1"
+        on:focus={showMenu}
+        on:blur={hideMenu}
         class="simple-signer language-container-icon  {$isLanguageMenuVisible ? 'active' : ''}"
     >
         <img class="simple-signer language-icon" src={languageIcon} alt="*" />
 
         <div class="simple-signer language-selector-container {$isLanguageMenuVisible ? '' : 'hidden'}">
-            <a class="active" href="#">English</a>
-            <a class="default" href="#">Spanish</a>
+            <button class="language-active">{$language.ENGLISH}</button>
+            <button class="default">{$language.SPANISH}</button>
         </div>
     </div>
 </div>
@@ -48,17 +44,20 @@
         margin-top: 20px;
     }
 
-    .language-selector-container a {
-        font-size: 14px;
+    .language-selector-container button {
         font-family: 'Roboto', sans-serif;
+        border: none;
+        background: none;
+        cursor: pointer;
+        font-size: 14px;
         margin-bottom: 12px;
     }
 
-    .language-selector-container a:first-child {
+    .language-selector-container button:first-child {
         margin-top: 12px;
     }
 
-    .active {
+    .language-active {
         font-weight: bold;
         color: #2f69b7;
     }
@@ -85,6 +84,7 @@
     }
 
     .language-icon {
+        cursor: pointer;
         height: 21px;
     }
 
@@ -93,6 +93,10 @@
     }
 
     .active img {
+        filter: brightness(0%);
+    }
+
+    .language-container-icon img:hover {
         filter: brightness(0%);
     }
 </style>

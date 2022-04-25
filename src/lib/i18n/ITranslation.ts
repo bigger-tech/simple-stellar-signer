@@ -25,6 +25,7 @@ export interface ITranslation {
     DESTINATION: string;
     DISALLOW_TRUST: string;
     ED5519PUBPCKEY: string;
+    ENGLISH: string;
     ERROR: string;
     EXPAND_ALL: string;
     FEE: string;
@@ -110,6 +111,7 @@ export interface ITranslation {
     SIGNATURES: string;
     SIGNER: string;
     SOURCE_ACCOUNT: string;
+    SPANISH: string;
     SPONSORED_ID: string;
     STARTING_BALANCE: string;
     TIME_BOUNDS: string;
