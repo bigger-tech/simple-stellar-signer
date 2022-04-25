@@ -195,17 +195,18 @@
     .operation-border {
         transition: all 0.2s linear;
         border-left: 2px solid #e5e5e5;
+        margin-top: 20px;
     }
 
-    .operation-show-margin {
+    .operation-show-margin.operation-border {
         margin-top: 15px;
+        margin-bottom: 15px;
     }
 
     .tx-operation-container {
         overflow-y: scroll;
         position: relative;
         font-size: 14px;
-        margin-bottom: 15px;
         max-height: 0px;
         transition: all 0.6s ease;
         margin-left: -1px;
@@ -304,7 +305,6 @@
         border: 1px solid #e5e5e5;
         width: 100%;
         margin: 0;
-        margin-top: 12px;
     }
 
     :global(.tx-description-container) {
