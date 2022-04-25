@@ -1,24 +1,29 @@
-import type { Asset, LiquidityPoolAsset, Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
+import { Asset, Operation, Transaction } from 'stellar-sdk';
 
-import ChangeTrustComponentSvelte from './ChangeTrust.svelte';
+import AbstractOperationComponent from '../AbstractOperationComponent';
+import type IOperationComponent from '../IOperationComponent';
 
-export default class ChangeTrustComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        assetType: Asset | LiquidityPoolAsset;
-        limit: string;
-    };
+export default class ChangeTrustComponent extends AbstractOperationComponent implements IOperationComponent {
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.ChangeTrust) {
+        let items: { title: string; value: string }[];
 
-    constructor(tx: Transaction, operation: Operation.ChangeTrust) {
-        this.component = ChangeTrustComponentSvelte;
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            assetType: operation.line,
-            limit: operation.limit,
-        };
+        if (operation.line instanceof Asset) {
+            items = [{ title: language.ASSET, value: operation.line.code }];
+        } else {
+            items = [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.ASSET_A, value: operation.line.assetA.code },
+                { title: language.ASSET_B, value: operation.line.assetB.code },
+            ];
+        }
+
+        items.unshift({ title: language.SOURCE_ACCOUNT, value: operation.source || tx.source });
+        items.push({ title: language.LIMIT, value: operation.limit });
+
+        super({
+            title: language.OPERATION_CHANGE_TRUST,
+            operationItems: items,
+        });
     }
 }

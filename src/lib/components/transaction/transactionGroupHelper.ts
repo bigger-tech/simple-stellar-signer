@@ -1,5 +1,5 @@
 import type { ITransactionMessageComponentGroup } from '../../bridge/transactionMessage/ITransactionMessageComponentGroup';
-import type { IOperationComponentGroup } from './IOperationComponentGroup';
+import type { IOperationGroupComponent } from './IOperationGroupComponent';
 import InsufficientOperationsError from './errors/InsufficientOperationsError';
 import InvalidGroupsSortError from './errors/InvalidGroupsSortError';
 import type { OperationComponent } from './operations/OperationComponent';
@@ -7,7 +7,7 @@ import type { OperationComponent } from './operations/OperationComponent';
 export default function groupOperationComponents(
     operations: OperationComponent[],
     groups: ITransactionMessageComponentGroup[],
-): (OperationComponent | IOperationComponentGroup)[] {
+): (OperationComponent | IOperationGroupComponent)[] {
     const positions = groups
         .map((group) => {
             return [...new Array(group.to - group.from + 1).keys()].map((i) => group.from + i);
@@ -25,7 +25,7 @@ export default function groupOperationComponents(
     }
 
     const lastGroup = groups[groups.length - 1];
-    const transactionGroups: (OperationComponent | IOperationComponentGroup)[] = [];
+    const transactionGroups: (OperationComponent | IOperationGroupComponent)[] = [];
 
     if (lastGroup && !operations[lastGroup.to]) {
         throw new InsufficientOperationsError(operations.length, lastGroup.to);
@@ -42,6 +42,7 @@ export default function groupOperationComponents(
                 } else if (j === groups[i]!.to) {
                     operationComponents.push(operations[j]!);
                     transactionGroups.push({
+                        title: groups[i]!.title,
                         description: groups[i]!.description,
                         operationComponents,
                     });

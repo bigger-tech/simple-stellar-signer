@@ -1,31 +1,21 @@
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
 import type { Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
 
+import AbstractOperationComponent from '../AbstractOperationComponent';
 import type IOperationComponent from '../IOperationComponent';
-import ManageBuyOfferComponentSvelte from './ManageBuyOffer.svelte';
 
-export default class ManageBuyOfferComponent implements IOperationComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        selling: string;
-        buying: string;
-        buyAmount: string;
-        price: string;
-        offerId: string;
-    };
-
-    constructor(tx: Transaction, operation: Operation.ManageBuyOffer) {
-        this.component = ManageBuyOfferComponentSvelte;
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            selling: operation.selling.code,
-            buying: operation.buying.code,
-            buyAmount: operation.buyAmount,
-            price: operation.price,
-            offerId: operation.offerId,
-        };
+export default class ManageBuyOfferComponent extends AbstractOperationComponent implements IOperationComponent {
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.ManageBuyOffer) {
+        super({
+            title: language.OPERATION_MANAGE_BUY_OFFER,
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.SELLING_ASSET, value: operation.selling.code },
+                { title: language.BUYING_ASSET, value: operation.buying.code },
+                { title: language.BUY_AMOUNT, value: operation.buyAmount },
+                { title: language.PRICE, value: operation.price },
+                { title: language.OFFER_ID, value: operation.offerId },
+            ],
+        });
     }
 }

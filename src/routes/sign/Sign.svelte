@@ -2,7 +2,8 @@
     import Bridge from '../../lib/bridge/Bridge';
     import Transaction from '../../lib/components/transaction/Transaction.svelte';
     import { language } from '../../store/global';
-    import { transaction, isTransactionVisible } from './signStore';
+    import { isTransactionVisible, transaction } from './signStore';
+
     const parent = window.opener;
     const bridge = new Bridge();
     const urlParams = bridge.getTransactionMessageFromUrl();
@@ -24,8 +25,6 @@
 </script>
 
 {#if $isTransactionVisible}
-    <h1>{$language.SIGN}</h1>
-
     {#if $transaction?.xdr}
         <Transaction transactionMessage={$transaction} />
     {:else if !$transaction?.xdr}

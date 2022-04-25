@@ -1,30 +1,21 @@
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
 import type { Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
 
-import ManageSellOfferComponentSvelte from './ManageSellOffer.svelte';
+import AbstractOperationComponent from '../AbstractOperationComponent';
+import type IOperationComponent from '../IOperationComponent';
 
-export default class ManageSellOfferComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        selling: string;
-        buying: string;
-        amount: string;
-        price: string;
-        offerId: string;
-    };
-
-    constructor(tx: Transaction, operation: Operation.ManageSellOffer) {
-        this.component = ManageSellOfferComponentSvelte;
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            selling: operation.selling.code,
-            buying: operation.buying.code,
-            amount: operation.amount,
-            price: operation.price,
-            offerId: operation.offerId,
-        };
+export default class ManageSellOfferComponent extends AbstractOperationComponent implements IOperationComponent {
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.ManageSellOffer) {
+        super({
+            title: language.OPERATION_MANAGE_SELL_OFFER,
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.SELLING_ASSET, value: operation.selling.code },
+                { title: language.BUYING_ASSET, value: operation.buying.code },
+                { title: language.AMOUNT, value: operation.amount },
+                { title: language.PRICE, value: operation.price },
+                { title: language.OFFER_ID, value: operation.offerId },
+            ],
+        });
     }
 }
