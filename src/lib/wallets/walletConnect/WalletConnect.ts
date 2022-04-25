@@ -113,6 +113,8 @@ export default class WalletConnect extends AbstractWallet {
     public override async getPublicKey(): Promise<string> {
         super.persistWallet();
         await this.initClient();
+
+        // there is a problem with updating the states in wallet connect, a small timeout solves this problem
         await new Promise<void>((resolve) => {
             setTimeout(() => resolve(), 500);
         });
