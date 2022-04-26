@@ -6,22 +6,22 @@
 </script>
 
 <label
-    class="language {activeLanguage === 'en' ? ' active' : 'default'}"
+    class="simple-signer language {activeLanguage === 'en' ? ' active' : 'default'}"
     on:change={() => changeLanguage(activeLanguage)}
 >
-    <input bind:group={activeLanguage} value={'en'} type="radio" name="language" />
+    <input class="simple-signer hide-circle" bind:group={activeLanguage} value={'en'} type="radio" name="language" />
     {$language.ENGLISH}
 </label>
 <label
-    class="language {activeLanguage === 'es' ? 'active' : 'default'}"
+    class="simple-signer language {activeLanguage === 'es' ? 'active' : 'default'}"
     on:change={() => changeLanguage(activeLanguage)}
 >
-    <input bind:group={activeLanguage} value={'es'} type="radio" name="language" />
+    <input class="simple-signer hide-circle" bind:group={activeLanguage} value={'es'} type="radio" name="language" />
     {$language.SPANISH}
 </label>
 
 <style>
-    input {
+    .hide-circle {
         margin: 0;
         padding: 0;
         border: none;
