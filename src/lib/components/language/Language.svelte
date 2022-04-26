@@ -1,17 +1,9 @@
 <script>
     import { isLanguageMenuVisible } from './languageStore';
     import languageIcon from '../../../assets/icons/language.svg';
-    import { detectedLanguage, language } from '../../../store/global';
     import ClickOutside from '../customEvent/ClickOutside.svelte';
     import { hideMenu } from './languageHelper';
-    import WalletLanguage from '../../../lib/i18n/WalletLanguage';
-    let activeLanguage = $detectedLanguage;
-    const walletLanguage = new WalletLanguage();
-
-    async function changeLanguage() {
-        const newLanguage = await walletLanguage.getText(activeLanguage);
-        language.set(newLanguage);
-    }
+    import LanguageInput from './LanguageInput.svelte';
 
     function toggleMenuVisibility() {
         $isLanguageMenuVisible = !$isLanguageMenuVisible;
@@ -25,14 +17,7 @@
                 <img class="simple-signer language-icon" src={languageIcon} alt="*" />
             </button>
             <div class="simple-signer language-selector-container {$isLanguageMenuVisible ? '' : 'hidden'}">
-                <label class={activeLanguage === 'en' ? 'language-active' : 'default'} on:change={changeLanguage}>
-                    <input bind:group={activeLanguage} value={'en'} type="radio" name="language" />
-                    {$language.ENGLISH}
-                </label>
-                <label class={activeLanguage === 'es' ? 'language-active' : 'default'} on:change={changeLanguage}>
-                    <input bind:group={activeLanguage} value={'es'} type="radio" name="language" />
-                    {$language.SPANISH}
-                </label>
+                <LanguageInput />
             </div>
         </div>
     </ClickOutside>
@@ -66,44 +51,6 @@
         box-shadow: 3px 3px 8px #00000029;
         z-index: 1;
         margin-top: 20px;
-    }
-
-    .language-selector-container input {
-        margin: 0;
-        padding: 0;
-        border: none;
-        appearance: none;
-    }
-
-    .language-selector-container label {
-        font-family: 'Roboto', sans-serif;
-        border: none;
-        background: none;
-        cursor: pointer;
-        font-size: 14px;
-        margin-bottom: 12px;
-    }
-
-    .language-selector-container label:first-child {
-        margin-top: 12px;
-    }
-
-    .language-active {
-        font-weight: bold;
-        color: #2f69b7;
-    }
-
-    .default {
-        color: #757575;
-        font-weight: 500;
-    }
-
-    .default:hover {
-        font-weight: bold;
-    }
-
-    .default:focus {
-        font-weight: bold;
     }
 
     .hidden {
