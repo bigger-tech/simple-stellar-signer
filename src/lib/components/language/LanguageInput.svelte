@@ -5,11 +5,17 @@
     let activeLanguage = $detectedLanguage;
 </script>
 
-<label class={activeLanguage === 'en' ? 'language-active' : 'default'} on:change={() => changeLanguage(activeLanguage)}>
+<label
+    class="language {activeLanguage === 'en' ? ' active' : 'default'}"
+    on:change={() => changeLanguage(activeLanguage)}
+>
     <input bind:group={activeLanguage} value={'en'} type="radio" name="language" />
     {$language.ENGLISH}
 </label>
-<label class={activeLanguage === 'es' ? 'language-active' : 'default'} on:change={() => changeLanguage(activeLanguage)}>
+<label
+    class="language {activeLanguage === 'es' ? 'active' : 'default'}"
+    on:change={() => changeLanguage(activeLanguage)}
+>
     <input bind:group={activeLanguage} value={'es'} type="radio" name="language" />
     {$language.SPANISH}
 </label>
@@ -35,7 +41,7 @@
         margin-top: 12px;
     }
 
-    .language-active {
+    .active {
         font-weight: bold;
         color: #2f69b7;
     }
