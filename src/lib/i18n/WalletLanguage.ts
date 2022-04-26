@@ -11,11 +11,7 @@ export default class WalletLanguage {
         );
     }
 
-    async getText(): Promise<ITranslation> {
-        return await new WalletLanguageFactory().create(this.getLanguage());
-    }
-
-    async changeLanguage(languageISO: string): Promise<ITranslation> {
-        return await new WalletLanguageFactory().create(languageISO);
+    async getText(languageISO?: string): Promise<ITranslation> {
+        return await new WalletLanguageFactory().create(languageISO || this.getLanguage());
     }
 }

@@ -9,7 +9,7 @@
     const walletLanguage = new WalletLanguage();
 
     async function changeLanguage() {
-        const newLanguage = await walletLanguage.changeLanguage(activeLanguage);
+        const newLanguage = await walletLanguage.getText(activeLanguage);
         language.set(newLanguage);
     }
 
