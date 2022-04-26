@@ -195,6 +195,10 @@
     .operation-border {
         transition: all 0.2s linear;
         border-left: 2px solid #e5e5e5;
+        margin-top: 20px;
+    }
+
+    .operation-border:last-child {
         margin-top: 27px;
     }
 
