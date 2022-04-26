@@ -4,10 +4,10 @@
     import { changeLanguage } from './languageHelper';
 
     let activeLanguage = $detectedLanguage;
-    export let languageInputProps: ILanguageInputProps[];
+    export let languageInputsProps: ILanguageInputProps[];
 </script>
 
-{#each languageInputProps as language}
+{#each languageInputsProps as language}
     <label
         class="simple-signer language {activeLanguage === language.iso ? 'active' : 'default'}"
         on:change={() => changeLanguage(activeLanguage)}

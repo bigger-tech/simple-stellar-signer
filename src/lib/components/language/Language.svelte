@@ -3,7 +3,7 @@
     import languageIcon from '../../../assets/icons/language.svg';
     import ClickOutside from '../customEvent/ClickOutside.svelte';
     import { hideMenu } from './languageHelper';
-    import LanguageInput from './LanguageInput.svelte';
+    import LanguageInputs from './LanguageInputs.svelte';
     import { language } from '../../../store/global';
 
     function toggleMenuVisibility() {
@@ -18,8 +18,8 @@
                 <img class="simple-signer language-icon" src={languageIcon} alt="*" />
             </button>
             <div class="simple-signer language-selector-container {$isLanguageMenuVisible ? '' : 'hidden'}">
-                <LanguageInput
-                    languageInputProps={[
+                <LanguageInputs
+                    languageInputsProps={[
                         { iso: 'es', text: $language.SPANISH },
                         { iso: 'en', text: $language.ENGLISH },
                     ]}
