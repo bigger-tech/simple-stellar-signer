@@ -8,8 +8,9 @@
     let activeLanguage = $detectedLanguage;
     const walletLanguage = new WalletLanguage();
 
-    function changeLanguage() {
-        walletLanguage.changeLanguage(activeLanguage);
+    async function changeLanguage() {
+        const newLanguage = await walletLanguage.changeLanguage(activeLanguage);
+        language.set(newLanguage);
     }
 
     function toggleMenuVisibility() {
