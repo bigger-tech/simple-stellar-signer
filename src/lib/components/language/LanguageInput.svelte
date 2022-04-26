@@ -1,24 +1,27 @@
 <script lang="ts">
-    import { detectedLanguage, language } from '../../../store/global';
+    import { detectedLanguage } from '../../../store/global';
+    import type ILanguageInputProps from './ILanguageInputProps';
     import { changeLanguage } from './languageHelper';
 
     let activeLanguage = $detectedLanguage;
+    export let languageInputProps: ILanguageInputProps[];
 </script>
 
-<label
-    class="simple-signer language {activeLanguage === 'en' ? ' active' : 'default'}"
-    on:change={() => changeLanguage(activeLanguage)}
->
-    <input class="simple-signer hide-circle" bind:group={activeLanguage} value={'en'} type="radio" name="language" />
-    {$language.ENGLISH}
-</label>
-<label
-    class="simple-signer language {activeLanguage === 'es' ? 'active' : 'default'}"
-    on:change={() => changeLanguage(activeLanguage)}
->
-    <input class="simple-signer hide-circle" bind:group={activeLanguage} value={'es'} type="radio" name="language" />
-    {$language.SPANISH}
-</label>
+{#each languageInputProps as language}
+    <label
+        class="simple-signer language {activeLanguage === language.iso ? 'active' : 'default'}"
+        on:change={() => changeLanguage(activeLanguage)}
+    >
+        <input
+            class="simple-signer hide-circle"
+            bind:group={activeLanguage}
+            value={language.iso}
+            type="radio"
+            name="language"
+        />
+        {language.text}
+    </label>
+{/each}
 
 <style>
     .hide-circle {
