@@ -70,9 +70,9 @@
         shortedSourceAccount = getShortedStellarKey(tx.source);
         const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
 
-        operationComponents = tx.operations.map((operation) =>
-            dynamicOperationComponentFactory.create($language, tx, operation),
-        );
+        operationComponents = tx.operations.map((operation) => dynamicOperationComponentFactory.create(tx, operation));
+
+        console.log(operationComponents);
 
         if (transactionMessage.operationGroups && transactionMessage.operationGroups.length > 0) {
             transactionGroups = groupOperationComponents(operationComponents, transactionMessage.operationGroups);
@@ -130,9 +130,10 @@
                         {#each transactionGroups as group, i}
                             <div class="simple-signer operation-head">
                                 <h3 class="simple-signer operation-title-head">
-                                    {i + 1}. {'title' in group ? group.title : group.props.title}
+                                    {i + 1}. {'title' in group ? group.title : $language[group.props.title]}
                                 </h3>
                                 <button
+                                    class="arrow-button"
                                     on:click={() => {
                                         toggleOperationVisibility(i);
                                     }}><i class="arrow {$operationsVisibility[i] ? 'spin-up' : ''}" /></button

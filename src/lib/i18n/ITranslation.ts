@@ -6,6 +6,7 @@ export interface ITranslation {
     ASSET_B: string;
     ASSET_TO_PAY: string;
     ASSET: string;
+    AUTHORIZATION: string;
     AUTHORIZED_TO_MAINTAIN_ORDERS: string;
     AUTHORIZED_TO_TRANSACT: string;
     BALANCE_ID: string;

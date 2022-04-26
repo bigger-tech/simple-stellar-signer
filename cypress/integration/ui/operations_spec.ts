@@ -272,6 +272,7 @@ describe('operations', () => {
     it('should render allow trust operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${allowTrustXdr}`);
+        cy.get('.arrow-button').click();
         cy.get('.operation-info').contains('Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
         cy.get('.operation-info').contains('Asset: AUD');
         cy.get('.operation-info').contains('Authorization: The account is authorized to transact with the asset');
