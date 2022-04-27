@@ -1,8 +1,7 @@
 <script>
     import { isLanguageMenuVisible } from './languageStore';
     import languageIcon from '../../../assets/icons/language.svg';
-    import ClickOutside from '../customEvent/ClickOutside.svelte';
-    import { hideMenu } from './languageHelper';
+    import { hideMenu, clickOutside } from './languageHelper';
     import LanguageInputs from './LanguageInputs.svelte';
     import { language } from '../../../store/global';
 
@@ -12,21 +11,22 @@
 </script>
 
 <div class="simple-signer language-container">
-    <ClickOutside on:clickoutside={hideMenu}>
-        <div class="simple-signer language-container-icon  {$isLanguageMenuVisible ? 'active' : ''}">
-            <button on:click={toggleMenuVisibility} class="simple-signer invisible-button">
-                <img class="simple-signer language-icon" src={languageIcon} alt="*" />
-            </button>
-            <div class="simple-signer language-selector-container {$isLanguageMenuVisible ? '' : 'hidden'}">
-                <LanguageInputs
-                    languageInputsProps={[
-                        { iso: 'es', text: $language.SPANISH },
-                        { iso: 'en', text: $language.ENGLISH },
-                    ]}
-                />
-            </div>
+    <div
+        use:clickOutside={hideMenu}
+        class="simple-signer language-container-icon  {$isLanguageMenuVisible ? 'active' : ''}"
+    >
+        <button on:click={toggleMenuVisibility} class="simple-signer invisible-button">
+            <img class="simple-signer language-icon" src={languageIcon} alt="*" />
+        </button>
+        <div class="simple-signer language-selector-container {$isLanguageMenuVisible ? '' : 'hidden'}">
+            <LanguageInputs
+                languageInputsProps={[
+                    { iso: 'es', text: $language.SPANISH },
+                    { iso: 'en', text: $language.ENGLISH },
+                ]}
+            />
         </div>
-    </ClickOutside>
+    </div>
 </div>
 
 <style>

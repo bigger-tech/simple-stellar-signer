@@ -72,8 +72,6 @@
 
         operationComponents = tx.operations.map((operation) => dynamicOperationComponentFactory.create(tx, operation));
 
-        console.log(operationComponents);
-
         if (transactionMessage.operationGroups && transactionMessage.operationGroups.length > 0) {
             transactionGroups = groupOperationComponents(operationComponents, transactionMessage.operationGroups);
         } else {
