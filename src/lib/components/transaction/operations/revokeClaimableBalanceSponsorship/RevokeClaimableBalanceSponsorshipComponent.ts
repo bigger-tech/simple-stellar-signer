@@ -1,24 +1,20 @@
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
 import type { Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
 
+import AbstractOperationComponent from '../AbstractOperationComponent';
 import type IOperationComponent from '../IOperationComponent';
-import RevokeClaimableBalanceSponsorshipComponentSvelte from './RevokeClaimableBalanceSponsorship.svelte';
 
-export default class RevokeClaimableBalanceSponsorshipComponent implements IOperationComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        balanceId: string;
-    };
-
-    constructor(tx: Transaction, operation: Operation.RevokeClaimableBalanceSponsorship) {
-        this.component = RevokeClaimableBalanceSponsorshipComponentSvelte;
-
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            balanceId: operation.balanceId,
-        };
+export default class RevokeClaimableBalanceSponsorship
+    extends AbstractOperationComponent
+    implements IOperationComponent
+{
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.RevokeClaimableBalanceSponsorship) {
+        super({
+            title: language.OPERATION_REVOKE_CLAIMABLE_BALANCE_SPONSORSHIP,
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.BALANCE_ID, value: operation.balanceId },
+            ],
+        });
     }
 }

@@ -1,23 +1,20 @@
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
 import type { Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
 
+import AbstractOperationComponent from '../AbstractOperationComponent';
 import type IOperationComponent from '../IOperationComponent';
-import BeginSponsoringFutureReservesComponentSvelte from './BeginSponsoringFutureReserves.svelte';
 
-export default class BeginSponsoringFutureReservesComponent implements IOperationComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        sponsoredId: string;
-    };
-
-    constructor(tx: Transaction, operation: Operation.BeginSponsoringFutureReserves) {
-        this.component = BeginSponsoringFutureReservesComponentSvelte;
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            sponsoredId: operation.sponsoredId,
-        };
+export default class BeginSponsoringFutureReservesComponent
+    extends AbstractOperationComponent
+    implements IOperationComponent
+{
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.BeginSponsoringFutureReserves) {
+        super({
+            title: language.OPERATION_BEGIN_SPONSORING_FUTURE_RESERVES,
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.SPONSORED_ID, value: operation.sponsoredId },
+            ],
+        });
     }
 }

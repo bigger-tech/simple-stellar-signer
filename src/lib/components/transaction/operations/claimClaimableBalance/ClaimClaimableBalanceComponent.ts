@@ -1,24 +1,17 @@
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
 import type { Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
 
+import AbstractOperationComponent from '../AbstractOperationComponent';
 import type IOperationComponent from '../IOperationComponent';
-import ClaimClaimableBalanceComponentSvelte from './ClaimClaimableBalance.svelte';
 
-export default class ClaimClaimableBalanceComponent implements IOperationComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        balanceId: string;
-    };
-
-    constructor(tx: Transaction, operation: Operation.ClaimClaimableBalance) {
-        this.component = ClaimClaimableBalanceComponentSvelte;
-
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            balanceId: operation.balanceId,
-        };
+export default class ClaimClaimableBalanceComponent extends AbstractOperationComponent implements IOperationComponent {
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.ClaimClaimableBalance) {
+        super({
+            title: language.OPERATION_CLAIM_CLAIMABLE_BALANCE,
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.BALANCE_ID, value: operation.balanceId },
+            ],
+        });
     }
 }

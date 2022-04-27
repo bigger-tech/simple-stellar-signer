@@ -6,4 +6,6 @@ export default interface IWallet {
     getName(): string;
     getFriendlyName(): string;
     getImage(): string;
+    getExtension(): string;
+    isInstalled(): Promise<boolean>;
 }

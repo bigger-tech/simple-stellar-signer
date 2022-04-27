@@ -1,22 +1,17 @@
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
 import type { Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
 
-import BumpSequenceComponentSvelte from './BumpSequence.svelte';
+import AbstractOperationComponent from '../AbstractOperationComponent';
+import type IOperationComponent from '../IOperationComponent';
 
-export default class BumpSequenceComponent {
-    public component: typeof SvelteComponent;
-    public props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        bumpTo: string;
-    };
-
-    constructor(tx: Transaction, operation: Operation.BumpSequence) {
-        this.component = BumpSequenceComponentSvelte;
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            bumpTo: operation.bumpTo,
-        };
+export default class BumpSequenceComponent extends AbstractOperationComponent implements IOperationComponent {
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.BumpSequence) {
+        super({
+            title: language.OPERATION_BUMP_SEQUENCE,
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.BUMP_TO, value: operation.bumpTo },
+            ],
+        });
     }
 }

@@ -1,22 +1,17 @@
+import type { ITranslation } from 'src/lib/i18n/ITranslation';
 import type { Operation, Transaction } from 'stellar-sdk';
-import type { SvelteComponent } from 'svelte';
 
-import AccountMergeComponentSvelte from './AccountMerge.svelte';
+import AbstractOperationComponent from '../AbstractOperationComponent';
+import type IOperationComponent from '../IOperationComponent';
 
-export default class AccountMergeComponent {
-    component: typeof SvelteComponent;
-    props: {
-        optionalSource: string | undefined;
-        defaultSource: string;
-        destination: string;
-    };
-
-    constructor(tx: Transaction, operation: Operation.AccountMerge) {
-        this.component = AccountMergeComponentSvelte;
-        this.props = {
-            optionalSource: operation.source,
-            defaultSource: tx.source,
-            destination: operation.destination,
-        };
+export default class AccountMergeComponent extends AbstractOperationComponent implements IOperationComponent {
+    constructor(language: ITranslation, tx: Transaction, operation: Operation.AccountMerge) {
+        super({
+            title: language.OPERATION_ACCOUNT_MERGE,
+            operationItems: [
+                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: language.DESTINATION, value: operation.destination },
+            ],
+        });
     }
 }
