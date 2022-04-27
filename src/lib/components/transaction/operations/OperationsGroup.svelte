@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { language } from '../../../../store/global';
     import type IOperationComponent from './IOperationComponent';
     import Operation from './Operation.svelte';
 
@@ -13,7 +14,9 @@
     {#each operationComponents as component}
         <ul>
             <li>
-                <span class="simple-signer operation-title-head operation-info-title">{component.props.title}</span>
+                <span class="simple-signer operation-title-head operation-info-title"
+                    >{$language[component.props.title]}</span
+                >
             </li>
         </ul>
         <Operation operationItems={component.props.operationItems} />

@@ -6,6 +6,7 @@ export interface ITranslation {
     ASSET_B: string;
     ASSET_TO_PAY: string;
     ASSET: string;
+    AUTHORIZATION: string;
     AUTHORIZED_TO_MAINTAIN_ORDERS: string;
     AUTHORIZED_TO_TRANSACT: string;
     BALANCE_ID: string;
@@ -25,6 +26,7 @@ export interface ITranslation {
     DESTINATION: string;
     DISALLOW_TRUST: string;
     ED5519PUBPCKEY: string;
+    ENGLISH_ISO: string;
     ENGLISH: string;
     ERROR: string;
     EXPAND_ALL: string;
@@ -93,6 +95,7 @@ export interface ITranslation {
     OPERATION_SET_TRUSTLINE_FLAGS: string;
     OPERATION_TYPE: string;
     OPERATION: string;
+    OPERATIONS_LIST: string;
     PATH: string;
     PREAUTH_TX: string;
     PRICE: string;
@@ -111,6 +114,7 @@ export interface ITranslation {
     SIGNATURES: string;
     SIGNER: string;
     SOURCE_ACCOUNT: string;
+    SPANISH_ISO: string;
     SPANISH: string;
     SPONSORED_ID: string;
     STARTING_BALANCE: string;

@@ -70,9 +70,7 @@
         shortedSourceAccount = getShortedStellarKey(tx.source);
         const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
 
-        operationComponents = tx.operations.map((operation) =>
-            dynamicOperationComponentFactory.create($language, tx, operation),
-        );
+        operationComponents = tx.operations.map((operation) => dynamicOperationComponentFactory.create(tx, operation));
 
         if (transactionMessage.operationGroups && transactionMessage.operationGroups.length > 0) {
             transactionGroups = groupOperationComponents(operationComponents, transactionMessage.operationGroups);
@@ -121,7 +119,7 @@
                 <hr class="simple-signer tx-separator" />
                 <div class="simple-signer operations-container">
                     <div class="operation-list-title-container">
-                        <h1 class="simple-signer tx-operation-list-title">Lista de Operaciones</h1>
+                        <h1 class="simple-signer tx-operation-list-title">{$language.OPERATIONS_LIST}</h1>
                         <button class="simple-signer expand-all-button" on:click={toggleOperationsVisibility}
                             ><span>{$areOperationsExpanded ? $language.HIDE_ALL : $language.EXPAND_ALL}</span>
                         </button>
@@ -130,9 +128,10 @@
                         {#each transactionGroups as group, i}
                             <div class="simple-signer operation-head">
                                 <h3 class="simple-signer operation-title-head">
-                                    {i + 1}. {'title' in group ? group.title : group.props.title}
+                                    {i + 1}. {'title' in group ? group.title : $language[group.props.title]}
                                 </h3>
                                 <button
+                                    class="arrow-button"
                                     on:click={() => {
                                         toggleOperationVisibility(i);
                                     }}><i class="arrow {$operationsVisibility[i] ? 'spin-up' : ''}" /></button
@@ -195,6 +194,10 @@
         transition: all 0.2s linear;
         border-left: 2px solid #e5e5e5;
         margin-top: 20px;
+    }
+
+    .operation-border:last-child {
+        margin-top: 27px;
     }
 
     .operation-show-margin.operation-border {
