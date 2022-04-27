@@ -21,8 +21,8 @@
         <div class="simple-signer language-selector-container {$isLanguageMenuVisible ? '' : 'hidden'}">
             <LanguageInputs
                 languageInputsProps={[
-                    { iso: 'es', text: $language.SPANISH },
-                    { iso: 'en', text: $language.ENGLISH },
+                    { iso: $language.SPANISH_ISO, text: $language.SPANISH },
+                    { iso: $language.ENGLISH_ISO, text: $language.ENGLISH },
                 ]}
             />
         </div>
