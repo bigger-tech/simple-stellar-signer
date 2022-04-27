@@ -61,11 +61,7 @@
         isValidXdr = xdr.TransactionEnvelope.validateXDR(transactionMessage.xdr, 'base64');
         tx = new Transaction(transactionMessage.xdr, CURRENT_NETWORK_PASSPHRASE);
 
-        if (tx.networkPassphrase === CURRENT_NETWORK_PASSPHRASE) {
-            network = CURRENT_STELLAR_NETWORK;
-        } else {
-            network = CURRENT_STELLAR_NETWORK;
-        }
+        network = CURRENT_STELLAR_NETWORK;
 
         shortedSourceAccount = getShortedStellarKey(tx.source);
         const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
