@@ -5,7 +5,7 @@
     import { language } from '../../../store/global';
     import Bridge from '../../bridge/Bridge';
     import type { ITransactionMessage } from '../../bridge/transactionMessage/ITransactionMessage';
-    import { CURRENT_NETWORK_PASSPHRASE } from '../../stellar/StellarNetwork';
+    import { CURRENT_NETWORK_PASSPHRASE, CURRENT_STELLAR_NETWORK } from '../../stellar/StellarNetwork';
     import LocalStorage from '../../storage/storage';
     import type IWallet from '../../wallets/IWallet';
     import WalletFactory from '../../wallets/WalletFactory';
@@ -61,11 +61,7 @@
         isValidXdr = xdr.TransactionEnvelope.validateXDR(transactionMessage.xdr, 'base64');
         tx = new Transaction(transactionMessage.xdr, CURRENT_NETWORK_PASSPHRASE);
 
-        if (tx.networkPassphrase === 'Test SDF Network ; September 2015') {
-            network = 'Testnet';
-        } else {
-            network = 'Public';
-        }
+        network = CURRENT_STELLAR_NETWORK;
 
         shortedSourceAccount = getShortedStellarKey(tx.source);
         const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();

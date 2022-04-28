@@ -3,7 +3,7 @@
 describe('Connect', () => {
     beforeEach(() => {
         cy.visit('/connect');
-        cy.wait(100);
+        cy.wait(300);
         cy.get('.wallet-title').contains('xBull').as('xBullTitle');
         cy.get('.wallet-title').contains('Freighter').as('freighterTitle');
         cy.get('.wallet-title').contains('Albedo').as('albedoTitle');

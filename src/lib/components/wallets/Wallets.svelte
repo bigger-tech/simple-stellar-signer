@@ -15,11 +15,30 @@
     const dispatch = createEventDispatcher();
 
     let filteredWallets: IWallet[];
+    let sortedWallets: IWallet[] = [];
     if (wallets.length) {
         filteredWallets = removeDuplicates(wallets).map(walletFactory.create);
     } else {
         filteredWallets = walletFactory.createAll();
     }
+
+    async function sortWallets(walletList: IWallet[]): Promise<IWallet[]> {
+        const sortedWalletList = [];
+        for (let wallet of walletList) {
+            const isInstalled = await wallet.isInstalled();
+
+            if (isInstalled) {
+                sortedWalletList.unshift(wallet);
+            } else {
+                sortedWalletList.push(wallet);
+            }
+        }
+
+        return sortedWalletList;
+    }
+    (async () => {
+        sortedWallets = await sortWallets(filteredWallets);
+    })();
 
     async function connectWithPrivateKey(privateKey: string): Promise<void> {
         const wallet = walletFactory.create(PrivateKey.NAME);
@@ -116,7 +135,7 @@
         </div>
     </div>
 {:else}
-    {#each filteredWallets as wallet}
+    {#each sortedWallets as wallet}
         <Wallet wallet={wallet} on:connect={handleWalletConnect} />
     {/each}
 {/if}
