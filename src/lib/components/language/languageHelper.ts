@@ -16,7 +16,6 @@ export async function changeLanguage(languageISO: string) {
 export function clickOutside(element: HTMLElement, callBackFunction: () => void) {
     // credits to https://svelte.dev/repl/8031c800d7e34fd692dd18174b514e4e?version=3.47.0
     function onClick(event: MouseEvent) {
-        console.log({ event, element });
         if (!element.contains(event.target as Node)) {
             callBackFunction();
         }
