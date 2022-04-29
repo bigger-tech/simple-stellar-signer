@@ -30,6 +30,7 @@
         display: flex;
         flex-direction: column;
         margin-bottom: 20px;
+        word-wrap: break-word;
     }
 
     p {
