@@ -7,23 +7,48 @@ import type { ITransactionMessage } from './transactionMessage/ITransactionMessa
 export type IAvailableWalletsMessageHandler = (message: IAvailableWalletsMessage) => void;
 export type ITransactionMessageHandler = (message: ITransactionMessage) => void;
 
+export enum SimpleSignerEventType {
+    ON_CONNECT = 'onConnect',
+    ON_READY = 'onReady',
+    ON_SIGN = 'onSign',
+    ON_CANCEL = 'onCancel',
+}
+
+export enum SimpleSignerPageType {
+    CONNECT = 'connect',
+    SIGN = 'sign',
+}
+
 export default class Bridge {
-    constructor() {
+    private mainActionPerformed = false;
+
+    constructor(public pageType: SimpleSignerPageType) {
+        window.addEventListener('beforeunload', () => {
+            if (!this.mainActionPerformed) {
+                this.sendMessage(EventFactory.createOnCancelEvent(this.pageType));
+            }
+        });
         window.addEventListener('message', (e) => this.messageHandler(e));
     }
     private availableWalletsMessageHandlers: IAvailableWalletsMessageHandler[] = [];
     private transactionMessageHandlers: ITransactionMessageHandler[] = [];
 
     public sendSignedTx(signedXDR: string) {
+        this.mainActionPerformed = true;
         this.sendMessage(EventFactory.createOnSignEvent(signedXDR));
         this.closeWindow();
     }
 
     public sendOnReadyEvent() {
-        this.sendMessage(EventFactory.createOnReadyEvent());
+        this.sendMessage(EventFactory.createOnReadyEvent(this.pageType));
+    }
+
+    public sendOnCancelEvent() {
+        this.closeWindow();
     }
 
     public sendOnConnectEvent(publicKey: string, wallet: string): void {
+        this.mainActionPerformed = true;
         this.sendMessage(EventFactory.createOnConnectEvent(publicKey, wallet));
         this.closeWindow();
     }

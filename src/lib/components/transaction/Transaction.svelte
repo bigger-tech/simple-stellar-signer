@@ -1,9 +1,9 @@
 <script lang="ts">
     import { Transaction, xdr } from 'stellar-sdk';
+    import { createEventDispatcher } from 'svelte';
     import { Link } from 'svelte-navigator';
 
     import { language } from '../../../store/global';
-    import Bridge from '../../bridge/Bridge';
     import type { ITransactionMessage } from '../../bridge/transactionMessage/ITransactionMessage';
     import { CURRENT_NETWORK_PASSPHRASE, CURRENT_STELLAR_NETWORK } from '../../stellar/StellarNetwork';
     import LocalStorage from '../../storage/storage';
@@ -24,7 +24,7 @@
 
     export let transactionMessage: ITransactionMessage;
     const storage = new LocalStorage();
-    const bridge = new Bridge();
+    const dispatch = createEventDispatcher();
 
     let wallet: IWallet;
     const storedWallet = storage.getItem('wallet');
@@ -163,10 +163,12 @@
                     <p>{tx.fee}</p>
                 </div>
                 <div class="simple-signer confirmation-buttons">
-                    <button class="simple-signer cancel-button">{$language.CANCEL}</button>
+                    <button class="simple-signer cancel-button" on:click={() => dispatch('cancel')}
+                        >{$language.CANCEL}</button
+                    >
                     <button
                         class="simple-signer sign-tx-button"
-                        on:click={async () => bridge.sendSignedTx(await wallet.sign(tx))}>{$language.CONFIRM}</button
+                        on:click={async () => dispatch('confirm', await wallet.sign(tx))}>{$language.CONFIRM}</button
                     >
                 </div>
             {:else}
@@ -281,11 +283,13 @@
     .operation-head button:hover {
         cursor: pointer;
     }
+
     .operation-list-title-container {
         display: flex;
         justify-content: space-between;
         align-items: baseline;
     }
+
     .sign-container {
         display: flex;
         justify-content: space-around;

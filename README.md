@@ -1,18 +1,514 @@
-# Simple Stellar Signer
+# Simple Signer
 
-## Local development
+Simple Signer provides an easy and secure way to implement log in and transaction signing functionality on your website
+for the [Stellar network](https://stellar.org).
 
+It can be embedded on any website and supports multiple wallets and languages.
+
+## Supported wallets
+
+<table>
+    <thead>
+        <tr>
+            <th>Wallet</th>
+            <th>Link</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>xBull</td>
+        <td><a href="https://xbull.com">xbull.com</a></td>
+        <td>Implemented</td>
+    </tr>
+    <tr>
+        <td>Albedo</td>
+        <td><a href="https://albedo.link/">albedo.link</a></td>
+        <td>Implemented</td>
+    </tr>
+        <tr>
+        <td>Freighter</td>
+        <td><a href="https://www.freighter.app/">freighter.app</a></td>
+        <td>Implemented</td>
+    </tr>     
+        <tr>
+        <td>Rabet</td>
+        <td><a href="https://rabet.io/">rabet.io</a></td>
+        <td>Implemented</td>
+    </tr>
+    <tr>
+        <td>Ledger</td>
+        <td><a href="https://ledger.com">ledger.com</a></td>
+        <td>In progress</td>
+    </tr>
+    </tbody>
+</table>
+
+## Supported languages
+
+See the [documentation on languages](https://github.com/PlutoDAO/simple-stellar-signer/blob/main/docs/languages.md) if
+you want to contribute.
+
+<table>
+    <thead>
+        <tr>
+            <th>Language</th>
+            <th>Link</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>English</td>
+        <td><a href="https://github.com/PlutoDAO/simple-stellar-signer/blob/main/src/lib/i18n/languages/english.json">Link to the English definition file</a></td>
+    </tr>
+    <tr>
+        <td>Spanish</td>
+        <td><a href="https://github.com/PlutoDAO/simple-stellar-signer/blob/main/src/lib/i18n/languages/spanish.json">Link to the Spanish definition file</a></td>
+    </tr>
+    </tbody>
+</table>
+
+---
+
+# How to implement Simple Signer on your website
+
+Simple Signer provides two endpoints, `/connect` and `/sign` which allow some customisations to be made.
+
+To see an example of all the implementation properties please take a look at the [test.html](./test.html) file provided
+in this repo.
+
+This section will guide you through the basic use cases, but a more comprehensive [API](#api) section is also available.
+
+## Connecting to a wallet to obtain the user's public key
+
+When you open the `/connect`, Simple Signer will prompt the user to log in. Once the user is logged in, Simple Signer
+will
+send a message to your website with the Public Key of the logged in account and the wallet used.
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <title>Simple Signer - Connect Wallet Demo</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <script
+        src='https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/10.1.0/stellar-sdk.min.js'
+        integrity='sha512-EqNQsxKR6rZ5xKl29xXa+ez7xgtVSUpj9UDzZmTqoyF0wHbusLkrP8S7dOsKa9DmkoHbssoWUA4+n/0KYY1EAQ=='
+        crossorigin='anonymous'
+        referrerpolicy='no-referrer'
+    ></script>
+</head>
+<body>
+<button onclick='openConnectWindow()'>Connect</button>
+<script>
+    const simpleSignerURL = 'https://sign.plutodao.finance';
+
+    function openConnectWindow() {
+        window.open(
+            `${simpleSignerURL}/connect`,
+            'Connect_Window',
+            'width=360, height=450',
+        );
+    }
+
+    function handleMessage(e) {
+        // Reject messages that are not coming from simple signer (tailor this according to your needs)
+        if (e.origin!==`${simpleSignerURL}`) {
+            return;
+        }
+
+        const messageEvent = e.data;
+
+        if (messageEvent.type==='onConnect') {
+            const publicKey = messageEvent.message.publicKey;
+            // Validate the public key received. This is just good practice.
+            if (StellarSdk.Keypair.fromPublicKey(publicKey)) {
+                console.log('The public key is', publicKey);
+            }
+        }
+    }
+
+    // see https://developer.mozilla.org/en-US/docs/Web/API/Window/message_event
+    window.addEventListener('message', handleMessage);
+</script>
+</body>
+</html>
 ```
-npm install
-npm run dev
+
+---
+
+## Signing a transaction
+
+Once you generate the transaction you want the user to sign, you can present it to your customer using the `/sign`
+endpoint. Simple Signer will send a message back to your website with the signed transaction.
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset='utf-8' />
+    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
+    <title>Simple Signer - Sign Transaction Demo</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <script
+        src='https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/10.1.0/stellar-sdk.min.js'
+        integrity='sha512-EqNQsxKR6rZ5xKl29xXa+ez7xgtVSUpj9UDzZmTqoyF0wHbusLkrP8S7dOsKa9DmkoHbssoWUA4+n/0KYY1EAQ=='
+        crossorigin='anonymous'
+        referrerpolicy='no-referrer'
+    ></script>
+</head>
+<body>
+<button onclick='openSignWindow(unsignedXdr)'>Sign</button>
+<script>
+    // This XDR may be constructed using the public key obtained from /connect, this is just an example.
+    const unsignedXdr =
+        'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
+
+    const simpleSignerURL = 'https://sign.plutodao.finance';
+
+    const signWindow = window.open(
+        `${simpleSignerURL}/sign?xdr=${unsignedXdr}`,
+        'Sign_Window',
+        'width=360, height=700',
+    );
+
+    async function handleMessage(e) {
+        if (e.origin!==simpleSignerURL && e.data.type==='onSign' && e.data.page==='sign') {
+            const eventMessage = e.data;
+
+            const signedXdr = eventMessage.message.signedXDR;
+            // Validate the XDR, this is just good practice.
+            if (StellarSdk.xdr.TransactionEnvelope.validateXDR(signedXdr, 'base64')) {
+                const server = new StellarSdk.Server('https://horizon-testnet.stellar.org/');  //remember to update this to the correct value
+
+                // Construct the transaction from the signedXDR
+                // see https://stellar.github.io/js-stellar-sdk/TransactionBuilder.html#.fromXDR
+                const transaction = StellarSdk.TransactionBuilder.fromXDR(
+                    signedXdr,
+                    'Test SDF Network ; September 2015', //remember to update this to the correct value
+                );
+
+                try {
+                    const transactionResult = await server.submitTransaction(transaction);
+                    console.log(transactionResult);
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        }
+        window.addEventListener('message', handleMessage);
+</script>
+</body>
+</html>
 ```
 
-## Toolchain
+You may choose to pass the unsigned transaction xdr to Simple Signer either via URL or via postMessage.
 
-This project is built using the Svelte framework along with TypeScript. It uses Cypress for E2E/integration tests, and Jest for Unit Tests
+Via URL:
 
-To ensure we keep the quality of the code at the maximum possible we use ESLint as a Linter and Prettier as a Code Formatter
+```javascript
+const unsignedXdr =
+    'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
+const signWindow = window.open(
+    `https://sign.plutodao.finance/sign?xdr=${unsignedXdr}`,
+    'Sign_Window',
+    'width=360, height=700',
+);
+```
 
-We also use Husky to automatically run lint-staged when making a commit, being able to commit only if lint-staged passes with no errors.
+Via PostMessage:
 
-To make sure we have the same coding style/rules we use https://editorconfig.org/
+Post Message has some advantages over the URL method which are covered in the [Sign API](#sign-api) section.
+
+```javascript
+const unsignedXdr =
+    'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
+const simpleSignerUrl = 'https://sign.plutodao.finance';
+const signWindow = window.open(
+    `${simpleSignerUrl}/sign`,
+    'Sign_Window',
+    'width=360, height=700',
+);
+
+window.addEventListener('message', (e) => {
+    if (
+        e.origin!==`${simpleSignerUrl}` &&
+        e.data.type==='onReady' &&
+        e.data.page==='sign'
+    ) {
+        signWindow.postMessage({ xdr: unsignedXdr }, simpleSignerHost);
+    }
+});
+```
+
+### Explaining your transaction
+
+Simple Signer allows you to include a description for your transaction, as well as grouping multiple operations together
+in order to reduce the cognitive complexity when presenting it to your end user.
+
+A description can be added using both the URL and Post Message methods, but operation grouping can only be done using
+the Post Message, please see how to implement these in the [Sign API](#sign-api) section or consult
+the [test.html file](./test.html).
+
+### General description
+
+![image](https://user-images.githubusercontent.com/56001809/166843128-4d877dcb-739b-44bc-a067-7e8c5cfbea2c.png)
+
+### Operation grouping
+
+Sometimes it's useful to group operations together to explain what they are doing.
+
+![image](https://user-images.githubusercontent.com/56001809/166843771-0c7f7969-a92f-4bbb-806d-9f183c915f36.png)
+
+![image](https://user-images.githubusercontent.com/56001809/166843672-49c00b83-339e-4a62-bfa0-8718cd90d97d.png)
+
+---
+
+## Language selection
+
+By default, Simple Signer will detect the browser's language and serve Simple Signer using this configuration. If the
+language found is not implemented, it defaults to English.
+
+![image](https://user-images.githubusercontent.com/56001809/166844007-42cf00bf-8659-497d-afe3-f2c02ae268b7.png)
+
+A user may also choose to change the language using the interface.
+
+![image](https://user-images.githubusercontent.com/56001809/166843924-dad3b48f-b75d-4fdd-b1ca-26febc087302.png)
+
+## Connecting to testnet
+
+You can access the testnet-connected version at `https://sign-test.plutodao.finance`.
+
+---
+
+## Tech stack
+
+This project is built using the [Svelte framework](https://svelte.com) along with TypeScript. It uses Cypress for
+E2E/integration tests, and Jest for Unit Tests
+
+To ensure we keep a high code quality, we use ESLint as a Linter and Prettier as a Code Formatter
+
+We also use Husky to automatically run lint-staged when making a commit, being able to commit only if lint-staged passes
+with no errors.
+
+To make sure we have the same coding style/rules we use <https://editorconfig.org/>
+
+## Adding a new Language
+
+See the [documentation on languages](https://github.com/PlutoDAO/simple-stellar-signer/blob/main/docs/languages.md) if
+you want to contribute.
+
+# API
+
+## Valid wallet values
+
+These wallet values can be used to configure the available wallets on the `/connect` endpoint and are received as part
+of
+the `onConnect` event type to indicate which wallet was connected.
+
+| wallet      | type   | value      |
+| ----------- | ------ | ---------- |
+| XBull       | String | xbull      |
+| Albedo      | String | albedo     |
+| Rabet       | String | rabet      |
+| Freighter   | String | freighter  |
+| Private Key | String | privateKey |
+
+## Connect API
+
+Simple Signer offers a `/connect`endpoint which is used to get the user's public key. It supports some configuration
+options which can be passed via URL or postMessage, described below.
+
+For instance, you may choose to explicitly show certain wallets as opposed to showing all of them. You do so by using
+the `wallets`
+parameter in the URL or by sending a message to Simple Signer. By default, all available wallets are shown.
+
+### Via URL
+
+If you want to configure the wallets that are presented to the user, use valid wallet values appended in
+multiple `wallets` parameters, for example:
+`https://sign.plutodao.finance/connect?wallets=xbull&wallets=freighter&wallets=albedo`
+
+### Via Post Message
+
+You may also choose to send the wallets at another moment, once Simple Signer is ready, by using a postMessage.
+
+| property | type                | value                                       |
+| -------- | ------------------- | ------------------------------------------- |
+| wallets  | String[] (Optional) | [valid wallet values](#valid-wallet-values) |
+
+Example usage:
+
+```javascript
+const simpleSignerUrl = 'https://sign.plutodao.finance';
+const connectWindow = window.open(
+    `${simpleSignerUrl}/connect`,
+    'Connect_Window',
+    'width=360, height=700',
+);
+
+window.addEventListener('message', (e) => {
+    if (
+        e.origin===`${simpleSignerURL}` &&
+        e.data.type==='onReady' &&
+        e.data.page==='sign'
+    ) {
+        connectWindow.postMessage(
+            { wallets: ['xbull', 'albedo'] },
+            `${simpleSignerURL}`,
+        );
+    }
+});
+```
+
+## Sign API
+
+Simple Signer offers a `/sign` endpoint which is used to send a transaction XDR and get it back with the user's
+signature.
+
+It supports multiple configuration options which can be passed via URL or postMessage.
+
+| property name   | type                                                      | value                                                                                             |
+| --------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
+| xdr             | String (Required)                                         | the XDR representing the transaction to be signed by the user                                     |
+| description     | String (Optional)                                         | A description that summarises what this transaction is doing                                      |
+| operationGroups | Array of Group (Optional, only available via postMessage) | A way to group operations together and priovide descriptions to make them clearer to the end user |
+
+Each `Group` looks as follows
+
+| property name | type              | value                                                                                                       |
+| ------------- | ----------------- | ----------------------------------------------------------------------------------------------------------- |
+| from          | Number (Required) | The zero-based index of the starting operation (0 = first operation)                                        |
+| to            | Number (Required) | The zero-based index of the finishing operation (inclusive). (1 = second operation, included in this group) |
+| title         | String            | The title that briefly describes this group of operations                                                   |
+| description   | String            | The detailed description of what this group of operations is doing                                          |
+
+See examples below via URL and via postMessage for a clearer picture on how they are used.
+
+### Via postMessage
+
+This is the preferred method to pass messages to Simple Signer.
+
+```javascript
+const simpleSignerUrl = 'https://sign.plutodao.finance';
+const signWindow = window.open(
+    `${simpleSignerUrl}/sign`,
+    'Sign_Window',
+    'width=360, height=700',
+);
+const sampleXdr =
+    'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
+window.addEventListener('message', (e) => {
+    if (
+        e.origin===`${simpleSignerURL}` &&
+        e.data.type==='onReady' &&
+        e.data.page==='sign'
+    ) {
+        signWindow.postMessage(
+            {
+                xdr: sampleXdr,
+                description: 'This is the description for this transaction',
+                operationGroups: [
+                    {
+                        from: 0,
+                        to: 1,
+                        title: 'This is the title of this group composed of operations with index 0 and 1',
+                        description:
+                            'This is a description of what these 2 operations are doing together',
+                    },
+                    // Note that operation 2 is not included in an operation grouping, Simple Signer caters for this and shows it as a top-level operation
+                    {
+                        from: 3,
+                        to: 5,
+                        title: 'This is the title of this group composed of operations with index 3,4 and 5',
+                        description:
+                            'This is a description of what these 3 operations are doing together',
+                    },
+                ],
+            },
+            simpleSignerURL,
+        );
+    }
+});
+```
+
+### Via URL
+
+Please note opeartion groups are not available via URL, use postMEssage instead.
+
+```javascript
+const simpleSignerUrl = 'https://sign.plutodao.finance';
+const sampleXdr =
+    'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
+const signWindow = window.open(
+    `${simpleSignerUrl}/sign?xdr=${sampleXdr}&description=This is a sampe description for this transaction`,
+    'Sign_Window',
+    'width=360, height=700',
+);
+```
+
+## Event Types
+
+This is a list of events that Simple Signer can return to your application.
+
+Consider the following example:
+
+```javascript
+window.addEventListener('message', (e) => {
+    if (e.origin!==`${simpleSignerUrl}` && e.data.type==='onReady' && e.data.page==='sign') {
+        signWindow.postMessage({ xdr }, simpleSignerHost);
+    }
+});
+```
+
+`e.data` contains the event that simple signer sends, which can be of type `onReady`, `onCancel`, `onConnect`
+or `onSign`.
+
+### onReady
+
+Simple Signer emits an onReady event once it has loaded and is ready to accept other messages.
+
+| property name | type   | value                             |
+| ------------- | ------ | --------------------------------- |
+| type          | String | onReady                           |
+| page          | String | connect or sign                   |
+| message       | String | Simple Signer is ready to operate |
+
+### onCancel
+
+If a user closes the Simple Signer window or presses a Cancel button in the UI, this event is triggered.
+
+| property name | type   | value                               |
+| ------------- | ------ | ----------------------------------- |
+| type          | String | onCancel                            |
+| page          | String | connect or sign                     |
+| message       | String | The user has canceled the operation |
+
+### onConnect
+
+Once a user connects the wallet, therefore granting access to their public key, an onConnect message is sent.
+
+| property name     | type   | value                                          |
+| ----------------- | ------ | ---------------------------------------------- |
+| type              | String | onConnect                                      |
+| page              | String | connect or sign                                |
+| message           | Object | {publicKey, wallet}                            |
+| message.publicKey | String | The user's public key                          |
+| message.wallet    | String | The name of the wallet the user connected with |
+
+### onSign
+
+This message is received when the user signs the XDR sent to Simple Signer.
+
+| property name     | type   | value                       |
+| ----------------- | ------ | --------------------------- |
+| type              | String | onSign                      |
+| page              | String | connect or sign             |
+| message           | Object | {signedXDR}                 |
+| message.signedXDR | String | The XDR, signed by the user |
+
+---
+
+Made with love in Argentina.

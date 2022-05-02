@@ -3,9 +3,9 @@
  */
 import { expect } from '@jest/globals';
 
-import Bridge from '../Bridge';
+import Bridge, { SimpleSignerPageType } from '../Bridge';
 
-const bridge = new Bridge();
+const bridge = new Bridge(SimpleSignerPageType.SIGN);
 
 it('should get url params', () => {
     const urlWithGoodParams = 'xdr=1234&description=1234';
