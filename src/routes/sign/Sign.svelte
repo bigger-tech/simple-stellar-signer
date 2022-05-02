@@ -1,10 +1,10 @@
 <script lang="ts">
-    import Bridge from '../../lib/bridge/Bridge';
+    import Bridge, { SimpleSignerPageType } from '../../lib/bridge/Bridge';
     import Transaction from '../../lib/components/transaction/Transaction.svelte';
     import { language } from '../../store/global';
     import { transaction } from './signStore';
 
-    const bridge = new Bridge();
+    const bridge = new Bridge(SimpleSignerPageType.SIGN);
     const urlParams = bridge.getTransactionMessageFromUrl();
 
     if (urlParams) {
@@ -15,11 +15,20 @@
         });
     }
 
+    function handleCancel() {
+        bridge.sendOnCancelEvent();
+    }
+
+    function handleConfirm(event: CustomEvent) {
+        const signedXdr = event.detail as string;
+        bridge.sendSignedTx(signedXdr);
+    }
+
     bridge.sendOnReadyEvent();
 </script>
 
 {#if $transaction?.xdr}
-    <Transaction transactionMessage={$transaction} />
+    <Transaction transactionMessage={$transaction} on:cancel={handleCancel} on:confirm={handleConfirm} />
 {:else if !$transaction.xdr}
     <h1>{$language.XDR_NOT_PROVIDED}</h1>
 {/if}
