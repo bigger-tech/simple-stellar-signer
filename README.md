@@ -258,7 +258,13 @@ via PostMessage
           "width=360, height=700"
         );
 
-        signWindow.postMessage({xdr}, `${simpleSignerHost}/`);
+    window.addEventListener('message', (e) => {
+        if (e.origin !== `${simpleSignerHost}`) {
+            return;
+        } else if (signWindow && e.data.type === 'onReady') {
+            signWindow.postMessage({ xdr, description, operationGroups }, `${simpleSignerHost}/`);
+        }
+    });
 
         return signWindow;
       }
