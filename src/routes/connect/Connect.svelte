@@ -11,8 +11,12 @@
     const bridge = new Bridge();
     $wallets = bridge.getWalletsFromUrl();
 
-    if (parent) {
-        $urlOrDefaultWallets = false;
+    if (parent && !$wallets.length) {
+        bridge.addAvailableWalletsMessageHandler((message) => {
+            $urlOrDefaultWallets = false;
+            $wallets = message.wallets;
+            $postMessageWallets = true;
+        });
     }
 
     bridge.addAvailableWalletsMessageHandler((message) => {
