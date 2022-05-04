@@ -11,15 +11,17 @@
     const bridge = new Bridge();
     $wallets = bridge.getWalletsFromUrl();
 
-    if (parent) {
-        $urlOrDefaultWallets = false;
-    }
+    if (!$wallets.length) {
+        if (parent) {
+            $urlOrDefaultWallets = false;
+        }
 
-    bridge.addAvailableWalletsMessageHandler((message) => {
-        $urlOrDefaultWallets = false;
-        $wallets = message.wallets;
-        $postMessageWallets = true;
-    });
+        bridge.addAvailableWalletsMessageHandler((message) => {
+            $urlOrDefaultWallets = false;
+            $wallets = message.wallets;
+            $postMessageWallets = true;
+        });
+    }
 
     function handleOnConnect(event: CustomEvent) {
         const detail = event.detail;
