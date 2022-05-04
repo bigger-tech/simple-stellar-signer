@@ -21,6 +21,16 @@ It can be embedded on any website and supports multiple wallets and languages.
         <td>Implemented</td>
     </tr>
     <tr>
+        <td>xBull</td>
+        <td><a href="https://xbull.com">xbull.com</a></td>
+        <td>Implemented</td>
+    </tr>
+        <tr>
+        <td>xBull</td>
+        <td><a href="https://xbull.com">xbull.com</a></td>
+        <td>Implemented</td>
+    </tr>
+    <tr>
         <td>Ledger</td>
         <td><a href="https://ledger.com">ledger.com</a></td>
         <td>In progress</td>
@@ -42,11 +52,11 @@ See the [documentation on languages](https://github.com/PlutoDAO/simple-stellar-
     <tbody>
     <tr>
         <td>English</td>
-        <td><a href="https://google.com">Link to the English definition file</a></td>
+        <td><a href="https://github.com/PlutoDAO/simple-stellar-signer/blob/main/src/lib/i18n/languages/english.json">Link to the English definition file</a></td>
     </tr>
     <tr>
         <td>Spanish</td>
-        <td><a href="https://google.com">Link to the Spanish definition file</a></td>
+        <td><a href="https://github.com/PlutoDAO/simple-stellar-signer/blob/main/src/lib/i18n/languages/spanish.json">Link to the Spanish definition file</a></td>
     </tr>
     </tbody>
 </table>
@@ -63,6 +73,51 @@ When you open `/connect`, Simple Signer will prompt the user to log in. Once the
 
 // TODO: Extremely concise example of how to open a connect window and listen to the incoming message, and validating that the public key is valid using KeyPair.fromPublic()
 
+```javascript
+import { Keypair } from "stellar-sdk";
+
+const simpleSignerURL = "https://localhost:3001";
+
+const connectButton = document.createElement("button");
+connectButton.onclick = () => openConnectWindow();
+connectButton.innerText = "Connect";
+document.body.appendChild(connectButton);
+
+export function openConnectWindow() {
+  const connectWindow = window.open(
+    `${simpleSignerURL}/connect`,
+    "Connect_Window",
+    "width=360, height=450"
+  );
+
+  window.addEventListener("message", (e) => {
+    if (e.origin !== `${simpleSignerURL}`) {
+      return;
+    } else if (connectWindow && e.data.type === "onReady") {
+      connectWindow.postMessage({ wallets: [] }, `${simpleSignerURL}`);
+    }
+  });
+}
+
+function handleMessage(e) {
+  if (e.origin !== `${simpleSignerURL}`) {
+    return;
+  }
+
+  const messageEvent = e.data;
+
+  if (messageEvent.type === "onConnect") {
+    const publicKey = messageEvent.message.publicKey;
+    if (Keypair.fromPublicKey(publicKey)) {
+      console.log(messageEvent.message);
+    }
+  }
+}
+window.addEventListener("message", handleMessage);
+
+
+```
+
 ### Passing in custom wallets
 
 You may choose to explicitly show certain wallets as opposed to showing all of them. You do so by using the `wallets` parameter in the URL or by sending a message to Simple Signer.
@@ -71,8 +126,19 @@ Via Url:
 // TODO: Example on how to pass the parameter via URL
 
 Via postMessage:
-// TODO: Example on how to send the message via postMessage
-
+```javascript	
+ window.addEventListener("message", (e) => {
+    if (e.origin !== `${simpleSignerURL}`) {
+      return;
+    } else if (connectWindow && e.data.type === "onReady") {
+      connectWindow.postMessage(
+        { wallets: ["xbull", "albedo"] },
+        `${simpleSignerURL}`
+      );
+    }
+  });
+```	
+Will only show the wallets `xbull` and `albedo`.
 ---
 
 ## Signing a transaction
@@ -127,6 +193,7 @@ A user may also choose to change the language using the interface.
 You can access the testnet-connected version at `https://sign-test.plutodao.finance`.
 
 ---
+
 # Contributing
 
 ## Installation
@@ -143,8 +210,7 @@ To ensure we keep a high code quality, we use ESLint as a Linter and Prettier as
 
 We also use Husky to automatically run lint-staged when making a commit, being able to commit only if lint-staged passes with no errors.
 
-To make sure we have the same coding style/rules we use https://editorconfig.org/
-
+To make sure we have the same coding style/rules we use <https://editorconfig.org/>
 
 ## Adding a new Language
 
