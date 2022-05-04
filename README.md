@@ -145,7 +145,17 @@ Will only render the wallets `xbull`, `freighter` and `albedo`.
 
 
 Via postMessage:
-```javascript	
+```javascript
+
+const simpleSignerURL = "https://localhost:3001";
+
+function openConnectWindow() {
+        window.open(
+          `${simpleSignerURL}/connect`,
+          "Connect_Window",
+          "width=360, height=450"
+        );
+        
  window.addEventListener("message", (e) => {
     if (e.origin !== `${simpleSignerURL}`) {
       return;
@@ -155,7 +165,8 @@ Via postMessage:
         `${simpleSignerURL}`
       );
     }
-  });
+  })
+ } 
 ```	
 Will only render the wallets `xbull` and `albedo`.
 
