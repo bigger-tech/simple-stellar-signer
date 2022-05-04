@@ -73,47 +73,53 @@ When you open `/connect`, Simple Signer will prompt the user to log in. Once the
 
 // TODO: Extremely concise example of how to open a connect window and listen to the incoming message, and validating that the public key is valid using KeyPair.fromPublic()
 
-```javascript
-import { Keypair } from "stellar-sdk";
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/10.1.0/stellar-sdk.min.js"
+      integrity="sha512-EqNQsxKR6rZ5xKl29xXa+ez7xgtVSUpj9UDzZmTqoyF0wHbusLkrP8S7dOsKa9DmkoHbssoWUA4+n/0KYY1EAQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+  <body>
+    <button onclick="openConnectWindow()">Connect</button>
+    <script>
+      const simpleSignerURL = "https://localhost:3001";
 
-const simpleSignerURL = "https://localhost:3001";
+      function openConnectWindow() {
+        window.open(
+          `${simpleSignerURL}/connect`,
+          "Connect_Window",
+          "width=360, height=450"
+        );
+      }
 
-const connectButton = document.createElement("button");
-connectButton.onclick = () => openConnectWindow();
-connectButton.innerText = "Connect";
-document.body.appendChild(connectButton);
+      function handleMessage(e) {
+        if (e.origin !== `${simpleSignerURL}`) {
+          return;
+        }
 
-export function openConnectWindow() {
-  const connectWindow = window.open(
-    `${simpleSignerURL}/connect`,
-    "Connect_Window",
-    "width=360, height=450"
-  );
+        const messageEvent = e.data;
 
-  window.addEventListener("message", (e) => {
-    if (e.origin !== `${simpleSignerURL}`) {
-      return;
-    } else if (connectWindow && e.data.type === "onReady") {
-      connectWindow.postMessage({ wallets: [] }, `${simpleSignerURL}`);
-    }
-  });
-}
+        if (messageEvent.type === "onConnect") {
+          const publicKey = messageEvent.message.publicKey;
+          if (StellarSdk.Keypair.fromPublicKey(publicKey)) {
+            console.log(messageEvent.message);
+          }
+        }
+      }
+      window.addEventListener("message", handleMessage);
+    </script>
+  </body>
+</html>
 
-function handleMessage(e) {
-  if (e.origin !== `${simpleSignerURL}`) {
-    return;
-  }
-
-  const messageEvent = e.data;
-
-  if (messageEvent.type === "onConnect") {
-    const publicKey = messageEvent.message.publicKey;
-    if (Keypair.fromPublicKey(publicKey)) {
-      console.log(messageEvent.message);
-    }
-  }
-}
-window.addEventListener("message", handleMessage);
 
 
 ```
@@ -123,7 +129,20 @@ window.addEventListener("message", handleMessage);
 You may choose to explicitly show certain wallets as opposed to showing all of them. You do so by using the `wallets` parameter in the URL or by sending a message to Simple Signer.
 
 Via Url:
-// TODO: Example on how to pass the parameter via URL
+```javascript
+const simpleSignerURL = "https://localhost:3001";
+
+function openConnectWindow() {
+        window.open(
+          `${simpleSignerURL}/connect?wallets=xbull&wallets=freighter&wallets=albedo`,
+          "Connect_Window",
+          "width=360, height=450"
+        );
+}
+
+```
+Will only render the wallets `xbull`, `freighter` and `albedo`.
+
 
 Via postMessage:
 ```javascript	
@@ -138,14 +157,74 @@ Via postMessage:
     }
   });
 ```	
-Will only show the wallets `xbull` and `albedo`.
+Will only render the wallets `xbull` and `albedo`.
+
+
 ---
 
 ## Signing a transaction
 
 Once you generate the transaction you want the user to sign, you can present it to your customer using the `/sign` endpoint. Simple Signer will send a message back to your website with the signed transaction.
 
-// TODO: Extremely concise example of how to open a sign window, listen to the incoming message, validate that the XDR is correct and
+// TODO: Extremely concise example of how to open a sign window, listen to the incoming message, validate that the XDR is correct and submit the transaction
+
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Page Title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/10.1.0/stellar-sdk.min.js"
+      integrity="sha512-EqNQsxKR6rZ5xKl29xXa+ez7xgtVSUpj9UDzZmTqoyF0wHbusLkrP8S7dOsKa9DmkoHbssoWUA4+n/0KYY1EAQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+  </head>
+  <body>
+    <button onclick="openSignWindow()">Connect</button>
+    <script>
+      const simpleSignerURL = "https://localhost:3001";
+
+      function openSignWindow(xdr, description, operationGroups) {
+        const signWindow = window.open(
+          `${simpleSignerURL}/sign`,
+          "Sign_Window",
+          "width=360, height=700"
+        );
+
+        return signWindow;
+      }
+
+      async function handleMessage(e) {
+        if (e.origin !== simpleSignerURL) {
+          return;
+        }
+
+        const messageEvent = e.data;
+
+        if (messageEvent.type === "onSign") {
+          const signedXdr = messageEvent.message.signedXDR;
+          if (
+            StellarSdk.xdr.TransactionEnvelope.validateXDR(
+              signedXdr,
+              "base64"
+            ) === true
+          ) {
+            const response = await StellarSdk.submitTransaction(signedXdr);
+            console.log(messageEvent.message);
+          }
+        }
+      }
+      window.addEventListener("message", handleMessage);
+    </script>
+  </body>
+</html>
+
+
+```
 
 You may choose to pass the transaction to Simple Signer either via URL or via postMessage.
 
@@ -153,7 +232,39 @@ via URL
 
 //TODO: Example on how to pass the unsigned transaction via XDR
 
+```javascript
+
+const simpleSignerURL = "https://localhost:3001";
+
+function openSignWindow(xdr, description, operationGroups) {
+  const signWindow = window.open(
+    `${simpleSignerURL}/sign?xdr=${xdr}`,
+    "Sign_Window",
+    "width=360, height=700"
+  );
+
+  return signWindow;
+}
+
+```
+
 via PostMessage
+
+```javascript	
+      function openSignWindow(xdr, description, operationGroups) {
+        const signWindow = window.open(
+          `${simpleSignerURL}/sign`,
+          "Sign_Window",
+          "width=360, height=700"
+        );
+
+        signWindow.postMessage({xdr}, `${simpleSignerHost}/`);
+
+        return signWindow;
+      }
+
+```	
+
 //TODO: Example on how to pass the unsigned transaction via postMessage
 
 ### Explaining your transaction
