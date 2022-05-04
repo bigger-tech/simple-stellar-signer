@@ -19,12 +19,6 @@
         });
     }
 
-    bridge.addAvailableWalletsMessageHandler((message) => {
-        $urlOrDefaultWallets = false;
-        $wallets = message.wallets;
-        $postMessageWallets = true;
-    });
-
     function handleOnConnect(event: CustomEvent) {
         const detail = event.detail;
         const publicKey: string = detail.publicKey;
