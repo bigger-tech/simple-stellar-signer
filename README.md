@@ -296,6 +296,12 @@ You can add a general description to your transaction as follows
 
 // TODO: Example of sending an unsigned tx with a description
 
+```javascript
+
+openSignWindow(xdrUnsigned, 'This is a payment');
+
+```
+
 // TODO: Image of the result
 
 ### Operation grouping
