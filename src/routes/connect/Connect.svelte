@@ -11,11 +11,7 @@
     const bridge = new Bridge();
     $wallets = bridge.getWalletsFromUrl();
 
-    if (!$wallets.length) {
-        if (parent) {
-            $urlOrDefaultWallets = false;
-        }
-
+    if (parent && !$wallets.length) {
         bridge.addAvailableWalletsMessageHandler((message) => {
             $urlOrDefaultWallets = false;
             $wallets = message.wallets;
