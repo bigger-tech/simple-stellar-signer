@@ -4,22 +4,18 @@
     import { language } from '../../store/global';
     import { isTransactionVisible, transaction } from './signStore';
 
-    const parent = window.opener;
     const bridge = new Bridge();
     const urlParams = bridge.getTransactionMessageFromUrl();
 
-    if (parent) {
-        $isTransactionVisible = false;
-    }
-
     if (urlParams) {
         $transaction = urlParams;
+    } else {
+        $isTransactionVisible = false;
+        bridge.addTransactionMessageHandler((message) => {
+            $transaction = message;
+            $isTransactionVisible = true;
+        });
     }
-
-    bridge.addTransactionMessageHandler((message) => {
-        $transaction = message;
-        $isTransactionVisible = true;
-    });
 
     bridge.sendOnReadyEvent();
 </script>
