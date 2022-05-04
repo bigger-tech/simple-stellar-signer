@@ -302,7 +302,21 @@ Sometimes it's useful to group operations together to explain what they are doin
 
 // TODO: Example of sending an unsigned with a description + grouped operations
 
+```javascript
+openSignWindow(xdrUnsigned, 'Example transaction description', [
+            {
+                from: 0,
+                to: 0,
+                description: 'Example group description',
+                title: 'Example title',
+            },
+        ]);
+```
+
 // TODO: Image of the result
+
+![image](https://user-images.githubusercontent.com/56001809/166840971-f98ed7e0-8009-4f35-8d4c-8acf2491cfb2.png)
+
 
 --
 
