@@ -29,6 +29,11 @@ It can be embedded on any website and supports multiple wallets and languages.
         <td>Freighter</td>
         <td><a href="https://www.freighter.app/">freighter.app</a></td>
         <td>Implemented</td>
+    </tr>     
+        <tr>
+        <td>Rabet</td>
+        <td><a href="https://rabet.io/">rabet.io</a></td>
+        <td>Implemented</td>
     </tr>
     <tr>
         <td>Ledger</td>
