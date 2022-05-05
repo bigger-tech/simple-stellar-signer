@@ -345,12 +345,8 @@ You can access the testnet-connected version at `https://sign-test.plutodao.fina
 
 ---
 
-# Contributing
-
-
 ## Tech stack
 
-//TODO: Link to tech projects
 
 This project is built using the [Svelte framework](https://svelte.com) along with TypeScript. It uses Cypress for E2E/integration tests, and Jest for Unit Tests
 
