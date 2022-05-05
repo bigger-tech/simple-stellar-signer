@@ -21,13 +21,13 @@ It can be embedded on any website and supports multiple wallets and languages.
         <td>Implemented</td>
     </tr>
     <tr>
-        <td>xBull</td>
-        <td><a href="https://xbull.com">xbull.com</a></td>
+        <td>Albedo</td>
+        <td><a href="https://albedo.link/">xbull.com</a></td>
         <td>Implemented</td>
     </tr>
         <tr>
-        <td>xBull</td>
-        <td><a href="https://xbull.com">xbull.com</a></td>
+        <td>Freighter</td>
+        <td><a href="https://www.freighter.app/">xbull.com</a></td>
         <td>Implemented</td>
     </tr>
     <tr>
