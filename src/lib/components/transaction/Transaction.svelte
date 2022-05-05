@@ -63,6 +63,14 @@
 
         network = CURRENT_STELLAR_NETWORK;
 
+        if (CURRENT_STELLAR_NETWORK === 'https://horizon-testnet.stellar.org') {
+            network = 'Testnet';
+        } else if (CURRENT_STELLAR_NETWORK === 'https://horizon.stellar.org') {
+            network = 'Pubnet';
+        } else {
+            network = CURRENT_STELLAR_NETWORK;
+        }
+
         shortedSourceAccount = getShortedStellarKey(tx.source);
         const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
 
