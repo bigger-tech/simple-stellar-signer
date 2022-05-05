@@ -22,12 +22,12 @@ It can be embedded on any website and supports multiple wallets and languages.
     </tr>
     <tr>
         <td>Albedo</td>
-        <td><a href="https://albedo.link/">xbull.com</a></td>
+        <td><a href="https://albedo.link/">albedo.link</a></td>
         <td>Implemented</td>
     </tr>
         <tr>
         <td>Freighter</td>
-        <td><a href="https://www.freighter.app/">xbull.com</a></td>
+        <td><a href="https://www.freighter.app/">freighter.app</a></td>
         <td>Implemented</td>
     </tr>
     <tr>
