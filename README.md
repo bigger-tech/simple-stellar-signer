@@ -302,6 +302,9 @@ openSignWindow(xdrUnsigned, 'This is a payment');
 
 ```
 
+![image](https://user-images.githubusercontent.com/56001809/166843128-4d877dcb-739b-44bc-a067-7e8c5cfbea2c.png)
+
+
 // TODO: Image of the result
 
 ### Operation grouping
@@ -314,16 +317,19 @@ Sometimes it's useful to group operations together to explain what they are doin
 openSignWindow(xdrUnsigned, 'Example transaction description', [
             {
                 from: 0,
-                to: 0,
+                to: 3,
                 description: 'Example group description',
-                title: 'Example title',
+                title: 'Example group title',
             },
         ]);
 ```
 
 // TODO: Image of the result
 
-![image](https://user-images.githubusercontent.com/56001809/166840971-f98ed7e0-8009-4f35-8d4c-8acf2491cfb2.png)
+![image](https://user-images.githubusercontent.com/56001809/166843672-49c00b83-339e-4a62-bfa0-8718cd90d97d.png)
+
+![image](https://user-images.githubusercontent.com/56001809/166843771-0c7f7969-a92f-4bbb-806d-9f183c915f36.png)
+
 
 
 --
@@ -334,9 +340,15 @@ By default, Simple Signer will detect the browser's language and serve Simple Si
 
 //TODO: Image of the interface in Spanish
 
+![image](https://user-images.githubusercontent.com/56001809/166843924-dad3b48f-b75d-4fdd-b1ca-26febc087302.png)
+
+
 A user may also choose to change the language using the interface.
 
 //TODO: Image of the interface
+
+![image](https://user-images.githubusercontent.com/56001809/166844007-42cf00bf-8659-497d-afe3-f2c02ae268b7.png)
+
 
 ## Connecting to testnet
 
