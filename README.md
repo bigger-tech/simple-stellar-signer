@@ -322,7 +322,7 @@ openSignWindow(xdrUnsigned, 'Example transaction description', [
 
 
 
---
+---
 
 ## Language selection
 
