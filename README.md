@@ -298,7 +298,7 @@ You can add a general description to your transaction as follows
 
 ```javascript
 
-openSignWindow(xdrUnsigned, 'This is a payment');
+openSignWindow(xdrUnsigned, 'Example transaction description');
 
 ```
 
