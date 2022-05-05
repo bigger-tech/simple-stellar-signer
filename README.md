@@ -71,7 +71,6 @@ Simple Signer provides two endpoints, `/connect` and `/sign`.
 
 When you open `/connect`, Simple Signer will prompt the user to log in. Once the user is logged in, Simple Signer will send a message to your website with the Public Key of the logged in account and the wallet used.
 
-// TODO: Extremely concise example of how to open a connect window and listen to the incoming message, and validating that the public key is valid using KeyPair.fromPublic()
 
 ```html
 <!DOCTYPE html>
@@ -177,7 +176,6 @@ Will only render the wallets `xbull` and `albedo`.
 
 Once you generate the transaction you want the user to sign, you can present it to your customer using the `/sign` endpoint. Simple Signer will send a message back to your website with the signed transaction.
 
-// TODO: Extremely concise example of how to open a sign window, listen to the incoming message, validate that the XDR is correct and submit the transaction
 
 ```html
 <!DOCTYPE html>
@@ -241,9 +239,7 @@ Once you generate the transaction you want the user to sign, you can present it 
 
 You may choose to pass the transaction to Simple Signer either via URL or via postMessage.
 
-via URL
-
-//TODO: Example on how to pass the unsigned transaction via XDR
+Via URL:
 
 ```javascript
 
@@ -261,7 +257,7 @@ function openSignWindow(xdr, description, operationGroups) {
 
 ```
 
-via PostMessage
+Via PostMessage:
 
 ```javascript	
       function openSignWindow(xdr, description, operationGroups) {
@@ -284,7 +280,7 @@ via PostMessage
 
 ```	
 
-//TODO: Example on how to pass the unsigned transaction via postMessage
+
 
 ### Explaining your transaction
 
@@ -294,7 +290,6 @@ Simple Signer gives you the ability to make your transaction simpler to understa
 
 You can add a general description to your transaction as follows
 
-// TODO: Example of sending an unsigned tx with a description
 
 ```javascript
 
@@ -305,13 +300,10 @@ openSignWindow(xdrUnsigned, 'Example transaction description');
 ![image](https://user-images.githubusercontent.com/56001809/166843128-4d877dcb-739b-44bc-a067-7e8c5cfbea2c.png)
 
 
-// TODO: Image of the result
 
 ### Operation grouping
 
 Sometimes it's useful to group operations together to explain what they are doing.
-
-// TODO: Example of sending an unsigned with a description + grouped operations
 
 ```javascript
 openSignWindow(xdrUnsigned, 'Example transaction description', [
@@ -323,8 +315,6 @@ openSignWindow(xdrUnsigned, 'Example transaction description', [
             },
         ]);
 ```
-
-// TODO: Image of the result
 
 ![image](https://user-images.githubusercontent.com/56001809/166843672-49c00b83-339e-4a62-bfa0-8718cd90d97d.png)
 
@@ -338,14 +328,13 @@ openSignWindow(xdrUnsigned, 'Example transaction description', [
 
 By default, Simple Signer will detect the browser's language and serve Simple Signer using this configuration. If the language found is not implemented, it defaults to English.
 
-//TODO: Image of the interface in Spanish
+
 
 ![image](https://user-images.githubusercontent.com/56001809/166843924-dad3b48f-b75d-4fdd-b1ca-26febc087302.png)
 
 
 A user may also choose to change the language using the interface.
 
-//TODO: Image of the interface
 
 ![image](https://user-images.githubusercontent.com/56001809/166844007-42cf00bf-8659-497d-afe3-f2c02ae268b7.png)
 
@@ -358,9 +347,6 @@ You can access the testnet-connected version at `https://sign-test.plutodao.fina
 
 # Contributing
 
-## Installation
-
-// TODO: Installation instructions
 
 ## Tech stack
 
