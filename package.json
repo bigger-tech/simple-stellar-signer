@@ -1,7 +1,11 @@
 {
     "name": "simple-stellar-signer",
-    "version": "0.0.1",
+    "version": "0.1",
     "type": "module",
+    "engines": {
+        "npm": ">=8.9.0",
+        "node": ">=16.4.0"
+    },
     "scripts": {
         "dev": "vite --https --host",
         "dev:open": "vite --open --https",
@@ -77,6 +81,7 @@
     },
     "dependencies": {
         "@stellar/freighter-api": "^1.1.2",
-        "stellar-sdk": "^10.0.0"
+        "stellar-sdk": "^10.0.0",
+        "util": "^0.12.4"
     }
 }
