@@ -17,7 +17,7 @@
         <button onclick="openSignWindowUsingUrlParams()">Open sign via URL</button>
         <button onclick="openSignWindowUsingPostMessage()">Open sign via postMessage</button>
         <script type="text/javascript">
-            const simpleSignerURL = 'https://localhost:3001';
+            const simpleSignerURL = 'https://sign.plutodao.finance';
             const sampleXdr =
                 'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
 
@@ -31,7 +31,7 @@
 
             function openSignWindowUsingUrlParams() {
                 console.log('Opening sign window using URL params');
-                window.open(
+                signWindow = window.open(
                     `${simpleSignerURL}/sign?xdr=${sampleXdr}&description=A sample description`,
                     'Sign_Window',
                     'width=360, height=700',
