@@ -88,52 +88,52 @@ send a message to your website with the Public Key of the logged in account and 
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset='utf-8' />
-    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
-    <title>Simple Signer - Connect Wallet Demo</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1' />
-    <script
-        src='https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/10.1.0/stellar-sdk.min.js'
-        integrity='sha512-EqNQsxKR6rZ5xKl29xXa+ez7xgtVSUpj9UDzZmTqoyF0wHbusLkrP8S7dOsKa9DmkoHbssoWUA4+n/0KYY1EAQ=='
-        crossorigin='anonymous'
-        referrerpolicy='no-referrer'
-    ></script>
-</head>
-<body>
-<button onclick='openConnectWindow()'>Connect</button>
-<script>
-    const simpleSignerURL = 'https://sign.plutodao.finance';
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Simple Signer - Connect Wallet Demo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/10.1.0/stellar-sdk.min.js"
+            integrity="sha512-EqNQsxKR6rZ5xKl29xXa+ez7xgtVSUpj9UDzZmTqoyF0wHbusLkrP8S7dOsKa9DmkoHbssoWUA4+n/0KYY1EAQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+    </head>
+    <body>
+        <button onclick="openConnectWindow()">Connect</button>
+        <script>
+            const simpleSignerURL = 'https://sign.plutodao.finance';
 
-    function openConnectWindow() {
-        window.open(
-            `${simpleSignerURL}/connect`,
-            'Connect_Window',
-            'width=360, height=450',
-        );
-    }
-
-    function handleMessage(e) {
-        // Reject messages that are not coming from simple signer (tailor this according to your needs)
-        if (e.origin!==`${simpleSignerURL}`) {
-            return;
-        }
-
-        const messageEvent = e.data;
-
-        if (messageEvent.type==='onConnect') {
-            const publicKey = messageEvent.message.publicKey;
-            // Validate the public key received. This is just good practice.
-            if (StellarSdk.Keypair.fromPublicKey(publicKey)) {
-                console.log('The public key is', publicKey);
+            function openConnectWindow() {
+                window.open(
+                    `${simpleSignerURL}/connect`,
+                    'Connect_Window',
+                    'width=360, height=450',
+                );
             }
-        }
-    }
 
-    // see https://developer.mozilla.org/en-US/docs/Web/API/Window/message_event
-    window.addEventListener('message', handleMessage);
-</script>
-</body>
+            function handleMessage(e) {
+                // Reject messages that are not coming from simple signer (tailor this according to your needs)
+                if (e.origin !== `${simpleSignerURL}`) {
+                    return;
+                }
+
+                const messageEvent = e.data;
+
+                if (messageEvent.type === 'onConnect') {
+                    const publicKey = messageEvent.message.publicKey;
+                    // Validate the public key received. This is just good practice.
+                    if (StellarSdk.Keypair.fromPublicKey(publicKey)) {
+                        console.log('The public key is', publicKey);
+                    }
+                }
+            }
+
+            // see https://developer.mozilla.org/en-US/docs/Web/API/Window/message_event
+            window.addEventListener('message', handleMessage);
+        </script>
+    </body>
 </html>
 ```
 
@@ -147,60 +147,60 @@ endpoint. Simple Signer will send a message back to your website with the signed
 ```html
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset='utf-8' />
-    <meta http-equiv='X-UA-Compatible' content='IE=edge' />
-    <title>Simple Signer - Sign Transaction Demo</title>
-    <meta name='viewport' content='width=device-width, initial-scale=1' />
-    <script
-        src='https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/10.1.0/stellar-sdk.min.js'
-        integrity='sha512-EqNQsxKR6rZ5xKl29xXa+ez7xgtVSUpj9UDzZmTqoyF0wHbusLkrP8S7dOsKa9DmkoHbssoWUA4+n/0KYY1EAQ=='
-        crossorigin='anonymous'
-        referrerpolicy='no-referrer'
-    ></script>
-</head>
-<body>
-<button onclick='openSignWindow(unsignedXdr)'>Sign</button>
-<script>
-    // This XDR may be constructed using the public key obtained from /connect, this is just an example.
-    const unsignedXdr =
-        'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Simple Signer - Sign Transaction Demo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/10.1.0/stellar-sdk.min.js"
+            integrity="sha512-EqNQsxKR6rZ5xKl29xXa+ez7xgtVSUpj9UDzZmTqoyF0wHbusLkrP8S7dOsKa9DmkoHbssoWUA4+n/0KYY1EAQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+    </head>
+    <body>
+        <button onclick="openSignWindow(unsignedXdr)">Sign</button>
+        <script>
+            // This XDR may be constructed using the public key obtained from /connect, this is just an example.
+            const unsignedXdr =
+                'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
 
-    const simpleSignerURL = 'https://sign.plutodao.finance';
+            const simpleSignerURL = 'https://sign.plutodao.finance';
 
-    const signWindow = window.open(
-        `${simpleSignerURL}/sign?xdr=${unsignedXdr}`,
-        'Sign_Window',
-        'width=360, height=700',
-    );
+            const signWindow = window.open(
+                `${simpleSignerURL}/sign?xdr=${unsignedXdr}`,
+                'Sign_Window',
+                'width=360, height=700',
+            );
 
-    async function handleMessage(e) {
-        if (e.origin!==simpleSignerURL && e.data.type==='onSign' && e.data.page==='sign') {
-            const eventMessage = e.data;
+            async function handleMessage(e) {
+                if (e.origin!==simpleSignerURL && e.data.type==='onSign' && e.data.page==='sign') {
+                    const eventMessage = e.data;
 
-            const signedXdr = eventMessage.message.signedXDR;
-            // Validate the XDR, this is just good practice.
-            if (StellarSdk.xdr.TransactionEnvelope.validateXDR(signedXdr, 'base64')) {
-                const server = new StellarSdk.Server('https://horizon-testnet.stellar.org/');  //remember to update this to the correct value
+                    const signedXdr = eventMessage.message.signedXDR;
+                    // Validate the XDR, this is just good practice.
+                    if (StellarSdk.xdr.TransactionEnvelope.validateXDR(signedXdr, 'base64')) {
+                        const server = new StellarSdk.Server('https://horizon-testnet.stellar.org/');  //remember to update this to the correct value
 
-                // Construct the transaction from the signedXDR
-                // see https://stellar.github.io/js-stellar-sdk/TransactionBuilder.html#.fromXDR
-                const transaction = StellarSdk.TransactionBuilder.fromXDR(
-                    signedXdr,
-                    'Test SDF Network ; September 2015', //remember to update this to the correct value
-                );
+                        // Construct the transaction from the signedXDR
+                        // see https://stellar.github.io/js-stellar-sdk/TransactionBuilder.html#.fromXDR
+                        const transaction = StellarSdk.TransactionBuilder.fromXDR(
+                            signedXdr,
+                            'Test SDF Network ; September 2015', //remember to update this to the correct value
+                        );
 
-                try {
-                    const transactionResult = await server.submitTransaction(transaction);
-                    console.log(transactionResult);
-                } catch (err) {
-                    console.error(err);
+                        try {
+                            const transactionResult = await server.submitTransaction(transaction);
+                            console.log(transactionResult);
+                        } catch (err) {
+                            console.error(err);
+                        }
+                    }
                 }
-            }
-        }
-        window.addEventListener('message', handleMessage);
-</script>
-</body>
+                window.addEventListener('message', handleMessage);
+        </script>
+    </body>
 </html>
 ```
 
@@ -234,9 +234,9 @@ const signWindow = window.open(
 
 window.addEventListener('message', (e) => {
     if (
-        e.origin!==`${simpleSignerUrl}` &&
-        e.data.type==='onReady' &&
-        e.data.page==='sign'
+        e.origin !== `${simpleSignerUrl}` &&
+        e.data.type === 'onReady' &&
+        e.data.page === 'sign'
     ) {
         signWindow.postMessage({ xdr: unsignedXdr }, simpleSignerHost);
     }
@@ -351,9 +351,9 @@ const connectWindow = window.open(
 
 window.addEventListener('message', (e) => {
     if (
-        e.origin===`${simpleSignerURL}` &&
-        e.data.type==='onReady' &&
-        e.data.page==='sign'
+        e.origin === `${simpleSignerURL}` &&
+        e.data.type === 'onReady' &&
+        e.data.page === 'sign'
     ) {
         connectWindow.postMessage(
             { wallets: ['xbull', 'albedo'] },
@@ -402,9 +402,9 @@ const sampleXdr =
     'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
 window.addEventListener('message', (e) => {
     if (
-        e.origin===`${simpleSignerURL}` &&
-        e.data.type==='onReady' &&
-        e.data.page==='sign'
+        e.origin === `${simpleSignerURL}` &&
+        e.data.type === 'onReady' &&
+        e.data.page === 'sign'
     ) {
         signWindow.postMessage(
             {
@@ -457,7 +457,11 @@ Consider the following example:
 
 ```javascript
 window.addEventListener('message', (e) => {
-    if (e.origin!==`${simpleSignerUrl}` && e.data.type==='onReady' && e.data.page==='sign') {
+    if (
+        e.origin !== `${simpleSignerUrl}` &&
+        e.data.type === 'onReady' &&
+        e.data.page === 'sign'
+    ) {
         signWindow.postMessage({ xdr }, simpleSignerHost);
     }
 });
