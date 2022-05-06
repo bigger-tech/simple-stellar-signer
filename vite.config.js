@@ -28,9 +28,6 @@ export default defineConfig({
             ],
         },
     },
-    define: {
-        'process.env': 'import.meta.env',
-    },
     build: {
         target: 'esnext',
         rollupOptions: {
