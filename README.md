@@ -18,7 +18,7 @@ It can be embedded on any website and supports multiple wallets and languages.
     <tbody>
     <tr>
         <td>xBull</td>
-        <td><a href="https://xbull.com">xbull.com</a></td>
+        <td><a href="https://xbull.app">xbull.app</a></td>
         <td>Implemented</td>
     </tr>
     <tr>
