@@ -7,7 +7,6 @@
     import { postMessageWallets, urlOrDefaultWallets, wallets } from './connectStore';
 
     const parent = window.opener;
-
     const bridge = new Bridge(SimpleSignerPageType.CONNECT);
     $wallets = bridge.getWalletsFromUrl();
 
@@ -27,6 +26,19 @@
     }
 
     bridge.sendOnReadyEvent();
+
+    const defaultPopupWidth = 360;
+    const defaultPopupHeight = 510;
+    const minimumPopupHeight = 210;
+    const minimumPopupWidth = 340;
+
+    if (window.outerHeight < minimumPopupHeight) {
+        self.resizeTo(self.outerWidth, defaultPopupHeight);
+    }
+
+    if (window.outerWidth < minimumPopupWidth) {
+        self.resizeTo(defaultPopupWidth, self.outerHeight);
+    }
 </script>
 
 <div class="simple-signer-container">
