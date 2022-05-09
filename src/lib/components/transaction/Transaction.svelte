@@ -82,17 +82,6 @@
     }
 
     $operationsVisibility = transactionGroups.map(() => false);
-
-    const minimumPopupHeight = 570;
-    const minimumPopupWidth = 360;
-
-    if (window.outerHeight < minimumPopupHeight) {
-        self.resizeTo(self.outerWidth, minimumPopupHeight);
-    }
-
-    if (window.outerWidth < minimumPopupWidth) {
-        self.resizeTo(minimumPopupWidth, self.outerHeight);
-    }
 </script>
 
 {#if isValidXdr}

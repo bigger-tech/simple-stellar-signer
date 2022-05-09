@@ -1,5 +1,6 @@
 <script lang="ts">
     import Bridge, { SimpleSignerPageType } from '../../lib/bridge/Bridge';
+    import { setMinimumPopUpSize } from '../../lib/components/helpers/popUpSizeHelper';
     import Transaction from '../../lib/components/transaction/Transaction.svelte';
     import { language } from '../../store/global';
     import { transaction } from './signStore';
@@ -25,6 +26,8 @@
     }
 
     bridge.sendOnReadyEvent();
+
+    setMinimumPopUpSize('sign');
 </script>
 
 {#if $transaction?.xdr}

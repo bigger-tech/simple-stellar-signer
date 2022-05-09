@@ -1,5 +1,6 @@
 <script lang="ts">
     import Bridge, { SimpleSignerPageType } from '../../lib/bridge/Bridge';
+    import { setMinimumPopUpSize } from '../../lib/components/helpers/popUpSizeHelper';
     import Language from '../../lib/components/language/Language.svelte';
     import Wallets from '../../lib/components/wallets/Wallets.svelte';
     import type IWallet from '../../lib/wallets/IWallet';
@@ -27,18 +28,7 @@
 
     bridge.sendOnReadyEvent();
 
-    const defaultPopupWidth = 360;
-    const defaultPopupHeight = 510;
-    const minimumPopupHeight = 210;
-    const minimumPopupWidth = 340;
-
-    if (window.outerHeight < minimumPopupHeight) {
-        self.resizeTo(self.outerWidth, defaultPopupHeight);
-    }
-
-    if (window.outerWidth < minimumPopupWidth) {
-        self.resizeTo(defaultPopupWidth, self.outerHeight);
-    }
+    setMinimumPopUpSize('connect');
 </script>
 
 <div class="simple-signer-container">
