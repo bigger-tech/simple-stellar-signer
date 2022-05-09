@@ -83,17 +83,15 @@
 
     $operationsVisibility = transactionGroups.map(() => false);
 
-    const defaultPopupWidth = 360;
-    const defaultPopupHeight = 570;
-    const minimumPopupHeight = 210;
-    const minimumPopupWidth = 340;
+    const minimumPopupHeight = 570;
+    const minimumPopupWidth = 360;
 
     if (window.outerHeight < minimumPopupHeight) {
-        self.resizeTo(self.outerWidth, defaultPopupHeight);
+        self.resizeTo(self.outerWidth, minimumPopupHeight);
     }
 
     if (window.outerWidth < minimumPopupWidth) {
-        self.resizeTo(defaultPopupWidth, self.outerHeight);
+        self.resizeTo(minimumPopupWidth, self.outerHeight);
     }
 </script>
 
