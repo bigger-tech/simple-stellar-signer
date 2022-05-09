@@ -28,7 +28,17 @@
 
     bridge.sendOnReadyEvent();
 
-    setMinimumPopUpSize('connect');
+    const minimumConnectPopupHeight = 210;
+    const minimumConnectPopupWidth = 340;
+    const defaultConnectPopupWidth = 360;
+    const defaultConnectPopupHeight = 510;
+
+    setMinimumPopUpSize(
+        minimumConnectPopupHeight,
+        minimumConnectPopupWidth,
+        defaultConnectPopupHeight,
+        defaultConnectPopupWidth,
+    );
 </script>
 
 <div class="simple-signer-container">

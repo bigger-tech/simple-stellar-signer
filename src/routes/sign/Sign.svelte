@@ -27,7 +27,12 @@
 
     bridge.sendOnReadyEvent();
 
-    setMinimumPopUpSize('sign');
+    const minimumSignPopupHeight = 570;
+    const minimumSignPopupWidth = 360;
+    const defaultSignPopupHeight = 570;
+    const defaultSignPopupWidth = 360;
+
+    setMinimumPopUpSize(minimumSignPopupHeight, minimumSignPopupWidth, defaultSignPopupHeight, defaultSignPopupWidth);
 </script>
 
 {#if $transaction?.xdr}
