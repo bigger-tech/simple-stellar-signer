@@ -436,7 +436,7 @@ window.addEventListener('message', (e) => {
 
 ### Via URL
 
-Please note opeartion groups are not available via URL, use postMEssage instead.
+Please note operation groups are not available via URL, use postMEssage instead.
 
 ```javascript
 const simpleSignerUrl = 'https://sign.plutodao.finance';
