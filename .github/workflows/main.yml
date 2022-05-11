@@ -36,7 +36,6 @@ jobs:
               uses: actions/cache@v2
               id: npm-cache
               with:
-                  node-version: 18
                   path: ~/.npm
                   key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
                   restore-keys: |
