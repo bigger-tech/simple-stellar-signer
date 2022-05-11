@@ -1,4 +1,3 @@
-import { xBullWalletConnect } from '@creit-tech/xbull-wallet-connect';
 import type { Transaction } from 'stellar-sdk';
 
 import { xBull } from '../../../assets';
@@ -11,13 +10,13 @@ type XBullNetwork = 'public' | 'testnet';
 export default class XBull extends AbstractWallet implements IWallet {
     public static NAME = 'xbull';
     public static FRIENDLY_NAME = 'xBull';
-    public static XBullExtension = 'https://wallet.xbull.app';
-    public bridge: xBullWalletConnect;
+    public static XBullInjected = 'XBULL_INJECTED';
+    public static XBullExtension = 'https://xbull.app';
     public XBullNetwork: XBullNetwork;
 
     constructor(storage: IStorage) {
         super(storage);
-        this.bridge = new xBullWalletConnect();
+
         if (CURRENT_STELLAR_NETWORK === StellarNetwork.PUBLIC) {
             this.XBullNetwork = StellarNetwork.PUBLIC as XBullNetwork;
         } else {
@@ -26,15 +25,13 @@ export default class XBull extends AbstractWallet implements IWallet {
     }
 
     public override async getPublicKey(): Promise<string> {
-        const publicKey = await this.bridge.connect();
+        await window.xBullSDK.connect({ canRequestPublicKey: true, canRequestSign: true });
         super.persistWallet();
-        return publicKey;
+        return window.xBullSDK.getPublicKey();
     }
 
     public override async sign(tx: Transaction): Promise<string> {
-        const signedXdr = await this.bridge.sign({ xdr: tx.toXDR() });
-        this.bridge.closeConnections();
-        return signedXdr;
+        return window.xBullSDK.signXDR(tx.toXDR(), { network: this.XBullNetwork });
     }
 
     public override getFriendlyName(): string {
@@ -55,10 +52,18 @@ export default class XBull extends AbstractWallet implements IWallet {
 
     public override isInstalled(): Promise<boolean> {
         const xBullPromise: Promise<boolean> = new Promise((resolve) => {
-            const isXBullInstalled = true;
-            if (isXBullInstalled) {
-                resolve(true);
-            }
+            window.addEventListener('message', (event) => {
+                if (event.data.type === XBull.XBullInjected && !!window.xBullSDK) {
+                    resolve(true);
+                }
+            });
+            setTimeout(() => {
+                if (window.xBullSDK) {
+                    resolve(true);
+                } else {
+                    resolve(false);
+                }
+            }, 100);
         });
         return xBullPromise;
     }
