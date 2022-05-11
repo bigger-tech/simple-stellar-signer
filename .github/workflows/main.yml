@@ -15,7 +15,6 @@ jobs:
               env:
                   cache-name: cache-node-modules
               with:
-                  node-version: 18
                   path: |
                       ~/.npm
                       node_modules
