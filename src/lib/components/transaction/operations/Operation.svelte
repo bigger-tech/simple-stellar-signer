@@ -1,20 +1,27 @@
 <script lang="ts">
-    export let operationItems: any[];
+    import { language } from '../../../../store/global';
+    import type IOperationComponentProps from './IOperationComponentProps';
+
+    export let operationItems: IOperationComponentProps['operationItems'];
 </script>
 
 <div class="simple-signer operation-container">
     <div class="simple-signer operation-info-container">
         {#each operationItems as item}
-            <div class="simple-signer operation-info">
-                <p class="simple-signer operation-info-title">{item.title}</p>
-                {#if Array.isArray(item.value)}
-                    {#each item.value as value}
-                        <p class="simple-signer break-key">{value}</p>
-                    {/each}
-                {:else}
-                    <p class="simple-signer break-key">{item.value}</p>
-                {/if}
-            </div>
+            {#if item}
+                <div class="simple-signer operation-info">
+                    <p class="simple-signer operation-info-title">{$language[item.title]}</p>
+                    {#if Array.isArray(item.value)}
+                        {#each item.value as value}
+                            <p class="simple-signer break-key">{value}</p>
+                        {/each}
+                    {:else}
+                        <p class="simple-signer break-key">
+                            {item.translatedValue ? $language[item.translatedValue] : item.value}
+                        </p>
+                    {/if}
+                </div>
+            {/if}
         {/each}
     </div>
 </div>
@@ -45,7 +52,7 @@
     }
 
     .break-key {
-        word-break: break-all;
+        word-break: break-word;
         letter-spacing: 0.14px;
         line-height: 21px;
         color: #757575;

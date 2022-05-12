@@ -1,4 +1,3 @@
-import type { ITranslation } from 'src/lib/i18n/ITranslation';
 import type { Operation, Transaction } from 'stellar-sdk';
 
 import AbstractOperationComponent from '../AbstractOperationComponent';
@@ -6,40 +5,26 @@ import type IOperationComponent from '../IOperationComponent';
 import getValue from './setOptionsHelper';
 
 export default class SetOptionsComponent extends AbstractOperationComponent implements IOperationComponent {
-    constructor(language: ITranslation, tx: Transaction, operation: Operation.SetOptions) {
+    constructor(tx: Transaction, operation: Operation.SetOptions) {
         const signerValue = getValue(operation);
 
         super({
-            title: language.OPERATION_SET_OPTIONS,
+            title: 'OPERATION_SET_OPTIONS',
 
             operationItems: [
-                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
 
                 operation.inflationDest
-                    ? { title: language.DESTINATION_INFLATION, value: operation.inflationDest }
-                    : { title: '', value: '' },
-                operation.clearFlags
-                    ? { title: language.CLEAR_FLAGS, value: operation.clearFlags }
-                    : { title: '', value: '' },
-                operation.setFlags
-                    ? { title: language.SET_FLAGS, value: operation.setFlags }
-                    : { title: '', value: '' },
-                operation.masterWeight
-                    ? { title: language.MASTER_WEIGHT, value: operation.masterWeight }
-                    : { title: '', value: '' },
-                operation.lowThreshold
-                    ? { title: language.LOW_THRESHOLD, value: operation.lowThreshold }
-                    : { title: '', value: '' },
-                operation.medThreshold
-                    ? { title: language.MEDIUM_THRESHOLD, value: operation.medThreshold }
-                    : { title: '', value: '' },
-                operation.highThreshold
-                    ? { title: language.HIGH_THRESHOLD, value: operation.highThreshold }
-                    : { title: '', value: '' },
-                operation.homeDomain
-                    ? { title: language.HOME_DOMAIN, value: operation.homeDomain }
-                    : { title: '', value: '' },
-                { title: language.SIGNER, value: signerValue },
+                    ? { title: 'DESTINATION_INFLATION', value: operation.inflationDest }
+                    : undefined,
+                operation.clearFlags ? { title: 'CLEAR_FLAGS', value: operation.clearFlags } : undefined,
+                operation.setFlags ? { title: 'SET_FLAGS', value: operation.setFlags } : undefined,
+                operation.masterWeight ? { title: 'MASTER_WEIGHT', value: operation.masterWeight } : undefined,
+                operation.lowThreshold ? { title: 'LOW_THRESHOLD', value: operation.lowThreshold } : undefined,
+                operation.medThreshold ? { title: 'MEDIUM_THRESHOLD', value: operation.medThreshold } : undefined,
+                operation.highThreshold ? { title: 'HIGH_THRESHOLD', value: operation.highThreshold } : undefined,
+                operation.homeDomain ? { title: 'HOME_DOMAIN', value: operation.homeDomain } : undefined,
+                signerValue ? { title: 'SIGNER', value: signerValue } : undefined,
             ],
         });
     }

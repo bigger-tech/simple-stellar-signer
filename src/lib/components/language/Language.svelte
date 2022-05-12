@@ -1,27 +1,42 @@
 <script>
     import { isLanguageMenuVisible } from './languageStore';
     import languageIcon from '../../../assets/icons/language.svg';
+    import { hideMenu, clickOutside } from './languageHelper';
+    import LanguageInputs from './LanguageInputs.svelte';
     import { language } from '../../../store/global';
-    import { showMenu, hideMenu } from './languageHelper';
+
+    function toggleMenuVisibility() {
+        $isLanguageMenuVisible = !$isLanguageMenuVisible;
+    }
 </script>
 
 <div class="simple-signer language-container">
     <div
-        tabindex="-1"
-        on:focus={showMenu}
-        on:blur={hideMenu}
+        use:clickOutside={hideMenu}
         class="simple-signer language-container-icon  {$isLanguageMenuVisible ? 'active' : ''}"
     >
-        <img class="simple-signer language-icon" src={languageIcon} alt="*" />
-
+        <button on:click={toggleMenuVisibility} class="simple-signer invisible-button">
+            <img class="simple-signer language-icon" src={languageIcon} alt="*" />
+        </button>
         <div class="simple-signer language-selector-container {$isLanguageMenuVisible ? '' : 'hidden'}">
-            <button class="language-active">{$language.ENGLISH}</button>
-            <button class="default">{$language.SPANISH}</button>
+            <LanguageInputs
+                languageInputsProps={[
+                    { iso: $language.SPANISH_ISO, text: $language.SPANISH },
+                    { iso: $language.ENGLISH_ISO, text: $language.ENGLISH },
+                ]}
+            />
         </div>
     </div>
 </div>
 
 <style>
+    .invisible-button {
+        padding: 0;
+        border: none;
+        background: none;
+        margin: 0;
+    }
+
     .language-container-icon {
         margin-top: 7px;
         margin-right: 10px;
@@ -42,33 +57,6 @@
         box-shadow: 3px 3px 8px #00000029;
         z-index: 1;
         margin-top: 20px;
-    }
-
-    .language-selector-container button {
-        font-family: 'Roboto', sans-serif;
-        border: none;
-        background: none;
-        cursor: pointer;
-        font-size: 14px;
-        margin-bottom: 12px;
-    }
-
-    .language-selector-container button:first-child {
-        margin-top: 12px;
-    }
-
-    .language-active {
-        font-weight: bold;
-        color: #2f69b7;
-    }
-
-    .default {
-        color: #757575;
-        font-weight: 500;
-    }
-
-    .default:hover {
-        font-weight: bold;
     }
 
     .hidden {

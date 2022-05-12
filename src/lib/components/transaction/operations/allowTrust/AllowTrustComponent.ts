@@ -5,23 +5,23 @@ import AbstractOperationComponent from '../AbstractOperationComponent';
 import type IOperationComponent from '../IOperationComponent';
 
 export default class AllowTrustComponent extends AbstractOperationComponent implements IOperationComponent {
-    constructor(language: ITranslation, tx: Transaction, operation: Operation.AllowTrust) {
-        let authorization;
+    constructor(tx: Transaction, operation: Operation.AllowTrust) {
+        let authorization: keyof ITranslation;
 
         if (operation.authorize === 2) {
-            authorization = language.AUTHORIZED_TO_MAINTAIN_ORDERS;
+            authorization = 'AUTHORIZED_TO_MAINTAIN_ORDERS';
         } else if (operation.authorize) {
-            authorization = language.AUTHORIZED_TO_TRANSACT;
+            authorization = 'AUTHORIZED_TO_TRANSACT';
         } else {
-            authorization = language.NOT_AUTHORIZED_TO_TRANSACT;
+            authorization = 'NOT_AUTHORIZED_TO_TRANSACT';
         }
 
         super({
-            title: operation.authorize ? language.ALLOW_TRUST : language.DISALLOW_TRUST,
+            title: operation.authorize ? 'ALLOW_TRUST' : 'DISALLOW_TRUST',
             operationItems: [
-                { title: language.SOURCE_ACCOUNT, value: operation.source || tx.source },
-                { title: language.ASSET, value: operation.assetCode },
-                { title: '', value: authorization },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'ASSET', value: operation.assetCode },
+                { title: 'AUTHORIZATION', value: '', translatedValue: authorization },
             ],
         });
     }

@@ -1,5 +1,6 @@
 <script lang="ts">
-    import Bridge from '../../lib/bridge/Bridge';
+    import Bridge, { SimpleSignerPageType } from '../../lib/bridge/Bridge';
+    import { setMinimumPopUpSize } from '../../lib/components/helpers/popUpSizeHelper';
     import Language from '../../lib/components/language/Language.svelte';
     import Wallets from '../../lib/components/wallets/Wallets.svelte';
     import type IWallet from '../../lib/wallets/IWallet';
@@ -7,19 +8,16 @@
     import { postMessageWallets, urlOrDefaultWallets, wallets } from './connectStore';
 
     const parent = window.opener;
-
-    const bridge = new Bridge();
+    const bridge = new Bridge(SimpleSignerPageType.CONNECT);
     $wallets = bridge.getWalletsFromUrl();
 
-    if (parent) {
-        $urlOrDefaultWallets = false;
+    if (parent && !$wallets.length) {
+        bridge.addAvailableWalletsMessageHandler((message) => {
+            $urlOrDefaultWallets = false;
+            $wallets = message.wallets;
+            $postMessageWallets = true;
+        });
     }
-
-    bridge.addAvailableWalletsMessageHandler((message) => {
-        $urlOrDefaultWallets = false;
-        $wallets = message.wallets;
-        $postMessageWallets = true;
-    });
 
     function handleOnConnect(event: CustomEvent) {
         const detail = event.detail;
@@ -29,6 +27,18 @@
     }
 
     bridge.sendOnReadyEvent();
+
+    const minimumConnectPopupHeight = 210;
+    const minimumConnectPopupWidth = 340;
+    const defaultConnectPopupWidth = 360;
+    const defaultConnectPopupHeight = 510;
+
+    setMinimumPopUpSize(
+        minimumConnectPopupHeight,
+        minimumConnectPopupWidth,
+        defaultConnectPopupHeight,
+        defaultConnectPopupWidth,
+    );
 </script>
 
 <div class="simple-signer-container">

@@ -1,11 +1,11 @@
 <script lang="ts">
     import { Transaction, xdr } from 'stellar-sdk';
+    import { createEventDispatcher } from 'svelte';
     import { Link } from 'svelte-navigator';
 
     import { language } from '../../../store/global';
-    import Bridge from '../../bridge/Bridge';
     import type { ITransactionMessage } from '../../bridge/transactionMessage/ITransactionMessage';
-    import { CURRENT_NETWORK_PASSPHRASE } from '../../stellar/StellarNetwork';
+    import { CURRENT_NETWORK_PASSPHRASE, CURRENT_STELLAR_NETWORK } from '../../stellar/StellarNetwork';
     import LocalStorage from '../../storage/storage';
     import type IWallet from '../../wallets/IWallet';
     import WalletFactory from '../../wallets/WalletFactory';
@@ -24,7 +24,7 @@
 
     export let transactionMessage: ITransactionMessage;
     const storage = new LocalStorage();
-    const bridge = new Bridge();
+    const dispatch = createEventDispatcher();
 
     let wallet: IWallet;
     const storedWallet = storage.getItem('wallet');
@@ -61,18 +61,12 @@
         isValidXdr = xdr.TransactionEnvelope.validateXDR(transactionMessage.xdr, 'base64');
         tx = new Transaction(transactionMessage.xdr, CURRENT_NETWORK_PASSPHRASE);
 
-        if (tx.networkPassphrase === 'Test SDF Network ; September 2015') {
-            network = 'Testnet';
-        } else {
-            network = 'Public';
-        }
+        network = CURRENT_STELLAR_NETWORK;
 
         shortedSourceAccount = getShortedStellarKey(tx.source);
         const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
 
-        operationComponents = tx.operations.map((operation) =>
-            dynamicOperationComponentFactory.create($language, tx, operation),
-        );
+        operationComponents = tx.operations.map((operation) => dynamicOperationComponentFactory.create(tx, operation));
 
         if (transactionMessage.operationGroups && transactionMessage.operationGroups.length > 0) {
             transactionGroups = groupOperationComponents(operationComponents, transactionMessage.operationGroups);
@@ -121,7 +115,7 @@
                 <hr class="simple-signer tx-separator" />
                 <div class="simple-signer operations-container">
                     <div class="operation-list-title-container">
-                        <h1 class="simple-signer tx-operation-list-title">Lista de Operaciones</h1>
+                        <h1 class="simple-signer tx-operation-list-title">{$language.OPERATIONS_LIST}</h1>
                         <button class="simple-signer expand-all-button" on:click={toggleOperationsVisibility}
                             ><span>{$areOperationsExpanded ? $language.HIDE_ALL : $language.EXPAND_ALL}</span>
                         </button>
@@ -130,9 +124,10 @@
                         {#each transactionGroups as group, i}
                             <div class="simple-signer operation-head">
                                 <h3 class="simple-signer operation-title-head">
-                                    {i + 1}. {'title' in group ? group.title : group.props.title}
+                                    {i + 1}. {'title' in group ? group.title : $language[group.props.title]}
                                 </h3>
                                 <button
+                                    class="arrow-button"
                                     on:click={() => {
                                         toggleOperationVisibility(i);
                                     }}><i class="arrow {$operationsVisibility[i] ? 'spin-up' : ''}" /></button
@@ -168,10 +163,12 @@
                     <p>{tx.fee}</p>
                 </div>
                 <div class="simple-signer confirmation-buttons">
-                    <button class="simple-signer cancel-button">{$language.CANCEL}</button>
+                    <button class="simple-signer cancel-button" on:click={() => dispatch('cancel')}
+                        >{$language.CANCEL}</button
+                    >
                     <button
                         class="simple-signer sign-tx-button"
-                        on:click={async () => bridge.sendSignedTx(await wallet.sign(tx))}>{$language.CONFIRM}</button
+                        on:click={async () => dispatch('confirm', await wallet.sign(tx))}>{$language.CONFIRM}</button
                     >
                 </div>
             {:else}
@@ -195,6 +192,10 @@
         transition: all 0.2s linear;
         border-left: 2px solid #e5e5e5;
         margin-top: 20px;
+    }
+
+    .operation-border:last-child {
+        margin-top: 27px;
     }
 
     .operation-show-margin.operation-border {
@@ -282,11 +283,13 @@
     .operation-head button:hover {
         cursor: pointer;
     }
+
     .operation-list-title-container {
         display: flex;
         justify-content: space-between;
         align-items: baseline;
     }
+
     .sign-container {
         display: flex;
         justify-content: space-around;

@@ -1,5 +1,4 @@
 import { NodeGlobalsPolyfillPlugin } from '@esbuild-plugins/node-globals-polyfill';
-import { NodeModulesPolyfillPlugin } from '@esbuild-plugins/node-modules-polyfill';
 import { svelte } from '@sveltejs/vite-plugin-svelte';
 import rollupNodePolyFill from 'rollup-plugin-node-polyfills';
 import { defineConfig } from 'vite';
@@ -21,15 +20,10 @@ export default defineConfig({
             // Enable esbuild polyfill plugins
             plugins: [
                 NodeGlobalsPolyfillPlugin({
-                    process: true,
                     buffer: true,
                 }),
-                NodeModulesPolyfillPlugin(),
             ],
         },
-    },
-    define: {
-        'process.env': 'import.meta.env',
     },
     build: {
         target: 'esnext',
