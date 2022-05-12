@@ -1,5 +1,6 @@
 <script lang="ts">
     import Bridge, { SimpleSignerPageType } from '../../lib/bridge/Bridge';
+    import { setMinimumPopUpSize } from '../../lib/components/helpers/popUpSizeHelper';
     import Transaction from '../../lib/components/transaction/Transaction.svelte';
     import { language } from '../../store/global';
     import { transaction } from './signStore';
@@ -25,6 +26,13 @@
     }
 
     bridge.sendOnReadyEvent();
+
+    const minimumSignPopupHeight = 570;
+    const minimumSignPopupWidth = 360;
+    const defaultSignPopupHeight = 570;
+    const defaultSignPopupWidth = 360;
+
+    setMinimumPopUpSize(minimumSignPopupHeight, minimumSignPopupWidth, defaultSignPopupHeight, defaultSignPopupWidth);
 </script>
 
 {#if $transaction?.xdr}
