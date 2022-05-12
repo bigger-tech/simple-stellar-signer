@@ -374,7 +374,7 @@ It supports multiple configuration options which can be passed via URL or postMe
 | --------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
 | xdr             | String (Required)                                         | the XDR representing the transaction to be signed by the user                                     |
 | description     | String (Optional)                                         | A description that summarises what this transaction is doing                                      |
-| operationGroups | Array of Group (Optional, only available via postMessage) | A way to group operations together and priovide descriptions to make them clearer to the end user |
+| operationGroups | Array of Group (Optional, only available via postMessage) | A way to group operations together and provide descriptions to make them clearer to the end user |
 
 Each `Group` looks as follows
 
@@ -436,7 +436,7 @@ window.addEventListener('message', (e) => {
 
 ### Via URL
 
-Please note opeartion groups are not available via URL, use postMEssage instead.
+Please note operation groups are not available via URL, use postMessage instead.
 
 ```javascript
 const simpleSignerUrl = 'https://sign.plutodao.finance';
