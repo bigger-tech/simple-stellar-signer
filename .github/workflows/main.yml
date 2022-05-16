@@ -5,6 +5,9 @@ on:
     pull_request:
         branches: [main]
 jobs:
+
+    - name: Upgrade npm 🎉
+    run: npm i -g npm@latest
     install-cache:
         runs-on: ubuntu-latest
         steps:
