@@ -10,14 +10,13 @@ jobs:
         steps:
             - name: Upgrade npm 🎉
               run: npm i -g npm@latest
-            - name: Install Dependencies
+            - name: Install dependencies
+            - uses: actions/checkout@v2
               run: npm install
     cypress-run:
         runs-on: ubuntu-latest
         needs: install-dependencies
         steps:
-            - name: Upgrade npm 🎉
-              run: npm i -g npm@latest
             - name: Checkout
               uses: actions/checkout@v2
             - name: Restore npm dependencies
