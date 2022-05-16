@@ -37,16 +37,6 @@ jobs:
               uses: actions/setup-node@v2
               with:
                   node-version: 16
-            - name: Restore npm dependencies
-              uses: actions/cache@v2
-              id: npm-cache
-              with:
-                  path: ~/.npm
-                  key: ${{ runner.os }}-build-${{ env.cache-name }}-${{ hashFiles('**/package-lock.json') }}
-                  restore-keys: |
-                      ${{ runner.os }}-build-${{ env.cache-name }}-
-                      ${{ runner.os }}-build-
-                      ${{ runner.os }}-
             - name: Run the tests
               run: |
                   npm install
