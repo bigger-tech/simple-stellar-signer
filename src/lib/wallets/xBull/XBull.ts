@@ -12,12 +12,12 @@ export default class XBull extends AbstractWallet implements IWallet {
     public static NAME = 'xbull';
     public static FRIENDLY_NAME = 'xBull';
     public static XBullExtension = 'https://wallet.xbull.app';
-    public bridge: xBullWalletConnect;
+    public xBullBridge: xBullWalletConnect;
     public XBullNetwork: XBullNetwork;
 
     constructor(storage: IStorage) {
         super(storage);
-        this.bridge = new xBullWalletConnect();
+        this.xBullBridge = new xBullWalletConnect();
         if (CURRENT_STELLAR_NETWORK === StellarNetwork.PUBLIC) {
             this.XBullNetwork = StellarNetwork.PUBLIC as XBullNetwork;
         } else {
@@ -26,14 +26,14 @@ export default class XBull extends AbstractWallet implements IWallet {
     }
 
     public override async getPublicKey(): Promise<string> {
-        const publicKey = await this.bridge.connect();
+        const publicKey = await this.xBullBridge.connect();
         super.persistWallet();
         return publicKey;
     }
 
     public override async sign(tx: Transaction): Promise<string> {
-        const signedXdr = await this.bridge.sign({ xdr: tx.toXDR() });
-        this.bridge.closeConnections();
+        const signedXdr = await this.xBullBridge.sign({ xdr: tx.toXDR() });
+        this.xBullBridge.closeConnections();
         return signedXdr;
     }
 
@@ -55,10 +55,7 @@ export default class XBull extends AbstractWallet implements IWallet {
 
     public override isInstalled(): Promise<boolean> {
         const xBullPromise: Promise<boolean> = new Promise((resolve) => {
-            const isXBullInstalled = true;
-            if (isXBullInstalled) {
-                resolve(true);
-            }
+            resolve(true);
         });
         return xBullPromise;
     }
