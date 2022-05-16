@@ -8,12 +8,12 @@ jobs:
     install-cache:
         runs-on: ubuntu-latest
         steps:
+            - name: Upgrade npm 🎉
+              run: npm i -g npm@latest
             - uses: actions/checkout@v2
             - name: Cache node modules
               uses: actions/cache@v2
               id: npm-cache
-            - name: Upgrade npm 🎉
-              run: npm i -g npm@latest
               env:
                   cache-name: cache-node-modules
               with:
