@@ -1,7 +1,7 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
-import { expect } from '@jest/globals';
+import { expect } from 'vitest';
 
 import Bridge, { SimpleSignerPageType } from '../Bridge';
 

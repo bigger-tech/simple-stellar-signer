@@ -1,35 +1,34 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
-import { expect } from '@jest/globals';
 import { Transaction } from 'stellar-sdk';
-import Albedo from '../albedo/Albedo';
+import { expect } from 'vitest';
+
 import { albedo as albedoImg } from '../../../assets';
 import LocalStorage from '../../storage/storage';
+import Albedo from '../albedo/Albedo';
+
 const storage = new LocalStorage();
 const albedo = new Albedo(storage);
 const xdr =
     'AAAAAgAAAACIKmLk3p78KfXDpIWAThUMwmZDd82CRFoygG0dm+BWxgAAAGQACu0LAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAQAAAAAD/ISAVP71pgpaxaZBpBkjGIvdxYNxnXrN0JkP5KM3+wAAAAAAAAAAO5rKAAAAAAAAAAAA';
 const transaction = new Transaction(xdr, 'Test SDF Network ; September 2015');
 
-let albedoSpy: any;
-const publicKeyMock = jest.fn().mockResolvedValue('1234');
-const txMock = jest.fn();
+const publicKeyMock = vi.fn().mockResolvedValue('1234');
+const txMock = vi.fn().mockResolvedValue('getSignedTx');
 
-beforeEach(() => {
-    albedoSpy = jest.spyOn(window, 'window', 'get');
-    albedoSpy.mockImplementation(() => ({
-        albedo: {
-            publicKey: publicKeyMock,
-            tx: txMock.mockReturnValueOnce('1234'),
-        },
-        localStorage: { clear: jest.fn(), setItem: jest.fn() },
-    }));
-});
-
-afterEach(() => {
-    albedoSpy.mockRestore();
-});
+const windowSpy = vi.spyOn(window as any, 'window', 'get');
+windowSpy.mockImplementation(() => ({
+    albedo: {
+        tx: txMock,
+        publicKey: publicKeyMock,
+        isInstalled: vi.fn(),
+    },
+    localStorage: {
+        clear: vi.fn(),
+        setItem: vi.fn(),
+    },
+}));
 
 it('publicKey should be called one time', async () => {
     await albedo.getPublicKey();

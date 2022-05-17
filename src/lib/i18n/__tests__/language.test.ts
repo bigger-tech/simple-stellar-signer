@@ -1,16 +1,16 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
-import { expect } from '@jest/globals';
+import { expect } from 'vitest';
 
 import { LanguageName } from '../LanguageName';
 import WalletLanguage from '../WalletLanguage';
 
 const language = new WalletLanguage().getLanguage();
-let languagesMock: jest.SpyInstance;
+let languagesMock: any;
 
 beforeAll(() => {
-    languagesMock = jest.spyOn(navigator, 'languages', 'get');
+    languagesMock = vi.spyOn(navigator, 'languages', 'get');
 });
 
 beforeEach(() => {

@@ -1,14 +1,16 @@
 /**
- * @jest-environment jsdom
+ * @vitest-environment jsdom
  */
-import { expect } from '@jest/globals';
+import { expect } from 'vitest';
+
+import InvalidWalletError from '../InvalidWalletError';
+import WalletFactory from '../WalletFactory';
 import Albedo from '../albedo/Albedo';
 import Freighter from '../freighter/Freighter';
 import PrivateKey from '../privateKey/PrivateKey';
 import Rabet from '../rabet/Rabet';
 import XBull from '../xBull/XBull';
-import WalletFactory from '../WalletFactory';
-import InvalidWalletError from '../InvalidWalletError';
+
 const factory = new WalletFactory();
 
 it('should return a wallet', () => {
