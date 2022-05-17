@@ -1,3 +1,4 @@
+import { xBullWalletConnect } from '@creit-tech/xbull-wallet-connect';
 import type { Transaction } from 'stellar-sdk';
 
 import { xBull } from '../../../assets';
@@ -10,13 +11,13 @@ type XBullNetwork = 'public' | 'testnet';
 export default class XBull extends AbstractWallet implements IWallet {
     public static NAME = 'xbull';
     public static FRIENDLY_NAME = 'xBull';
-    public static XBullInjected = 'XBULL_INJECTED';
-    public static XBullExtension = 'https://xbull.app';
+    public static XBullExtension = 'https://wallet.xbull.app';
+    public xBullBridge: xBullWalletConnect;
     public XBullNetwork: XBullNetwork;
 
     constructor(storage: IStorage) {
         super(storage);
-
+        this.xBullBridge = new xBullWalletConnect();
         if (CURRENT_STELLAR_NETWORK === StellarNetwork.PUBLIC) {
             this.XBullNetwork = StellarNetwork.PUBLIC as XBullNetwork;
         } else {
@@ -25,13 +26,15 @@ export default class XBull extends AbstractWallet implements IWallet {
     }
 
     public override async getPublicKey(): Promise<string> {
-        await window.xBullSDK.connect({ canRequestPublicKey: true, canRequestSign: true });
+        const publicKey = await this.xBullBridge.connect();
         super.persistWallet();
-        return window.xBullSDK.getPublicKey();
+        return publicKey;
     }
 
     public override async sign(tx: Transaction): Promise<string> {
-        return window.xBullSDK.signXDR(tx.toXDR(), { network: this.XBullNetwork });
+        const signedXdr = await this.xBullBridge.sign({ xdr: tx.toXDR() });
+        this.xBullBridge.closeConnections();
+        return signedXdr;
     }
 
     public override getFriendlyName(): string {
@@ -52,18 +55,7 @@ export default class XBull extends AbstractWallet implements IWallet {
 
     public override isInstalled(): Promise<boolean> {
         const xBullPromise: Promise<boolean> = new Promise((resolve) => {
-            window.addEventListener('message', (event) => {
-                if (event.data.type === XBull.XBullInjected && !!window.xBullSDK) {
-                    resolve(true);
-                }
-            });
-            setTimeout(() => {
-                if (window.xBullSDK) {
-                    resolve(true);
-                } else {
-                    resolve(false);
-                }
-            }, 100);
+            resolve(true);
         });
         return xBullPromise;
     }

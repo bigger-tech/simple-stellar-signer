@@ -9,7 +9,11 @@ export default defineConfig({
         globals: true,
     },
     plugins: [svelte()],
-    resolve: {},
+    resolve: {
+        alias: {
+            buffer: 'rollup-plugin-node-polyfills/polyfills/buffer-es6',
+        },
+    },
     server: {
         port: 3001,
     },
@@ -35,6 +39,7 @@ export default defineConfig({
                 // Enable rollup polyfills plugin
                 // used during production bundling
                 rollupNodePolyFill(),
+                NodeGlobalsPolyfillPlugin({ buffer: true }),
             ],
         },
     },
