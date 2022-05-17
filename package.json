@@ -80,6 +80,7 @@
         "vite": "^2.7.2"
     },
     "dependencies": {
+        "@creit-tech/xbull-wallet-connect": "github:Creit-Tech/xBull-Wallet-Connect",
         "@stellar/freighter-api": "^1.1.2",
         "stellar-sdk": "^10.0.0",
         "util": "^0.12.4"
