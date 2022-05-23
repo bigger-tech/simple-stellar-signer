@@ -103,11 +103,11 @@ send a message to your website with the Public Key of the logged in account and 
     <body>
         <button onclick="openConnectWindow()">Connect</button>
         <script>
-            const simpleSignerURL = 'https://sign.plutodao.finance';
+            const simpleSignerUrl = 'https://sign.plutodao.finance';
 
             function openConnectWindow() {
                 window.open(
-                    `${simpleSignerURL}/connect`,
+                    `${simpleSignerUrl}/connect`,
                     'Connect_Window',
                     'width=360, height=450',
                 );
@@ -115,7 +115,7 @@ send a message to your website with the Public Key of the logged in account and 
 
             function handleMessage(e) {
                 // Reject messages that are not coming from simple signer (tailor this according to your needs)
-                if (e.origin !== `${simpleSignerURL}`) {
+                if (e.origin !== `${simpleSignerUrl}`) {
                     return;
                 }
 
@@ -166,22 +166,22 @@ endpoint. Simple Signer will send a message back to your website with the signed
             const unsignedXdr =
                 'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
 
-            const simpleSignerURL = 'https://sign.plutodao.finance';
+            const simpleSignerUrl = 'https://sign.plutodao.finance';
 
             async function openSignWindow(xdr) {
                 const signWindow = window.open(
-                    `${simpleSignerURL}/sign?xdr=${unsignedXdr}`,
+                    `${simpleSignerUrl}/sign?xdr=${unsignedXdr}`,
                     'Sign_Window',
                     'width=360, height=700',
                 );
 
                 window.addEventListener('message', (e) => {
-                    if (e.origin !== simpleSignerURL) {
+                    if (e.origin !== simpleSignerUrl) {
                         return;
                     } else if (signWindow && e.data.type === 'onReady') {
                         signWindow.postMessage(
                             { xdr, description, operationGroups },
-                            simpleSignerURL,
+                            simpleSignerUrl,
                         );
                     }
                 });
@@ -191,7 +191,7 @@ endpoint. Simple Signer will send a message back to your website with the signed
 
             async function handleMessage(e) {
                 if (
-                    e.origin !== simpleSignerURL &&
+                    e.origin !== simpleSignerUrl &&
                     e.data.type === 'onSign' &&
                     e.data.page === 'sign'
                 ) {
@@ -267,7 +267,7 @@ window.addEventListener('message', (e) => {
         e.data.type === 'onReady' &&
         e.data.page === 'sign'
     ) {
-        signWindow.postMessage({ xdr: unsignedXdr }, simpleSignerURL);
+        signWindow.postMessage({ xdr: unsignedXdr }, simpleSignerUrl);
     }
 });
 ```
@@ -381,13 +381,13 @@ const connectWindow = window.open(
 
 window.addEventListener('message', (e) => {
     if (
-        e.origin === `${simpleSignerURL}` &&
+        e.origin === `${simpleSignerUrl}` &&
         e.data.type === 'onReady' &&
         e.data.page === 'sign'
     ) {
         connectWindow.postMessage(
             { wallets: ['xbull', 'albedo'] },
-            `${simpleSignerURL}`,
+            `${simpleSignerUrl}`,
         );
     }
 });
@@ -432,7 +432,7 @@ const sampleXdr =
     'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
 window.addEventListener('message', (e) => {
     if (
-        e.origin === `${simpleSignerURL}` &&
+        e.origin === `${simpleSignerUrl}` &&
         e.data.type === 'onReady' &&
         e.data.page === 'sign'
     ) {
@@ -458,7 +458,7 @@ window.addEventListener('message', (e) => {
                     },
                 ],
             },
-            simpleSignerURL,
+            simpleSignerUrl,
         );
     }
 });
@@ -492,7 +492,7 @@ window.addEventListener('message', (e) => {
         e.data.type === 'onReady' &&
         e.data.page === 'sign'
     ) {
-        signWindow.postMessage({ xdr }, simpleSignerURL);
+        signWindow.postMessage({ xdr }, simpleSignerUrl);
     }
 });
 ```
