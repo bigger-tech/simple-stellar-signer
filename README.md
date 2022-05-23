@@ -283,15 +283,15 @@ the [test.html file](./test.html).
 
 ### General description
 
-![image](https://user-images.githubusercontent.com/56001809/166843128-4d877dcb-739b-44bc-a067-7e8c5cfbea2c.png)
+![tx eng](https://user-images.githubusercontent.com/71040644/169843456-d20bc240-2a4d-4d02-9a46-bdac2a8a0ec2.png)
 
 ### Operation grouping
 
 Sometimes it's useful to group operations together to explain what they are doing.
 
-![image](https://user-images.githubusercontent.com/56001809/166843771-0c7f7969-a92f-4bbb-806d-9f183c915f36.png)
+![txs eng](https://user-images.githubusercontent.com/71040644/169843538-bf79641b-c109-41dd-a878-528dd7afd4d9.png)
 
-![image](https://user-images.githubusercontent.com/56001809/166843672-49c00b83-339e-4a62-bfa0-8718cd90d97d.png)
+![txs eng extend](https://user-images.githubusercontent.com/71040644/169843572-7834474d-44c2-4187-8e57-8cea623ebae7.png)
 
 ---
 
@@ -300,11 +300,12 @@ Sometimes it's useful to group operations together to explain what they are doin
 By default, Simple Signer will detect the browser's language and serve Simple Signer using this configuration. If the
 language found is not implemented, it defaults to English.
 
-![image](https://user-images.githubusercontent.com/56001809/166844007-42cf00bf-8659-497d-afe3-f2c02ae268b7.png)
+![tx lang eng](https://user-images.githubusercontent.com/71040644/169844094-23c62851-d066-4a22-ae4e-801bde617f42.png)
 
 A user may also choose to change the language using the interface.
 
-![image](https://user-images.githubusercontent.com/56001809/166843924-dad3b48f-b75d-4fdd-b1ca-26febc087302.png)
+![tx lang esp](https://user-images.githubusercontent.com/71040644/169844169-4ef54698-04e0-4d18-9310-18b2c4982b78.png)
+
 
 ## Connecting to testnet
 
