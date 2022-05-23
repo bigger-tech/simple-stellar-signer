@@ -348,7 +348,7 @@ the `onConnect` event type to indicate which wallet was connected.
 
 ## Connect API
 
-Simple Signer offers a `/connect`endpoint which is used to get the user's public key. It supports some configuration
+Simple Signer offers a `/connect` endpoint which is used to get the user's public key. It supports some configuration
 options which can be passed via URL or postMessage, described below.
 
 For instance, you may choose to explicitly show certain wallets as opposed to showing all of them. You do so by using
@@ -402,7 +402,7 @@ It supports multiple configuration options which can be passed via URL or postMe
 
 | property name   | type                                                      | value                                                                                            |
 | --------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
-| xdr             | String (Required)                                         | the XDR representing the transaction to be signed by the user                                    |
+| xdr             | String (Required)                                         | The XDR representing the transaction to be signed by the user                                    |
 | description     | String (Optional)                                         | A description that summarises what this transaction is doing                                     |
 | operationGroups | Array of Group (Optional, only available via postMessage) | A way to group operations together and provide descriptions to make them clearer to the end user |
 
