@@ -103,11 +103,11 @@ send a message to your website with the Public Key of the logged in account and 
     <body>
         <button onclick="openConnectWindow()">Connect</button>
         <script>
-            const simpleSignerURL = 'https://sign.plutodao.finance';
+            const simpleSignerUrl = 'https://sign.plutodao.finance';
 
             function openConnectWindow() {
                 window.open(
-                    `${simpleSignerURL}/connect`,
+                    `${simpleSignerUrl}/connect`,
                     'Connect_Window',
                     'width=360, height=450',
                 );
@@ -115,7 +115,7 @@ send a message to your website with the Public Key of the logged in account and 
 
             function handleMessage(e) {
                 // Reject messages that are not coming from simple signer (tailor this according to your needs)
-                if (e.origin !== `${simpleSignerURL}`) {
+                if (e.origin !== `${simpleSignerUrl}`) {
                     return;
                 }
 
@@ -166,39 +166,68 @@ endpoint. Simple Signer will send a message back to your website with the signed
             const unsignedXdr =
                 'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
 
-            const simpleSignerURL = 'https://sign.plutodao.finance';
+            const simpleSignerUrl = 'https://sign.plutodao.finance';
 
-            const signWindow = window.open(
-                `${simpleSignerURL}/sign?xdr=${unsignedXdr}`,
-                'Sign_Window',
-                'width=360, height=700',
-            );
+            async function openSignWindow(xdr) {
+                const signWindow = window.open(
+                    `${simpleSignerUrl}/sign?xdr=${unsignedXdr}`,
+                    'Sign_Window',
+                    'width=360, height=700',
+                );
+
+                window.addEventListener('message', (e) => {
+                    if (e.origin !== simpleSignerUrl) {
+                        return;
+                    } else if (signWindow && e.data.type === 'onReady') {
+                        signWindow.postMessage(
+                            { xdr, description, operationGroups },
+                            simpleSignerUrl,
+                        );
+                    }
+                });
+
+                return signWindow;
+            }
 
             async function handleMessage(e) {
-                if (e.origin!==simpleSignerURL && e.data.type==='onSign' && e.data.page==='sign') {
+                if (
+                    e.origin !== simpleSignerUrl &&
+                    e.data.type === 'onSign' &&
+                    e.data.page === 'sign'
+                ) {
                     const eventMessage = e.data;
 
                     const signedXdr = eventMessage.message.signedXDR;
                     // Validate the XDR, this is just good practice.
-                    if (StellarSdk.xdr.TransactionEnvelope.validateXDR(signedXdr, 'base64')) {
-                        const server = new StellarSdk.Server('https://horizon-testnet.stellar.org/');  //remember to update this to the correct value
+                    if (
+                        StellarSdk.xdr.TransactionEnvelope.validateXDR(
+                            signedXdr,
+                            'base64',
+                        )
+                    ) {
+                        const server = new StellarSdk.Server(
+                            'https://horizon-testnet.stellar.org/',
+                        ); //remember to update this to the correct value
 
                         // Construct the transaction from the signedXDR
                         // see https://stellar.github.io/js-stellar-sdk/TransactionBuilder.html#.fromXDR
-                        const transaction = StellarSdk.TransactionBuilder.fromXDR(
-                            signedXdr,
-                            'Test SDF Network ; September 2015', //remember to update this to the correct value
-                        );
+                        const transaction =
+                            StellarSdk.TransactionBuilder.fromXDR(
+                                signedXdr,
+                                'Test SDF Network ; September 2015', //remember to update this to the correct value
+                            );
 
                         try {
-                            const transactionResult = await server.submitTransaction(transaction);
+                            const transactionResult =
+                                await server.submitTransaction(transaction);
                             console.log(transactionResult);
                         } catch (err) {
                             console.error(err);
                         }
                     }
                 }
-                window.addEventListener('message', handleMessage);
+            }
+            window.addEventListener('message', handleMessage);
         </script>
     </body>
 </html>
@@ -238,7 +267,7 @@ window.addEventListener('message', (e) => {
         e.data.type === 'onReady' &&
         e.data.page === 'sign'
     ) {
-        signWindow.postMessage({ xdr: unsignedXdr }, simpleSignerHost);
+        signWindow.postMessage({ xdr: unsignedXdr }, simpleSignerUrl);
     }
 });
 ```
@@ -254,15 +283,15 @@ the [test.html file](./test.html).
 
 ### General description
 
-![image](https://user-images.githubusercontent.com/56001809/166843128-4d877dcb-739b-44bc-a067-7e8c5cfbea2c.png)
+![tx eng](https://user-images.githubusercontent.com/71040644/169843456-d20bc240-2a4d-4d02-9a46-bdac2a8a0ec2.png)
 
 ### Operation grouping
 
 Sometimes it's useful to group operations together to explain what they are doing.
 
-![image](https://user-images.githubusercontent.com/56001809/166843771-0c7f7969-a92f-4bbb-806d-9f183c915f36.png)
+![txs eng](https://user-images.githubusercontent.com/71040644/169843538-bf79641b-c109-41dd-a878-528dd7afd4d9.png)
 
-![image](https://user-images.githubusercontent.com/56001809/166843672-49c00b83-339e-4a62-bfa0-8718cd90d97d.png)
+![txs eng extend](https://user-images.githubusercontent.com/71040644/169843572-7834474d-44c2-4187-8e57-8cea623ebae7.png)
 
 ---
 
@@ -271,11 +300,12 @@ Sometimes it's useful to group operations together to explain what they are doin
 By default, Simple Signer will detect the browser's language and serve Simple Signer using this configuration. If the
 language found is not implemented, it defaults to English.
 
-![image](https://user-images.githubusercontent.com/56001809/166844007-42cf00bf-8659-497d-afe3-f2c02ae268b7.png)
+![tx lang eng](https://user-images.githubusercontent.com/71040644/169844094-23c62851-d066-4a22-ae4e-801bde617f42.png)
 
 A user may also choose to change the language using the interface.
 
-![image](https://user-images.githubusercontent.com/56001809/166843924-dad3b48f-b75d-4fdd-b1ca-26febc087302.png)
+![tx lang esp](https://user-images.githubusercontent.com/71040644/169844169-4ef54698-04e0-4d18-9310-18b2c4982b78.png)
+
 
 ## Connecting to testnet
 
@@ -318,7 +348,7 @@ the `onConnect` event type to indicate which wallet was connected.
 
 ## Connect API
 
-Simple Signer offers a `/connect`endpoint which is used to get the user's public key. It supports some configuration
+Simple Signer offers a `/connect` endpoint which is used to get the user's public key. It supports some configuration
 options which can be passed via URL or postMessage, described below.
 
 For instance, you may choose to explicitly show certain wallets as opposed to showing all of them. You do so by using
@@ -351,13 +381,13 @@ const connectWindow = window.open(
 
 window.addEventListener('message', (e) => {
     if (
-        e.origin === `${simpleSignerURL}` &&
+        e.origin === `${simpleSignerUrl}` &&
         e.data.type === 'onReady' &&
         e.data.page === 'sign'
     ) {
         connectWindow.postMessage(
             { wallets: ['xbull', 'albedo'] },
-            `${simpleSignerURL}`,
+            `${simpleSignerUrl}`,
         );
     }
 });
@@ -370,10 +400,10 @@ signature.
 
 It supports multiple configuration options which can be passed via URL or postMessage.
 
-| property name   | type                                                      | value                                                                                             |
-| --------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| xdr             | String (Required)                                         | the XDR representing the transaction to be signed by the user                                     |
-| description     | String (Optional)                                         | A description that summarises what this transaction is doing                                      |
+| property name   | type                                                      | value                                                                                            |
+| --------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| xdr             | String (Required)                                         | The XDR representing the transaction to be signed by the user                                    |
+| description     | String (Optional)                                         | A description that summarises what this transaction is doing                                     |
 | operationGroups | Array of Group (Optional, only available via postMessage) | A way to group operations together and provide descriptions to make them clearer to the end user |
 
 Each `Group` looks as follows
@@ -402,7 +432,7 @@ const sampleXdr =
     'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
 window.addEventListener('message', (e) => {
     if (
-        e.origin === `${simpleSignerURL}` &&
+        e.origin === `${simpleSignerUrl}` &&
         e.data.type === 'onReady' &&
         e.data.page === 'sign'
     ) {
@@ -428,7 +458,7 @@ window.addEventListener('message', (e) => {
                     },
                 ],
             },
-            simpleSignerURL,
+            simpleSignerUrl,
         );
     }
 });
@@ -462,7 +492,7 @@ window.addEventListener('message', (e) => {
         e.data.type === 'onReady' &&
         e.data.page === 'sign'
     ) {
-        signWindow.postMessage({ xdr }, simpleSignerHost);
+        signWindow.postMessage({ xdr }, simpleSignerUrl);
     }
 });
 ```
