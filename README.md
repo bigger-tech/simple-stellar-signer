@@ -168,7 +168,7 @@ endpoint. Simple Signer will send a message back to your website with the signed
 
             const simpleSignerURL = 'https://sign.plutodao.finance';
 
-            export async function openSignWindow(xdr: string) {
+            async function openSignWindow(xdr) {
                 const signWindow = window.open(
                     `${simpleSignerURL}/sign?xdr=${unsignedXdr}`,
                     'Sign_Window',
