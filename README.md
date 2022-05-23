@@ -168,37 +168,66 @@ endpoint. Simple Signer will send a message back to your website with the signed
 
             const simpleSignerURL = 'https://sign.plutodao.finance';
 
-            const signWindow = window.open(
-                `${simpleSignerURL}/sign?xdr=${unsignedXdr}`,
-                'Sign_Window',
-                'width=360, height=700',
-            );
+            export async function openSignWindow(xdr: string) {
+                const signWindow = window.open(
+                    `${simpleSignerURL}/sign?xdr=${unsignedXdr}`,
+                    'Sign_Window',
+                    'width=360, height=700',
+                );
+
+                window.addEventListener('message', (e) => {
+                    if (e.origin !== simpleSignerURL) {
+                        return;
+                    } else if (signWindow && e.data.type === 'onReady') {
+                        signWindow.postMessage(
+                            { xdr, description, operationGroups },
+                            simpleSignerURL,
+                        );
+                    }
+                });
+
+                return signWindow;
+            }
 
             async function handleMessage(e) {
-                if (e.origin!==simpleSignerURL && e.data.type==='onSign' && e.data.page==='sign') {
+                if (
+                    e.origin !== simpleSignerURL &&
+                    e.data.type === 'onSign' &&
+                    e.data.page === 'sign'
+                ) {
                     const eventMessage = e.data;
 
                     const signedXdr = eventMessage.message.signedXDR;
                     // Validate the XDR, this is just good practice.
-                    if (StellarSdk.xdr.TransactionEnvelope.validateXDR(signedXdr, 'base64')) {
-                        const server = new StellarSdk.Server('https://horizon-testnet.stellar.org/');  //remember to update this to the correct value
+                    if (
+                        StellarSdk.xdr.TransactionEnvelope.validateXDR(
+                            signedXdr,
+                            'base64',
+                        )
+                    ) {
+                        const server = new StellarSdk.Server(
+                            'https://horizon-testnet.stellar.org/',
+                        ); //remember to update this to the correct value
 
                         // Construct the transaction from the signedXDR
                         // see https://stellar.github.io/js-stellar-sdk/TransactionBuilder.html#.fromXDR
-                        const transaction = StellarSdk.TransactionBuilder.fromXDR(
-                            signedXdr,
-                            'Test SDF Network ; September 2015', //remember to update this to the correct value
-                        );
+                        const transaction =
+                            StellarSdk.TransactionBuilder.fromXDR(
+                                signedXdr,
+                                'Test SDF Network ; September 2015', //remember to update this to the correct value
+                            );
 
                         try {
-                            const transactionResult = await server.submitTransaction(transaction);
+                            const transactionResult =
+                                await server.submitTransaction(transaction);
                             console.log(transactionResult);
                         } catch (err) {
                             console.error(err);
                         }
                     }
                 }
-                window.addEventListener('message', handleMessage);
+            }
+            window.addEventListener('message', handleMessage);
         </script>
     </body>
 </html>
@@ -238,7 +267,7 @@ window.addEventListener('message', (e) => {
         e.data.type === 'onReady' &&
         e.data.page === 'sign'
     ) {
-        signWindow.postMessage({ xdr: unsignedXdr }, simpleSignerHost);
+        signWindow.postMessage({ xdr: unsignedXdr }, simpleSignerURL);
     }
 });
 ```
@@ -370,10 +399,10 @@ signature.
 
 It supports multiple configuration options which can be passed via URL or postMessage.
 
-| property name   | type                                                      | value                                                                                             |
-| --------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------- |
-| xdr             | String (Required)                                         | the XDR representing the transaction to be signed by the user                                     |
-| description     | String (Optional)                                         | A description that summarises what this transaction is doing                                      |
+| property name   | type                                                      | value                                                                                            |
+| --------------- | --------------------------------------------------------- | ------------------------------------------------------------------------------------------------ |
+| xdr             | String (Required)                                         | the XDR representing the transaction to be signed by the user                                    |
+| description     | String (Optional)                                         | A description that summarises what this transaction is doing                                     |
 | operationGroups | Array of Group (Optional, only available via postMessage) | A way to group operations together and provide descriptions to make them clearer to the end user |
 
 Each `Group` looks as follows
@@ -462,7 +491,7 @@ window.addEventListener('message', (e) => {
         e.data.type === 'onReady' &&
         e.data.page === 'sign'
     ) {
-        signWindow.postMessage({ xdr }, simpleSignerHost);
+        signWindow.postMessage({ xdr }, simpleSignerURL);
     }
 });
 ```
