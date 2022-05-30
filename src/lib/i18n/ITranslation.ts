@@ -30,7 +30,6 @@ export interface ITranslation {
     ENGLISH: string;
     ERROR: string;
     EXPAND_ALL: string;
-    NETWORK_FEE: string;
     FROM: string;
     GO_TO_CONNECT: string;
     GO_TO_SIGN: string;
@@ -61,6 +60,7 @@ export interface ITranslation {
     MINIMUM_AMOUNT_DESTINATION_ASSET: string;
     MINIMUM_PRICE: string;
     NAME: string;
+    NETWORK_FEE: string;
     NETWORK: string;
     NOT_AUTHORIZED_TO_TRANSACT: string;
     OFFER_ID: string;
