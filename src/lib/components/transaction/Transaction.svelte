@@ -163,15 +163,15 @@
                 <hr class="simple-signer tx-separator" />
                 <div class="simple-signer bottom-info-container">
                     <div class="simple-signer tx-fee-container">
-                        <p class="simple-signer operation-info-title">{$language.FEE}</p>
+                        <p class="simple-signer operation-info-title bottom-info-title">{$language.FEE}</p>
                         &nbsp;
                         <p class="simple-signer bottom-info-paragraph">{convertStroopsToXLM(tx.fee)} XLM</p>
                     </div>
                     {#if tx.memo.value}
                         <div class="simple-signer memo-container">
-                            <p class="simple-signer operation-info-title">Memo:</p>
+                            <p class="simple-signer operation-info-title bottom-info-title">Memo:</p>
                             &nbsp;
-                            <p>{tx.memo.value}</p>
+                            <p class="simple-signer bottom-info-paragraph">{tx.memo.value}</p>
                         </div>
                     {/if}
                 </div>
@@ -430,19 +430,28 @@
         cursor: pointer;
     }
 
-    .tx-fee-container {
-        display: flex;
-        flex-direction: row;
-        margin-bottom: 15px;
-    }
-
+    .tx-fee-container,
     .simple-signer.memo-container {
         display: flex;
         flex-direction: row;
+        align-items: center;
+    }
+
+    .tx-fee-container {
+        margin-bottom: 15px;
     }
 
     .simple-signer.bottom-info-container {
-        margin-top: 31px;
+        margin-top: 32px;
         margin-bottom: 32px;
+    }
+
+    .simple-signer.bottom-info-title {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .simple-signer.bottom-info-paragraph {
+        font-weight: 400;
     }
 </style>
