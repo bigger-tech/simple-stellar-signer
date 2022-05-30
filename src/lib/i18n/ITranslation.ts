@@ -30,7 +30,7 @@ export interface ITranslation {
     ENGLISH: string;
     ERROR: string;
     EXPAND_ALL: string;
-    FEE: string;
+    NETWORK_FEE: string;
     FROM: string;
     GO_TO_CONNECT: string;
     GO_TO_SIGN: string;

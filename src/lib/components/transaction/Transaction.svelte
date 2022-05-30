@@ -163,7 +163,7 @@
                 <hr class="simple-signer tx-separator" />
                 <div class="simple-signer bottom-info-container">
                     <div class="simple-signer tx-fee-container">
-                        <p class="simple-signer operation-info-title bottom-info-title">{$language.FEE}</p>
+                        <p class="simple-signer operation-info-title bottom-info-title">{$language.NETWORK_FEE}</p>
                         &nbsp;
                         <p class="simple-signer bottom-info-paragraph">{convertStroopsToXLM(tx.fee)} XLM</p>
                     </div>
