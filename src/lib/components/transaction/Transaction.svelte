@@ -51,6 +51,11 @@
         $operationsVisibility = $operationsVisibility.map(() => $areOperationsExpanded);
     }
 
+    function convertStroopsToXLM(fee: string) {
+        const stroopsDivider = 10000000;
+        return Number(fee) / stroopsDivider;
+    }
+
     $: if (checkIfAllAreFalse($operationsVisibility)) {
         $areOperationsExpanded = false;
     } else if (checkIfAllAreTrue($operationsVisibility)) {
@@ -157,10 +162,19 @@
                     </div>
                 </div>
                 <hr class="simple-signer tx-separator" />
-                <div class="simple-signer tx-fee-container">
-                    <p class="simple-signer operation-info-title">{$language.FEE}</p>
-                    &nbsp;
-                    <p>{tx.fee}</p>
+                <div class="simple-signer bottom-info-container">
+                    <div class="simple-signer tx-fee-container">
+                        <p class="simple-signer operation-info-title bottom-info-title">{$language.NETWORK_FEE}</p>
+                        &nbsp;
+                        <p class="simple-signer bottom-info-paragraph">{convertStroopsToXLM(tx.fee)} XLM</p>
+                    </div>
+                    {#if tx.memo.value}
+                        <div class="simple-signer memo-container">
+                            <p class="simple-signer operation-info-title bottom-info-title">Memo:</p>
+                            &nbsp;
+                            <p class="simple-signer bottom-info-paragraph">{tx.memo.value}</p>
+                        </div>
+                    {/if}
                 </div>
                 <div class="simple-signer confirmation-buttons">
                     <button class="simple-signer cancel-button" on:click={() => dispatch('cancel')}
@@ -384,13 +398,6 @@
         width: 100%;
     }
 
-    .tx-fee-container {
-        display: flex;
-        flex-direction: row;
-        margin-top: 31px;
-        margin-bottom: 32px;
-    }
-
     .confirmation-buttons {
         display: flex;
         flex-direction: row;
@@ -422,5 +429,30 @@
     .sign-tx-button:hover {
         opacity: 50%;
         cursor: pointer;
+    }
+
+    .tx-fee-container,
+    .simple-signer.memo-container {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .tx-fee-container {
+        margin-bottom: 15px;
+    }
+
+    .simple-signer.bottom-info-container {
+        margin-top: 32px;
+        margin-bottom: 32px;
+    }
+
+    .simple-signer.bottom-info-title {
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .simple-signer.bottom-info-paragraph {
+        font-weight: 400;
     }
 </style>
