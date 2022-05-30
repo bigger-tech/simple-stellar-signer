@@ -51,6 +51,10 @@
         $operationsVisibility = $operationsVisibility.map(() => $areOperationsExpanded);
     }
 
+    function convertTroopsToXLM(fee: string) {
+        return Number(fee) / 10000000;
+    }
+
     $: if (checkIfAllAreFalse($operationsVisibility)) {
         $areOperationsExpanded = false;
     } else if (checkIfAllAreTrue($operationsVisibility)) {
@@ -161,7 +165,7 @@
                     <div class="simple-signer tx-fee-container">
                         <p class="simple-signer operation-info-title">{$language.FEE}</p>
                         &nbsp;
-                        <p>{tx.fee}</p>
+                        <p class="simple-signer bottom-info-paragraph">{convertTroopsToXLM(tx.fee)} XLM</p>
                     </div>
                     {#if tx.memo.value}
                         <div class="simple-signer memo-container">
