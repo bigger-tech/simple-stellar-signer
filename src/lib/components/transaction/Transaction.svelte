@@ -52,7 +52,8 @@
     }
 
     function convertStroopsToXLM(fee: string) {
-        return Number(fee) / 10000000;
+        const stroopsDivider = 10000000;
+        return Number(fee) / stroopsDivider;
     }
 
     $: if (checkIfAllAreFalse($operationsVisibility)) {
