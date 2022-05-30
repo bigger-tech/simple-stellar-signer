@@ -157,10 +157,19 @@
                     </div>
                 </div>
                 <hr class="simple-signer tx-separator" />
-                <div class="simple-signer tx-fee-container">
-                    <p class="simple-signer operation-info-title">{$language.FEE}</p>
-                    &nbsp;
-                    <p>{tx.fee}</p>
+                <div class="simple-signer bottom-info-container">
+                    <div class="simple-signer tx-fee-container">
+                        <p class="simple-signer operation-info-title">{$language.FEE}</p>
+                        &nbsp;
+                        <p>{tx.fee}</p>
+                    </div>
+                    {#if tx.memo.value}
+                        <div class="simple-signer memo-container">
+                            <p class="simple-signer operation-info-title">Memo:</p>
+                            &nbsp;
+                            <p>{tx.memo.value}</p>
+                        </div>
+                    {/if}
                 </div>
                 <div class="simple-signer confirmation-buttons">
                     <button class="simple-signer cancel-button" on:click={() => dispatch('cancel')}
@@ -384,13 +393,6 @@
         width: 100%;
     }
 
-    .tx-fee-container {
-        display: flex;
-        flex-direction: row;
-        margin-top: 31px;
-        margin-bottom: 32px;
-    }
-
     .confirmation-buttons {
         display: flex;
         flex-direction: row;
@@ -422,5 +424,21 @@
     .sign-tx-button:hover {
         opacity: 50%;
         cursor: pointer;
+    }
+
+    .tx-fee-container {
+        display: flex;
+        flex-direction: row;
+        margin-bottom: 15px;
+    }
+
+    .simple-signer.memo-container {
+        display: flex;
+        flex-direction: row;
+    }
+
+    .simple-signer.bottom-info-container {
+        margin-top: 31px;
+        margin-bottom: 32px;
     }
 </style>
