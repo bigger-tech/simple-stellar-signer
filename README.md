@@ -115,7 +115,7 @@ send a message to your website with the Public Key of the logged in account and 
 
             function handleMessage(e) {
                 // Reject messages that are not coming from simple signer (tailor this according to your needs)
-                if (e.origin !== `${simpleSignerUrl}`) {
+                if (e.origin !== simpleSignerUrl) {
                     return;
                 }
 
@@ -263,7 +263,7 @@ const signWindow = window.open(
 
 window.addEventListener('message', (e) => {
     if (
-        e.origin !== `${simpleSignerUrl}` &&
+        e.origin !== simpleSignerUrl &&
         e.data.type === 'onReady' &&
         e.data.page === 'sign'
     ) {
@@ -305,7 +305,6 @@ language found is not implemented, it defaults to English.
 A user may also choose to change the language using the interface.
 
 ![tx lang esp](https://user-images.githubusercontent.com/71040644/169844169-4ef54698-04e0-4d18-9310-18b2c4982b78.png)
-
 
 ## Connecting to testnet
 
@@ -381,13 +380,13 @@ const connectWindow = window.open(
 
 window.addEventListener('message', (e) => {
     if (
-        e.origin === `${simpleSignerUrl}` &&
+        e.origin === simpleSignerUrl &&
         e.data.type === 'onReady' &&
         e.data.page === 'sign'
     ) {
         connectWindow.postMessage(
             { wallets: ['xbull', 'albedo'] },
-            `${simpleSignerUrl}`,
+            simpleSignerUrl,
         );
     }
 });
@@ -432,7 +431,7 @@ const sampleXdr =
     'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
 window.addEventListener('message', (e) => {
     if (
-        e.origin === `${simpleSignerUrl}` &&
+        e.origin === simpleSignerUrl &&
         e.data.type === 'onReady' &&
         e.data.page === 'sign'
     ) {
@@ -488,7 +487,7 @@ Consider the following example:
 ```javascript
 window.addEventListener('message', (e) => {
     if (
-        e.origin !== `${simpleSignerUrl}` &&
+        e.origin !== simpleSignerUrl &&
         e.data.type === 'onReady' &&
         e.data.page === 'sign'
     ) {
