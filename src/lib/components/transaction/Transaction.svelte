@@ -9,7 +9,6 @@
     import LocalStorage from '../../storage/storage';
     import type IWallet from '../../wallets/IWallet';
     import WalletFactory from '../../wallets/WalletFactory';
-    import Language from '../language/Language.svelte';
     import type { IOperationGroupComponent } from './IOperationGroupComponent';
     import Signatures from './Signatures.svelte';
     import InsufficientOperationsError from './errors/InsufficientOperationsError';
@@ -90,114 +89,125 @@
 </script>
 
 {#if isValidXdr}
-    <div class="simple-signer sign-container">
-        <Language />
-        <div class="simple-signer tx-container">
-            <h1 class="simple-signer tx-title">{$language.SIGN}</h1>
-            {#if transactionMessage.description}
-                <div class="simple-signer tx-description-container">
-                    <p class="simple-signer tx-description-text">{transactionMessage.description}</p>
-                </div>
-            {/if}
-            {#if wallet}
-                <div class="simple-signer tx-data-container">
-                    <div class="simple-signer tx-network-container">
-                        <p>{$language.NETWORK}:</p>
-                        &nbsp;
-                        <p class="simple-signer tx-network-text">{network}</p>
-                    </div>
-                    <div class="simple-signer tx-sequence-number">
-                        <p class="sequence-number">{$language.SEQUENCE_NUMBER} {tx ? tx.sequence : ''}</p>
-                    </div>
-                    <div class="simple-signer tx-source-account">
-                        <p class="simple-signer source-account">
-                            {$language.SOURCE_ACCOUNT}
-                            {shortedSourceAccount}
-                        </p>
-                    </div>
-                </div>
-                <Signatures signatures={tx.signatures} />
-                <hr class="simple-signer tx-separator" />
-                <div class="simple-signer operations-container">
-                    <div class="operation-list-title-container">
-                        <h1 class="simple-signer tx-operation-list-title">{$language.OPERATIONS_LIST}</h1>
-                        <button class="simple-signer expand-all-button" on:click={toggleOperationsVisibility}
-                            ><span>{$areOperationsExpanded ? $language.HIDE_ALL : $language.EXPAND_ALL}</span>
-                        </button>
-                    </div>
-                    <div class="simple-signer operation-list-container">
-                        {#each transactionGroups as group, i}
-                            <div class="simple-signer operation-head">
-                                <h3 class="simple-signer operation-title-head">
-                                    {i + 1}. {'title' in group ? group.title : $language[group.props.title]}
-                                </h3>
-                                <button
-                                    class="arrow-button"
-                                    on:click={() => {
-                                        toggleOperationVisibility(i);
-                                    }}><i class="arrow {$operationsVisibility[i] ? 'spin-up' : ''}" /></button
-                                >
-                            </div>
-                            <div
-                                class="simple-signer operation-border {$operationsVisibility[i]
-                                    ? 'operation-show-margin'
-                                    : ''}"
-                            >
-                                <div
-                                    class="simple-signer tx-operation-container {$operationsVisibility[i]
-                                        ? 'show-operation'
-                                        : ''} "
-                                >
-                                    {#if 'description' in group}
-                                        <OperationsGroup
-                                            description={group.description}
-                                            operationComponents={group.operationComponents}
-                                        />
-                                    {:else}
-                                        <Operation operationItems={group.props.operationItems} />
-                                    {/if}
-                                </div>
-                            </div>
-                        {/each}
-                    </div>
-                </div>
-                <hr class="simple-signer tx-separator" />
-                <div class="simple-signer bottom-info-container">
-                    <div class="simple-signer tx-fee-container">
-                        <p class="simple-signer operation-info-title bottom-info-title">{$language.NETWORK_FEE}</p>
-                        &nbsp;
-                        <p class="simple-signer bottom-info-paragraph">{convertStroopsToXLM(tx.fee)} XLM</p>
-                    </div>
-                    {#if tx.memo.value}
-                        <div class="simple-signer memo-container">
-                            <p class="simple-signer operation-info-title bottom-info-title">Memo:</p>
-                            &nbsp;
-                            <p class="simple-signer bottom-info-paragraph">{tx.memo.value}</p>
-                        </div>
-                    {/if}
-                </div>
-                <div class="simple-signer confirmation-buttons">
-                    <button class="simple-signer cancel-button" on:click={() => dispatch('cancel')}
-                        >{$language.CANCEL}</button
-                    >
-                    <button
-                        class="simple-signer sign-tx-button"
-                        on:click={async () => dispatch('confirm', await wallet.sign(tx))}>{$language.CONFIRM}</button
-                    >
-                </div>
-            {:else}
-                <p class="simple-signer user-not-connected">{$language.USER_IS_NOT_CONNECTED}</p>
-                <button class="simple-signer connect-btn">
-                    <Link to="/connect">{$language.GO_TO_CONNECT}</Link>
+    <h1 class="simple-signer tx-title">{$language.SIGN}</h1>
+    {#if transactionMessage.description}
+        <div class="simple-signer tx-description-container">
+            <p class="simple-signer tx-description-text">{transactionMessage.description}</p>
+        </div>
+    {/if}
+    {#if wallet}
+        <div class="simple-signer tx-data-container">
+            <div class="simple-signer tx-network-container">
+                <p>{$language.NETWORK}:</p>
+                &nbsp;
+                <p class="simple-signer tx-network-text">{network}</p>
+            </div>
+            <div class="simple-signer tx-sequence-number">
+                <p class="sequence-number">{$language.SEQUENCE_NUMBER} {tx ? tx.sequence : ''}</p>
+            </div>
+            <div class="simple-signer tx-source-account">
+                <p class="simple-signer source-account">
+                    {$language.SOURCE_ACCOUNT}
+                    {shortedSourceAccount}
+                </p>
+            </div>
+        </div>
+        <Signatures signatures={tx.signatures} />
+        <hr class="simple-signer tx-separator" />
+        <div class="simple-signer operations-container">
+            <div class="operation-list-title-container">
+                <h1 class="simple-signer tx-operation-list-title">{$language.OPERATIONS_LIST}</h1>
+                <button class="simple-signer expand-all-button" on:click={toggleOperationsVisibility}
+                    ><span>{$areOperationsExpanded ? $language.HIDE_ALL : $language.EXPAND_ALL}</span>
                 </button>
+            </div>
+            <div class="simple-signer operation-list-container">
+                {#each transactionGroups as group, i}
+                    <div class="simple-signer operation-head">
+                        <h3 class="simple-signer operation-title-head">
+                            {i + 1}. {'title' in group ? group.title : $language[group.props.title]}
+                        </h3>
+                        <button
+                            class="arrow-button"
+                            on:click={() => {
+                                toggleOperationVisibility(i);
+                            }}><i class="arrow {$operationsVisibility[i] ? 'spin-up' : ''}" /></button
+                        >
+                    </div>
+                    <div
+                        class="simple-signer operation-border {$operationsVisibility[i] ? 'operation-show-margin' : ''}"
+                    >
+                        <div
+                            class="simple-signer tx-operation-container {$operationsVisibility[i]
+                                ? 'show-operation'
+                                : ''} "
+                        >
+                            {#if 'description' in group}
+                                <OperationsGroup
+                                    description={group.description}
+                                    operationComponents={group.operationComponents}
+                                />
+                            {:else}
+                                <Operation operationItems={group.props.operationItems} />
+                            {/if}
+                        </div>
+                    </div>
+                {/each}
+            </div>
+        </div>
+        <hr class="simple-signer tx-separator" />
+        <div class="simple-signer bottom-info-container">
+            <div class="simple-signer tx-fee-container">
+                <p class="simple-signer operation-info-title bottom-info-title">{$language.NETWORK_FEE}</p>
+                &nbsp;
+                <p class="simple-signer bottom-info-paragraph">{convertStroopsToXLM(tx.fee)} XLM</p>
+            </div>
+            {#if tx.memo.value}
+                <div class="simple-signer memo-container">
+                    <p class="simple-signer operation-info-title bottom-info-title">Memo:</p>
+                    &nbsp;
+                    <p class="simple-signer bottom-info-paragraph">{tx.memo.value}</p>
+                </div>
             {/if}
         </div>
-    </div>
+        <div class="simple-signer confirmation-buttons">
+            <button class="simple-signer cancel-button" on:click={() => dispatch('cancel')}>{$language.CANCEL}</button>
+            <button
+                class="simple-signer sign-tx-button"
+                on:click={async () => dispatch('confirm', await wallet.sign(tx))}>{$language.CONFIRM}</button
+            >
+        </div>
+    {:else}
+        <p class="simple-signer user-not-connected">{$language.USER_IS_NOT_CONNECTED}</p>
+        <button class="simple-signer connect-btn">
+            <Link to="/connect">{$language.GO_TO_CONNECT}</Link>
+        </button>
+    {/if}
 {:else}
-    <h1>{$language.XDR_INVALID}</h1>
+    <h1 class="simple-signer error-title">{$language.ERROR}</h1>
+    <div class="simple-signer information-container">
+        <p class="simple-signer xdr-invalid">{$language.XDR_INVALID}</p>
+        <div class="simple-signer close-button">
+            <button class="simple-signer sign-tx-button" on:click={() => dispatch('cancel')}>{$language.CLOSE}</button>
+        </div>
+    </div>
 {/if}
 
 <style>
+    .xdr-invalid {
+        margin-top: 15px;
+        margin-bottom: 50px;
+    }
+    .information-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+    }
+    .error-title {
+        font-size: 16px;
+        text-transform: uppercase;
+    }
     p {
         margin: 0;
     }
@@ -304,23 +314,6 @@
         align-items: baseline;
     }
 
-    .sign-container {
-        display: flex;
-        justify-content: space-around;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .tx-container {
-        font-family: 'Roboto', sans-serif;
-        top: 107px;
-        left: 977px;
-        background: #ffffff00 0% 0% no-repeat padding-box;
-        opacity: 1;
-        width: 85%;
-        max-width: 316px;
-    }
-
     .tx-separator {
         border: 1px solid #e5e5e5;
         width: 100%;
@@ -398,12 +391,14 @@
         width: 100%;
     }
 
+    .close-button,
     .confirmation-buttons {
         display: flex;
         flex-direction: row;
         justify-content: space-between;
     }
 
+    .close-button button,
     .confirmation-buttons button {
         width: 140px;
         height: 39px;
