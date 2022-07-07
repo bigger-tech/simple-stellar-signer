@@ -17,6 +17,7 @@ export interface ITranslation {
     CANCEL: string;
     CLAIMANTS: string;
     CLEAR_FLAGS: string;
+    CLOSE: string;
     CONFIRM: string;
     CONNECT_WITH_PRIVATE_KEY: string;
     DATA: string;
