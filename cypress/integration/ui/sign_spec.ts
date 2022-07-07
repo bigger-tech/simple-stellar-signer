@@ -20,10 +20,16 @@ describe('checks that the /sign component works', () => {
         cy.get('.operation-info-container').contains(paymentRecipient);
     });
 
-    it('should render an error if xdr is invalid', () => {
+    it('should render an error if an xdr was not provided', () => {
         cy.visit('/');
         cy.get('a[href*="/sign"]').click();
         cy.findByText(`Sorry, an XDR wasn't provided`).should('exist');
+    });
+
+    it('should render an error if the xdr is invalid', () => {
+        window.localStorage.setItem('wallet', 'xbull');
+        cy.visit(`${BASE_URL}1234`);
+        cy.findByText('Sorry, the XDR is invalid').should('exist');
     });
 
     it('should render one signature on the tx', () => {
