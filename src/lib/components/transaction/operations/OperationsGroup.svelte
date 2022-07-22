@@ -5,6 +5,7 @@
 
     export let description: string;
     export let operationComponents: IOperationComponent[];
+    export let shortedSourceAccount: string;
 </script>
 
 <div class="simple-signer operation-group-container">
@@ -19,7 +20,7 @@
                 >
             </li>
         </ul>
-        <Operation operationItems={component.props.operationItems} />
+        <Operation shortedSourceAccount={shortedSourceAccount} operationItems={component.props.operationItems} />
     {/each}
 </div>
 
