@@ -8,7 +8,7 @@ export default class BumpSequenceComponent extends AbstractOperationComponent im
         super({
             title: 'OPERATION_BUMP_SEQUENCE',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'BUMP_TO', value: operation.bumpTo },
             ],
         });

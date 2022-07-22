@@ -11,7 +11,7 @@ export default class RevokeClaimableBalanceSponsorship
         super({
             title: 'OPERATION_REVOKE_CLAIMABLE_BALANCE_SPONSORSHIP',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'BALANCE_ID', value: operation.balanceId },
             ],
         });

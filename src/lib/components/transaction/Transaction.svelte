@@ -19,7 +19,12 @@
     import OperationsGroup from './operations/OperationsGroup.svelte';
     import groupOperationComponents from './transactionGroupHelper';
     import { checkIfAllAreFalse, checkIfAllAreTrue, getShortedStellarKey } from './transactionHelper';
-    import { areOperationsExpanded, operationsVisibility } from './transactionStore';
+    import {
+        areOperationsExpanded,
+        isSourceAccountClicked,
+        isUserPublicKeyClicked,
+        operationsVisibility,
+    } from './transactionStore';
 
     export let transactionMessage: ITransactionMessage;
     const storage = new LocalStorage();
@@ -43,11 +48,17 @@
 
     function toggleOperationVisibility(i: number) {
         $operationsVisibility[i] = !$operationsVisibility[i];
+        $isUserPublicKeyClicked = false;
     }
 
     function toggleOperationsVisibility() {
         $areOperationsExpanded = !$areOperationsExpanded;
         $operationsVisibility = $operationsVisibility.map(() => $areOperationsExpanded);
+        $isUserPublicKeyClicked = false;
+    }
+
+    function toggleSourceAccount() {
+        $isSourceAccountClicked = !$isSourceAccountClicked;
     }
 
     function convertStroopsToXLM(fee: string) {
@@ -108,8 +119,11 @@
             <div class="simple-signer tx-source-account">
                 <p class="simple-signer source-account">
                     {$language.SOURCE_ACCOUNT}
-                    {shortedSourceAccount}
+                    {$language.YOUR_ACCOUNT}
                 </p>
+                <span class="simple-signer user-publickey" on:click={toggleSourceAccount}
+                    >{$isSourceAccountClicked ? tx.source : shortedSourceAccount}</span
+                >
             </div>
         </div>
         <Signatures signatures={tx.signatures} />
@@ -144,11 +158,15 @@
                         >
                             {#if 'description' in group}
                                 <OperationsGroup
+                                    shortedSourceAccount={shortedSourceAccount}
                                     description={group.description}
                                     operationComponents={group.operationComponents}
                                 />
                             {:else}
-                                <Operation operationItems={group.props.operationItems} />
+                                <Operation
+                                    operationItems={group.props.operationItems}
+                                    shortedSourceAccount={shortedSourceAccount}
+                                />
                             {/if}
                         </div>
                     </div>
@@ -194,6 +212,10 @@
 {/if}
 
 <style>
+    .user-publickey {
+        color: #2f69b7;
+        word-wrap: break-word;
+    }
     .xdr-invalid {
         margin-top: 15px;
         margin-bottom: 50px;

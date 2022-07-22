@@ -19,7 +19,7 @@ export default class AllowTrustComponent extends AbstractOperationComponent impl
         super({
             title: operation.authorize ? 'ALLOW_TRUST' : 'DISALLOW_TRUST',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'ASSET', value: operation.assetCode },
                 { title: 'AUTHORIZATION', value: '', translatedValue: authorization },
             ],

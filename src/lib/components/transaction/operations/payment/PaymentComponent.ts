@@ -8,7 +8,7 @@ export default class PaymentComponent extends AbstractOperationComponent impleme
         super({
             title: 'OPERATION_PAYMENT',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'AMOUNT', value: operation.amount },
                 { title: 'ASSET', value: operation.asset.code },
                 { title: 'DESTINATION', value: operation.destination },

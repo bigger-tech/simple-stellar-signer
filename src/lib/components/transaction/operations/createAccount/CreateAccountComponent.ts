@@ -8,7 +8,7 @@ export default class CreateAccountComponent extends AbstractOperationComponent i
         super({
             title: 'OPERATION_CREATE_ACCOUNT',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'DESTINATION', value: operation.destination },
                 { title: 'STARTING_BALANCE', value: operation.startingBalance },
             ],

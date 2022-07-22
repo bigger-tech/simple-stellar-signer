@@ -8,7 +8,7 @@ export default class ManageDataComponent extends AbstractOperationComponent impl
         super({
             title: 'OPERATION_MANAGE_DATA',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'NAME', value: operation.name },
                 operation.value ? { title: 'DATA', value: operation.value } : undefined,
             ],

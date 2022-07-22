@@ -84,7 +84,14 @@ describe('operations', () => {
         cy.get('.operation-info').contains('Amount: 2.0000000');
         cy.get('.operation-info').contains('Destination: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
         cy.get('.operation-info').contains('Minimum amount of destination asset to be received: 2.0000000');
-        cy.get('.operation-info').contains('Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GBLY...V26T');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GBLY...V26T');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
+        cy.get('.user-publickey').click().contains('GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
     });
 
     it('should render path payment strict receive operation', () => {
@@ -101,7 +108,14 @@ describe('operations', () => {
     it('should render manage buy offer operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${manageBuyOfferXdr}`);
-        cy.get('.operation-info').contains('Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GBLY...V26T');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GBLY...V26T');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
+        cy.get('.user-publickey').click().contains('GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
         cy.get('.operation-info').contains('Selling Asset: XLM');
         cy.get('.operation-info').contains('Buying Asset: XLM');
         cy.get('.operation-info').contains('Buy Amount: 2.0000000');
@@ -112,7 +126,14 @@ describe('operations', () => {
     it('should render manage sell offer operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${manageSellOfferXdr}`);
-        cy.get('.operation-info').contains('Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GBLY...V26T');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GBLY...V26T');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
+        cy.get('.user-publickey').click().contains('GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
         cy.get('.operation-info').contains('Selling Asset: XLM');
         cy.get('.operation-info').contains('Buying Asset: XLM');
         cy.get('.operation-info').contains('Amount: 2.0000000');
@@ -123,7 +144,14 @@ describe('operations', () => {
     it('should render create passive sell offer operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${createPassiveSellOfferXdr}`);
-        cy.get('.operation-info').contains('Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GBLY...V26T');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GBLY...V26T');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
+        cy.get('.user-publickey').click().contains('GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
         cy.get('.operation-info').contains('Selling: XLM');
         cy.get('.operation-info').contains('Buying: XLM');
         cy.get('.operation-info').contains('Amount: 2.0000000');
@@ -133,7 +161,14 @@ describe('operations', () => {
     it('should render set options operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${setOptionsXdr}`);
-        cy.get('.operation-info').contains('Source Account: GC3BZC6JUSOR76BHQJFO4CF7L4MCIB4GLBV7ECBXKK5BT3WLZ6ZP6EKQ');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GC3B...6EKQ');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GC3B...6EKQ');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GC3BZC6JUSOR76BHQJFO4CF7L4MCIB4GLBV7ECBXKK5BT3WLZ6ZP6EKQ');
+        cy.get('.user-publickey').click().contains('GC3BZC6JUSOR76BHQJFO4CF7L4MCIB4GLBV7ECBXKK5BT3WLZ6ZP6EKQ');
         cy.get('.operation-info').contains('Set Flags: 11');
         cy.get('.operation-info').contains('Master Weight: 1');
         cy.get('.operation-info').contains('Low Threshold: 1');
@@ -153,14 +188,21 @@ describe('operations', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${changeTrustXdr}`);
         cy.get('.operation-info').contains('Asset: AUD');
-        cy.get('.operation-info').contains('Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
+        cy.get('.operation-info').contains('Source Account: Your Account');
         cy.get('.operation-info').contains('Limit: 922337203685.4775807');
     });
 
     it('should render change trust (liquidity pool asset) operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${changeTrustLiquidityPoolAssetXdr}`);
-        cy.get('.operation-info').contains('Source Account: GDWTWTWO7WJF57UUXI42R4CJXT6MAKZ4K2THPJAW4EFKD5ATPNEQJ5W3');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GDWT...J5W3');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GDWT...J5W3');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GDWTWTWO7WJF57UUXI42R4CJXT6MAKZ4K2THPJAW4EFKD5ATPNEQJ5W3');
+        cy.get('.user-publickey').click().contains('GDWTWTWO7WJF57UUXI42R4CJXT6MAKZ4K2THPJAW4EFKD5ATPNEQJ5W3');
         cy.get('.operation-info').contains('Asset A: XLM');
         cy.get('.operation-info').contains('Asset B: AUD');
         cy.get('.operation-info').contains('Limit: 922337203685.4775807');
@@ -169,14 +211,28 @@ describe('operations', () => {
     it('should render account merge operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${accountMergeXdr}`);
-        cy.get('.operation-info').contains('Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GBLY...V26T');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GBLY...V26T');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
+        cy.get('.user-publickey').click().contains('GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
         cy.get('.operation-info').contains('Destination: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
     });
 
     it('should render manage data operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${manageDataXdr}`);
-        cy.get('.operation-info').contains('Source Account: GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GBLY...V26T');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GBLY...V26T');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
+        cy.get('.user-publickey').click().contains('GBLYCS5FDM2EGDVPTECHXEBLIVQPLPIJI5U2BEGQVZIIXCVIHM6RV26T');
         cy.get('.operation-info').contains('Name: asd');
         cy.get('.operation-info').contains('Data: qwe');
     });
@@ -184,14 +240,28 @@ describe('operations', () => {
     it('should render bump sequence operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${bumpSequenceXdr}`);
-        cy.get('.operation-info').contains('Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GCI5...M7JI');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GCI5...M7JI');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
+        cy.get('.user-publickey').click().contains('GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
         cy.get('.operation-info').contains('Bump to: 51235678');
     });
 
     it('should render create claimable balance operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${createClaimableBalanceXdr}`);
-        cy.get('.operation-info').contains('Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GCI5...M7JI');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GCI5...M7JI');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
+        cy.get('.user-publickey').click().contains('GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
         cy.get('.operation-info').contains('Asset: XLM');
         cy.get('.operation-info').contains('Amount: 234656.0000000');
         cy.get('.operation-info').contains('Claimants:');
@@ -202,21 +272,42 @@ describe('operations', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${endSponsoringFutureReservesXdr}`);
         cy.get('.operation-title-head').contains('End Sponsoring Future Reserves');
-        cy.get('.operation-info').contains('Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GCI5...M7JI');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GCI5...M7JI');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
+        cy.get('.user-publickey').click().contains('GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
     });
 
     it('should render revoke account sponsorship operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${revokeAccountSponsorshipXdr}`);
         cy.get('.operation-title-head').contains('Revoke Account Sponsorship');
-        cy.get('.operation-info').contains('Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GCI5...M7JI');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GCI5...M7JI');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
+        cy.get('.user-publickey').click().contains('GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
         cy.get('.operation-info').contains('Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
     });
 
     it('should render revoke claimable balance sponsorship operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${revokeClaimableBalanceSponsorshipXdr}`);
-        cy.get('.operation-info').contains('Source Account: GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GCI5...M7JI');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GCI5...M7JI');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
+        cy.get('.user-publickey').click().contains('GCI5KGGNY4GKZOWEHTSFTJSBMRLQLJCCNV56TXKLMXZAOKZF3YZ2M7JI');
         cy.get('.operation-info').contains(
             'Balance ID: 00000000da0d57da7d4850e7fc10d2a9d0ebc731f7afb40574c03395b17d49149b91f5be',
         );
@@ -225,14 +316,29 @@ describe('operations', () => {
     it('should render revoke data sponsorship operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${revokeDataSponsorshipXdr}`);
-        cy.get('.operation-info').contains('Source Account: GBGQAJHRMZ4X47KKNBEORZHK4QWBGNU2BUDKYLLWXTDZS46ZUHVO77UF');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GBGQ...77UF');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GBGQ...77UF');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GBGQAJHRMZ4X47KKNBEORZHK4QWBGNU2BUDKYLLWXTDZS46ZUHVO77UF');
+        cy.get('.user-publickey').click().contains('GBGQAJHRMZ4X47KKNBEORZHK4QWBGNU2BUDKYLLWXTDZS46ZUHVO77UF');
         cy.get('.operation-info').contains('Account: GBGQAJHRMZ4X47KKNBEORZHK4QWBGNU2BUDKYLLWXTDZS46ZUHVO77UF');
         cy.get('.operation-info').contains('Name: asd');
     });
+
     it('should render revoke liquidity pool sponsorship operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${revokeLiquidityPoolSponsorshipXdr}`);
-        cy.get('.operation-info').contains('Source Account: GACXTDPQUGJFX7NS4TREHBL2VOGPUFCF4ZWQYKTWOHR4XGMBATZ6SRO5');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GACX...SRO5');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GACX...SRO5');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GACXTDPQUGJFX7NS4TREHBL2VOGPUFCF4ZWQYKTWOHR4XGMBATZ6SRO5');
+        cy.get('.user-publickey').click().contains('GACXTDPQUGJFX7NS4TREHBL2VOGPUFCF4ZWQYKTWOHR4XGMBATZ6SRO5');
         cy.get('.operation-info').contains(
             'Liquidity Pool ID: dd7b1ab831c273310ddbec6f97870aa83c2fbd78ce22aded37ecbf4f3380fac7',
         );
@@ -241,7 +347,14 @@ describe('operations', () => {
     it('should render revoke offer sponsorship operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${revokeOfferSponsorshipXdr}`);
-        cy.get('.operation-info').contains('Source Account: GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GCFN...MRTB');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GCFN...MRTB');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB');
+        cy.get('.user-publickey').click().contains('GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB');
         cy.get('.operation-info').contains('Seller: GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB');
         cy.get('.operation-info').contains('Offer ID: 1234');
     });
@@ -249,14 +362,29 @@ describe('operations', () => {
     it('should render revoke signer sponsorship operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${revokeSignerSponsorshipXdr}`);
-        cy.get('.operation-info').contains('Source Account: GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GCFN...MRTB');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GCFN...MRTB');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB');
+        cy.get('.user-publickey').click().contains('GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB');
         cy.get('.operation-info').contains('Account: GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB');
         cy.get('.operation-info').contains('Signer: GCFND4NPUKO27EBXB4IWM7AEMVH7P6HGRFGDPZVBNS7ZSDQ3EOK3MRTB');
     });
+
     it('should render revoke signer sponsorship operation with sha256 signer', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${revokeSignerSponsorshipSha256Xdr}`);
-        cy.get('.operation-info').contains('Source Account: GA2FBCLFZZHJ2EPGCBV3SEVSFN3GPGTKAQL6R5C2PQA2IE2N3JLKHB7X');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GA2F...HB7X');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GA2F...HB7X');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GA2FBCLFZZHJ2EPGCBV3SEVSFN3GPGTKAQL6R5C2PQA2IE2N3JLKHB7X');
+        cy.get('.user-publickey').click().contains('GA2FBCLFZZHJ2EPGCBV3SEVSFN3GPGTKAQL6R5C2PQA2IE2N3JLKHB7X');
         cy.get('.operation-info').contains('Account: GA2FBCLFZZHJ2EPGCBV3SEVSFN3GPGTKAQL6R5C2PQA2IE2N3JLKHB7X');
         cy.get('.operation-info').contains('Signer: a46d20e09c00a1eb32132dbf22ba2a33c511a413431e2210a53d42ab1d6d8fd4');
     });
@@ -264,7 +392,14 @@ describe('operations', () => {
     it('should render revoke signer sponsorship operation with preAuth signer', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${revokeSignerSponsorshipPreaAuthTx}`);
-        cy.get('.operation-info').contains('Source Account: GAAKB6IS2LZDFVMIWXMHNRWQPCB7DH5GSE5OQPI6LRLTGH4FXQZ2NG4Y');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GAAK...NG4Y');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GAAK...NG4Y');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GAAKB6IS2LZDFVMIWXMHNRWQPCB7DH5GSE5OQPI6LRLTGH4FXQZ2NG4Y');
+        cy.get('.user-publickey').click().contains('GAAKB6IS2LZDFVMIWXMHNRWQPCB7DH5GSE5OQPI6LRLTGH4FXQZ2NG4Y');
         cy.get('.operation-info').contains('Account: GAAKB6IS2LZDFVMIWXMHNRWQPCB7DH5GSE5OQPI6LRLTGH4FXQZ2NG4Y');
         cy.get('.operation-info').contains('Signer: 1df3f71325f8ed058a6307e5c59cff3d944a27bebbb55a0e7cfa5d40d1c93cd3');
     });
@@ -272,7 +407,14 @@ describe('operations', () => {
     it('should render allow trust operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${allowTrustXdr}`);
-        cy.get('.operation-info').contains('Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GBKB...LKN3');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GBKB...LKN3');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
+        cy.get('.user-publickey').click().contains('GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
         cy.get('.operation-info').contains('Asset: AUD');
         cy.get('.operation-info').contains('Authorization: The account is authorized to transact with the asset');
     });
@@ -280,7 +422,14 @@ describe('operations', () => {
     it('should render claim claimable balance operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${claimClaimableBalanceXdr}`);
-        cy.get('.operation-info').contains('Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GBKB...LKN3');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GBKB...LKN3');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
+        cy.get('.user-publickey').click().contains('GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
         cy.get('.operation-info').contains(
             'Balance ID: 00000000da0d57da7d4850e7fc10d2a9d0ebc731f7afb40574c03395b17d49149b91f5be',
         );
@@ -289,7 +438,14 @@ describe('operations', () => {
     it('should render set trust line flags operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${setTrustLineFlagsXdr}`);
-        cy.get('.operation-info').contains('Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GBKB...LKN3');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GBKB...LKN3');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
+        cy.get('.user-publickey').click().contains('GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
         cy.get('.operation-info').contains('Trustor: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
         cy.get('.operation-info').contains('Asset: AUD');
         cy.get('.operation-info').contains('Is authorized: True');
@@ -300,7 +456,14 @@ describe('operations', () => {
     it('should render liquidity pool deposit operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${liquidityPoolDepositXdr}`);
-        cy.get('.operation-info').contains('Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GBKB...LKN3');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GBKB...LKN3');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
+        cy.get('.user-publickey').click().contains('GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
         cy.get('.operation-info').contains(
             'Liquidity Pool ID: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9',
         );
@@ -313,7 +476,14 @@ describe('operations', () => {
     it('should render clawback claimable balance operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${clawbackClaimableBalanceXdr}`);
-        cy.get('.operation-info').contains('Source Account: GCKIJAGP35IRNIF4U3C7Z5LQ5FJXKHQMVN7APY4OZIIGK5RKX274RJJU');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GCKI...RJJU');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GCKI...RJJU');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GCKIJAGP35IRNIF4U3C7Z5LQ5FJXKHQMVN7APY4OZIIGK5RKX274RJJU');
+        cy.get('.user-publickey').click().contains('GCKIJAGP35IRNIF4U3C7Z5LQ5FJXKHQMVN7APY4OZIIGK5RKX274RJJU');
         cy.get('.operation-info').contains(
             'Balance ID: 00000000da0d57da7d4850e7fc10d2a9d0ebc731f7afb40574c03395b17d49149b91f5be',
         );
@@ -322,7 +492,14 @@ describe('operations', () => {
     it('should render clawback operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${clawbackXdr}`);
-        cy.get('.operation-info').contains('Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GBKB...LKN3');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GBKB...LKN3');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
+        cy.get('.user-publickey').click().contains('GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
         cy.get('.operation-info').contains('Asset: AUD');
         cy.get('.operation-info').contains('Amount: 2.0000000');
         cy.get('.operation-info').contains('From: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
@@ -331,7 +508,14 @@ describe('operations', () => {
     it('should render liquidity pool withdraw operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${liquidityPoolWithdrawXdr}`);
-        cy.get('.operation-info').contains('Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GBKB...LKN3');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GBKB...LKN3');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
+        cy.get('.user-publickey').click().contains('GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
         cy.get('.operation-info').contains(
             'Liquidity Pool ID: 67260c4c1807b262ff851b0a3fe141194936bb0215b2f77447f1df11998eabb9',
         );
@@ -343,7 +527,14 @@ describe('operations', () => {
     it('should render revoke trustline sponsorship operation', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${revokeTrustLineSponsorshipXdr}`);
-        cy.get('.operation-info').contains('Source Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
+        cy.get('.operation-info').contains('Source Account: Your Account');
+        cy.get('.user-publickey').contains('GBKB...LKN3');
+        cy.get('.arrow-button').click();
+        cy.get('.user-operation-list-publickey').contains('GBKB...LKN3');
+        cy.get('.user-operation-list-publickey')
+            .click()
+            .contains('GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
+        cy.get('.user-publickey').click().contains('GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
         cy.get('.operation-info').contains('Account: GBKBWABVN5HGKCGIFJSWGOELGPPMYAWO27RFEVFGJG26NAEVHRSRLKN3');
         cy.get('.operation-info').contains('Asset: XLM');
     });

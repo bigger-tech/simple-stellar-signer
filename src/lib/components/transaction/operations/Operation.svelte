@@ -1,13 +1,21 @@
 <script lang="ts">
     import { language } from '../../../../store/global';
+    import { isUserPublicKeyClicked } from '../transactionStore';
     import type IOperationComponentProps from './IOperationComponentProps';
 
     export let operationItems: IOperationComponentProps['operationItems'];
+    export let shortedSourceAccount: string;
+
+    const firstElementFromOperationItems = 0;
+
+    function toggleSourceAccount() {
+        $isUserPublicKeyClicked = !$isUserPublicKeyClicked;
+    }
 </script>
 
 <div class="simple-signer operation-container">
     <div class="simple-signer operation-info-container">
-        {#each operationItems as item}
+        {#each operationItems as item, i}
             {#if item}
                 <div class="simple-signer operation-info">
                     <p class="simple-signer operation-info-title">{$language[item.title]}</p>
@@ -19,6 +27,11 @@
                         <p class="simple-signer break-key">
                             {item.translatedValue ? $language[item.translatedValue] : item.value}
                         </p>
+                        {#if i === firstElementFromOperationItems}
+                            <span class="simple-signer user-operation-list-publickey" on:click={toggleSourceAccount}
+                                >{$isUserPublicKeyClicked ? item.value : shortedSourceAccount}</span
+                            >
+                        {/if}
                     {/if}
                 </div>
             {/if}
@@ -27,6 +40,10 @@
 </div>
 
 <style>
+    .user-operation-list-publickey {
+        color: #2f69b7;
+        word-wrap: break-word;
+    }
     .operation-container {
         direction: ltr;
     }

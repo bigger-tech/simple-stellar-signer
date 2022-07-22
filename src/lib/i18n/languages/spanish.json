@@ -125,5 +125,6 @@
     "USER_IS_NOT_CONNECTED": "El usuario no está conectado",
     "WEIGHT": "Peso:",
     "XDR_INVALID": "Lo sentimos, el XDR es inválido",
-    "XDR_NOT_PROVIDED": "Lo sentimos, no encontramos ningún XDR"
+    "XDR_NOT_PROVIDED": "Lo sentimos, no encontramos ningún XDR",
+    "YOUR_ACCOUNT": "Tu Cuenta"
 }

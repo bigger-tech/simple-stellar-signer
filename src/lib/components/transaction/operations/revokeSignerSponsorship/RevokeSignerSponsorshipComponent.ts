@@ -13,7 +13,7 @@ export default class RevokeSignerSponsorshipComponent
         super({
             title: 'OPERATION_REVOKE_SIGNER_SPONSORSHIP',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'ACCOUNT', value: operation.account },
                 { title: 'SIGNER', value: signer },
             ],

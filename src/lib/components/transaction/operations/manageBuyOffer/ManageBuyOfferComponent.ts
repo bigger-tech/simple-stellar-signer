@@ -8,7 +8,7 @@ export default class ManageBuyOfferComponent extends AbstractOperationComponent 
         super({
             title: 'OPERATION_MANAGE_BUY_OFFER',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'SELLING_ASSET', value: operation.selling.code },
                 { title: 'BUYING_ASSET', value: operation.buying.code },
                 { title: 'BUY_AMOUNT', value: operation.buyAmount },

@@ -8,7 +8,7 @@ export default class RevokeAccountSponsorship extends AbstractOperationComponent
         super({
             title: 'OPERATION_REVOKE_ACCOUNT_SPONSORSHIP',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'ACCOUNT', value: operation.account },
             ],
         });

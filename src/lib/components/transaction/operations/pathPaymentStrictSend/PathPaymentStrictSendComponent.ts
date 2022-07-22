@@ -10,7 +10,7 @@ export default class PathPaymentStrictSendComponent extends AbstractOperationCom
         super({
             title: 'OPERATION_PATH_PAYMENT_STRICT_RECEIVE',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'ASSET_TO_PAY', value: operation.sendAsset.code },
                 { title: 'AMOUNT', value: operation.sendAmount },
                 { title: 'DESTINATION', value: operation.destination },

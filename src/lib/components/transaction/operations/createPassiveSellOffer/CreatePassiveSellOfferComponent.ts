@@ -8,7 +8,7 @@ export default class CreatePassiveSellOfferComponent extends AbstractOperationCo
         super({
             title: 'OPERATION_CREATE_PASSIVE_SELL_OFFER',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'SELLING', value: operation.selling.code },
                 { title: 'BUYING', value: operation.buying.code },
                 { title: 'AMOUNT', value: operation.amount },

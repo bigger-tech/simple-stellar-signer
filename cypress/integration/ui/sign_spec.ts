@@ -16,8 +16,8 @@ describe('checks that the /sign component works', () => {
     it('should render a transaction if XDR query parameter is valid', () => {
         window.localStorage.setItem('wallet', 'xbull');
         cy.visit(`${BASE_URL}${paymentXdr}`);
-        cy.get('.operation-info-container').contains(sourceAccount);
-        cy.get('.operation-info-container').contains(paymentRecipient);
+        cy.get('.operation-info-container').contains('Your Account');
+        cy.get('.operation-info-container').contains('Your Account');
     });
 
     it('should render an error if an xdr was not provided', () => {

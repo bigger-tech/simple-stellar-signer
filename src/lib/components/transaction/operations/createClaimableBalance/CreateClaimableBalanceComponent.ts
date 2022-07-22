@@ -10,7 +10,7 @@ export default class CreateClaimableBalanceComponent extends AbstractOperationCo
         super({
             title: 'OPERATION_CREATE_CLAIMABLE_BALANCE',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'AMOUNT', value: operation.amount },
                 { title: 'ASSET', value: operation.asset.code },
                 { title: 'CLAIMANTS', value: claimantsDestinations },

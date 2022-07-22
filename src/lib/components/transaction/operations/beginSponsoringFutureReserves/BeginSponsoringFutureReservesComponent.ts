@@ -11,7 +11,7 @@ export default class BeginSponsoringFutureReservesComponent
         super({
             title: 'OPERATION_BEGIN_SPONSORING_FUTURE_RESERVES',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'SPONSORED_ID', value: operation.sponsoredId },
             ],
         });
