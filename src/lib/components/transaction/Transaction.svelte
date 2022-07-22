@@ -18,7 +18,7 @@
     import type { OperationComponent } from './operations/OperationComponent';
     import OperationsGroup from './operations/OperationsGroup.svelte';
     import groupOperationComponents from './transactionGroupHelper';
-    import { checkIfAllAreFalse, checkIfAllAreTrue, getShortedStellarKey } from './transactionHelper';
+    import { checkIfAllAreFalse, checkIfAllAreTrue } from './transactionHelper';
     import { areOperationsExpanded, operationsVisibility } from './transactionStore';
 
     export let transactionMessage: ITransactionMessage;
@@ -38,7 +38,6 @@
 
     let operationComponents: OperationComponent[] = [];
     let transactionGroups: (OperationComponent | IOperationGroupComponent)[] = [];
-    let shortedSourceAccount: string;
     let isValidXdr = false;
 
     function toggleOperationVisibility(i: number) {
@@ -67,7 +66,6 @@
 
         network = CURRENT_STELLAR_NETWORK;
 
-        shortedSourceAccount = getShortedStellarKey(tx.source);
         const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
 
         operationComponents = tx.operations.map((operation) => dynamicOperationComponentFactory.create(tx, operation));
@@ -108,7 +106,7 @@
             <div class="simple-signer tx-source-account">
                 <p class="simple-signer source-account">
                     {$language.SOURCE_ACCOUNT}
-                    {shortedSourceAccount}
+                    {$language.YOUR_ACCOUNT}
                 </p>
             </div>
         </div>
