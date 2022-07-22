@@ -8,7 +8,7 @@ export default class RevokeLiquidityPoolSponsorship extends AbstractOperationCom
         super({
             title: 'OPERATION_REVOKE_LIQUIDITY_POOL_SPONSORSHIP',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                 // @ts-ignore
                 // Bug in the types of the operation in stellar-base

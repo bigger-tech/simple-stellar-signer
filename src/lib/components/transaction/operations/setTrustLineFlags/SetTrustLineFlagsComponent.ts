@@ -8,7 +8,7 @@ export default class SetTrustLineFlags extends AbstractOperationComponent implem
         super({
             title: 'OPERATION_SET_TRUSTLINE_FLAGS',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'TRUSTOR', value: operation.trustor },
                 { title: 'ASSET', value: operation.asset.code },
                 { title: 'IS_AUTHORIZED', value: operation.flags.authorized ? 'True' : 'False' },

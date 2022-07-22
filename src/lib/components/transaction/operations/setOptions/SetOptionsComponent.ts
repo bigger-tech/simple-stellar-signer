@@ -12,7 +12,7 @@ export default class SetOptionsComponent extends AbstractOperationComponent impl
             title: 'OPERATION_SET_OPTIONS',
 
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
 
                 operation.inflationDest
                     ? { title: 'DESTINATION_INFLATION', value: operation.inflationDest }

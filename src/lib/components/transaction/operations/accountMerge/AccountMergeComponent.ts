@@ -8,7 +8,7 @@ export default class AccountMergeComponent extends AbstractOperationComponent im
         super({
             title: 'OPERATION_ACCOUNT_MERGE',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'DESTINATION', value: operation.destination },
             ],
         });

@@ -15,7 +15,7 @@ export default class AllowTrustComponent extends AbstractOperationComponent impl
         super({
             title: 'OPERATION_REVOKE_TRUSTLINE_SPONSORSHIP',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'ACCOUNT', value: operation.account },
                 { title: 'ASSET', value: asset },
             ],

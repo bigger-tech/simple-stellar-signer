@@ -8,7 +8,7 @@ export default class RevokeDataSponsorship extends AbstractOperationComponent im
         super({
             title: 'OPERATION_REVOKE_DATA_SPONSORSHIP',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'ACCOUNT', value: operation.account },
                 { title: 'NAME', value: operation.name },
             ],

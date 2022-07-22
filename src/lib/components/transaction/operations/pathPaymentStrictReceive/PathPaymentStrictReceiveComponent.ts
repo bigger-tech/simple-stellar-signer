@@ -13,7 +13,7 @@ export default class PathPaymentStrictReceiveComponent
         super({
             title: 'OPERATION_PATH_PAYMENT_STRICT_RECEIVE',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'ASSET_TO_PAY', value: operation.sendAsset.code },
                 { title: 'MAX_AMOUNT', value: operation.sendMax },
                 { title: 'DESTINATION', value: operation.destination },

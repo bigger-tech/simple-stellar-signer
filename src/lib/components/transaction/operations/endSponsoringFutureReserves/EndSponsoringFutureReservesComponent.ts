@@ -10,7 +10,9 @@ export default class EndSponsoringFutureReservesComponent
     constructor(tx: Transaction, operation: Operation.EndSponsoringFutureReserves) {
         super({
             title: 'OPERATION_END_SPONSORING_FUTURE_RESERVES',
-            operationItems: [{ title: 'SOURCE_ACCOUNT', value: operation.source || tx.source }],
+            operationItems: [
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
+            ],
         });
     }
 }

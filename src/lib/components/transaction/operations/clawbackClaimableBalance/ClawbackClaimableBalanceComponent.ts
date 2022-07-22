@@ -11,7 +11,7 @@ export default class ClawbackClaimableBalanceComponent
         super({
             title: 'OPERATION_CLAIM_CLAIMABLE_BALANCE',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'BALANCE_ID', value: operation.balanceId },
             ],
         });

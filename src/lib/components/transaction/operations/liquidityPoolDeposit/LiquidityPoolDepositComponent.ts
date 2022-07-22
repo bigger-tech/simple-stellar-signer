@@ -8,7 +8,7 @@ export default class LiquidityPoolDepositComponent extends AbstractOperationComp
         super({
             title: 'OPERATION_LIQUIDITY_POOL_DEPOSIT',
             operationItems: [
-                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source },
+                { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'LIQUIDITY_POOL_ID', value: operation.liquidityPoolId },
                 { title: 'MAX_AMOUNT_A', value: operation.maxAmountA },
                 { title: 'MAX_AMOUNT_B', value: operation.maxAmountB },
