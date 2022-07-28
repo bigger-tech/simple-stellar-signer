@@ -1,22 +1,19 @@
 <script>
     import { isLanguageMenuVisible } from './languageStore';
     import languageIcon from '../../../assets/icons/language.svg';
-    import { hideMenu, clickOutside } from './languageHelper';
     import LanguageInputs from './LanguageInputs.svelte';
-    import { language } from '../../../store/global';
+    import { isLogoutVisible, language } from '../../../store/global';
 
     function toggleMenuVisibility() {
         $isLanguageMenuVisible = !$isLanguageMenuVisible;
+        $isLogoutVisible = false;
     }
 </script>
 
 <div class="simple-signer language-container">
-    <div
-        use:clickOutside={hideMenu}
-        class="simple-signer language-container-icon  {$isLanguageMenuVisible ? 'active' : ''}"
-    >
+    <div class="simple-signer language-container-icon  {$isLanguageMenuVisible && 'active'}">
         <button on:click={toggleMenuVisibility} class="simple-signer invisible-button">
-            <img class="simple-signer language-icon" src={languageIcon} alt="*" />
+            <img class="simple-signer language-icon" src={languageIcon} alt="language icon" />
         </button>
         <div class="simple-signer language-selector-container {$isLanguageMenuVisible ? '' : 'hidden'}">
             <LanguageInputs
@@ -64,9 +61,6 @@
     }
 
     .language-container {
-        display: flex;
-        flex-direction: row;
-        justify-content: flex-end;
         max-width: 360px;
         width: 100%;
     }

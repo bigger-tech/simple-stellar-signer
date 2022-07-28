@@ -1,7 +1,6 @@
 <script lang="ts">
     import Bridge, { SimpleSignerPageType } from '../../lib/bridge/Bridge';
     import { setMinimumPopUpSize } from '../../lib/components/helpers/popUpSizeHelper';
-    import Language from '../../lib/components/language/Language.svelte';
     import Transaction from '../../lib/components/transaction/Transaction.svelte';
     import { language } from '../../store/global';
     import { transaction } from './signStore';
@@ -38,7 +37,6 @@
 
 <div class="simple-signer sign-container">
     <div class="simple-signer tx-container">
-        <Language />
         {#if $transaction?.xdr}
             <Transaction transactionMessage={$transaction} on:cancel={handleCancel} on:confirm={handleConfirm} />
         {:else if !$transaction.xdr}
