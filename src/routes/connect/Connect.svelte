@@ -1,7 +1,6 @@
 <script lang="ts">
     import Bridge, { SimpleSignerPageType } from '../../lib/bridge/Bridge';
     import { setMinimumPopUpSize } from '../../lib/components/helpers/popUpSizeHelper';
-    import Language from '../../lib/components/language/Language.svelte';
     import Wallets from '../../lib/components/wallets/Wallets.svelte';
     import type IWallet from '../../lib/wallets/IWallet';
     import { language } from '../../store/global';
@@ -42,7 +41,6 @@
 </script>
 
 <div class="simple-signer-container">
-    <Language />
     <div class="simple-signer-wallets">
         <span class="simple-signer select-wallet">{$language.SELECT_WALLET}</span>
         {#if $urlOrDefaultWallets}
