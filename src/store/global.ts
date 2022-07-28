@@ -8,6 +8,7 @@ export const publicKey = writable('');
 export const language = writable({} as ITranslation);
 export const detectedLanguage = writable(walletLanguage.getLanguage());
 export const isLanguageLoading = writable(true);
+export const isLogoutVisible = writable(false);
 
 walletLanguage.getText().then((lang) => {
     language.set(lang);
