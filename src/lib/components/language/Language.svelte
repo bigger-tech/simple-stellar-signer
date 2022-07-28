@@ -11,7 +11,7 @@
 </script>
 
 <div class="simple-signer language-container">
-    <div class="simple-signer language-container-icon  {$isLanguageMenuVisible ? 'active' : ''}">
+    <div class="simple-signer language-container-icon  {$isLanguageMenuVisible && 'active'}">
         <button on:click={toggleMenuVisibility} class="simple-signer invisible-button">
             <img class="simple-signer language-icon" src={languageIcon} alt="language icon" />
         </button>
