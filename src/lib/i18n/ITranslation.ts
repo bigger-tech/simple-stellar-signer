@@ -47,6 +47,7 @@ export interface ITranslation {
     LIMIT: string;
     LIQUIDITY_POOL_ID: string;
     LOADING: string;
+    LOGOUT: string;
     LOW_THRESHOLD: string;
     MASTER_WEIGHT: string;
     MAX_AMOUNT_A: string;
