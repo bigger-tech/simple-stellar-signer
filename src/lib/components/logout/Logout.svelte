@@ -15,7 +15,7 @@
 </script>
 
 <div class="simple-signer logout-container">
-    <div class="simple-signer logout-container-icon  {$isLogoutVisible ? 'active' : ''}">
+    <div class="simple-signer logout-container-icon  {$isLogoutVisible && 'active'}">
         <button on:click={toggleMenuVisibility} class="simple-signer logout-button">
             <img class="simple-signer logout-icon" src={logoutIcon} alt="logout icon" />
         </button>
