@@ -7,6 +7,7 @@ export default interface IOperationComponentProps {
               title: keyof ITranslation;
               value: any;
               translatedValue?: keyof ITranslation;
+              highlightTxDescription?: keyof ITranslation;
           }
         | undefined
     )[];
