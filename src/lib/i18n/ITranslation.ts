@@ -124,6 +124,7 @@ export interface ITranslation {
     TRANSACTION: string;
     TRUSTOR: string;
     USER_IS_NOT_CONNECTED: string;
+    WARNING_TX_DESCRIPTION: string;
     WEIGHT: string;
     XDR_INVALID: string;
     XDR_NOT_PROVIDED: string;

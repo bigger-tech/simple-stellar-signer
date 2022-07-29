@@ -33,6 +33,11 @@
                             >
                         {/if}
                     {/if}
+                    {#if item.highlightTxDescription != undefined}
+                        <p class="simple-signer warning-description">
+                            {$language[item.highlightTxDescription]}
+                        </p>
+                    {/if}
                 </div>
             {/if}
         {/each}
@@ -40,10 +45,15 @@
 </div>
 
 <style>
+    .warning-description {
+        color: #ff0000;
+    }
+
     .user-operation-list-publickey {
         color: #2f69b7;
         word-wrap: break-word;
     }
+
     .operation-container {
         direction: ltr;
     }

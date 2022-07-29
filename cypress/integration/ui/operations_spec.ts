@@ -182,6 +182,9 @@ describe('operations', () => {
         cy.get('.operation-info').contains('preAuthTx: TDSGQU6Q7M5DES2ZPCMQJI2FK6TLUJ4J2ALMR3XT63QBWPJFYCNW4XYF');
         cy.get('.operation-info').contains('Weight: 1');
         cy.get('.operation-info').should('not.contain', 'undefined');
+        cy.get('.warning-description').contains(
+            'This transaction is asking to add another signer to your account, which could lead to them taking over your funds. Please evaluate it carefully.',
+        );
     });
 
     it('should render change trust (normal asset) operation', () => {
