@@ -124,6 +124,7 @@
     "TRANSACTION": "Transaction:",
     "TRUSTOR": "Trustor:",
     "USER_IS_NOT_CONNECTED": "User is not connected",
+    "WARNING_TX_DESCRIPTION": "This transaction is asking to add another signer to your account, which could lead to them taking over your funds. Please evaluate it carefully.",
     "WEIGHT": "Weight:",
     "XDR_INVALID": "Sorry, the XDR is invalid",
     "XDR_NOT_PROVIDED": "Sorry, an XDR wasn't provided",

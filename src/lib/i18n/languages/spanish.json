@@ -124,6 +124,7 @@
     "TRANSACTION": "Transacción:",
     "TRUSTOR": "Fideicomitente:",
     "USER_IS_NOT_CONNECTED": "El usuario no está conectado",
+    "WARNING_TX_DESCRIPTION": "Esta transacción solicita agregar otro firmante a su cuenta, lo que podría llevar a que le quiten sus fondos. Por favor evalúelo cuidadosamente.",
     "WEIGHT": "Peso:",
     "XDR_INVALID": "Lo sentimos, el XDR es inválido",
     "XDR_NOT_PROVIDED": "Lo sentimos, no encontramos ningún XDR",
