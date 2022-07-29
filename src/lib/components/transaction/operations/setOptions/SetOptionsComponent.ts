@@ -24,7 +24,13 @@ export default class SetOptionsComponent extends AbstractOperationComponent impl
                 operation.medThreshold ? { title: 'MEDIUM_THRESHOLD', value: operation.medThreshold } : undefined,
                 operation.highThreshold ? { title: 'HIGH_THRESHOLD', value: operation.highThreshold } : undefined,
                 operation.homeDomain ? { title: 'HOME_DOMAIN', value: operation.homeDomain } : undefined,
-                signerValue ? { title: 'SIGNER', value: signerValue } : undefined,
+                signerValue
+                    ? {
+                          title: 'SIGNER',
+                          value: signerValue,
+                          highlightTxDescription: 'WARNING_TX_DESCRIPTION',
+                      }
+                    : undefined,
             ],
         });
     }
