@@ -27,7 +27,7 @@ export default class Freighter extends AbstractWallet implements IWallet {
 
     public override async getPublicKey(): Promise<string> {
         const publicKey = await getPublicKey();
-        super.persistWallet();
+        super.persistWallet(publicKey);
         return publicKey;
     }
 

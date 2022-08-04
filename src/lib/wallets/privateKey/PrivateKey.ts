@@ -20,7 +20,7 @@ export default class PrivateKey extends AbstractWallet implements IWallet {
         let publicKey: string;
         try {
             publicKey = Keypair.fromSecret(privateKey).publicKey();
-            super.persistWallet();
+            super.persistWallet(publicKey);
             await this.storeEncryptedPrivateKey(privateKey);
         } catch (e) {
             if (e instanceof InvalidPrivateKeyError) {

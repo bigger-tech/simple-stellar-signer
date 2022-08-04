@@ -3,13 +3,14 @@ import type IWallet from './IWallet';
 import InvalidWalletError from './InvalidWalletError';
 import Albedo from './albedo/Albedo';
 import Freighter from './freighter/Freighter';
+import Ledger from './ledger/Ledger';
 import PrivateKey from './privateKey/PrivateKey';
 import Rabet from './rabet/Rabet';
 import XBull from './xBull/XBull';
 
 export default class WalletFactory {
     createAll(): IWallet[] {
-        return [Albedo.NAME, XBull.NAME, Rabet.NAME, Freighter.NAME, PrivateKey.NAME].map(this.create);
+        return [Albedo.NAME, XBull.NAME, Rabet.NAME, Freighter.NAME, Ledger.NAME, PrivateKey.NAME].map(this.create);
     }
 
     create(name: string) {
@@ -27,6 +28,9 @@ export default class WalletFactory {
                 break;
             case Freighter.NAME:
                 wallet = new Freighter(storage);
+                break;
+            case Ledger.NAME:
+                wallet = new Ledger(storage);
                 break;
             case PrivateKey.NAME:
                 wallet = new PrivateKey(storage);

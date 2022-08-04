@@ -39,7 +39,7 @@ It can be embedded on any website and supports multiple wallets and languages.
     <tr>
         <td>Ledger</td>
         <td><a href="https://ledger.com">ledger.com</a></td>
-        <td>In progress</td>
+        <td>Implemented</td>
     </tr>
     </tbody>
 </table>

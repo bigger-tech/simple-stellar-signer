@@ -6,6 +6,7 @@ import type IWallet from './IWallet';
 
 export default abstract class AbstractWallet implements IWallet {
     protected readonly WALLET_STORAGE_KEY = 'wallet';
+    protected readonly WALLET_PUBLIC_KEY_STORAGE_KEY = 'wallet_public_key';
     constructor(protected storage: IStorage) {}
 
     public getFriendlyName(): string {
@@ -36,8 +37,9 @@ export default abstract class AbstractWallet implements IWallet {
         throw new NotImplementedError();
     }
 
-    protected persistWallet(): void {
+    protected persistWallet(publicKey: string): void {
         this.storage.clearStorage();
         this.storage.storeItem(this.WALLET_STORAGE_KEY, this.getName());
+        this.storage.storeItem(this.WALLET_PUBLIC_KEY_STORAGE_KEY, publicKey);
     }
 }

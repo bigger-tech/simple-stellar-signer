@@ -25,9 +25,9 @@ export default class Rabet extends AbstractWallet implements IWallet {
     }
 
     public override async getPublicKey(): Promise<string> {
-        const result = await window.rabet.connect();
-        super.persistWallet();
-        return result.publicKey;
+        const { publicKey } = await window.rabet.connect();
+        super.persistWallet(publicKey);
+        return publicKey;
     }
 
     public override async sign(tx: Transaction): Promise<string> {
