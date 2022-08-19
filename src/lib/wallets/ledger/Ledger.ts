@@ -24,9 +24,7 @@ export default class Ledger extends AbstractWallet implements IWallet {
     public override async getPublicKey(): Promise<string> {
         const transport = await LedgerTransportWebUSB.create();
         this.ledgerStr = new LedgerStr(transport);
-        console.log(transport, this.ledgerStr);
         const { publicKey } = await this.ledgerStr.getPublicKey(this.bipPath);
-        console.log(publicKey);
         super.persistWallet(publicKey);
         return publicKey;
     }

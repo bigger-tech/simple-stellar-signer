@@ -52,7 +52,7 @@
         if (wallet.getName() === PrivateKey.NAME) {
             $isPrivateKeyFormVisible = true;
         } else {
-            const publicKey = await wallet.getPublicKey();
+            const publicKey = event.detail.publicKey;
             dispatchOnConnectEvent(wallet, publicKey);
         }
     }
