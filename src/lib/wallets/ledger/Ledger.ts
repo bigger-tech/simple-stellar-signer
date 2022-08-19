@@ -7,10 +7,6 @@ import type IStorage from '../../storage/IStorage';
 import AbstractWallet from '../AbstractWallet';
 import type IWallet from '../IWallet';
 
-export const LEDGER_WALLET_SIGN_START = 'LEDGER_WALLET_SIGN_START';
-export const LEDGER_WALLET_SIGN_SUCCESS = 'LEDGER_WALLET_SIGN_SUCCESS';
-export const LEDGER_WALLET_SIGN_ERROR = 'LEDGER_WALLET_SIGN_ERROR';
-
 export default class Ledger extends AbstractWallet implements IWallet {
     public static NAME = 'ledger';
     public static FRIENDLY_NAME = 'Ledger';
