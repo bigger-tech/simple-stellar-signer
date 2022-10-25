@@ -12,12 +12,10 @@ export default class XBull extends AbstractWallet implements IWallet {
     public static NAME = 'xbull';
     public static FRIENDLY_NAME = 'xBull';
     public static XBullExtension = 'https://wallet.xbull.app';
-    public xBullBridge: xBullWalletConnect;
     public XBullNetwork: XBullNetwork;
 
     constructor(storage: IStorage) {
         super(storage);
-        this.xBullBridge = new xBullWalletConnect();
         if (CURRENT_STELLAR_NETWORK === StellarNetwork.PUBLIC) {
             this.XBullNetwork = StellarNetwork.PUBLIC as XBullNetwork;
         } else {
@@ -26,14 +24,17 @@ export default class XBull extends AbstractWallet implements IWallet {
     }
 
     public override async getPublicKey(): Promise<string> {
-        const publicKey = await this.xBullBridge.connect();
+        const bridge = new xBullWalletConnect();
+        const publicKey = await bridge.connect();
+        bridge.closeConnections();
         super.persistWallet();
         return publicKey;
     }
 
     public override async sign(tx: Transaction): Promise<string> {
-        const signedXdr = await this.xBullBridge.sign({ xdr: tx.toXDR() });
-        this.xBullBridge.closeConnections();
+        const bridge = new xBullWalletConnect();
+        const signedXdr = await bridge.sign({ xdr: tx.toXDR() });
+        bridge.closeConnections();
         return signedXdr;
     }
 
