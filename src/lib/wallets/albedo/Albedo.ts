@@ -23,11 +23,11 @@ export default class Albedo extends AbstractWallet implements IWallet {
     }
 
     public override async getPublicKey(): Promise<string> {
-        const requestPubKey = await window.albedo.publicKey({
+        const { pubkey } = await window.albedo.publicKey({
             token: `${btoa(Math.random().toString() + Math.random().toString())}`,
         });
-        super.persistWallet();
-        return requestPubKey.pubkey;
+        super.persistWallet(pubkey);
+        return pubkey;
     }
 
     public override async sign(tx: Transaction) {
