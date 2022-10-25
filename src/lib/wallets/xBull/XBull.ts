@@ -27,6 +27,7 @@ export default class XBull extends AbstractWallet implements IWallet {
 
     public override async getPublicKey(): Promise<string> {
         const publicKey = await this.xBullBridge.connect();
+        this.xBullBridge.closeConnections();
         super.persistWallet();
         return publicKey;
     }
