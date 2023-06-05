@@ -32,7 +32,7 @@ export default class Freighter extends AbstractWallet implements IWallet {
     }
 
     public override async sign(tx: Transaction): Promise<string> {
-        return signTransaction(tx.toXDR(), this.freighterNetwork);
+        return signTransaction(tx.toXDR(), { network: this.freighterNetwork });
     }
 
     public override getFriendlyName(): string {

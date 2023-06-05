@@ -12,6 +12,7 @@ describe('Connect', () => {
         cy.get('.wallet-title').contains('Private Key').as('privateKeyBtn');
         cy.get('.simple-signer-container').as('container');
     });
+
     it("Should check if there's five connect methods", () => {
         cy.get('@privateKeyTitle').should('contain.text', 'Private Key');
         cy.get('@freighterTitle').should('contain.text', 'Freighter');
