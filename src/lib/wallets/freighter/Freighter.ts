@@ -52,10 +52,6 @@ export default class Freighter extends AbstractWallet implements IWallet {
     }
 
     public override async isInstalled(): Promise<boolean> {
-        if (await isConnected()) {
-            return true;
-        } else {
-            return false;
-        }
+        return isConnected();
     }
 }

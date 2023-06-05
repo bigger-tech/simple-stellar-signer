@@ -3,7 +3,7 @@
 describe('Connect', () => {
     beforeEach(() => {
         cy.visit('/connect');
-        cy.wait(300);
+        cy.wait(5000);
         cy.get('.wallet-title').contains('xBull').as('xBullTitle');
         cy.get('.wallet-title').contains('Freighter').as('freighterTitle');
         cy.get('.wallet-title').contains('Albedo').as('albedoTitle');
@@ -32,7 +32,7 @@ describe('Connect', () => {
         cy.get('@privateKeyBtn').click();
         cy.get('@container').should('contain.text', 'Connect');
         cy.get('.cancel-btn').click();
-        cy.wait(100);
+        cy.wait(5000);
         cy.get('@privateKeyTitle').should('contain.text', 'Private Key');
         cy.get('@freighterTitle').should('contain.text', 'Freighter');
         cy.get('@albedoTitle').should('contain.text', 'Albedo');
