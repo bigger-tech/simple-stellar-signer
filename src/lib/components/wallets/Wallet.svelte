@@ -38,9 +38,9 @@
                 </span>
             </div>
 
-            <a class="simple-signer {isInstalled ? '' : 'install-wallet'}" target="_blank" href={wallet.getExtension()}
-                >{isInstalled ? '' : $language.INSTALL}</a
-            >
+            <a class="simple-signer {isInstalled ? '' : 'install-wallet'}" target="_blank" href={wallet.getExtension()}>
+                {isInstalled ? '' : $language.INSTALL}
+            </a>
         </div>
     {/await}
 </div>

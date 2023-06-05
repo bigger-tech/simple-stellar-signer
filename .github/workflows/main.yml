@@ -49,6 +49,7 @@ jobs:
                   start: npm run dev
               env:
                   VITE_HORIZON_NETWORK_PASSPHRASE: Test SDF Network ; September 2015
+                  VITE_STELLAR_NETWORK: ${{ secrets.VITE_STELLAR_NETWORK }}
                   CYPRESS_SIMPLE_SIGNER_PRIVATE_KEY: ${{ secrets.SIMPLE_SIGNER_PRIVATE_KEY }}
     test:
         runs-on: ubuntu-latest

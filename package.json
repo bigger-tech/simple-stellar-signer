@@ -81,7 +81,7 @@
     },
     "dependencies": {
         "@creit-tech/xbull-wallet-connect": "github:Creit-Tech/xBull-Wallet-Connect",
-        "@stellar/freighter-api": "^1.1.2",
+        "@stellar/freighter-api": "^1.4.0",
         "decode-uri-component": "^0.2.2",
         "json5": "^2.2.2",
         "stellar-sdk": "^10.1.2",

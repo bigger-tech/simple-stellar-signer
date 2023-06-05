@@ -1,6 +1,5 @@
 import EventFactory from './EventFactory';
 import type ISimpleSignerEvent from './ISimpleSignerEvent';
-import InvalidMessageError from './InvalidMessageError';
 import type IAvailableWalletsMessage from './availableWalletsMessage/IAvailableWalletsMessage';
 import type { ITransactionMessage } from './transactionMessage/ITransactionMessage';
 
@@ -96,8 +95,6 @@ export default class Bridge {
             this.transactionMessageHandlers.forEach((handler) => handler(message));
             return;
         }
-
-        throw new InvalidMessageError();
     }
 
     private closeWindow() {
