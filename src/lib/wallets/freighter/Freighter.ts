@@ -32,7 +32,7 @@ export default class Freighter extends AbstractWallet implements IWallet {
     }
 
     public override async sign(tx: Transaction): Promise<string> {
-        return signTransaction(tx.toXDR(), this.freighterNetwork);
+        return signTransaction(tx.toXDR(), { network: this.freighterNetwork });
     }
 
     public override getFriendlyName(): string {
@@ -51,14 +51,7 @@ export default class Freighter extends AbstractWallet implements IWallet {
         return Freighter.freighterExtension;
     }
 
-    public override isInstalled(): Promise<boolean> {
-        const freighterPromise: Promise<boolean> = new Promise((resolve) => {
-            if (isConnected()) {
-                resolve(true);
-            } else {
-                resolve(false);
-            }
-        });
-        return freighterPromise;
+    public override async isInstalled(): Promise<boolean> {
+        return isConnected();
     }
 }
