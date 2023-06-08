@@ -16,7 +16,8 @@
         if (wallet.getName() === PrivateKey.NAME) {
             dispatch('connect', { wallet, publicKey: null });
         } else {
-            dispatch('connect', { wallet, publicKey: wallet.getPublicKey() });
+            const publicKey = await wallet.getPublicKey();
+            dispatch('connect', { wallet, publicKey: publicKey });
         }
     }
 </script>
