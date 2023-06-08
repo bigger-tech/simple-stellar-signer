@@ -47,16 +47,6 @@
         dispatchOnConnectEvent(wallet, publicKey);
     }
 
-    async function handleWalletConnect(event: CustomEvent): Promise<void> {
-        const wallet: IWallet = event.detail.wallet;
-        if (wallet.getName() === PrivateKey.NAME) {
-            $isPrivateKeyFormVisible = true;
-        } else {
-            const publicKey = await wallet.getPublicKey();
-            dispatchOnConnectEvent(wallet, publicKey);
-        }
-    }
-
     function validateInputPrivateKey(privateKey: string) {
         const privateKeyRegEx = /^S[A-Za-z0-9]{55}$/;
         if (!privateKeyRegEx.test(privateKey)) {
@@ -136,7 +126,7 @@
     </div>
 {:else}
     {#each sortedWallets as wallet}
-        <Wallet wallet={wallet} on:connect={handleWalletConnect} />
+        <Wallet wallet={wallet} on:connect />
     {/each}
 {/if}
 
