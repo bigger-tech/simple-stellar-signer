@@ -4,6 +4,7 @@
     import { language } from '../../../store/global';
     import type IWallet from '../../wallets/IWallet';
     import PrivateKey from '../../wallets/privateKey/PrivateKey';
+    import { isPrivateKeyFormVisible } from './walletsStore';
 
     export let width = 35;
     export let height = 37;
@@ -14,6 +15,7 @@
 
     async function connect(): Promise<void> {
         if (wallet.getName() === PrivateKey.NAME) {
+            $isPrivateKeyFormVisible = true;
             dispatch('connect', { wallet, publicKey: null });
         } else {
             dispatch('connect', { wallet, publicKey: wallet.getPublicKey() });
