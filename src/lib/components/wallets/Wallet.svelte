@@ -18,7 +18,7 @@
             $isPrivateKeyFormVisible = true;
             dispatch('connect', { wallet, publicKey: null });
         } else {
-            dispatch('connect', { wallet, publicKey: wallet.getPublicKey() });
+            dispatch('connect', { wallet, publicKey: wallet.getPublicKey });
         }
     }
 </script>
