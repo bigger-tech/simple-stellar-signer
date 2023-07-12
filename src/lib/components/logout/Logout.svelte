@@ -1,7 +1,7 @@
 <script lang="ts">
     import { Link } from 'svelte-navigator';
 
-    import logoutIcon from '../../../assets/icons/logout.svg';
+    import LogoutIcon from '../../../assets/icons/LogoutIcon.svelte';
     import { isLogoutVisible, language } from '../../../store/global';
     import type IStorage from '../../storage/IStorage';
     import { isLanguageMenuVisible } from '../language/languageStore';
@@ -17,7 +17,7 @@
 <div class="simple-signer logout-container">
     <div class="simple-signer logout-container-icon  {$isLogoutVisible && 'active'}">
         <button on:click={toggleMenuVisibility} class="simple-signer logout-button">
-            <img class="simple-signer logout-icon" src={logoutIcon} alt="logout icon" />
+            <LogoutIcon isActive={$isLogoutVisible} />
         </button>
         <div class="simple-signer logout-selector-container {$isLogoutVisible ? '' : 'hidden'}">
             <Link to="/connect">
@@ -74,18 +74,6 @@
     .logout-icon {
         cursor: pointer;
         height: 21px;
-    }
-
-    .logout-container img {
-        filter: invert(51%) sepia(0%) saturate(1810%) hue-rotate(221deg) brightness(89%) contrast(89%);
-    }
-
-    .active img {
-        filter: brightness(0%);
-    }
-
-    .logout-container-icon img:hover {
-        filter: brightness(0%);
     }
 
     .hide-circle {

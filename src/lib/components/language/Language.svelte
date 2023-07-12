@@ -1,6 +1,6 @@
 <script>
     import { isLanguageMenuVisible } from './languageStore';
-    import languageIcon from '../../../assets/icons/language.svg';
+    import LanguageIcon from '../../../assets/icons/LanguageIcon.svelte';
     import LanguageInputs from './LanguageInputs.svelte';
     import { isLogoutVisible, language } from '../../../store/global';
 
@@ -13,7 +13,7 @@
 <div class="simple-signer language-container">
     <div class="simple-signer language-container-icon  {$isLanguageMenuVisible && 'active'}">
         <button on:click={toggleMenuVisibility} class="simple-signer invisible-button">
-            <img class="simple-signer language-icon" src={languageIcon} alt="language icon" />
+            <LanguageIcon isActive={$isLanguageMenuVisible} />
         </button>
         <div class="simple-signer language-selector-container {$isLanguageMenuVisible ? '' : 'hidden'}">
             <LanguageInputs
@@ -68,17 +68,5 @@
     .language-icon {
         cursor: pointer;
         height: 21px;
-    }
-
-    .language-container img {
-        filter: invert(51%) sepia(0%) saturate(1810%) hue-rotate(221deg) brightness(89%) contrast(89%);
-    }
-
-    .active img {
-        filter: brightness(0%);
-    }
-
-    .language-container-icon img:hover {
-        filter: brightness(0%);
     }
 </style>

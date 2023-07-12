@@ -1,7 +1,7 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
 
-    import { privateKey, visibilityOff, visibilityOn } from '../../../assets';
+    import { visibilityOff, visibilityOn } from '../../../assets';
     import { language } from '../../../store/global';
     import { removeDuplicates } from '../../utils/utils';
     import type IWallet from '../../wallets/IWallet';
@@ -87,7 +87,9 @@
     <div class="simple-signer private-key-form">
         <div class="simple-signer form-items">
             <div class="simple-signer header-form">
-                <img alt="private-key logo" class="simple-signer wallet-logo private-key" src={privateKey} />
+                <div class="simple-signer wallet-logo private-key">
+                    <svelte:component this={PrivateKey.SVG_ICON} width={30} />
+                </div>
                 <span class="private-key-title">{PrivateKey.FRIENDLY_NAME}</span>
             </div>
             <div class="simple-signer input-form">
@@ -190,9 +192,7 @@
         width: 310px;
         max-width: 310px;
     }
-    .private-key {
-        width: 30px;
-    }
+
     .input-private-key {
         width: 240px;
         height: 36px;
@@ -219,6 +219,12 @@
     .input-private-key:focus {
         outline: none;
         border-color: #484848;
+    }
+
+    .wallet-logo {
+        height: 30px;
+        display: flex;
+        align-items: center;
     }
 
     .private-key-form {

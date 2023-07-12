@@ -5,8 +5,6 @@
     import type IWallet from '../../wallets/IWallet';
     import PrivateKey from '../../wallets/privateKey/PrivateKey';
 
-    export let width = 35;
-    export let height = 37;
     export let wallet: IWallet;
 
     const dispatch = createEventDispatcher();
@@ -25,14 +23,9 @@
     {#await isInstalled then isInstalled}
         <div class="simple-signer wallet-items-container {isInstalled ? 'shadow' : ''}" on:click={connect}>
             <div class="simple-signer wallet-items {isInstalled ? '' : 'wallet-opacity'}">
-                <img
-                    alt="{wallet.getFriendlyName()} logo"
-                    class="simple-signer wallet-logo"
-                    height={height}
-                    src={wallet.getImage()}
-                    width={width}
-                />
-
+                <div id="wallet-icon" class="simple-signer wallet-logo">
+                    <svelte:component this={wallet.getSvgIcon()} />
+                </div>
                 <span class="simple-signer wallet-title {isInstalled ? '' : 'wallet-title-opacity'}">
                     {wallet.getFriendlyName()}
                 </span>
@@ -62,6 +55,8 @@
     }
     .wallet-logo {
         margin-left: 15px;
+        display: flex;
+        align-items: center;
     }
 
     .wallet-title {
