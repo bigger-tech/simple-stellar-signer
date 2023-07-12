@@ -1,4 +1,5 @@
 import type { Transaction } from 'stellar-sdk';
+import type { ComponentType } from 'svelte';
 
 import NotImplementedError from '../errors/NotImplementedError';
 import type IStorage from '../storage/IStorage';
@@ -24,7 +25,7 @@ export default abstract class AbstractWallet implements IWallet {
         throw new NotImplementedError();
     }
 
-    public getImage(): string {
+    public getSvgIcon(): ComponentType {
         throw new NotImplementedError();
     }
 

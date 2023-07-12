@@ -1,7 +1,7 @@
 import { xBullWalletConnect } from '@creit-tech/xbull-wallet-connect';
 import type { Transaction } from 'stellar-sdk';
 
-import { xBull } from '../../../assets';
+import { XBullIcon } from '../../../assets';
 import { CURRENT_STELLAR_NETWORK, StellarNetwork } from '../../stellar/StellarNetwork';
 import type IStorage from '../../storage/IStorage';
 import AbstractWallet from '../AbstractWallet';
@@ -46,8 +46,8 @@ export default class XBull extends AbstractWallet implements IWallet {
         return XBull.NAME;
     }
 
-    public override getImage(): string {
-        return xBull;
+    public override getSvgIcon(): typeof XBullIcon {
+        return XBullIcon;
     }
 
     public override getExtension(): string {
