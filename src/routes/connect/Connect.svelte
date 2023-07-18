@@ -58,6 +58,7 @@
         font-weight: 600;
         text-transform: uppercase;
         margin-bottom: 21px;
+        text-align: initial;
     }
     .simple-signer-container {
         display: flex;
@@ -71,5 +72,6 @@
         justify-content: flex-start;
         text-align: center;
         width: 310px;
+        flex-direction: column;
     }
 </style>
