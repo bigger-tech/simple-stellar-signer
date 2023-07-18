@@ -1,7 +1,7 @@
 import { getPublicKey, isConnected, signTransaction } from '@stellar/freighter-api';
 import type { Transaction } from 'stellar-sdk';
 
-import { freighter } from '../../../assets';
+import { FreighterIcon } from '../../../assets';
 import { CURRENT_STELLAR_NETWORK, StellarNetwork } from '../../stellar/StellarNetwork';
 import type IStorage from '../../storage/IStorage';
 import AbstractWallet from '../AbstractWallet';
@@ -43,8 +43,8 @@ export default class Freighter extends AbstractWallet implements IWallet {
         return Freighter.NAME;
     }
 
-    public override getImage(): string {
-        return freighter;
+    public override getSvgIcon(): typeof FreighterIcon {
+        return FreighterIcon;
     }
 
     public override getExtension(): string {

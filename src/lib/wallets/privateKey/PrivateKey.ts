@@ -1,7 +1,7 @@
 import type { Transaction } from 'stellar-sdk';
 import { Keypair } from 'stellar-sdk';
 
-import { privateKey } from '../../../assets';
+import { PrivateKeyIcon } from '../../../assets';
 import type IDecryptableValue from '../../security/IDecryptableValue';
 import { decryptValue, encryptValue } from '../../security/securityHelper';
 import AbstractWallet from '../AbstractWallet';
@@ -12,6 +12,7 @@ import PrivateKeyStorageKeyNotFoundError from './errors/PrivateKeyStorageKeyNotF
 export default class PrivateKey extends AbstractWallet implements IWallet {
     public static NAME = 'privateKey';
     public static FRIENDLY_NAME = 'Private Key';
+    public static SVG_ICON = PrivateKeyIcon;
     private CRYPTO_KEY_ITEM_NAME = 'cryptoKey';
     private PRIVATE_KEY_ITEM_NAME = 'privateKey';
     private INITIALIZATION_VECTORS_KEY_ITEM_NAME = 'iv';
@@ -47,12 +48,12 @@ export default class PrivateKey extends AbstractWallet implements IWallet {
         return PrivateKey.NAME;
     }
 
-    public override getImage(): string {
-        return privateKey;
-    }
-
     public override getExtension(): string {
         return '';
+    }
+
+    public override getSvgIcon(): typeof PrivateKeyIcon {
+        return PrivateKeyIcon;
     }
 
     public override isInstalled(): Promise<boolean> {

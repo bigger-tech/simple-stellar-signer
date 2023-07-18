@@ -1,6 +1,6 @@
 import type { Transaction } from 'stellar-sdk';
 
-import { rabet } from '../../../assets';
+import { RabetIcon } from '../../../assets';
 import { CURRENT_STELLAR_NETWORK, StellarNetwork } from '../../stellar/StellarNetwork';
 import type IStorage from '../../storage/IStorage';
 import AbstractWallet from '../AbstractWallet';
@@ -42,8 +42,8 @@ export default class Rabet extends AbstractWallet implements IWallet {
         return Rabet.NAME;
     }
 
-    public override getImage(): string {
-        return rabet;
+    public override getSvgIcon(): typeof RabetIcon {
+        return RabetIcon;
     }
 
     public override getExtension(): string {

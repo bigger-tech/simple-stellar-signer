@@ -1,12 +1,14 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
+    import { BarLoader } from 'svelte-loading-spinners';
 
-    import { privateKey, visibilityOff, visibilityOn } from '../../../assets';
+    import { VisibilityOffIcon, VisibilityOnIcon } from '../../../assets';
     import { language } from '../../../store/global';
     import { removeDuplicates } from '../../utils/utils';
     import type IWallet from '../../wallets/IWallet';
     import WalletFactory from '../../wallets/WalletFactory';
     import PrivateKey from '../../wallets/privateKey/PrivateKey';
+    import LoadingWallet from './LoadingWallet.svelte';
     import Wallet from './Wallet.svelte';
     import { inputValue, isPrivateKeyFormVisible, isPrivateKeyInvalid, isPrivateKeyVisible } from './walletsStore';
 
@@ -87,7 +89,9 @@
     <div class="simple-signer private-key-form">
         <div class="simple-signer form-items">
             <div class="simple-signer header-form">
-                <img alt="private-key logo" class="simple-signer wallet-logo private-key" src={privateKey} />
+                <div class="simple-signer wallet-logo private-key">
+                    <svelte:component this={PrivateKey.SVG_ICON} />
+                </div>
                 <span class="private-key-title">{PrivateKey.FRIENDLY_NAME}</span>
             </div>
             <div class="simple-signer input-form">
@@ -117,11 +121,13 @@
                 <button
                     class="simple-signer visibility-key-btn"
                     on:click={() => ($isPrivateKeyVisible = !$isPrivateKeyVisible)}
-                    ><img
-                        alt={$isPrivateKeyVisible ? 'visibility off' : 'visibility on'}
-                        src={$isPrivateKeyVisible ? visibilityOff : visibilityOn}
-                    /></button
                 >
+                    {#if $isPrivateKeyVisible}
+                        <VisibilityOnIcon />
+                    {:else}
+                        <VisibilityOffIcon />
+                    {/if}
+                </button>
             </div>
 
             <div class="simple-signer btn-form">
@@ -134,15 +140,31 @@
             </div>
         </div>
     </div>
+{:else if !sortedWallets.length}
+    <div class="simple-signer wallets-loading-container">
+        <p>{$language.LOADING}</p>
+        <BarLoader color="#2f69b7" size={70} />
+    </div>
 {:else}
     {#each sortedWallets as wallet}
-        <Wallet wallet={wallet} on:connect={handleWalletConnect} />
+        {#await wallet.isInstalled()}
+            <LoadingWallet />
+        {:then isInstalled}
+            <Wallet wallet={wallet} isInstalled={isInstalled} on:connect={handleWalletConnect} />
+        {/await}
     {/each}
 {/if}
 
 <style>
     .hidden {
         opacity: 0%;
+    }
+
+    .wallets-loading-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: 'Roboto', sans-serif;
     }
 
     .input-flex-column {
@@ -190,9 +212,7 @@
         width: 310px;
         max-width: 310px;
     }
-    .private-key {
-        width: 30px;
-    }
+
     .input-private-key {
         width: 240px;
         height: 36px;
@@ -221,6 +241,16 @@
         border-color: #484848;
     }
 
+    .wallet-logo {
+        height: 30px;
+        display: flex;
+        align-items: center;
+    }
+
+    .wallet-logo.private-key {
+        width: 30px;
+    }
+
     .private-key-form {
         font-family: 'Roboto', sans-serif;
         font-weight: 500;
@@ -231,6 +261,7 @@
     }
     .visibility-key-btn {
         height: 38px;
+        width: 38px;
         box-shadow: 0px 2px 1px #00000029;
         border: 1px solid #e5e5e5;
         margin-right: 10px;

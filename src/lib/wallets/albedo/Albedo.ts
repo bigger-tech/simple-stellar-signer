@@ -1,6 +1,6 @@
 import type { Transaction } from 'stellar-sdk';
 
-import { albedo } from '../../../assets';
+import { AlbedoIcon } from '../../../assets';
 import { CURRENT_STELLAR_NETWORK, StellarNetwork } from '../../stellar/StellarNetwork';
 import type IStorage from '../../storage/IStorage';
 import AbstractWallet from '../AbstractWallet';
@@ -43,8 +43,8 @@ export default class Albedo extends AbstractWallet implements IWallet {
         return Albedo.NAME;
     }
 
-    public override getImage(): string {
-        return albedo;
+    public override getSvgIcon(): typeof AlbedoIcon {
+        return AlbedoIcon;
     }
 
     public override getExtension(): string {

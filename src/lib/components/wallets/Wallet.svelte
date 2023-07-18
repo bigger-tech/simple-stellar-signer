@@ -5,12 +5,10 @@
     import type IWallet from '../../wallets/IWallet';
     import PrivateKey from '../../wallets/privateKey/PrivateKey';
 
-    export let width = 35;
-    export let height = 37;
     export let wallet: IWallet;
+    export let isInstalled: boolean;
 
     const dispatch = createEventDispatcher();
-    const isInstalled = wallet.isInstalled();
 
     async function connect(): Promise<void> {
         if (wallet.getName() === PrivateKey.NAME) {
@@ -22,27 +20,20 @@
 </script>
 
 <div class="simple-signer wallet-container">
-    {#await isInstalled then isInstalled}
-        <div class="simple-signer wallet-items-container {isInstalled ? 'shadow' : ''}" on:click={connect}>
-            <div class="simple-signer wallet-items {isInstalled ? '' : 'wallet-opacity'}">
-                <img
-                    alt="{wallet.getFriendlyName()} logo"
-                    class="simple-signer wallet-logo"
-                    height={height}
-                    src={wallet.getImage()}
-                    width={width}
-                />
-
-                <span class="simple-signer wallet-title {isInstalled ? '' : 'wallet-title-opacity'}">
-                    {wallet.getFriendlyName()}
-                </span>
+    <div class="simple-signer wallet-items-container {isInstalled ? 'shadow' : ''}" on:click={connect}>
+        <div class="simple-signer wallet-items {isInstalled ? '' : 'wallet-opacity'}">
+            <div id="wallet-icon" class="simple-signer wallet-logo">
+                <svelte:component this={wallet.getSvgIcon()} />
             </div>
-
-            <a class="simple-signer {isInstalled ? '' : 'install-wallet'}" target="_blank" href={wallet.getExtension()}>
-                {isInstalled ? '' : $language.INSTALL}
-            </a>
+            <span class="simple-signer wallet-title {isInstalled ? '' : 'wallet-title-opacity'}">
+                {wallet.getFriendlyName()}
+            </span>
         </div>
-    {/await}
+
+        <a class="simple-signer {isInstalled ? '' : 'install-wallet'}" target="_blank" href={wallet.getExtension()}>
+            {isInstalled ? '' : $language.INSTALL}
+        </a>
+    </div>
 </div>
 
 <style>
@@ -62,6 +53,10 @@
     }
     .wallet-logo {
         margin-left: 15px;
+        display: flex;
+        align-items: center;
+        height: 37px;
+        width: 35px;
     }
 
     .wallet-title {
