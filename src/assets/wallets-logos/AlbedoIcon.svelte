@@ -1,9 +1,4 @@
-<script>
-    export let height = 37;
-    export let width = 35;
-</script>
-
-<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="{width}px" height="{height}px" viewBox="0 0 896 1024">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="100%" height="auto" viewBox="0 0 896 1024">
     <title />
     <g id="icomoon-ignore" />
     <path

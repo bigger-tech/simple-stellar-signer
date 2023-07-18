@@ -55,6 +55,8 @@
         margin-left: 15px;
         display: flex;
         align-items: center;
+        height: 37px;
+        width: 35px;
     }
 
     .wallet-title {

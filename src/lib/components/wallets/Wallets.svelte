@@ -90,7 +90,7 @@
         <div class="simple-signer form-items">
             <div class="simple-signer header-form">
                 <div class="simple-signer wallet-logo private-key">
-                    <svelte:component this={PrivateKey.SVG_ICON} width={30} />
+                    <svelte:component this={PrivateKey.SVG_ICON} />
                 </div>
                 <span class="private-key-title">{PrivateKey.FRIENDLY_NAME}</span>
             </div>
@@ -243,6 +243,10 @@
         height: 30px;
         display: flex;
         align-items: center;
+    }
+
+    .wallet-logo.private-key {
+        width: 30px;
     }
 
     .private-key-form {

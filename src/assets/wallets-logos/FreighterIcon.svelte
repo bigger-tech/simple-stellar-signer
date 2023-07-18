@@ -1,9 +1,4 @@
-<script>
-    export let height = 37;
-    export let width = 35;
-</script>
-
-<svg height="{height}px" width="{width}px" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+<svg height="100%" width="auto" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
     <rect width="48" height="48" rx="13.5" fill="url(#paint0_linear_137_303)" />
     <path
         fill-rule="evenodd"

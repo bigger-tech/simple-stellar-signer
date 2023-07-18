@@ -1,9 +1,4 @@
-<script>
-    export let height = 37;
-    export let width = 35;
-</script>
-
-<svg xmlns="http://www.w3.org/2000/svg" width="{width}px" height="{height}px" viewBox="0 0 24 46">
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="auto" viewBox="0 0 24 46">
     <g fill="none">
         <path
             fill="#B8BAC4"
