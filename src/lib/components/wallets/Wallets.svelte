@@ -2,7 +2,7 @@
     import { createEventDispatcher } from 'svelte';
     import { BarLoader } from 'svelte-loading-spinners';
 
-    import { visibilityOff, visibilityOn } from '../../../assets';
+    import { VisibilityOffIcon, VisibilityOnIcon } from '../../../assets';
     import { language } from '../../../store/global';
     import { removeDuplicates } from '../../utils/utils';
     import type IWallet from '../../wallets/IWallet';
@@ -121,11 +121,13 @@
                 <button
                     class="simple-signer visibility-key-btn"
                     on:click={() => ($isPrivateKeyVisible = !$isPrivateKeyVisible)}
-                    ><img
-                        alt={$isPrivateKeyVisible ? 'visibility off' : 'visibility on'}
-                        src={$isPrivateKeyVisible ? visibilityOff : visibilityOn}
-                    /></button
                 >
+                    {#if $isPrivateKeyVisible}
+                        <VisibilityOnIcon />
+                    {:else}
+                        <VisibilityOffIcon />
+                    {/if}
+                </button>
             </div>
 
             <div class="simple-signer btn-form">
@@ -141,7 +143,7 @@
 {:else if !sortedWallets.length}
     <div class="simple-signer wallets-loading-container">
         <p>{$language.LOADING}</p>
-        <BarLoader color="#429bf5" size={70} />
+        <BarLoader color="#2f69b7" size={70} />
     </div>
 {:else}
     {#each sortedWallets as wallet}
@@ -259,6 +261,7 @@
     }
     .visibility-key-btn {
         height: 38px;
+        width: 38px;
         box-shadow: 0px 2px 1px #00000029;
         border: 1px solid #e5e5e5;
         margin-right: 10px;
