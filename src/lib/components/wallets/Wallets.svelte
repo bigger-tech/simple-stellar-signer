@@ -1,5 +1,6 @@
 <script lang="ts">
     import { createEventDispatcher } from 'svelte';
+    import { BarLoader } from 'svelte-loading-spinners';
 
     import { visibilityOff, visibilityOn } from '../../../assets';
     import { language } from '../../../store/global';
@@ -7,6 +8,7 @@
     import type IWallet from '../../wallets/IWallet';
     import WalletFactory from '../../wallets/WalletFactory';
     import PrivateKey from '../../wallets/privateKey/PrivateKey';
+    import LoadingWallet from './LoadingWallet.svelte';
     import Wallet from './Wallet.svelte';
     import { inputValue, isPrivateKeyFormVisible, isPrivateKeyInvalid, isPrivateKeyVisible } from './walletsStore';
 
@@ -136,15 +138,31 @@
             </div>
         </div>
     </div>
+{:else if !sortedWallets.length}
+    <div class="simple-signer wallets-loading-container">
+        <p>{$language.LOADING}</p>
+        <BarLoader color="#429bf5" size={70} />
+    </div>
 {:else}
     {#each sortedWallets as wallet}
-        <Wallet wallet={wallet} on:connect={handleWalletConnect} />
+        {#await wallet.isInstalled()}
+            <LoadingWallet />
+        {:then isInstalled}
+            <Wallet wallet={wallet} isInstalled={isInstalled} on:connect={handleWalletConnect} />
+        {/await}
     {/each}
 {/if}
 
 <style>
     .hidden {
         opacity: 0%;
+    }
+
+    .wallets-loading-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        font-family: 'Roboto', sans-serif;
     }
 
     .input-flex-column {
