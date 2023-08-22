@@ -35,7 +35,7 @@
     const walletFactory = new WalletFactory();
 
     if (storedWallet) {
-        wallet = walletFactory.create(storedWallet);
+        (async () => (wallet = await walletFactory.create(storedWallet)))();
     }
 
     let tx: Transaction;

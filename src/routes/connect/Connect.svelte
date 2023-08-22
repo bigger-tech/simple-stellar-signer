@@ -27,10 +27,10 @@
 
     bridge.sendOnReadyEvent();
 
-    const minimumConnectPopupHeight = 210;
+    const minimumConnectPopupHeight = 600;
     const minimumConnectPopupWidth = 340;
     const defaultConnectPopupWidth = 360;
-    const defaultConnectPopupHeight = 510;
+    const defaultConnectPopupHeight = 650;
 
     setMinimumPopUpSize(
         minimumConnectPopupHeight,

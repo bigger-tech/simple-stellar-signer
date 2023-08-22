@@ -4,21 +4,23 @@ describe('Connect', () => {
     beforeEach(() => {
         cy.visit('/connect');
         cy.get('.simple-signer-container').as('container');
-        cy.get('@container').find('.simple-signer-wallets').children().should('have.length', 6);
+        cy.get('@container').find('.simple-signer-wallets').children().should('have.length', 7);
         cy.get('@container').find('.wallet-title').should('contain.text', 'xBull').as('xBullTitle');
         cy.get('@container').find('.wallet-title').should('contain.text', 'Freighter').as('freighterTitle');
         cy.get('.wallet-title').contains('Albedo').as('albedoTitle');
         cy.get('.wallet-title').contains('Private Key').as('privateKeyTitle');
         cy.get('.wallet-title').contains('Rabet').as('rabetTitle');
         cy.get('.wallet-title').contains('Private Key').as('privateKeyBtn');
+        cy.get('.wallet-title').contains('WalletConnect').as('walletConnectTitle');
     });
 
-    it("Should check if there's five connect methods", () => {
+    it("Should check if there's six connect methods", () => {
         cy.get('@privateKeyTitle').should('contain.text', 'Private Key');
         cy.get('@freighterTitle').should('contain.text', 'Freighter');
         cy.get('@albedoTitle').should('contain.text', 'Albedo');
         cy.get('@xBullTitle').should('contain.text', 'xBull');
         cy.get('@rabetTitle').should('contain.text', 'Rabet');
+        cy.get('@walletConnectTitle').should('contain.text', 'WalletConnect');
     });
 
     it('Should show the private key connect method', () => {
@@ -28,7 +30,7 @@ describe('Connect', () => {
         cy.get('.cancel-btn').should('contain.text', 'Cancel');
     });
 
-    it('Should return to the four connect methods', () => {
+    it('Should return to the six connect methods', () => {
         cy.get('@privateKeyBtn').click();
         cy.get('@container').should('contain.text', 'Connect');
         cy.get('.cancel-btn').click();
@@ -37,5 +39,6 @@ describe('Connect', () => {
         cy.get('@albedoTitle').should('contain.text', 'Albedo');
         cy.get('@xBullTitle').should('contain.text', 'xBull');
         cy.get('@rabetTitle').should('contain.text', 'Rabet');
+        cy.get('@walletConnectTitle').should('contain.text', 'WalletConnect');
     });
 });
