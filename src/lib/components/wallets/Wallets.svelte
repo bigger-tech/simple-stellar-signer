@@ -16,12 +16,8 @@
     const walletFactory = new WalletFactory();
     const dispatch = createEventDispatcher();
 
-    let filteredWallets: IWallet[];
-    let sortedWallets: IWallet[] = [];
-    if (wallets.length) {
-        filteredWallets = removeDuplicates(wallets).map(walletFactory.create);
-    } else {
-        filteredWallets = walletFactory.createAll();
+    async function createAllWalletsByDefault(): Promise<IWallet[]> {
+        return walletFactory.createAll();
     }
 
     async function sortWallets(walletList: IWallet[]): Promise<IWallet[]> {
@@ -38,12 +34,25 @@
 
         return sortedWalletList;
     }
-    (async () => {
-        sortedWallets = await sortWallets(filteredWallets);
-    })();
+
+    let filteredWallets: IWallet[];
+    let sortedWallets: IWallet[] = [];
+    if (wallets.length) {
+        const filteredWalletsPromises = removeDuplicates(wallets).map(walletFactory.create);
+
+        (async () => {
+            filteredWallets = await Promise.all(filteredWalletsPromises);
+            sortedWallets = await sortWallets(filteredWallets);
+        })();
+    } else {
+        (async () => {
+            filteredWallets = await createAllWalletsByDefault();
+            sortedWallets = await sortWallets(filteredWallets);
+        })();
+    }
 
     async function connectWithPrivateKey(privateKey: string): Promise<void> {
-        const wallet = walletFactory.create(PrivateKey.NAME);
+        const wallet = await walletFactory.create(PrivateKey.NAME);
         validateInputPrivateKey(privateKey);
         const publicKey = await wallet.getPublicKey(privateKey);
         dispatchOnConnectEvent(wallet, publicKey);
