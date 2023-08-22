@@ -88,7 +88,6 @@
         "@walletconnect/types": "^2.9.2",
         "decode-uri-component": "^0.2.2",
         "json5": "^2.2.2",
-        "lokijs": "^1.5.12",
         "stellar-sdk": "^10.1.2",
         "util": "^0.12.4"
     }
