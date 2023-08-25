@@ -1,7 +1,9 @@
+import { HORIZON_NETWORK_PASSPHRASE, STELLAR_NETWORK } from '../../constants';
+
 export enum StellarNetwork {
     PUBLIC = 'public',
     TESTNET = 'testnet',
 }
 
-export const CURRENT_NETWORK_PASSPHRASE = import.meta.env.VITE_HORIZON_NETWORK_PASSPHRASE;
-export const CURRENT_STELLAR_NETWORK = import.meta.env.VITE_STELLAR_NETWORK;
+export const CURRENT_NETWORK_PASSPHRASE = HORIZON_NETWORK_PASSPHRASE;
+export const CURRENT_STELLAR_NETWORK = STELLAR_NETWORK;

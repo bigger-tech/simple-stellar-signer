@@ -2,6 +2,7 @@ import type { ISignClient } from '@walletconnect/types/dist/types/sign-client/cl
 import type IStorage from 'src/lib/storage/IStorage';
 
 import { WalletConnectIcon } from '../../../assets';
+import { DAPP_BASE_URL, PROJECT_ID_FOR_WALLET_CONNECT } from '../../../constants';
 import { AlreadyRunningError, NoPublicKeyError, NotRunningError } from '../../errors/WalletConnectErrors';
 import {
     IParsedWalletConnectSession,
@@ -14,11 +15,11 @@ import AbstractWallet from '../AbstractWallet';
 import type IWallet from '../IWallet';
 
 export default class WalletConnect extends AbstractWallet implements IWallet {
-    private readonly PROJECT_ID = import.meta.env.VITE_PROJECT_ID_FOR_WALLET_CONNECT;
+    private readonly PROJECT_ID = PROJECT_ID_FOR_WALLET_CONNECT;
     private readonly PROJECT_NAME = 'Simple Stellar Signer';
     private readonly PROJECT_DESCRIPTION =
         'Simple Signer provides an easy and secure way to implement log in and transaction signing functionality on your website for the Stellar network.';
-    private readonly PROJECT_URL = import.meta.env.VITE_DAPP_BASE_URL;
+    private readonly PROJECT_URL = DAPP_BASE_URL;
     private walletConnectService: WallletConnectService;
     private signClient?: ISignClient;
     private activeSession: string | null = null;
