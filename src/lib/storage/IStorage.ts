@@ -1,5 +1,5 @@
 export default interface IStorage {
-    clearStorage(): void;
+    clearStorage(key?: string): void;
     storeItem(key: string, value: string): void;
     getItem(key: string): string | null;
 }
