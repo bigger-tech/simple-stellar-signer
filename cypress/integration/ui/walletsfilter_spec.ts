@@ -27,6 +27,13 @@ describe('wallets filter', () => {
         cy.get('.simple-signer-wallets').children().should('have.length', 6);
     });
 
+    it('should show six wallets and their title', () => {
+        cy.visit(
+            '/connect?wallets=xbull&wallets=freighter&wallets=albedo&wallets=rabet&wallets=privateKey&wallets=walletConnect',
+        );
+        cy.get('.simple-signer-wallets').children().should('have.length', 7);
+    });
+
     it('should render one wallet if two or more are duplicates', () => {
         cy.visit('/connect?wallets=xbull&wallets=xbull');
         cy.get('.simple-signer-wallets').last().should('have.length', 1);
