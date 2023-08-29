@@ -44,7 +44,7 @@ export default class WalletConnect extends AbstractWallet implements IWallet {
             throw new AlreadyRunningError();
         }
 
-        this.signClient = await this.walletConnectService.createWalletConnectClient({
+        this.signClient = await this.walletConnectService.createClient({
             name: this.PROJECT_NAME,
             description: this.PROJECT_DESCRIPTION,
             url: this.PROJECT_URL,
@@ -59,7 +59,7 @@ export default class WalletConnect extends AbstractWallet implements IWallet {
             throw new NotRunningError();
         }
 
-        return this.walletConnectService.connectWalletConnect(params);
+        return this.walletConnectService.connect(params);
     }
 
     private async closeSession(sessionId: string): Promise<void> {
@@ -67,13 +67,13 @@ export default class WalletConnect extends AbstractWallet implements IWallet {
             throw new NotRunningError();
         }
 
-        await this.walletConnectService.disconnectWalletConnect({
+        await this.walletConnectService.disconnect({
             client: this.signClient,
             sessionId,
         });
     }
 
-    private async closeSessions(): Promise<void> {
+    public async closeSessions(): Promise<void> {
         if (!this.signClient) {
             throw new NotRunningError();
         }
@@ -122,7 +122,7 @@ export default class WalletConnect extends AbstractWallet implements IWallet {
             throw new NoSessionError();
         }
 
-        const { signedXDR } = await this.walletConnectService.makeWalletConnectRequest({
+        const { signedXDR } = await this.walletConnectService.makeRequest({
             client: this.signClient,
             topic: lastSession.topic,
             network: this.walletConnectNetwork,

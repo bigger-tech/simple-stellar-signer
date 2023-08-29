@@ -19,9 +19,10 @@ jest.mock('../../../../constants', () => ({
     DAPP_BASE_URL: 'exampleUrl',
 }));
 const mockServiceMethods = {
-    connectWalletConnect: jest.fn(),
-    createWalletConnectClient: jest.fn(),
-    makeWalletConnectRequest: jest.fn(),
+    connect: jest.fn(),
+    createClient: jest.fn(),
+    makeRequest: jest.fn(),
+    disconnect: jest.fn(),
 };
 jest.mock('../../../service/walletConnect', () => {
     return {
@@ -42,13 +43,13 @@ describe('start', () => {
     });
 
     it('should run the createWalletConnectClient method when wallet starts and throw error if already running', async () => {
-        jest.spyOn(mockServiceMethods, 'createWalletConnectClient').mockResolvedValueOnce({ example: '123' });
+        jest.spyOn(mockServiceMethods, 'createClient').mockResolvedValueOnce({ example: '123' });
 
         const storage = new LocalStorage();
         const wallet = new WalletConnect(storage);
         const startedWallet = await wallet.start();
 
-        expect(mockServiceMethods.createWalletConnectClient).toBeCalledTimes(1);
+        expect(mockServiceMethods.createClient).toBeCalledTimes(1);
         expect(startedWallet).toBeInstanceOf(WalletConnect);
 
         try {
@@ -74,10 +75,10 @@ describe('getPublicKey', () => {
     it('should throw error if there is no public key', async () => {
         const ACCOUNT_STR = '';
 
-        jest.spyOn(mockServiceMethods, 'createWalletConnectClient').mockResolvedValueOnce({
+        jest.spyOn(mockServiceMethods, 'createClient').mockResolvedValueOnce({
             session: { getAll: () => [] },
         });
-        jest.spyOn(mockServiceMethods, 'connectWalletConnect').mockResolvedValueOnce({
+        jest.spyOn(mockServiceMethods, 'connect').mockResolvedValueOnce({
             namespaces: { stellar: { accounts: [ACCOUNT_STR] } },
         });
 
@@ -95,10 +96,10 @@ describe('getPublicKey', () => {
     it('should connect if not connected when gettinng public key and return public key', async () => {
         const ACCOUNT_STR = 'stellar:pubnet:examplePublicKey';
 
-        jest.spyOn(mockServiceMethods, 'createWalletConnectClient').mockResolvedValueOnce({
+        jest.spyOn(mockServiceMethods, 'createClient').mockResolvedValueOnce({
             session: { getAll: () => [] },
         });
-        jest.spyOn(mockServiceMethods, 'connectWalletConnect').mockResolvedValueOnce({
+        jest.spyOn(mockServiceMethods, 'connect').mockResolvedValueOnce({
             namespaces: { stellar: { accounts: [ACCOUNT_STR] } },
         });
 
@@ -130,7 +131,7 @@ describe('sign', () => {
     });
 
     it('should throw error if there is no session', async () => {
-        jest.spyOn(mockServiceMethods, 'createWalletConnectClient').mockResolvedValueOnce({
+        jest.spyOn(mockServiceMethods, 'createClient').mockResolvedValueOnce({
             session: { getAll: () => [] },
         });
 
@@ -146,11 +147,11 @@ describe('sign', () => {
     });
 
     it('should return a signed XDR', async () => {
-        jest.spyOn(mockServiceMethods, 'createWalletConnectClient').mockResolvedValueOnce({
+        jest.spyOn(mockServiceMethods, 'createClient').mockResolvedValueOnce({
             session: { getAll: () => [{}] },
         });
 
-        jest.spyOn(mockServiceMethods, 'makeWalletConnectRequest').mockResolvedValueOnce({
+        jest.spyOn(mockServiceMethods, 'makeRequest').mockResolvedValueOnce({
             signedXDR: 'exampleSignedXDR',
         });
 
@@ -160,5 +161,33 @@ describe('sign', () => {
         const signedXDR = await startedWallet.sign(new Transaction(XDR, NETWORK_PASSPHRASE));
 
         expect(signedXDR).toBe('exampleSignedXDR');
+    });
+});
+
+describe('closeSessions', () => {
+    it('should throw error if wallet is not running', async () => {
+        const storage = new LocalStorage();
+        const wallet = new WalletConnect(storage);
+
+        try {
+            await wallet.closeSessions();
+        } catch (error) {
+            expect(error).toStrictEqual(new NotRunningError());
+        }
+    });
+
+    it('should close all sessions', async () => {
+        jest.spyOn(mockServiceMethods, 'createClient').mockResolvedValueOnce({
+            session: { getAll: () => [{ topic: 'exampleSessionTopic1' }] },
+        });
+        jest.spyOn(mockServiceMethods, 'disconnect').mockResolvedValueOnce(Promise.resolve());
+
+        const storage = new LocalStorage();
+        const wallet = new WalletConnect(storage);
+        const startedWallet = await wallet.start();
+
+        await startedWallet.closeSessions();
+
+        expect(mockServiceMethods.disconnect).toBeCalledTimes(1);
     });
 });

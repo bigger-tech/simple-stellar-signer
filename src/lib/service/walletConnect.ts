@@ -51,7 +51,7 @@ export class WallletConnectService {
         this.projectId = projectId;
     }
 
-    public async createWalletConnectClient(params: IWalletConnetCreateClientParams): Promise<ISignClient> {
+    public async createClient(params: IWalletConnetCreateClientParams): Promise<ISignClient> {
         const { name, description, url, icons } = params;
 
         try {
@@ -70,7 +70,7 @@ export class WallletConnectService {
         }
     }
 
-    public async connectWalletConnect(params: IWalletConnetConnectionParams): Promise<SessionTypes.Struct> {
+    public async connect(params: IWalletConnetConnectionParams): Promise<SessionTypes.Struct> {
         const { client, network, methods } = params;
 
         const walletConnectModal = new WalletConnectModal({ projectId: this.projectId });
@@ -113,7 +113,7 @@ export class WallletConnectService {
         }
     }
 
-    public async disconnectWalletConnect(params: IWalletConnectDisconnectParams): Promise<void> {
+    public async disconnect(params: IWalletConnectDisconnectParams): Promise<void> {
         const { client, sessionId } = params;
 
         try {
@@ -130,7 +130,7 @@ export class WallletConnectService {
         }
     }
 
-    public async makeWalletConnectRequest(params: IWalletConnectRequestParams): Promise<{ signedXDR: string }> {
+    public async makeRequest(params: IWalletConnectRequestParams): Promise<{ signedXDR: string }> {
         const { client, xdr, topic, network, method } = params;
 
         const chain =
