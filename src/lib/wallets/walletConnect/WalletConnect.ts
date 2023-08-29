@@ -1,11 +1,18 @@
+import type { SignClient } from '@walletconnect/sign-client/dist/types/client';
+import type { SessionTypes } from '@walletconnect/types';
 import type { ISignClient } from '@walletconnect/types/dist/types/sign-client/client';
 import type IStorage from 'src/lib/storage/IStorage';
+import type { Transaction } from 'stellar-sdk';
 
 import { WalletConnectIcon } from '../../../assets';
 import { DAPP_BASE_URL, PROJECT_ID_FOR_WALLET_CONNECT } from '../../../constants';
-import { AlreadyRunningError, NoPublicKeyError, NotRunningError } from '../../errors/WalletConnectErrors';
 import {
-    IParsedWalletConnectSession,
+    AlreadyRunningError,
+    NoPublicKeyError,
+    NoSessionError,
+    NotRunningError,
+} from '../../errors/WalletConnectErrors';
+import {
     IWalletConnetConnectionParams,
     WalletConnectAllowedMethods,
     WallletConnectService,
@@ -21,12 +28,10 @@ export default class WalletConnect extends AbstractWallet implements IWallet {
         'Simple Signer provides an easy and secure way to implement log in and transaction signing functionality on your website for the Stellar network.';
     private readonly PROJECT_URL = DAPP_BASE_URL;
     private walletConnectService: WallletConnectService;
-    private signClient?: ISignClient;
-    private activeSession: string | null = null;
+    private signClient?: ISignClient | SignClient;
 
     public static NAME = 'walletConnect';
     public static FRIENDLY_NAME = 'WalletConnect';
-
     public walletConnectNetwork = StellarNetwork.PUBLIC;
 
     constructor(storage: IStorage) {
@@ -34,16 +39,12 @@ export default class WalletConnect extends AbstractWallet implements IWallet {
         this.walletConnectService = new WallletConnectService(this.PROJECT_ID);
     }
 
-    private setSession(sessionId: string | null) {
-        this.activeSession = sessionId;
-    }
-
     public async start(): Promise<WalletConnect> {
         if (this.signClient) {
             throw new AlreadyRunningError();
         }
 
-        this.signClient = await this.walletConnectService.createWalletConnectClient({
+        this.signClient = await this.walletConnectService.createClient({
             name: this.PROJECT_NAME,
             description: this.PROJECT_DESCRIPTION,
             url: this.PROJECT_URL,
@@ -53,25 +54,36 @@ export default class WalletConnect extends AbstractWallet implements IWallet {
         return this;
     }
 
-    private async connect(params: IWalletConnetConnectionParams): Promise<IParsedWalletConnectSession> {
+    private async connect(params: IWalletConnetConnectionParams): Promise<SessionTypes.Struct> {
         if (!this.signClient) {
             throw new NotRunningError();
         }
 
-        const session = await this.walletConnectService.connectWalletConnect(params);
-        const parseSession = this.walletConnectService.parseWalletConnectSession(session);
-
-        this.setSession(parseSession.id);
-
-        return parseSession;
+        return this.walletConnectService.connect(params);
     }
 
-    private async getSessions(): Promise<IParsedWalletConnectSession[]> {
+    private async closeSession(sessionId: string): Promise<void> {
         if (!this.signClient) {
             throw new NotRunningError();
         }
 
-        return this.signClient.session.values.map(this.walletConnectService.parseWalletConnectSession);
+        await this.walletConnectService.disconnect({
+            client: this.signClient,
+            sessionId,
+        });
+    }
+
+    public async closeSessions(): Promise<void> {
+        if (!this.signClient) {
+            throw new NotRunningError();
+        }
+
+        const sessions = this.signClient.session.getAll();
+
+        if (sessions.length) {
+            const closedSessionsPromises = sessions.map((session) => this.closeSession(session.topic));
+            await Promise.all(closedSessionsPromises);
+        }
     }
 
     public override async getPublicKey(): Promise<string> {
@@ -79,37 +91,46 @@ export default class WalletConnect extends AbstractWallet implements IWallet {
             throw new NotRunningError();
         }
 
-        let publicKey: string | undefined;
+        await this.closeSessions();
 
-        if (this.activeSession) {
-            const activeSessions = await this.getSessions();
+        const session = await this.connect({
+            client: this.signClient,
+            network: this.walletConnectNetwork,
+            methods: [WalletConnectAllowedMethods.SIGN],
+        });
 
-            const targetSession = activeSessions.find((session) => session.id === this.activeSession);
-
-            if (!targetSession) {
-                this.setSession(null);
-            } else {
-                publicKey = targetSession.accounts[0]?.publicKey;
-            }
-        }
-
-        if (!this.activeSession) {
-            const session = await this.connect({
-                client: this.signClient,
-                network: this.walletConnectNetwork,
-                methods: [WalletConnectAllowedMethods.SIGN],
-            });
-
-            this.setSession(session.id);
-
-            publicKey = session.accounts[0]?.publicKey;
-        }
+        const publicKey = session.namespaces['stellar']?.accounts[0]?.split(':')[2];
 
         if (!publicKey) {
             throw new NoPublicKeyError();
         }
 
+        super.persistWallet();
+
         return publicKey;
+    }
+
+    public override async sign(tx: Transaction): Promise<string> {
+        if (!this.signClient) {
+            throw new NotRunningError();
+        }
+
+        const lastKeyIndex = this.signClient.session.getAll().length - 1;
+        const lastSession = this.signClient.session.getAll()[lastKeyIndex];
+
+        if (!lastSession) {
+            throw new NoSessionError();
+        }
+
+        const { signedXDR } = await this.walletConnectService.makeRequest({
+            client: this.signClient,
+            topic: lastSession.topic,
+            network: this.walletConnectNetwork,
+            method: WalletConnectAllowedMethods.SIGN,
+            xdr: tx.toXDR(),
+        });
+
+        return signedXDR;
     }
 
     public override getFriendlyName(): string {

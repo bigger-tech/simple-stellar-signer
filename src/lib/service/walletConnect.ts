@@ -1,9 +1,10 @@
 import { WalletConnectModal } from '@walletconnect/modal';
 import { SignClient } from '@walletconnect/sign-client';
+import type { EngineTypes } from '@walletconnect/types';
 import type { ISignClient } from '@walletconnect/types/dist/types/sign-client/client';
 import type { SessionTypes } from '@walletconnect/types/dist/types/sign-client/session';
 
-import { CannotParseError, NoConnectionError } from '../errors/WalletConnectErrors';
+import { DisconnectError, MakeRequestError, NoConnectionError } from '../errors/WalletConnectErrors';
 import { StellarNetwork } from '../stellar/StellarNetwork';
 
 export type WalletConnectNetwork = 'testnet' | 'pubnet' | 'public';
@@ -30,16 +31,17 @@ export interface IWalletConnetConnectionParams {
     methods: WalletConnectAllowedMethods[];
 }
 
-export interface IParsedWalletConnectSession {
-    id: string;
-    name: string;
-    description: string;
-    url: string;
-    icons: string;
-    accounts: Array<{
-        network: WalletConnectNetwork;
-        publicKey: string;
-    }>;
+export interface IWalletConnectDisconnectParams {
+    client: ISignClient;
+    sessionId: string;
+}
+
+export interface IWalletConnectRequestParams {
+    client: ISignClient;
+    xdr: string;
+    topic: string;
+    network: WalletConnectNetwork;
+    method: WalletConnectAllowedMethods;
 }
 
 export class WallletConnectService {
@@ -49,21 +51,26 @@ export class WallletConnectService {
         this.projectId = projectId;
     }
 
-    public async createWalletConnectClient(params: IWalletConnetCreateClientParams): Promise<ISignClient> {
+    public async createClient(params: IWalletConnetCreateClientParams): Promise<ISignClient> {
         const { name, description, url, icons } = params;
 
-        return SignClient.init({
-            projectId: this.projectId,
-            metadata: {
-                name,
-                url,
-                description,
-                icons,
-            },
-        });
+        try {
+            return SignClient.init({
+                projectId: this.projectId,
+                metadata: {
+                    name,
+                    url,
+                    description,
+                    icons,
+                },
+            });
+        } catch (error) {
+            console.error(error);
+            throw new NoConnectionError();
+        }
     }
 
-    public async connectWalletConnect(params: IWalletConnetConnectionParams): Promise<SessionTypes.Struct> {
+    public async connect(params: IWalletConnetConnectionParams): Promise<SessionTypes.Struct> {
         const { client, network, methods } = params;
 
         const walletConnectModal = new WalletConnectModal({ projectId: this.projectId });
@@ -71,16 +78,18 @@ export class WallletConnectService {
         const chains =
             network === StellarNetwork.PUBLIC ? [WalletConnectTargetChain.PUBLIC] : [WalletConnectTargetChain.TESTNET];
 
-        try {
-            const { uri, approval } = await client.connect({
-                requiredNamespaces: {
-                    stellar: {
-                        methods,
-                        chains,
-                        events: [],
-                    },
+        const connectParams: EngineTypes.ConnectParams = {
+            requiredNamespaces: {
+                stellar: {
+                    methods,
+                    chains,
+                    events: [],
                 },
-            });
+            },
+        };
+
+        try {
+            const { uri, approval } = await client.connect(connectParams);
 
             return new Promise((resolve, reject) => {
                 if (uri) {
@@ -104,25 +113,41 @@ export class WallletConnectService {
         }
     }
 
-    public parseWalletConnectSession(session: SessionTypes.Struct): IParsedWalletConnectSession {
-        const stellarNamespace = session.namespaces['stellar'];
+    public async disconnect(params: IWalletConnectDisconnectParams): Promise<void> {
+        const { client, sessionId } = params;
 
-        if (!stellarNamespace || !stellarNamespace.accounts.length) {
-            throw new CannotParseError();
+        try {
+            await client.disconnect({
+                topic: sessionId,
+                reason: {
+                    message: 'Session closed',
+                    code: -1,
+                },
+            });
+        } catch (error: unknown) {
+            console.error(error);
+            throw new DisconnectError();
         }
+    }
 
-        const accounts = stellarNamespace.accounts.map((account: string) => ({
-            network: account.split(':')[1] as WalletConnectNetwork,
-            publicKey: account.split(':')[2] as string,
-        }));
+    public async makeRequest(params: IWalletConnectRequestParams): Promise<{ signedXDR: string }> {
+        const { client, xdr, topic, network, method } = params;
 
-        return {
-            id: session.topic,
-            name: session.peer.metadata.name,
-            description: session.peer.metadata.description,
-            url: session.peer.metadata.url,
-            icons: session.peer.metadata.icons[0] as string,
-            accounts,
-        };
+        const chain =
+            network === StellarNetwork.PUBLIC ? WalletConnectTargetChain.PUBLIC : WalletConnectTargetChain.TESTNET;
+
+        try {
+            return client.request({
+                topic: topic,
+                chainId: chain,
+                request: {
+                    method,
+                    params: { xdr },
+                },
+            });
+        } catch (error: unknown) {
+            console.error(error);
+            throw new MakeRequestError();
+        }
     }
 }

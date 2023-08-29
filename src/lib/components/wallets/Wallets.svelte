@@ -60,10 +60,11 @@
 
     async function handleWalletConnect(event: CustomEvent): Promise<void> {
         const wallet: IWallet = event.detail.wallet;
+        const publicKey: string = event.detail.publicKey;
+
         if (wallet.getName() === PrivateKey.NAME) {
             $isPrivateKeyFormVisible = true;
         } else {
-            const publicKey = await wallet.getPublicKey();
             dispatchOnConnectEvent(wallet, publicKey);
         }
     }

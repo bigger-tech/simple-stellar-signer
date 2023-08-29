@@ -12,14 +12,12 @@
     const dispatch = createEventDispatcher();
 
     async function connect(): Promise<void> {
-        let publicKey: Promise<string> | string | null;
+        let publicKey: string | null;
 
         if (wallet.getName() === PrivateKey.NAME) {
             publicKey = null;
-        } else if (wallet.getName() === WalletConnect.NAME) {
-            publicKey = await wallet.getPublicKey();
         } else {
-            publicKey = wallet.getPublicKey();
+            publicKey = await wallet.getPublicKey();
         }
 
         dispatch('connect', { wallet, publicKey });

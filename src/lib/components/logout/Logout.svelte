@@ -4,6 +4,7 @@
     import LogoutIcon from '../../../assets/icons/LogoutIcon.svelte';
     import { isLogoutVisible, language } from '../../../store/global';
     import type IStorage from '../../storage/IStorage';
+    import WalletConnect from '../../wallets/walletConnect/WalletConnect';
     import { isLanguageMenuVisible } from '../language/languageStore';
 
     export let storage: IStorage;
@@ -11,6 +12,14 @@
     function toggleMenuVisibility() {
         $isLogoutVisible = !$isLogoutVisible;
         $isLanguageMenuVisible = false;
+    }
+
+    async function logout() {
+        const wallet = new WalletConnect(storage);
+        const startedWallet = await wallet.start();
+        await startedWallet.closeSessions();
+
+        storage.clearStorage();
     }
 </script>
 
@@ -21,7 +30,7 @@
         </button>
         <div class="simple-signer logout-selector-container {$isLogoutVisible ? '' : 'hidden'}">
             <Link to="/connect">
-                <label class="simple-signer logout-active" on:click={() => storage.clearStorage()}>
+                <label class="simple-signer logout-active" on:click={async () => logout()}>
                     <input class="simple-signer hide-circle" type="radio" name="logout" />
                     {$language.LOGOUT}
                 </label>
