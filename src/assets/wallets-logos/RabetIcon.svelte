@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="100%" height="auto" viewBox="0 0 24 46">
+<svg xmlns="http://www.w3.org/2000/svg" width="60%" height="auto" viewBox="0 0 24 46">
     <g fill="none">
         <path
             fill="#B8BAC4"

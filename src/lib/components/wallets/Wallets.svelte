@@ -3,6 +3,8 @@
     import { BarLoader } from 'svelte-loading-spinners';
 
     import { VisibilityOffIcon, VisibilityOnIcon } from '../../../assets';
+    import type { WalletConnectService } from '../../../lib/service/walletConnect';
+    import WalletConnect from '../../../lib/wallets/walletConnect/WalletConnect';
     import { language } from '../../../store/global';
     import { removeDuplicates } from '../../utils/utils';
     import type IWallet from '../../wallets/IWallet';
@@ -13,15 +15,15 @@
     import { inputValue, isPrivateKeyFormVisible, isPrivateKeyInvalid, isPrivateKeyVisible } from './walletsStore';
 
     export let wallets: string[];
+    export let walletConnectService: WalletConnectService;
     const walletFactory = new WalletFactory();
     const dispatch = createEventDispatcher();
 
-    let filteredWallets: IWallet[];
-    let sortedWallets: IWallet[] = [];
-    if (wallets.length) {
-        filteredWallets = removeDuplicates(wallets).map(walletFactory.create);
-    } else {
-        filteredWallets = walletFactory.createAll();
+    function createWalletsByDefault(): IWallet[] {
+        const wallets = walletFactory.createAll();
+        const walletConnect = walletFactory.createWalletConnect(walletConnectService);
+
+        return wallets.concat(walletConnect);
     }
 
     async function sortWallets(walletList: IWallet[]): Promise<IWallet[]> {
@@ -38,9 +40,27 @@
 
         return sortedWalletList;
     }
-    (async () => {
-        sortedWallets = await sortWallets(filteredWallets);
-    })();
+
+    let filteredWallets: IWallet[];
+    let sortedWallets: IWallet[] = [];
+    if (wallets.length) {
+        filteredWallets = removeDuplicates(wallets).map((wallet) => {
+            if (wallet === WalletConnect.NAME) {
+                return walletFactory.createWalletConnect(walletConnectService);
+            } else {
+                return walletFactory.create(wallet);
+            }
+        });
+
+        (async () => {
+            sortedWallets = await sortWallets(filteredWallets);
+        })();
+    } else {
+        (async () => {
+            filteredWallets = createWalletsByDefault();
+            sortedWallets = await sortWallets(filteredWallets);
+        })();
+    }
 
     async function connectWithPrivateKey(privateKey: string): Promise<void> {
         const wallet = walletFactory.create(PrivateKey.NAME);
@@ -49,12 +69,13 @@
         dispatchOnConnectEvent(wallet, publicKey);
     }
 
-    async function handleWalletConnect(event: CustomEvent): Promise<void> {
+    function handleWalletConnect(event: CustomEvent): void {
         const wallet: IWallet = event.detail.wallet;
+        const publicKey: string = event.detail.publicKey;
+
         if (wallet.getName() === PrivateKey.NAME) {
             $isPrivateKeyFormVisible = true;
         } else {
-            const publicKey = await wallet.getPublicKey();
             dispatchOnConnectEvent(wallet, publicKey);
         }
     }

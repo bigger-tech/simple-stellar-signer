@@ -1,8 +1,12 @@
 import type IStorage from './IStorage';
 
 export default class LocalStorage implements IStorage {
-    clearStorage(): void {
-        window.localStorage.clear();
+    clearStorage(key?: string): void {
+        if (key) {
+            window.localStorage.removeItem(key);
+        } else {
+            window.localStorage.clear();
+        }
     }
 
     getItem(key: string): string | null {

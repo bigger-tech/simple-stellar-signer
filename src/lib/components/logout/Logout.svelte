@@ -2,15 +2,22 @@
     import { Link } from 'svelte-navigator';
 
     import LogoutIcon from '../../../assets/icons/LogoutIcon.svelte';
+    import type { WalletConnectService } from '../../../lib/service/walletConnect';
     import { isLogoutVisible, language } from '../../../store/global';
     import type IStorage from '../../storage/IStorage';
     import { isLanguageMenuVisible } from '../language/languageStore';
 
     export let storage: IStorage;
+    export let walletConnectService: WalletConnectService;
 
     function toggleMenuVisibility() {
         $isLogoutVisible = !$isLogoutVisible;
         $isLanguageMenuVisible = false;
+    }
+
+    async function logout() {
+        walletConnectService.disconnectAllSessions();
+        storage.clearStorage();
     }
 </script>
 
@@ -21,7 +28,7 @@
         </button>
         <div class="simple-signer logout-selector-container {$isLogoutVisible ? '' : 'hidden'}">
             <Link to="/connect">
-                <label class="simple-signer logout-active" on:click={() => storage.clearStorage()}>
+                <label class="simple-signer logout-active" on:click={async () => await logout()}>
                     <input class="simple-signer hide-circle" type="radio" name="logout" />
                     {$language.LOGOUT}
                 </label>

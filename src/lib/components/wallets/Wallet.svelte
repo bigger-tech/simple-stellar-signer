@@ -4,6 +4,7 @@
     import { language } from '../../../store/global';
     import type IWallet from '../../wallets/IWallet';
     import PrivateKey from '../../wallets/privateKey/PrivateKey';
+    import WalletConnect from '../../wallets/walletConnect/WalletConnect';
 
     export let wallet: IWallet;
     export let isInstalled: boolean;
@@ -11,11 +12,15 @@
     const dispatch = createEventDispatcher();
 
     async function connect(): Promise<void> {
+        let publicKey: string | null;
+
         if (wallet.getName() === PrivateKey.NAME) {
-            dispatch('connect', { wallet, publicKey: null });
+            publicKey = null;
         } else {
-            dispatch('connect', { wallet, publicKey: wallet.getPublicKey });
+            publicKey = await wallet.getPublicKey();
         }
+
+        dispatch('connect', { wallet, publicKey });
     }
 </script>
 
@@ -30,9 +35,11 @@
             </span>
         </div>
 
-        <a class="simple-signer {isInstalled ? '' : 'install-wallet'}" target="_blank" href={wallet.getExtension()}>
-            {isInstalled ? '' : $language.INSTALL}
-        </a>
+        {#if wallet.getName() !== WalletConnect.NAME}
+            <a class="simple-signer {isInstalled ? '' : 'install-wallet'}" target="_blank" href={wallet.getExtension()}>
+                {isInstalled ? '' : $language.INSTALL}
+            </a>
+        {/if}
     </div>
 </div>
 

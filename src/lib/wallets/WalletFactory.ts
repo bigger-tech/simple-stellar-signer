@@ -1,3 +1,4 @@
+import type { WalletConnectService } from '../service/walletConnect';
 import LocalStorage from '../storage/storage';
 import type IWallet from './IWallet';
 import InvalidWalletError from './InvalidWalletError';
@@ -5,6 +6,7 @@ import Albedo from './albedo/Albedo';
 import Freighter from './freighter/Freighter';
 import PrivateKey from './privateKey/PrivateKey';
 import Rabet from './rabet/Rabet';
+import WalletConnect from './walletConnect/WalletConnect';
 import XBull from './xBull/XBull';
 
 export default class WalletFactory {
@@ -35,5 +37,10 @@ export default class WalletFactory {
                 throw new InvalidWalletError();
         }
         return wallet;
+    }
+
+    createWalletConnect(walletConnectService: WalletConnectService): IWallet {
+        const storage = new LocalStorage();
+        return new WalletConnect(storage, walletConnectService);
     }
 }
