@@ -76,7 +76,7 @@ describe('Wallet Connect Service', () => {
             expect(client).toStrictEqual(mockClientMethods);
         });
 
-        it('should throw an error if init client fails', async () => {
+        it('should throw a no connection error if init client fails', async () => {
             jest.spyOn(WCClient, 'init').mockRejectedValueOnce(ERROR);
 
             try {
@@ -109,7 +109,7 @@ describe('Wallet Connect Service', () => {
             approval: () => new Promise((resolve) => resolve({})),
         };
 
-        it('should call openModal if there is a uri and return a session', async () => {
+        it('should call openModal if there is URI and should return a session', async () => {
             jest.spyOn(mockClientMethods, 'connect').mockResolvedValueOnce(responseConnect);
 
             await service.createClient();
@@ -120,7 +120,7 @@ describe('Wallet Connect Service', () => {
             expect(mockModalMethods.closeModal).toBeCalled();
         });
 
-        it('should not call openModal if there is no a uri and return a session', async () => {
+        it('should not call openModal if there is no URI and should return a session', async () => {
             jest.spyOn(mockClientMethods, 'connect').mockResolvedValueOnce({ ...responseConnect, uri: undefined });
 
             await service.createClient();
@@ -131,7 +131,7 @@ describe('Wallet Connect Service', () => {
             expect(mockModalMethods.closeModal).toBeCalled();
         });
 
-        it('should throw an error if connect fails', async () => {
+        it('should throw a no connection error if connect fails', async () => {
             jest.spyOn(mockClientMethods, 'connect').mockRejectedValueOnce(ERROR);
 
             await service.createClient();
@@ -144,7 +144,7 @@ describe('Wallet Connect Service', () => {
             }
         });
 
-        it('should throw an error if client is not running', async () => {
+        it('should throw a not running error if client is not running', async () => {
             try {
                 await service.connect(connectionParamas);
             } catch (error) {
@@ -174,7 +174,7 @@ describe('Wallet Connect Service', () => {
             expect(mockClientMethods.disconnect).toBeCalledWith(requestDisconnect);
         });
 
-        it('should throw an error if dicsonnect fails', async () => {
+        it('should throw a disconnect error if dicsonnect fails', async () => {
             jest.spyOn(mockClientMethods, 'disconnect').mockRejectedValueOnce(ERROR);
 
             await service.createClient();
@@ -187,7 +187,7 @@ describe('Wallet Connect Service', () => {
             }
         });
 
-        it('should throw an error if client is not running', async () => {
+        it('should throw a not running error if client is not running', async () => {
             try {
                 await service.disconnect(SESSION_ID);
             } catch (error) {
@@ -207,7 +207,7 @@ describe('Wallet Connect Service', () => {
             expect(mockClientMethods.disconnect).toBeCalledTimes(sessions.length);
         });
 
-        it('should throw an error if client is not running', async () => {
+        it('should throw a not running error if client is not running', async () => {
             try {
                 await service.disconnectAllSessions();
             } catch (error) {
@@ -245,7 +245,7 @@ describe('Wallet Connect Service', () => {
             expect(mockClientMethods.request).toBeCalledWith(requestParams);
         });
 
-        it('should throw an error if the request fails', async () => {
+        it('should throw a meke request error if the request fails', async () => {
             jest.spyOn(mockClientMethods, 'request').mockRejectedValueOnce(ERROR);
             jest.spyOn(mockClientMethods.session, 'getAll').mockImplementation(() => [{ topic: 'test' }]);
 
@@ -259,7 +259,7 @@ describe('Wallet Connect Service', () => {
             }
         });
 
-        it('should throw an error if there is no session', async () => {
+        it('should throw a no session error if there is no session', async () => {
             jest.spyOn(mockClientMethods.session, 'getAll').mockImplementation(() => []);
 
             await service.createClient();
@@ -271,7 +271,7 @@ describe('Wallet Connect Service', () => {
             }
         });
 
-        it('should throw an error if client is not running', async () => {
+        it('should throw a not running error if client is not running', async () => {
             try {
                 await service.makeRequest(makeRequestParams);
             } catch (error) {
