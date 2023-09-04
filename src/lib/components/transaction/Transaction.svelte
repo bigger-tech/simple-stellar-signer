@@ -3,6 +3,8 @@
     import { createEventDispatcher } from 'svelte';
     import { Link } from 'svelte-navigator';
 
+    import type { WalletConnectService } from '../../../lib/service/walletConnect';
+    import WalletConnect from '../../../lib/wallets/walletConnect/WalletConnect';
     import { language } from '../../../store/global';
     import type { ITransactionMessage } from '../../bridge/transactionMessage/ITransactionMessage';
     import { CURRENT_NETWORK_PASSPHRASE, CURRENT_STELLAR_NETWORK } from '../../stellar/StellarNetwork';
@@ -27,6 +29,8 @@
     } from './transactionStore';
 
     export let transactionMessage: ITransactionMessage;
+    export let walletConnectService: WalletConnectService;
+
     const storage = new LocalStorage();
     const dispatch = createEventDispatcher();
 
@@ -35,7 +39,11 @@
     const walletFactory = new WalletFactory();
 
     if (storedWallet) {
-        (async () => (wallet = await walletFactory.create(storedWallet)))();
+        if (storedWallet === WalletConnect.NAME) {
+            wallet = walletFactory.createWalletConnect(walletConnectService);
+        } else {
+            wallet = walletFactory.create(storedWallet);
+        }
     }
 
     let tx: Transaction;

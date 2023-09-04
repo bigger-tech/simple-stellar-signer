@@ -2,9 +2,12 @@
     import Bridge, { SimpleSignerPageType } from '../../lib/bridge/Bridge';
     import { setMinimumPopUpSize } from '../../lib/components/helpers/popUpSizeHelper';
     import Wallets from '../../lib/components/wallets/Wallets.svelte';
+    import type { WalletConnectService } from '../../lib/service/walletConnect';
     import type IWallet from '../../lib/wallets/IWallet';
     import { language } from '../../store/global';
     import { postMessageWallets, urlOrDefaultWallets, wallets } from './connectStore';
+
+    export let walletConnectService: WalletConnectService;
 
     const parent = window.opener;
     const bridge = new Bridge(SimpleSignerPageType.CONNECT);
@@ -44,10 +47,10 @@
     <div class="simple-signer-wallets">
         <span class="simple-signer select-wallet">{$language.SELECT_WALLET}</span>
         {#if $urlOrDefaultWallets}
-            <Wallets on:connect={handleOnConnect} wallets={$wallets} />
+            <Wallets on:connect={handleOnConnect} wallets={$wallets} walletConnectService={walletConnectService} />
         {/if}
         {#if $postMessageWallets}
-            <Wallets on:connect={handleOnConnect} wallets={$wallets} />
+            <Wallets on:connect={handleOnConnect} wallets={$wallets} walletConnectService={walletConnectService} />
         {/if}
     </div>
 </div>

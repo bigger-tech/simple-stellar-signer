@@ -1,3 +1,4 @@
+import type { WalletConnectService } from '../service/walletConnect';
 import LocalStorage from '../storage/storage';
 import type IWallet from './IWallet';
 import InvalidWalletError from './InvalidWalletError';
@@ -9,14 +10,11 @@ import WalletConnect from './walletConnect/WalletConnect';
 import XBull from './xBull/XBull';
 
 export default class WalletFactory {
-    async createAll(): Promise<IWallet[]> {
-        const promises = [Albedo.NAME, XBull.NAME, Rabet.NAME, Freighter.NAME, WalletConnect.NAME, PrivateKey.NAME].map(
-            this.create,
-        );
-        return Promise.all(promises);
+    createAll(): IWallet[] {
+        return [Albedo.NAME, XBull.NAME, Rabet.NAME, Freighter.NAME, PrivateKey.NAME].map(this.create);
     }
 
-    async create(name: string) {
+    create(name: string) {
         let wallet: IWallet;
         const storage = new LocalStorage();
         switch (name) {
@@ -32,12 +30,6 @@ export default class WalletFactory {
             case Freighter.NAME:
                 wallet = new Freighter(storage);
                 break;
-            case WalletConnect.NAME:
-                wallet = await (() => {
-                    const wallet = new WalletConnect(storage);
-                    return wallet.start();
-                })();
-                break;
             case PrivateKey.NAME:
                 wallet = new PrivateKey(storage);
                 break;
@@ -45,5 +37,10 @@ export default class WalletFactory {
                 throw new InvalidWalletError();
         }
         return wallet;
+    }
+
+    createWalletConnect(walletConnectService: WalletConnectService): IWallet {
+        const storage = new LocalStorage();
+        return new WalletConnect(storage, walletConnectService);
     }
 }

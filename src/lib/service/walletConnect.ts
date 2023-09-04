@@ -1,13 +1,19 @@
-import { WalletConnectModal } from '@walletconnect/modal';
-import { SignClient } from '@walletconnect/sign-client';
 import type { EngineTypes } from '@walletconnect/types';
 import type { ISignClient } from '@walletconnect/types/dist/types/sign-client/client';
 import type { SessionTypes } from '@walletconnect/types/dist/types/sign-client/session';
 
-import { DisconnectError, MakeRequestError, NoConnectionError } from '../errors/WalletConnectErrors';
+import { DAPP_BASE_URL, PROJECT_ID_FOR_WALLET_CONNECT } from '../../constants';
+import {
+    DisconnectError,
+    MakeRequestError,
+    NoConnectionError,
+    NoSessionError,
+    NotRunningError,
+} from '../errors/WalletConnectErrors';
 import { StellarNetwork } from '../stellar/StellarNetwork';
+import { WCClient, WCModal } from './lib/walletconnect';
 
-export type WalletConnectNetwork = 'testnet' | 'pubnet' | 'public';
+export type WalletConnectNetwork = 'testnet' | 'public';
 
 export enum WalletConnectTargetChain {
     PUBLIC = 'stellar:pubnet',
@@ -18,52 +24,41 @@ export enum WalletConnectAllowedMethods {
     SIGN = 'stellar_signXDR',
 }
 
-export interface IWalletConnetCreateClientParams {
-    name: string;
-    description: string;
-    url: string;
-    icons: string[];
-}
-
 export interface IWalletConnetConnectionParams {
-    client: ISignClient;
     network: WalletConnectNetwork;
     methods: WalletConnectAllowedMethods[];
 }
 
-export interface IWalletConnectDisconnectParams {
-    client: ISignClient;
-    sessionId: string;
-}
-
 export interface IWalletConnectRequestParams {
-    client: ISignClient;
     xdr: string;
-    topic: string;
     network: WalletConnectNetwork;
     method: WalletConnectAllowedMethods;
 }
 
-export class WallletConnectService {
-    private projectId: string;
+export class WalletConnectService {
+    private readonly PROJECT_ID = PROJECT_ID_FOR_WALLET_CONNECT;
+    private readonly PROJECT_URL = DAPP_BASE_URL;
+    private readonly PROJECT_NAME = 'Simple Stellar Signer';
+    private readonly PROJECT_DESCRIPTION =
+        'Simple Signer provides an easy and secure way to implement log in and transaction signing functionality on your website for the Stellar network.';
 
-    constructor(projectId: string) {
-        this.projectId = projectId;
+    constructor(private client?: ISignClient) {
+        this.client = client;
     }
 
-    public async createClient(params: IWalletConnetCreateClientParams): Promise<ISignClient> {
-        const { name, description, url, icons } = params;
-
+    public async createClient(): Promise<ISignClient> {
         try {
-            return SignClient.init({
-                projectId: this.projectId,
+            this.client = await WCClient.init({
+                projectId: this.PROJECT_ID,
                 metadata: {
-                    name,
-                    url,
-                    description,
-                    icons,
+                    name: this.PROJECT_NAME,
+                    url: this.PROJECT_URL,
+                    description: this.PROJECT_DESCRIPTION,
+                    icons: [],
                 },
             });
+
+            return this.client;
         } catch (error) {
             console.error(error);
             throw new NoConnectionError();
@@ -71,9 +66,12 @@ export class WallletConnectService {
     }
 
     public async connect(params: IWalletConnetConnectionParams): Promise<SessionTypes.Struct> {
-        const { client, network, methods } = params;
+        if (!this.client) {
+            throw new NotRunningError();
+        }
 
-        const walletConnectModal = new WalletConnectModal({ projectId: this.projectId });
+        const { network, methods } = params;
+        const walletConnectModal = new WCModal({ projectId: this.PROJECT_ID });
 
         const chains =
             network === StellarNetwork.PUBLIC ? [WalletConnectTargetChain.PUBLIC] : [WalletConnectTargetChain.TESTNET];
@@ -89,7 +87,7 @@ export class WallletConnectService {
         };
 
         try {
-            const { uri, approval } = await client.connect(connectParams);
+            const { uri, approval } = await this.client.connect(connectParams);
 
             return new Promise((resolve, reject) => {
                 if (uri) {
@@ -108,16 +106,17 @@ export class WallletConnectService {
             });
         } catch (error: unknown) {
             console.error(error);
-            walletConnectModal.closeModal();
             throw new NoConnectionError();
         }
     }
 
-    public async disconnect(params: IWalletConnectDisconnectParams): Promise<void> {
-        const { client, sessionId } = params;
+    public async disconnect(sessionId: string): Promise<void> {
+        if (!this.client) {
+            throw new NotRunningError();
+        }
 
         try {
-            await client.disconnect({
+            await this.client.disconnect({
                 topic: sessionId,
                 reason: {
                     message: 'Session closed',
@@ -130,15 +129,39 @@ export class WallletConnectService {
         }
     }
 
+    public async disconnectAllSessions(): Promise<void> {
+        if (!this.client) {
+            throw new NotRunningError();
+        }
+
+        const sessions = this.client.session.getAll();
+
+        if (sessions.length) {
+            const closedSessionsPromises = sessions.map((session) => this.disconnect(session.topic));
+            await Promise.all(closedSessionsPromises);
+        }
+    }
+
     public async makeRequest(params: IWalletConnectRequestParams): Promise<{ signedXDR: string }> {
-        const { client, xdr, topic, network, method } = params;
+        if (!this.client) {
+            throw new NotRunningError();
+        }
+
+        const { xdr, network, method } = params;
+
+        const lastKeyIndex = this.client.session.getAll().length - 1;
+        const lastSession = this.client.session.getAll()[lastKeyIndex];
+
+        if (!lastSession) {
+            throw new NoSessionError();
+        }
 
         const chain =
             network === StellarNetwork.PUBLIC ? WalletConnectTargetChain.PUBLIC : WalletConnectTargetChain.TESTNET;
 
         try {
-            return client.request({
-                topic: topic,
+            return await this.client.request({
+                topic: lastSession.topic,
                 chainId: chain,
                 request: {
                     method,

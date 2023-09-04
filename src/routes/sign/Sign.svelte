@@ -1,9 +1,13 @@
 <script lang="ts">
+    import type { WalletConnectService } from 'src/lib/service/walletConnect';
+
     import Bridge, { SimpleSignerPageType } from '../../lib/bridge/Bridge';
     import { setMinimumPopUpSize } from '../../lib/components/helpers/popUpSizeHelper';
     import Transaction from '../../lib/components/transaction/Transaction.svelte';
     import { language } from '../../store/global';
     import { transaction } from './signStore';
+
+    export let walletConnectService: WalletConnectService;
 
     const bridge = new Bridge(SimpleSignerPageType.SIGN);
     const urlParams = bridge.getTransactionMessageFromUrl();
@@ -38,7 +42,12 @@
 <div class="simple-signer sign-container">
     <div class="simple-signer tx-container">
         {#if $transaction?.xdr}
-            <Transaction transactionMessage={$transaction} on:cancel={handleCancel} on:confirm={handleConfirm} />
+            <Transaction
+                transactionMessage={$transaction}
+                walletConnectService={walletConnectService}
+                on:cancel={handleCancel}
+                on:confirm={handleConfirm}
+            />
         {:else if !$transaction.xdr}
             <h1 class="simple-signer error-title">{$language.ERROR}</h1>
             <div class="simple-signer information-container">
