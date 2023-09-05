@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="60%" height="auto" viewBox="0 0 24 46">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 46" class="rabet-logo">
     <g fill="none">
         <path
             fill="#B8BAC4"
@@ -14,3 +14,11 @@
         />
     </g>
 </svg>
+
+<style>
+    .rabet-logo {
+        width: 70%;
+        height: auto;
+        margin-left: 5px;
+    }
+</style>
