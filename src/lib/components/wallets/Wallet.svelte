@@ -17,7 +17,7 @@
         if (wallet.getName() === PrivateKey.NAME) {
             publicKey = null;
         } else {
-            publicKey = await wallet.getPublicKey();
+            publicKey = (await wallet.getPublicKey()).toUpperCase();
         }
 
         dispatch('connect', { wallet, publicKey });
