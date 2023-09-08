@@ -26,16 +26,21 @@ It can be embedded on any website and supports multiple wallets and languages.
         <td><a href="https://albedo.link/">albedo.link</a></td>
         <td>Implemented</td>
     </tr>
-        <tr>
+    <tr>
         <td>Freighter</td>
         <td><a href="https://www.freighter.app/">freighter.app</a></td>
         <td>Implemented</td>
     </tr>     
-        <tr>
+    <tr>
         <td>Rabet</td>
         <td><a href="https://rabet.io/">rabet.io</a></td>
         <td>Implemented</td>
     </tr>
+    <tr>
+        <td>WalletConnect</td>
+        <td><a href="https://walletconnect.com/">walletconnect.com</a></td>
+        <td>Implemented</td>
+    </tr>    
     <tr>
         <td>Ledger</td>
         <td><a href="https://ledger.com">ledger.com</a></td>
@@ -343,6 +348,7 @@ the `onConnect` event type to indicate which wallet was connected.
 | Albedo      | String | albedo     |
 | Rabet       | String | rabet      |
 | Freighter   | String | freighter  |
+| WalletConnect   | String | walletConnect  |
 | Private Key | String | privateKey |
 
 ## Connect API
