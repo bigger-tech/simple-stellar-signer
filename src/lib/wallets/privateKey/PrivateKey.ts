@@ -1,9 +1,11 @@
+import SorobanClient from 'soroban-client';
 import type { Transaction } from 'stellar-sdk';
 import { Keypair } from 'stellar-sdk';
 
 import { PrivateKeyIcon } from '../../../assets';
 import type IDecryptableValue from '../../security/IDecryptableValue';
 import { decryptValue, encryptValue } from '../../security/securityHelper';
+import { CURRENT_STELLAR_NETWORK, StellarNetwork } from '../../stellar/StellarNetwork';
 import AbstractWallet from '../AbstractWallet';
 import type IWallet from '../IWallet';
 import InvalidPrivateKeyError from './errors/InvalidPrivateKeyError';
@@ -20,7 +22,11 @@ export default class PrivateKey extends AbstractWallet implements IWallet {
     public override async getPublicKey(privateKey: string): Promise<string> {
         let publicKey: string;
         try {
-            publicKey = Keypair.fromSecret(privateKey).publicKey();
+            if (CURRENT_STELLAR_NETWORK === StellarNetwork.FUTURENET) {
+                publicKey = SorobanClient.Keypair.fromSecret(privateKey).publicKey();
+            } else {
+                publicKey = Keypair.fromSecret(privateKey).publicKey();
+            }
             super.persistWallet();
             await this.storeEncryptedPrivateKey(privateKey);
         } catch (e) {
@@ -30,12 +36,21 @@ export default class PrivateKey extends AbstractWallet implements IWallet {
             throw e;
         }
         publicKey = await this.getDecryptedStoredPrivateKey();
-        return Keypair.fromSecret(publicKey).publicKey();
+        if (CURRENT_STELLAR_NETWORK === StellarNetwork.FUTURENET) {
+            return SorobanClient.Keypair.fromSecret(publicKey).publicKey();
+        } else {
+            return Keypair.fromSecret(publicKey).publicKey();
+        }
     }
 
     public override async sign(tx: Transaction): Promise<string> {
+        let keyPair: Keypair;
         const privateKey = await this.getDecryptedStoredPrivateKey();
-        const keyPair = Keypair.fromSecret(privateKey);
+        if (CURRENT_STELLAR_NETWORK === StellarNetwork.FUTURENET) {
+            keyPair = SorobanClient.Keypair.fromSecret(privateKey);
+        } else {
+            keyPair = Keypair.fromSecret(privateKey);
+        }
         tx.sign(keyPair);
         return tx.toXDR();
     }
