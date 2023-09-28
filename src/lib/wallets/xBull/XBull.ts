@@ -7,7 +7,7 @@ import type IStorage from '../../storage/IStorage';
 import AbstractWallet from '../AbstractWallet';
 import type IWallet from '../IWallet';
 
-type XBullNetwork = 'public' | 'testnet';
+type XBullNetwork = 'public' | 'testnet' | 'futurenet';
 export default class XBull extends AbstractWallet implements IWallet {
     public static NAME = 'xbull';
     public static FRIENDLY_NAME = 'xBull';
@@ -18,8 +18,10 @@ export default class XBull extends AbstractWallet implements IWallet {
         super(storage);
         if (CURRENT_STELLAR_NETWORK === StellarNetwork.PUBLIC) {
             this.XBullNetwork = StellarNetwork.PUBLIC as XBullNetwork;
-        } else {
+        } else if (CURRENT_STELLAR_NETWORK === StellarNetwork.TESTNET) {
             this.XBullNetwork = StellarNetwork.TESTNET as XBullNetwork;
+        } else {
+            this.XBullNetwork = StellarNetwork.FUTURENET as XBullNetwork;
         }
     }
 
@@ -33,7 +35,7 @@ export default class XBull extends AbstractWallet implements IWallet {
 
     public override async sign(tx: Transaction): Promise<string> {
         const bridge = new xBullWalletConnect();
-        const signedXdr = await bridge.sign({ xdr: tx.toXDR() });
+        const signedXdr = await bridge.sign({ xdr: tx.toXDR(), network: this.XBullNetwork });
         bridge.closeConnections();
         return signedXdr;
     }
