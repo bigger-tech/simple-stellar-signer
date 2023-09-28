@@ -7,7 +7,7 @@ import type IStorage from '../../storage/IStorage';
 import AbstractWallet from '../AbstractWallet';
 import type IWallet from '../IWallet';
 
-type FreighterNetwork = 'PUBLIC' | 'TESTNET';
+type FreighterNetwork = 'PUBLIC' | 'TESTNET' | 'FUTURENET';
 
 export default class Freighter extends AbstractWallet implements IWallet {
     public static NAME = 'freighter';
@@ -20,8 +20,10 @@ export default class Freighter extends AbstractWallet implements IWallet {
 
         if (CURRENT_STELLAR_NETWORK === StellarNetwork.PUBLIC) {
             this.freighterNetwork = StellarNetwork.PUBLIC.toUpperCase() as FreighterNetwork;
-        } else {
+        } else if (CURRENT_STELLAR_NETWORK === StellarNetwork.TESTNET) {
             this.freighterNetwork = StellarNetwork.TESTNET.toUpperCase() as FreighterNetwork;
+        } else {
+            this.freighterNetwork = StellarNetwork.FUTURENET.toLocaleUpperCase() as FreighterNetwork;
         }
     }
 
