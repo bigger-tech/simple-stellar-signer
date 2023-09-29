@@ -5,7 +5,7 @@ for the [Stellar network](https://stellar.org).
 
 It can be embedded on any website and supports multiple wallets and languages.
 
-## Supported wallets
+## Supported Wallets
 
 <table>
     <thead>
@@ -30,7 +30,7 @@ It can be embedded on any website and supports multiple wallets and languages.
         <td>Freighter</td>
         <td><a href="https://www.freighter.app/">freighter.app</a></td>
         <td>Implemented</td>
-    </tr>     
+    </tr>
     <tr>
         <td>Rabet</td>
         <td><a href="https://rabet.io/">rabet.io</a></td>
@@ -40,7 +40,7 @@ It can be embedded on any website and supports multiple wallets and languages.
         <td>WalletConnect</td>
         <td><a href="https://walletconnect.com/">walletconnect.com</a></td>
         <td>Implemented</td>
-    </tr>    
+    </tr>
     <tr>
         <td>Ledger</td>
         <td><a href="https://ledger.com">ledger.com</a></td>
@@ -49,7 +49,32 @@ It can be embedded on any website and supports multiple wallets and languages.
     </tbody>
 </table>
 
-## Supported languages
+## Supported Networks
+
+<table>
+    <thead>
+        <tr>
+            <th>Network</th>
+            <th>Status</th>
+        </tr>
+    </thead>
+    <tbody>
+    <tr>
+        <td>Testnet</td>
+        <td>Implemented</td>
+    </tr>
+    <tr>
+        <td>Public</td>
+        <td>Implemented</td>
+    </tr>
+    <tr>
+        <td>Futurenet</td>
+        <td>Implemented</td>
+    </tr>
+    </tbody>
+</table>
+
+## Supported Languages
 
 See the [documentation on languages](https://github.com/PlutoDAO/simple-stellar-signer/blob/main/docs/languages.md) if
 you want to contribute.
@@ -342,14 +367,14 @@ These wallet values can be used to configure the available wallets on the `/conn
 of
 the `onConnect` event type to indicate which wallet was connected.
 
-| wallet      | type   | value      |
-| ----------- | ------ | ---------- |
-| XBull       | String | xbull      |
-| Albedo      | String | albedo     |
-| Rabet       | String | rabet      |
-| Freighter   | String | freighter  |
-| WalletConnect   | String | walletConnect  |
-| Private Key | String | privateKey |
+| wallet        | type   | value         |
+| ------------- | ------ | ------------- |
+| XBull         | String | xbull         |
+| Albedo        | String | albedo        |
+| Rabet         | String | rabet         |
+| Freighter     | String | freighter     |
+| WalletConnect | String | walletConnect |
+| Private Key   | String | privateKey    |
 
 ## Connect API
 
