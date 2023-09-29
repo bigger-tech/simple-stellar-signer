@@ -55,20 +55,24 @@ It can be embedded on any website and supports multiple wallets and languages.
     <thead>
         <tr>
             <th>Network</th>
+            <th>Link</th>
             <th>Status</th>
         </tr>
     </thead>
     <tbody>
     <tr>
-        <td>Testnet</td>
+        <td>Public</td>
+        <td><a href="https://sign.plutodao.finance">sign.plutodao.finance</a></td>
         <td>Implemented</td>
     </tr>
     <tr>
-        <td>Public</td>
+        <td>Testnet</td>
+        <td><a href="https://sign-test.plutodao.finance">sign-test.plutodao.finance</a></td>
         <td>Implemented</td>
     </tr>
     <tr>
         <td>Futurenet</td>
+        <td><a href="https://sign-futurenet.plutodao.finance">sign-futurenet.plutodao.finance</a></td>
         <td>Implemented</td>
     </tr>
     </tbody>
@@ -335,10 +339,6 @@ language found is not implemented, it defaults to English.
 A user may also choose to change the language using the interface.
 
 ![tx lang esp](https://user-images.githubusercontent.com/71040644/169844169-4ef54698-04e0-4d18-9310-18b2c4982b78.png)
-
-## Connecting to testnet
-
-You can access the testnet-connected version at `https://sign-test.plutodao.finance`.
 
 ---
 
