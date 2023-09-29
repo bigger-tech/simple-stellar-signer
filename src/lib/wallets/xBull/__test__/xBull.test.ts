@@ -1,6 +1,7 @@
 import { expect } from '@jest/globals';
 import SorobanClient from 'soroban-client';
 
+import { StellarNetwork } from '../../../stellar/StellarNetwork';
 import LocalStorage from '../../../storage/storage';
 import XBull from '../XBull';
 
@@ -30,6 +31,7 @@ jest.mock('@creit-tech/xbull-wallet-connect', () => {
 describe('xBull management', () => {
     const storage = new LocalStorage();
     const xBull = new XBull(storage);
+    const xBullNetwork = StellarNetwork.FUTURENET;
 
     beforeEach(() => {
         jest.clearAllMocks();
@@ -42,13 +44,13 @@ describe('xBull management', () => {
 
         const signedXdr =
             'AAAAAgAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAGQAATOSAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAAAF9eEAAAAAAAAAAAA=';
-        const tx = SorobanClient.TransactionBuilder.fromXDR(signedXdr, SorobanClient.Networks.STANDALONE);
+        const tx = SorobanClient.TransactionBuilder.fromXDR(signedXdr, SorobanClient.Networks.FUTURENET);
 
         const result = await xBull.sign(tx);
 
         expect(result).toBe(responseXdr);
-        expect(xBull.XBullNetwork).toEqual('futurenet');
+        expect(xBull.XBullNetwork).toEqual(xBullNetwork);
         expect(mockBridge.sign).toHaveBeenCalledTimes(1);
-        expect(mockBridge.sign).toHaveBeenLastCalledWith({ xdr: signedXdr, network: 'futurenet' });
+        expect(mockBridge.sign).toHaveBeenLastCalledWith({ xdr: signedXdr, network: xBullNetwork });
     });
 });
