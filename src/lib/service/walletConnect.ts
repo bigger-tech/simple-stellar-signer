@@ -13,7 +13,7 @@ import {
 import { StellarNetwork } from '../stellar/StellarNetwork';
 import { WCClient, WCModal } from './lib/walletconnect';
 
-export type WalletConnectNetwork = 'testnet' | 'public';
+export type WalletConnectNetwork = 'testnet' | 'public' | 'futurenet';
 
 export enum WalletConnectTargetChain {
     PUBLIC = 'stellar:pubnet',
