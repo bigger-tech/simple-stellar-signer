@@ -23,7 +23,7 @@ export default class Freighter extends AbstractWallet implements IWallet {
         } else if (CURRENT_STELLAR_NETWORK === StellarNetwork.TESTNET) {
             this.freighterNetwork = StellarNetwork.TESTNET.toUpperCase() as FreighterNetwork;
         } else {
-            this.freighterNetwork = StellarNetwork.FUTURENET.toLocaleUpperCase() as FreighterNetwork;
+            this.freighterNetwork = StellarNetwork.FUTURENET.toUpperCase() as FreighterNetwork;
         }
     }
 
