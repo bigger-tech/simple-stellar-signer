@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { expect } from '@jest/globals';
+import SorobanClient from 'soroban-client';
 import StellarSdk from 'stellar-sdk';
 import { TextDecoder, TextEncoder } from 'util';
 
@@ -23,6 +24,9 @@ jest.mock('soroban-client', () => {
         Transaction: {
             sign: jest.fn(),
             toXDR: jest.fn(),
+        },
+        Networks: {
+            FUTURENET: 'Test SDF Future Network ; October 2022',
         },
     };
 });
@@ -50,8 +54,7 @@ describe('Pivate Key management', () => {
         wallet = new PrivateKey(storage);
     });
     it('Should show a private key from the Futurenet network', async () => {
-        const { Keypair } = require('soroban-client');
-        Keypair.fromSecret.mockReturnValue({
+        SorobanClient.Keypair.fromSecret.mockReturnValue({
             publicKey: jest.fn(() => expectedPublicKey),
         });
         const publickKey = await wallet.getPublicKey(privateKey);
@@ -61,19 +64,16 @@ describe('Pivate Key management', () => {
     it('Should sign a transaction successfully from the Futurenet network', async () => {
         jest.spyOn(mockTx, 'sign').mockImplementationOnce(() => signedTransaction);
         jest.spyOn(mockTx, 'toXDR').mockImplementationOnce(() => signedTransaction);
+        SorobanClient.Keypair.fromSecret.mockReturnValue(() => expectedPublicKey);
 
         const signedXdr =
             'AAAAAgAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAGQAATOSAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAAAF9eEAAAAAAAAAAAA=';
-        const networkStandalone = 'Standalone Network ; February 2017';
-        const tx = new StellarSdk.Transaction(signedXdr, networkStandalone);
-
-        const { Keypair } = require('soroban-client');
-        Keypair.fromSecret.mockReturnValue(() => expectedPublicKey);
+        const tx = new StellarSdk.Transaction(signedXdr, SorobanClient.Networks.FUTURENET);
 
         const transaction = await wallet.sign(tx);
 
         expect(transaction).toEqual(signedTransaction);
         expect(mockTx.sign).toHaveBeenCalledTimes(1);
-        expect(Keypair.fromSecret).toHaveBeenCalledTimes(1);
+        expect(SorobanClient.Keypair.fromSecret).toHaveBeenCalledTimes(1);
     });
 });
