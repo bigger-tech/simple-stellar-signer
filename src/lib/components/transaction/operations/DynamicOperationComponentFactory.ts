@@ -14,6 +14,8 @@ import CreateAccountComponent from './createAccount/CreateAccountComponent';
 import CreateClaimableBalanceComponent from './createClaimableBalance/CreateClaimableBalanceComponent';
 import CreatePassiveSellOfferComponent from './createPassiveSellOffer/CreatePassiveSellOfferComponent';
 import EndSponsoringFutureReservesComponent from './endSponsoringFutureReserves/EndSponsoringFutureReservesComponent';
+import ExtendFootprintComponent from './extendFootprint/ExtendFootprintComponent';
+import InvokeHostFunctionComponent from './invokeHostFunction/InvokeHostFunctionComponent';
 import LiquidityPoolDepositComponent from './liquidityPoolDeposit/LiquidityPoolDepositComponent';
 import LiquidityPoolWithdrawComponent from './liquidityPoolWithdraw/LiquidityPoolWithdrawComponent';
 import ManageBuyOfferComponent from './manageBuyOffer/ManageBuyOfferComponent';
@@ -22,6 +24,7 @@ import ManageSellOfferComponent from './manageSellOffer/ManageSellOfferComponent
 import PathPaymentStrictReceiveComponent from './pathPaymentStrictReceive/PathPaymentStrictReceiveComponent';
 import PathPaymentStrictSendComponent from './pathPaymentStrictSend/PathPaymentStrictSendComponent';
 import PaymentComponent from './payment/PaymentComponent';
+import RestoreFootprintComponent from './restoreFootprint/RestoreFootprintComponent';
 import RevokeAccountSponsorshipComponent from './revokeAccountSponsorship/RevokeAccountSponsorshipComponent';
 import RevokeClaimableBalanceSponsorshipComponent from './revokeClaimableBalanceSponsorship/RevokeClaimableBalanceSponsorshipComponent';
 import RevokeDataSponsorshipComponent from './revokeDataSponsorship/RevokeDataSponsorshipComponent';
@@ -150,6 +153,15 @@ export default class DynamicOperationComponentFactory {
                 break;
             case 'clawbackClaimableBalance':
                 operationComponent = new ClawbackClaimableBalanceComponent(tx, operation);
+                break;
+            case 'invokeHostFunction':
+                operationComponent = new InvokeHostFunctionComponent(tx, operation);
+                break;
+            case 'restoreFootprint':
+                operationComponent = new RestoreFootprintComponent(tx, operation);
+                break;
+            case 'extendFootprintTtl':
+                operationComponent = new ExtendFootprintComponent(tx, operation);
                 break;
             default:
                 undefined;
