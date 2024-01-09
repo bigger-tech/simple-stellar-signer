@@ -23,6 +23,7 @@ import ManageSellOfferComponent from './manageSellOffer/ManageSellOfferComponent
 import PathPaymentStrictReceiveComponent from './pathPaymentStrictReceive/PathPaymentStrictReceiveComponent';
 import PathPaymentStrictSendComponent from './pathPaymentStrictSend/PathPaymentStrictSendComponent';
 import PaymentComponent from './payment/PaymentComponent';
+import RestoreFootprintComponent from './restoreFootprint/RestoreFootprintComponent';
 import RevokeAccountSponsorshipComponent from './revokeAccountSponsorship/RevokeAccountSponsorshipComponent';
 import RevokeClaimableBalanceSponsorshipComponent from './revokeClaimableBalanceSponsorship/RevokeClaimableBalanceSponsorshipComponent';
 import RevokeDataSponsorshipComponent from './revokeDataSponsorship/RevokeDataSponsorshipComponent';
@@ -154,6 +155,9 @@ export default class DynamicOperationComponentFactory {
                 break;
             case 'invokeHostFunction':
                 operationComponent = new InvokeHostFunctionComponent(tx, operation);
+                break;
+            case 'restoreFootprint':
+                operationComponent = new RestoreFootprintComponent(tx, operation);
                 break;
             default:
                 undefined;
