@@ -14,6 +14,7 @@ import CreateAccountComponent from './createAccount/CreateAccountComponent';
 import CreateClaimableBalanceComponent from './createClaimableBalance/CreateClaimableBalanceComponent';
 import CreatePassiveSellOfferComponent from './createPassiveSellOffer/CreatePassiveSellOfferComponent';
 import EndSponsoringFutureReservesComponent from './endSponsoringFutureReserves/EndSponsoringFutureReservesComponent';
+import InvokeHostFunctionComponent from './invokeHostFunction/InvokeHostFunctionComponent';
 import LiquidityPoolDepositComponent from './liquidityPoolDeposit/LiquidityPoolDepositComponent';
 import LiquidityPoolWithdrawComponent from './liquidityPoolWithdraw/LiquidityPoolWithdrawComponent';
 import ManageBuyOfferComponent from './manageBuyOffer/ManageBuyOfferComponent';
@@ -150,6 +151,9 @@ export default class DynamicOperationComponentFactory {
                 break;
             case 'clawbackClaimableBalance':
                 operationComponent = new ClawbackClaimableBalanceComponent(tx, operation);
+                break;
+            case 'invokeHostFunction':
+                operationComponent = new InvokeHostFunctionComponent(tx, operation);
                 break;
             default:
                 undefined;
