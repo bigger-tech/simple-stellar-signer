@@ -31,6 +31,7 @@ export interface ITranslation {
     ENGLISH: string;
     ERROR: string;
     EXPAND_ALL: string;
+    EXTEND_TO: string;
     FROM: string;
     FUNCTION_TYPE: string;
     GO_TO_CONNECT: string;
@@ -79,6 +80,7 @@ export interface ITranslation {
     OPERATION_CREATE_CLAIMABLE_BALANCE: string;
     OPERATION_CREATE_PASSIVE_SELL_OFFER: string;
     OPERATION_END_SPONSORING_FUTURE_RESERVES: string;
+    OPERATION_EXTEND_FOOTPRINT_TTL: string;
     OPERATION_INVOKE_HOST_FUNCTION: string;
     OPERATION_LIQUIDITY_POOL_DEPOSIT: string;
     OPERATION_LIQUIDITY_POOL_WITHDRAW: string;
