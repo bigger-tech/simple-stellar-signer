@@ -13,7 +13,7 @@ export default class InvokeHostFunctionComponent extends AbstractOperationCompon
         if (funcValue instanceof xdr.CreateContractArgs) functionType = 'Create Contract';
 
         super({
-            title: 'INVOKE_HOST_FUNCTION',
+            title: 'OPERATION_INVOKE_HOST_FUNCTION',
             operationItems: [
                 { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'FUNCTION_TYPE', value: functionType },
