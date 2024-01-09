@@ -14,6 +14,7 @@ import CreateAccountComponent from './createAccount/CreateAccountComponent';
 import CreateClaimableBalanceComponent from './createClaimableBalance/CreateClaimableBalanceComponent';
 import CreatePassiveSellOfferComponent from './createPassiveSellOffer/CreatePassiveSellOfferComponent';
 import EndSponsoringFutureReservesComponent from './endSponsoringFutureReserves/EndSponsoringFutureReservesComponent';
+import ExtendFootprintComponent from './extendFootprint/ExtendFootprintComponent';
 import InvokeHostFunctionComponent from './invokeHostFunction/InvokeHostFunctionComponent';
 import LiquidityPoolDepositComponent from './liquidityPoolDeposit/LiquidityPoolDepositComponent';
 import LiquidityPoolWithdrawComponent from './liquidityPoolWithdraw/LiquidityPoolWithdrawComponent';
@@ -158,6 +159,9 @@ export default class DynamicOperationComponentFactory {
                 break;
             case 'restoreFootprint':
                 operationComponent = new RestoreFootprintComponent(tx, operation);
+                break;
+            case 'extendFootprintTtl':
+                operationComponent = new ExtendFootprintComponent(tx, operation);
                 break;
             default:
                 undefined;
