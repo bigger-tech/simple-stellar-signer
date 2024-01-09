@@ -62,17 +62,17 @@ It can be embedded on any website and supports multiple wallets and languages.
     <tbody>
     <tr>
         <td>Public</td>
-        <td><a href="https://sign.plutodao.finance">sign.plutodao.finance</a></td>
+        <td><a href="https://sign.scalemote.io">sign.scalemote.io</a></td>
         <td>Implemented</td>
     </tr>
     <tr>
         <td>Testnet</td>
-        <td><a href="https://sign-test.plutodao.finance">sign-test.plutodao.finance</a></td>
+        <td><a href="https://sign-testnet.scalemote.io">sign-testnet.scalemote.io</a></td>
         <td>Implemented</td>
     </tr>
     <tr>
         <td>Futurenet</td>
-        <td><a href="https://sign-futurenet.plutodao.finance">sign-futurenet.plutodao.finance</a></td>
+        <td><a href="https://sign-futurenet.scalemote.io">sign-futurenet.scalemote.io</a></td>
         <td>Implemented</td>
     </tr>
     </tbody>
@@ -137,7 +137,7 @@ send a message to your website with the Public Key of the logged in account and 
     <body>
         <button onclick="openConnectWindow()">Connect</button>
         <script>
-            const simpleSignerUrl = 'https://sign.plutodao.finance';
+            const simpleSignerUrl = 'https://sign.scalemote.io';
 
             function openConnectWindow() {
                 window.open(
@@ -200,11 +200,11 @@ endpoint. Simple Signer will send a message back to your website with the signed
             const unsignedXdr =
                 'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
 
-            const simpleSignerUrl = 'https://sign.plutodao.finance';
+            const simpleSignerUrl = 'https://sign.scalemote.io';
 
             async function openSignWindow(xdr) {
                 const signWindow = window.open(
-                    `${simpleSignerUrl}/sign?xdr=${unsignedXdr}`,
+                    `${simpleSignerUrl}/sign/?xdr=${unsignedXdr}`,
                     'Sign_Window',
                     'width=360, height=700',
                 );
@@ -275,7 +275,7 @@ Via URL:
 const unsignedXdr =
     'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
 const signWindow = window.open(
-    `https://sign.plutodao.finance/sign?xdr=${unsignedXdr}`,
+    `https://sign.scalemote.io/sign/?xdr=${unsignedXdr}`,
     'Sign_Window',
     'width=360, height=700',
 );
@@ -288,7 +288,7 @@ Post Message has some advantages over the URL method which are covered in the [S
 ```javascript
 const unsignedXdr =
     'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
-const simpleSignerUrl = 'https://sign.plutodao.finance';
+const simpleSignerUrl = 'https://sign.scalemote.io';
 const signWindow = window.open(
     `${simpleSignerUrl}/sign`,
     'Sign_Window',
@@ -389,7 +389,7 @@ parameter in the URL or by sending a message to Simple Signer. By default, all a
 
 If you want to configure the wallets that are presented to the user, use valid wallet values appended in
 multiple `wallets` parameters, for example:
-`https://sign.plutodao.finance/connect?wallets=xbull&wallets=freighter&wallets=albedo`
+`https://sign.scalemote.io/connect/?wallets=xbull&wallets=freighter&wallets=albedo`
 
 ### Via Post Message
 
@@ -402,7 +402,7 @@ You may also choose to send the wallets at another moment, once Simple Signer is
 Example usage:
 
 ```javascript
-const simpleSignerUrl = 'https://sign.plutodao.finance';
+const simpleSignerUrl = 'https://sign.scalemote.io';
 const connectWindow = window.open(
     `${simpleSignerUrl}/connect`,
     'Connect_Window',
@@ -452,7 +452,7 @@ See examples below via URL and via postMessage for a clearer picture on how they
 This is the preferred method to pass messages to Simple Signer.
 
 ```javascript
-const simpleSignerUrl = 'https://sign.plutodao.finance';
+const simpleSignerUrl = 'https://sign.scalemote.io';
 const signWindow = window.open(
     `${simpleSignerUrl}/sign`,
     'Sign_Window',
@@ -499,11 +499,11 @@ window.addEventListener('message', (e) => {
 Please note operation groups are not available via URL, use postMessage instead.
 
 ```javascript
-const simpleSignerUrl = 'https://sign.plutodao.finance';
+const simpleSignerUrl = 'https://sign.scalemote.io';
 const sampleXdr =
     'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
 const signWindow = window.open(
-    `${simpleSignerUrl}/sign?xdr=${sampleXdr}&description=This is a sampe description for this transaction`,
+    `${simpleSignerUrl}/sign/?xdr=${sampleXdr}&description=This is a sampe description for this transaction`,
     'Sign_Window',
     'width=360, height=700',
 );
