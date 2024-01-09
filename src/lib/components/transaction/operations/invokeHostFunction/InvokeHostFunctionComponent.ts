@@ -1,7 +1,7 @@
-import { InvokeHostFunction } from 'src/lib/stellar/InvokeHostFunction';
 import type { Operation, Transaction } from 'stellar-sdk';
 import { xdr } from 'stellar-sdk';
 
+import { InvokeHostFunction } from '../../../../../lib/stellar/InvokeHostFunction';
 import AbstractOperationComponent from '../AbstractOperationComponent';
 import type IOperationComponent from '../IOperationComponent';
 
