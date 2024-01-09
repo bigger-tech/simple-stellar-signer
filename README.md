@@ -62,17 +62,17 @@ It can be embedded on any website and supports multiple wallets and languages.
     <tbody>
     <tr>
         <td>Public</td>
-        <td><a href="https://sign.plutodao.finance">sign.plutodao.finance</a></td>
+        <td><a href="https://sign.scalemote.io">sign.scalemote.io</a></td>
         <td>Implemented</td>
     </tr>
     <tr>
         <td>Testnet</td>
-        <td><a href="https://sign-test.plutodao.finance">sign-test.plutodao.finance</a></td>
+        <td><a href="https://sign-testnet.scalemote.io">sign-testnet.scalemote.io</a></td>
         <td>Implemented</td>
     </tr>
     <tr>
         <td>Futurenet</td>
-        <td><a href="https://sign-futurenet.plutodao.finance">sign-futurenet.plutodao.finance</a></td>
+        <td><a href="https://sign-futurenet.scalemote.io">sign-futurenet.scalemote.io</a></td>
         <td>Implemented</td>
     </tr>
     </tbody>
@@ -204,7 +204,7 @@ endpoint. Simple Signer will send a message back to your website with the signed
 
             async function openSignWindow(xdr) {
                 const signWindow = window.open(
-                    `${simpleSignerUrl}/sign?xdr=${unsignedXdr}`,
+                    `${simpleSignerUrl}/sign/?xdr=${unsignedXdr}`,
                     'Sign_Window',
                     'width=360, height=700',
                 );
@@ -275,7 +275,7 @@ Via URL:
 const unsignedXdr =
     'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
 const signWindow = window.open(
-    `https://sign.plutodao.finance/sign?xdr=${unsignedXdr}`,
+    `https://sign.plutodao.finance/sign/?xdr=${unsignedXdr}`,
     'Sign_Window',
     'width=360, height=700',
 );
@@ -389,7 +389,7 @@ parameter in the URL or by sending a message to Simple Signer. By default, all a
 
 If you want to configure the wallets that are presented to the user, use valid wallet values appended in
 multiple `wallets` parameters, for example:
-`https://sign.plutodao.finance/connect?wallets=xbull&wallets=freighter&wallets=albedo`
+`https://sign.plutodao.finance/connect/?wallets=xbull&wallets=freighter&wallets=albedo`
 
 ### Via Post Message
 
@@ -503,7 +503,7 @@ const simpleSignerUrl = 'https://sign.plutodao.finance';
 const sampleXdr =
     'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
 const signWindow = window.open(
-    `${simpleSignerUrl}/sign?xdr=${sampleXdr}&description=This is a sampe description for this transaction`,
+    `${simpleSignerUrl}/sign/?xdr=${sampleXdr}&description=This is a sampe description for this transaction`,
     'Sign_Window',
     'width=360, height=700',
 );
