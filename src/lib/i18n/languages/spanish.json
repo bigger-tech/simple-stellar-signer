@@ -88,6 +88,7 @@
     "OPERATION_PATH_PAYMENT_STRICT_RECEIVE": "Path Payment Strict Receive",
     "OPERATION_PATH_PAYMENT_STRICT_SEND": "Path Payment Strict Send",
     "OPERATION_PAYMENT": "Pago",
+    "OPERATION_RESTORE_FOOTPRINT": "Restaurar huella",
     "OPERATION_REVOKE_ACCOUNT_SPONSORSHIP": "Eliminar patrocinio de la cuenta",
     "OPERATION_REVOKE_CLAIMABLE_BALANCE_SPONSORSHIP": "Eliminar patrocinio de saldo reclamable",
     "OPERATION_REVOKE_DATA_SPONSORSHIP": "Eliminar datos de patrocinio",
