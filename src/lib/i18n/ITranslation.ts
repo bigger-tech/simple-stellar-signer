@@ -32,6 +32,7 @@ export interface ITranslation {
     ERROR: string;
     EXPAND_ALL: string;
     FROM: string;
+    FUNCTION_TYPE: string;
     GO_TO_CONNECT: string;
     GO_TO_SIGN: string;
     HIDE_ALL: string;
@@ -41,6 +42,7 @@ export interface ITranslation {
     HOME_DOMAIN: string;
     INSTALL: string;
     INVALID_KEY: string;
+    INVOKE_HOST_FUNCTION: string;
     IS_AUTHORIZED_TO_MAINTAIN_LIABILITIES: string;
     IS_AUTHORIZED: string;
     IS_CLAWBACK_ENABLED: string;
