@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { expect } from '@jest/globals';
-import SorobanClient from 'soroban-client';
 import StellarSdk from 'stellar-sdk';
 import { TextDecoder, TextEncoder } from 'util';
 
@@ -16,21 +15,6 @@ jest.mock('../../../../constants', () => ({
     STELLAR_NETWORK: 'futurenet',
 }));
 
-jest.mock('soroban-client', () => {
-    return {
-        Keypair: {
-            fromSecret: jest.fn(),
-        },
-        Transaction: {
-            sign: jest.fn(),
-            toXDR: jest.fn(),
-        },
-        Networks: {
-            FUTURENET: 'Test SDF Future Network ; October 2022',
-        },
-    };
-});
-
 const mockTx = {
     sign: jest.fn(),
     toXDR: jest.fn(),
@@ -38,11 +22,17 @@ const mockTx = {
 
 jest.mock('stellar-sdk', () => {
     return {
+        Keypair: {
+            fromSecret: jest.fn(),
+        },
         Transaction: jest.fn().mockImplementation(() => mockTx),
+        Networks: {
+            FUTURENET: 'Test SDF Future Network ; October 2022',
+        },
     };
 });
 
-describe('Pivate Key management', () => {
+describe('Private Key management', () => {
     const storage = new LocalStorage();
     let wallet: PrivateKey;
     const privateKey = 'SANEPI74NFPALZ4JOUTRBOUJGVFOFRKRQT2BZN3UR5ULVEN4FJKT7GRF';
@@ -54,26 +44,26 @@ describe('Pivate Key management', () => {
         wallet = new PrivateKey(storage);
     });
     it('Should show a private key from the Futurenet network', async () => {
-        SorobanClient.Keypair.fromSecret.mockReturnValue({
+        StellarSdk.Keypair.fromSecret.mockReturnValue({
             publicKey: jest.fn(() => expectedPublicKey),
         });
-        const publickKey = await wallet.getPublicKey(privateKey);
+        const publicKey = await wallet.getPublicKey(privateKey);
 
-        expect(publickKey).toEqual(expectedPublicKey);
+        expect(publicKey).toEqual(expectedPublicKey);
     });
     it('Should sign a transaction successfully from the Futurenet network', async () => {
         jest.spyOn(mockTx, 'sign').mockImplementationOnce(() => signedTransaction);
         jest.spyOn(mockTx, 'toXDR').mockImplementationOnce(() => signedTransaction);
-        SorobanClient.Keypair.fromSecret.mockReturnValue(() => expectedPublicKey);
+        StellarSdk.Keypair.fromSecret.mockReturnValue(() => expectedPublicKey);
 
         const signedXdr =
             'AAAAAgAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAGQAATOSAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAAAF9eEAAAAAAAAAAAA=';
-        const tx = new StellarSdk.Transaction(signedXdr, SorobanClient.Networks.FUTURENET);
+        const tx = new StellarSdk.Transaction(signedXdr, StellarSdk.Networks.FUTURENET);
 
         const transaction = await wallet.sign(tx);
 
         expect(transaction).toEqual(signedTransaction);
         expect(mockTx.sign).toHaveBeenCalledTimes(1);
-        expect(SorobanClient.Keypair.fromSecret).toHaveBeenCalledTimes(1);
+        expect(StellarSdk.Keypair.fromSecret).toHaveBeenCalledTimes(1);
     });
 });

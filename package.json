@@ -88,7 +88,6 @@
         "@walletconnect/types": "^2.9.2",
         "decode-uri-component": "^0.2.2",
         "json5": "^2.2.2",
-        "soroban-client": "0.3.0",
         "stellar-sdk": "^11.1.0",
         "util": "^0.12.4"
     }
