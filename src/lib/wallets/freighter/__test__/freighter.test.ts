@@ -1,11 +1,18 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { expect } from '@jest/globals';
 import { signTransaction } from '@stellar/freighter-api';
-import SorobanClient from 'soroban-client';
+import * as StellarSdk from 'stellar-sdk';
 
 import { StellarNetwork } from '../../../stellar/StellarNetwork';
 import LocalStorage from '../../../storage/storage';
 import Freighter from '../Freighter';
+
+const signedXdr =
+    'AAAAAgAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAGQAATOSAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAAAF9eEAAAAAAAAAAAA=';
+const mockTx = {
+    sign: jest.fn(),
+    toXDR: jest.fn().mockReturnValue(signedXdr),
+};
 
 jest.mock('../../../../constants', () => ({
     STELLAR_NETWORK: 'futurenet',
@@ -17,9 +24,9 @@ jest.mock('@stellar/freighter-api', () => ({
 
 jest.mock('stellar-sdk', () => {
     return {
-        Transaction: {
-            sign: jest.fn(),
-            toXDR: jest.fn(),
+        Transaction: jest.fn().mockImplementation(() => mockTx),
+        Networks: {
+            FUTURENET: 'Test SDF Future Network ; October 2022',
         },
     };
 });
@@ -34,9 +41,7 @@ describe('Freighter management', () => {
         freighter = new Freighter(storage);
     });
     it('Should sign a transaction successfully from the Futurenet network', async () => {
-        const signedXdr =
-            'AAAAAgAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAGQAATOSAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAAAF9eEAAAAAAAAAAAA=';
-        const tx = SorobanClient.TransactionBuilder.fromXDR(signedXdr, SorobanClient.Networks.FUTURENET);
+        const tx = new StellarSdk.Transaction(signedXdr, StellarSdk.Networks.FUTURENET);
         await freighter.sign(tx);
 
         expect(freighter.freighterNetwork).toEqual(freighterNetwork);

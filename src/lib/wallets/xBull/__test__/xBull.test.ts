@@ -1,9 +1,16 @@
 import { expect } from '@jest/globals';
-import SorobanClient from 'soroban-client';
+import * as StellarSdk from 'stellar-sdk';
 
 import { StellarNetwork } from '../../../stellar/StellarNetwork';
 import LocalStorage from '../../../storage/storage';
 import XBull from '../XBull';
+
+const signedXdr =
+    'AAAAAgAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAGQAATOSAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAAAF9eEAAAAAAAAAAAA=';
+const mockTx = {
+    sign: jest.fn(),
+    toXDR: jest.fn().mockReturnValue(signedXdr),
+};
 
 jest.mock('../../../../constants', () => ({
     STELLAR_NETWORK: 'futurenet',
@@ -11,8 +18,9 @@ jest.mock('../../../../constants', () => ({
 
 jest.mock('stellar-sdk', () => {
     return {
-        Transaction: {
-            toXDR: jest.fn(),
+        Transaction: jest.fn().mockImplementation(() => mockTx),
+        Networks: {
+            FUTURENET: 'Test SDF Future Network ; October 2022',
         },
     };
 });
@@ -42,9 +50,7 @@ describe('xBull management', () => {
         jest.spyOn(mockBridge, 'sign').mockImplementationOnce(() => responseXdr);
         jest.spyOn(mockBridge, 'closeConnections').mockReturnValue(() => '');
 
-        const signedXdr =
-            'AAAAAgAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAGQAATOSAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAAAF9eEAAAAAAAAAAAA=';
-        const tx = SorobanClient.TransactionBuilder.fromXDR(signedXdr, SorobanClient.Networks.FUTURENET);
+        const tx = new StellarSdk.Transaction(signedXdr, StellarSdk.Networks.FUTURENET);
 
         const result = await xBull.sign(tx);
 
