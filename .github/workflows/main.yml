@@ -1,9 +1,9 @@
 name: Cypress & Jest Tests
 on:
     push:
-        branches: [main]
+        branches: [simple-stellar-signer]
     pull_request:
-        branches: [main]
+        branches: [simple-stellar-signer]
 jobs:
     install-cache:
         runs-on: ubuntu-latest
