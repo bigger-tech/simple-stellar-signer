@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Transaction, xdr } from 'stellar-sdk';
+    import { FeeBumpTransaction, Transaction, TransactionBuilder, xdr } from 'stellar-sdk';
     import { createEventDispatcher } from 'svelte';
     import { Link } from 'svelte-navigator';
 
@@ -23,6 +23,7 @@
     import { checkIfAllAreFalse, checkIfAllAreTrue, getShortedStellarKey } from './transactionHelper';
     import {
         areOperationsExpanded,
+        isFeeSourceAccountClicked,
         isSourceAccountClicked,
         isUserPublicKeyClicked,
         operationsVisibility,
@@ -30,13 +31,18 @@
 
     export let transactionMessage: ITransactionMessage;
     export let walletConnectService: WalletConnectService;
-
     const storage = new LocalStorage();
     const dispatch = createEventDispatcher();
-
-    let wallet: IWallet;
     const storedWallet = storage.getItem('wallet');
     const walletFactory = new WalletFactory();
+    let wallet: IWallet;
+    let feeBumpTx: FeeBumpTransaction | undefined;
+    let tx: Transaction;
+    let network: string;
+    let operationComponents: OperationComponent[] = [];
+    let transactionGroups: (OperationComponent | IOperationGroupComponent)[] = [];
+    let shortedSourceAccount: string;
+    let isValidXdr = false;
 
     if (storedWallet) {
         if (storedWallet === WalletConnect.NAME) {
@@ -45,14 +51,6 @@
             wallet = walletFactory.create(storedWallet);
         }
     }
-
-    let tx: Transaction;
-    let network: string;
-
-    let operationComponents: OperationComponent[] = [];
-    let transactionGroups: (OperationComponent | IOperationGroupComponent)[] = [];
-    let shortedSourceAccount: string;
-    let isValidXdr = false;
 
     function toggleOperationVisibility(i: number) {
         $operationsVisibility[i] = !$operationsVisibility[i];
@@ -69,6 +67,10 @@
         $isSourceAccountClicked = !$isSourceAccountClicked;
     }
 
+    function toggleFeeSourceAccount() {
+        $isFeeSourceAccountClicked = !$isFeeSourceAccountClicked;
+    }
+
     function convertStroopsToXLM(fee: string) {
         const stroopsDivider = 10000000;
         return Number(fee) / stroopsDivider;
@@ -82,7 +84,14 @@
 
     try {
         isValidXdr = xdr.TransactionEnvelope.validateXDR(transactionMessage.xdr, 'base64');
-        tx = new Transaction(transactionMessage.xdr, CURRENT_NETWORK_PASSPHRASE);
+        const buildedTx = TransactionBuilder.fromXDR(transactionMessage.xdr, CURRENT_NETWORK_PASSPHRASE);
+
+        if (buildedTx instanceof FeeBumpTransaction) {
+            feeBumpTx = buildedTx;
+            tx = buildedTx.innerTransaction;
+        } else {
+            tx = buildedTx;
+        }
 
         network = CURRENT_STELLAR_NETWORK;
 
@@ -109,6 +118,11 @@
 
 {#if isValidXdr}
     <h1 class="simple-signer tx-title">{$language.SIGN}</h1>
+
+    {#if feeBumpTx}
+        <h2 class="simple-signer tx-title">{$language.FEE_PAYMENT}</h2>
+    {/if}
+
     {#if transactionMessage.description}
         <div class="simple-signer tx-description-container">
             <p class="simple-signer tx-description-text">{transactionMessage.description}</p>
@@ -116,6 +130,31 @@
     {/if}
     {#if wallet}
         <div class="simple-signer tx-data-container">
+            {#if feeBumpTx}
+                <div class="simple-signer fee-bump-tx-info-container">
+                    <div>
+                        <p class="simple-signer source-account">
+                            {$language.SOURCE_ACCOUNT}
+                            {$language.YOUR_ACCOUNT}
+                        </p>
+                        <span class="simple-signer user-publickey" on:click={toggleFeeSourceAccount}>
+                            {$isFeeSourceAccountClicked
+                                ? feeBumpTx.feeSource
+                                : getShortedStellarKey(feeBumpTx.feeSource)}
+                        </span>
+                    </div>
+
+                    <div>
+                        <p>
+                            {$language.FEE_TO_PAY}:
+                            <span class="simple-signer tx-network-text">{convertStroopsToXLM(feeBumpTx.fee)} XLM</span>
+                        </p>
+                    </div>
+                </div>
+
+                <hr class="simple-signer separator" />
+            {/if}
+
             <div class="simple-signer tx-network-container">
                 <p>{$language.NETWORK}:</p>
                 &nbsp;
@@ -124,14 +163,15 @@
             <div class="simple-signer tx-sequence-number">
                 <p class="sequence-number">{$language.SEQUENCE_NUMBER} {tx ? tx.sequence : ''}</p>
             </div>
+
             <div class="simple-signer tx-source-account">
                 <p class="simple-signer source-account">
                     {$language.SOURCE_ACCOUNT}
                     {$language.YOUR_ACCOUNT}
                 </p>
-                <span class="simple-signer user-publickey" on:click={toggleSourceAccount}
-                    >{$isSourceAccountClicked ? tx.source : shortedSourceAccount}</span
-                >
+                <span class="simple-signer user-publickey" on:click={toggleSourceAccount}>
+                    {$isSourceAccountClicked ? tx.source : shortedSourceAccount}
+                </span>
             </div>
         </div>
         <Signatures signatures={tx.signatures} />
@@ -200,7 +240,8 @@
             <button class="simple-signer cancel-button" on:click={() => dispatch('cancel')}>{$language.CANCEL}</button>
             <button
                 class="simple-signer sign-tx-button"
-                on:click={async () => dispatch('confirm', await wallet.sign(tx))}>{$language.CONFIRM}</button
+                on:click={async () => dispatch('confirm', await wallet.sign(feeBumpTx || tx))}
+                >{$language.CONFIRM}</button
             >
         </div>
     {:else}
@@ -220,6 +261,18 @@
 {/if}
 
 <style>
+    .fee-bump-tx-info-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .separator {
+        border: 1px solid #e5e5e5;
+        width: 100%;
+        margin: 20px 0 20px 0;
+    }
+
     .user-publickey {
         color: #2f69b7;
         word-wrap: break-word;
