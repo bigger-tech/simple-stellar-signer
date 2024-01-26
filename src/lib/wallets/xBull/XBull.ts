@@ -1,5 +1,5 @@
 import { xBullWalletConnect } from '@creit-tech/xbull-wallet-connect';
-import type { Transaction } from 'stellar-sdk';
+import type { FeeBumpTransaction, Transaction } from 'stellar-sdk';
 
 import { XBullIcon } from '../../../assets';
 import { CURRENT_STELLAR_NETWORK, StellarNetwork } from '../../stellar/StellarNetwork';
@@ -33,7 +33,7 @@ export default class XBull extends AbstractWallet implements IWallet {
         return publicKey;
     }
 
-    public override async sign(tx: Transaction): Promise<string> {
+    public override async sign(tx: Transaction | FeeBumpTransaction): Promise<string> {
         const bridge = new xBullWalletConnect();
         const signedXdr = await bridge.sign({ xdr: tx.toXDR(), network: this.XBullNetwork });
         bridge.closeConnections();

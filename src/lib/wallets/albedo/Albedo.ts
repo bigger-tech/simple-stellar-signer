@@ -1,4 +1,4 @@
-import type { Transaction } from 'stellar-sdk';
+import type { FeeBumpTransaction, Transaction } from 'stellar-sdk';
 
 import { AlbedoIcon } from '../../../assets';
 import { CURRENT_STELLAR_NETWORK, StellarNetwork } from '../../stellar/StellarNetwork';
@@ -30,7 +30,7 @@ export default class Albedo extends AbstractWallet implements IWallet {
         return requestPubKey.pubkey;
     }
 
-    public override async sign(tx: Transaction) {
+    public override async sign(tx: Transaction | FeeBumpTransaction): Promise<string> {
         const signedXdr = await window.albedo.tx({ xdr: tx.toXDR(), network: this.albedoNetwork });
         return signedXdr.signed_envelope_xdr;
     }

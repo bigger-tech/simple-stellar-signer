@@ -1,6 +1,6 @@
 import type { SessionTypes } from '@walletconnect/types';
 import type IStorage from 'src/lib/storage/IStorage';
-import type { Transaction } from 'stellar-sdk';
+import type { FeeBumpTransaction, Transaction } from 'stellar-sdk';
 
 import { WalletConnectIcon } from '../../../assets';
 import { NoPublicKeyError } from '../../errors/WalletConnectErrors';
@@ -47,7 +47,7 @@ export default class WalletConnect extends AbstractWallet implements IWallet {
         return publicKey;
     }
 
-    public override async sign(tx: Transaction): Promise<string> {
+    public override async sign(tx: Transaction | FeeBumpTransaction): Promise<string> {
         const { signedXDR } = await this.walletConnectService.makeRequest({
             network: this.walletConnectNetwork,
             method: WalletConnectAllowedMethods.SIGN,
