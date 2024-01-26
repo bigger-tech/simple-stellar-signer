@@ -32,6 +32,9 @@ export interface ITranslation {
     ERROR: string;
     EXPAND_ALL: string;
     EXTEND_TO: string;
+    FEE_PAYMENT: string;
+    FEE_SOURCE: string;
+    FEE_TO_PAY: string;
     FROM: string;
     FUNCTION_TYPE: string;
     GO_TO_CONNECT: string;
