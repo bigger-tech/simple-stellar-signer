@@ -23,7 +23,6 @@
     import { checkIfAllAreFalse, checkIfAllAreTrue, getShortedStellarKey } from './transactionHelper';
     import {
         areOperationsExpanded,
-        isFeeSourceAccountClicked,
         isSourceAccountClicked,
         isUserPublicKeyClicked,
         operationsVisibility,
@@ -31,10 +30,12 @@
 
     export let transactionMessage: ITransactionMessage;
     export let walletConnectService: WalletConnectService;
+
     const storage = new LocalStorage();
     const dispatch = createEventDispatcher();
     const storedWallet = storage.getItem('wallet');
     const walletFactory = new WalletFactory();
+
     let wallet: IWallet;
     let feeBumpTx: FeeBumpTransaction | undefined;
     let tx: Transaction;
@@ -65,10 +66,6 @@
 
     function toggleSourceAccount() {
         $isSourceAccountClicked = !$isSourceAccountClicked;
-    }
-
-    function toggleFeeSourceAccount() {
-        $isFeeSourceAccountClicked = !$isFeeSourceAccountClicked;
     }
 
     function convertStroopsToXLM(fee: string) {
@@ -120,7 +117,7 @@
     <h1 class="simple-signer tx-title">{$language.SIGN}</h1>
 
     {#if feeBumpTx}
-        <h2 class="simple-signer tx-title">{$language.FEE_PAYMENT}</h2>
+        <h2 class="simple-signer tx-title">{$language.FEE_BUMP}</h2>
     {/if}
 
     {#if transactionMessage.description}
@@ -132,24 +129,11 @@
         <div class="simple-signer tx-data-container">
             {#if feeBumpTx}
                 <div class="simple-signer fee-bump-tx-info-container">
-                    <div>
-                        <p class="simple-signer source-account">
-                            {$language.SOURCE_ACCOUNT}
-                            {$language.YOUR_ACCOUNT}
-                        </p>
-                        <span class="simple-signer user-publickey" on:click={toggleFeeSourceAccount}>
-                            {$isFeeSourceAccountClicked
-                                ? feeBumpTx.feeSource
-                                : getShortedStellarKey(feeBumpTx.feeSource)}
-                        </span>
-                    </div>
-
-                    <div>
-                        <p>
-                            {$language.FEE_TO_PAY}:
-                            <span class="simple-signer tx-network-text">{convertStroopsToXLM(feeBumpTx.fee)} XLM</span>
-                        </p>
-                    </div>
+                    <p>
+                        {$language.FEE_BUMP_DESCRIPTION_1}
+                        <span class="simple-signer bold-text">{$language.FEE.toUpperCase()}</span>
+                        {$language.FEE_BUMP_DESCRIPTION_2}
+                    </p>
                 </div>
 
                 <hr class="simple-signer separator" />
@@ -167,11 +151,10 @@
             <div class="simple-signer tx-source-account">
                 <p class="simple-signer source-account">
                     {$language.SOURCE_ACCOUNT}
-                    {$language.YOUR_ACCOUNT}
+                    <span class="simple-signer user-publickey" on:click={toggleSourceAccount}>
+                        {$isSourceAccountClicked ? tx.source : shortedSourceAccount}
+                    </span>
                 </p>
-                <span class="simple-signer user-publickey" on:click={toggleSourceAccount}>
-                    {$isSourceAccountClicked ? tx.source : shortedSourceAccount}
-                </span>
             </div>
         </div>
         <Signatures signatures={tx.signatures} />
@@ -226,7 +209,9 @@
             <div class="simple-signer tx-fee-container">
                 <p class="simple-signer operation-info-title bottom-info-title">{$language.NETWORK_FEE}</p>
                 &nbsp;
-                <p class="simple-signer bottom-info-paragraph">{convertStroopsToXLM(tx.fee)} XLM</p>
+                <p class="simple-signer bottom-info-paragraph">
+                    {convertStroopsToXLM(feeBumpTx ? feeBumpTx.fee : tx.fee)} XLM
+                </p>
             </div>
             {#if tx.memo.value}
                 <div class="simple-signer memo-container">
@@ -261,6 +246,10 @@
 {/if}
 
 <style>
+    .bold-text {
+        font-weight: 500;
+    }
+
     .fee-bump-tx-info-container {
         display: flex;
         flex-direction: column;
