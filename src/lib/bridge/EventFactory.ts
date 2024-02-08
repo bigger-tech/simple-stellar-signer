@@ -38,4 +38,22 @@ export default class EventFactory {
             page: SimpleSignerPageType.SIGN,
         };
     }
+
+    static createOnPaymentRequest(
+        receiver: string,
+        amount: number,
+        assetType: string,
+        issuer: string,
+    ): ISimpleSignerEvent {
+        return {
+            type: SimpleSignerEventType.ON_PAYMENT_REQUEST,
+            message: {
+                receiver,
+                amount,
+                assetType,
+                issuer,
+            },
+            page: SimpleSignerPageType.PAYMENT,
+        };
+    }
 }

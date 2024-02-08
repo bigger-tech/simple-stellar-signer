@@ -1,21 +1,25 @@
 import EventFactory from './EventFactory';
 import type ISimpleSignerEvent from './ISimpleSignerEvent';
 import type IAvailableWalletsMessage from './availableWalletsMessage/IAvailableWalletsMessage';
+import type { IPaymentMessage } from './paymentMessage/IPaymentMessage';
 import type { ITransactionMessage } from './transactionMessage/ITransactionMessage';
 
 export type IAvailableWalletsMessageHandler = (message: IAvailableWalletsMessage) => void;
 export type ITransactionMessageHandler = (message: ITransactionMessage) => void;
+export type IPaymentMessageHandler = (message: IPaymentMessage) => void;
 
 export enum SimpleSignerEventType {
     ON_CONNECT = 'onConnect',
     ON_READY = 'onReady',
     ON_SIGN = 'onSign',
     ON_CANCEL = 'onCancel',
+    ON_PAYMENT_REQUEST = 'onPayment',
 }
 
 export enum SimpleSignerPageType {
     CONNECT = 'connect',
     SIGN = 'sign',
+    PAYMENT = 'payment',
 }
 
 export default class Bridge {
@@ -31,6 +35,7 @@ export default class Bridge {
     }
     private availableWalletsMessageHandlers: IAvailableWalletsMessageHandler[] = [];
     private transactionMessageHandlers: ITransactionMessageHandler[] = [];
+    private paymentMessageHandlers: IPaymentMessageHandler[] = [];
 
     public sendSignedTx(signedXDR: string) {
         this.mainActionPerformed = true;
@@ -49,7 +54,6 @@ export default class Bridge {
     public sendOnConnectEvent(publicKey: string, wallet: string): void {
         this.mainActionPerformed = true;
         this.sendMessage(EventFactory.createOnConnectEvent(publicKey, wallet));
-        this.closeWindow();
     }
 
     public addAvailableWalletsMessageHandler(handler: IAvailableWalletsMessageHandler) {
@@ -58,6 +62,10 @@ export default class Bridge {
 
     public addTransactionMessageHandler(handler: ITransactionMessageHandler) {
         this.transactionMessageHandlers.push(handler);
+    }
+
+    public addPaymentMessageHandler(handler: IPaymentMessageHandler) {
+        this.paymentMessageHandlers.push(handler);
     }
 
     public getTransactionMessageFromUrl(queryString?: string): ITransactionMessage | null {
@@ -77,10 +85,35 @@ export default class Bridge {
         }
     }
 
+    public getPaymentMessageFromUrl(queryString?: string): IPaymentMessage | null {
+        const urlParams = new URLSearchParams(queryString || window.location.search);
+        const receiver = urlParams.get('receiver');
+        const amount = urlParams.get('amount');
+        const assetType = urlParams.get('assetType');
+        const issuer = urlParams.get('issuer');
+
+        if (receiver && amount && assetType && issuer) {
+            return {
+                receiver,
+                amount,
+                assetType,
+                issuer,
+            };
+        } else {
+            return null;
+        }
+    }
+
     public getWalletsFromUrl(): string[] {
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         return urlParams.getAll('wallets');
+    }
+
+    public getRedirectFromUrl(): string | null {
+        const queryString = window.location.search;
+        const urlParams = new URLSearchParams(queryString);
+        return urlParams.get('redirect');
     }
 
     private messageHandler(e: MessageEvent): void {
@@ -95,9 +128,15 @@ export default class Bridge {
             this.transactionMessageHandlers.forEach((handler) => handler(message));
             return;
         }
+
+        if ('receiver' in e.data && 'amount' in e.data && 'assetType' in e.data && 'issuer' in e.data) {
+            const message = e.data as IPaymentMessage;
+            this.paymentMessageHandlers.forEach((handler) => handler(message));
+            return;
+        }
     }
 
-    private closeWindow() {
+    public closeWindow() {
         return window.close();
     }
 
@@ -105,5 +144,10 @@ export default class Bridge {
         if (window.opener) {
             window.opener.postMessage(message, '*');
         }
+    }
+
+    public sendPaymentRequest(receiver: string, amount: number, assetType: string, issuer: string) {
+        const paymentRequestEvent = EventFactory.createOnPaymentRequest(receiver, amount, assetType, issuer);
+        this.sendMessage(paymentRequestEvent);
     }
 }
