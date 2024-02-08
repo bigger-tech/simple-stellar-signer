@@ -1,6 +1,7 @@
 /// <reference types="cypress" />
 /// <reference types="@testing-library/cypress"/>
 import { operationsXdr } from '../../fixtures/operations.json';
+import { amountToSend, assetType, destinationAccount, issuer } from '../../fixtures/payment.json';
 
 const operationGroupTitle = 'Payment';
 const operationGroupDescription = 'This is a merge account operation';
@@ -36,5 +37,18 @@ describe('Events', () => {
         cy.get('.operation-group-description').contains(operationGroupDescription);
         cy.get('.tx-operation-container').should('have.length', 2);
         cy.get('.tx-description-container').contains(operationDescription);
+    });
+
+    it('should render a payment operation', () => {
+        cy.visit('/payment');
+        cy.window().then((win) => {
+            win.postMessage({
+                receiver: destinationAccount,
+                issuer,
+                amount: amountToSend,
+                assetType,
+            });
+        });
+        cy.get('.receiver').should('have.length', 1);
     });
 });
