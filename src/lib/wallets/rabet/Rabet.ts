@@ -1,4 +1,4 @@
-import type { Transaction } from 'stellar-sdk';
+import type { FeeBumpTransaction, Transaction } from 'stellar-sdk';
 
 import { RabetIcon } from '../../../assets';
 import { CURRENT_STELLAR_NETWORK, StellarNetwork } from '../../stellar/StellarNetwork';
@@ -30,7 +30,7 @@ export default class Rabet extends AbstractWallet implements IWallet {
         return result.publicKey;
     }
 
-    public override async sign(tx: Transaction): Promise<string> {
+    public override async sign(tx: Transaction | FeeBumpTransaction): Promise<string> {
         return window.rabet.sign(tx.toXDR(), this.rabetNetwork).then((result) => result.xdr);
     }
 

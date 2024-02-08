@@ -1,5 +1,5 @@
 import { getPublicKey, isConnected, signTransaction } from '@stellar/freighter-api';
-import type { Transaction } from 'stellar-sdk';
+import type { FeeBumpTransaction, Transaction } from 'stellar-sdk';
 
 import { FreighterIcon } from '../../../assets';
 import { CURRENT_STELLAR_NETWORK, StellarNetwork } from '../../stellar/StellarNetwork';
@@ -33,7 +33,7 @@ export default class Freighter extends AbstractWallet implements IWallet {
         return publicKey;
     }
 
-    public override async sign(tx: Transaction): Promise<string> {
+    public override async sign(tx: Transaction | FeeBumpTransaction): Promise<string> {
         return signTransaction(tx.toXDR(), { network: this.freighterNetwork });
     }
 

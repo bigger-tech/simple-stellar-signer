@@ -1,4 +1,4 @@
-import type { Transaction } from 'stellar-sdk';
+import type { FeeBumpTransaction, Transaction } from 'stellar-sdk';
 import { Keypair } from 'stellar-sdk';
 
 import { PrivateKeyIcon } from '../../../assets';
@@ -37,7 +37,7 @@ export default class PrivateKey extends AbstractWallet implements IWallet {
         return Keypair.fromSecret(publicKey).publicKey();
     }
 
-    public override async sign(tx: Transaction): Promise<string> {
+    public override async sign(tx: Transaction | FeeBumpTransaction): Promise<string> {
         const privateKey = await this.getDecryptedStoredPrivateKey();
         const keyPair = Keypair.fromSecret(privateKey);
 
