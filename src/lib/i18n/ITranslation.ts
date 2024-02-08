@@ -30,12 +30,15 @@ export interface ITranslation {
     ENGLISH_ISO: string;
     ENGLISH: string;
     ERROR: string;
+    ERROR_MISSING_RECEIVER_DATA: string;
     EXPAND_ALL: string;
     EXTEND_TO: string;
+    FAILED_PAYMENT: string;
     FROM: string;
     FUNCTION_TYPE: string;
     GO_TO_CONNECT: string;
     GO_TO_SIGN: string;
+    GO_TO_PAYMENT: string;
     HIDE_ALL: string;
     HIDE_KEY: string;
     HIGH_THRESHOLD: string;
@@ -104,6 +107,7 @@ export interface ITranslation {
     OPERATION: string;
     OPERATIONS_LIST: string;
     PATH: string;
+    PAY: string;
     PREAUTH_TX: string;
     PRICE: string;
     PRIVATE_KEY: string;
@@ -125,7 +129,9 @@ export interface ITranslation {
     SPANISH: string;
     SPONSORED_ID: string;
     STARTING_BALANCE: string;
+    SUCCESSFUL_PAYMENT: string;
     TIME_BOUNDS: string;
+    TO_THE_ACCOUNT: string;
     TRANSACTION: string;
     TRUSTOR: string;
     USER_IS_NOT_CONNECTED: string;
@@ -133,5 +139,6 @@ export interface ITranslation {
     WEIGHT: string;
     XDR_INVALID: string;
     XDR_NOT_PROVIDED: string;
+    YOU_ARE_PAYING: string;
     YOUR_ACCOUNT: string;
 }
