@@ -5,7 +5,7 @@ import { amountToSend, assetType, destinationAccount, issuer } from '../../fixtu
 describe('checks that the /payment component works', () => {
     const BASE_URL = '/payment';
 
-    it('should visit /sign with payment information but user is not connected', () => {
+    it('should visit /payment with payment information but user is not connected', () => {
         cy.visit(
             `${BASE_URL}?receiver=${destinationAccount}&amount=${amountToSend}&assetType=${assetType}&issuer=${issuer}`,
         );
