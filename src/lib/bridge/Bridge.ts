@@ -13,7 +13,7 @@ export enum SimpleSignerEventType {
     ON_READY = 'onReady',
     ON_SIGN = 'onSign',
     ON_CANCEL = 'onCancel',
-    ON_PAYMENT_REQUEST = 'onPayment',
+    ON_PAYMENT = 'onPayment',
 }
 
 export enum SimpleSignerPageType {

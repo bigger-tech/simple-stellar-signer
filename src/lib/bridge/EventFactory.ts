@@ -46,7 +46,7 @@ export default class EventFactory {
         issuer: string,
     ): ISimpleSignerEvent {
         return {
-            type: SimpleSignerEventType.ON_PAYMENT_REQUEST,
+            type: SimpleSignerEventType.ON_PAYMENT,
             message: {
                 receiver,
                 amount,
