@@ -89,14 +89,14 @@ export default class Bridge {
         const urlParams = new URLSearchParams(queryString || window.location.search);
         const receiver = urlParams.get('receiver');
         const amount = urlParams.get('amount');
-        const assetType = urlParams.get('assetType');
+        const assetCode = urlParams.get('assetCode');
         const issuer = urlParams.get('issuer');
 
-        if (receiver && amount && assetType && issuer) {
+        if (receiver && amount && assetCode && issuer) {
             return {
                 receiver,
                 amount,
-                assetType,
+                assetCode,
                 issuer,
             };
         } else {
@@ -129,7 +129,7 @@ export default class Bridge {
             return;
         }
 
-        if ('receiver' in e.data && 'amount' in e.data && 'assetType' in e.data && 'issuer' in e.data) {
+        if ('receiver' in e.data && 'amount' in e.data && 'assetCode' in e.data && 'issuer' in e.data) {
             const message = e.data as IPaymentMessage;
             this.paymentMessageHandlers.forEach((handler) => handler(message));
             return;
@@ -144,10 +144,5 @@ export default class Bridge {
         if (window.opener) {
             window.opener.postMessage(message, '*');
         }
-    }
-
-    public sendPaymentRequest(receiver: string, amount: number, assetType: string, issuer: string) {
-        const paymentRequestEvent = EventFactory.createOnPaymentRequest(receiver, amount, assetType, issuer);
-        this.sendMessage(paymentRequestEvent);
     }
 }

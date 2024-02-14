@@ -42,7 +42,7 @@ export default class EventFactory {
     static createOnPaymentRequest(
         receiver: string,
         amount: number,
-        assetType: string,
+        assetCode: string,
         issuer: string,
     ): ISimpleSignerEvent {
         return {
@@ -50,7 +50,7 @@ export default class EventFactory {
             message: {
                 receiver,
                 amount,
-                assetType,
+                assetCode,
                 issuer,
             },
             page: SimpleSignerPageType.PAYMENT,

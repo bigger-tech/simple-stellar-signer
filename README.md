@@ -367,12 +367,12 @@ You can pass the payment parameters such as the receiver's account, amount, asse
                 // Define payment parameters
                 const receiver = 'Receiver public key';
                 const amount = '10';
-                const assetType = 'native'; // 'native' for XLM, or asset code for other assets
-                const issuer = ''; // If assetType is not 'native', provide issuer's public key
+                const assetCode = 'native'; // 'native' for XLM, or asset code for other assets
+                const issuer = ''; // If assetCode is not 'native', provide issuer's public key
 
                 // Open payment window with payment parameters
                 const paymentWindow = window.open(
-                    `${simpleSignerUrl}/payment/?receiver=${receiver}&amount=${amount}&assetType=${assetType}&issuer=${issuer}`,
+                    `${simpleSignerUrl}/payment/?receiver=${receiver}&amount=${amount}&assetCode=${assetCode}&issuer=${issuer}`,
                     'Payment_Window',
                     'width=360, height=700',
                 );
@@ -400,11 +400,11 @@ Via URL:
 ```javascript
 const receiver = 'Receiver public key';
 const amount = '10';
-const assetType = 'native'; // 'native' for XLM, or asset code for other assets
-const issuer = ''; // If assetType is not 'native', provide issuer's public key
+const assetCode = 'native'; // 'native' for XLM, or asset code for other assets
+const issuer = ''; // If assetCode is not 'native', provide issuer's public key
 
 const paymentWindow = window.open(
-    `https://sign.scalemote.io/payment/?receiver=${receiver}&amount=${amount}&assetType=${assetType}&issuer=${issuer}`,
+    `https://sign.scalemote.io/payment/?receiver=${receiver}&amount=${amount}&assetCode=${assetCode}&issuer=${issuer}`,
     'Payment_Window',
     'width=360, height=700',
 );
@@ -417,8 +417,8 @@ Post Message has some advantages over the URL method which are covered in the Pa
 ```javascript
 const receiver = 'Receiver public key';
 const amount = '10';
-const assetType = 'native'; // 'native' for XLM, or asset code for other assets
-const issuer = ''; // If assetType is not 'native', provide issuer's public key
+const assetCode = 'native'; // 'native' for XLM, or asset code for other assets
+const issuer = ''; // If assetCode is not 'native', provide issuer's public key
 
 const simpleSignerUrl = 'https://sign.scalemote.io';
 const paymentWindow = window.open(
@@ -434,7 +434,7 @@ window.addEventListener('message', (e) => {
         e.data.page === 'payment'
     ) {
         paymentWindow.postMessage(
-            { receiver, amount, assetType, issuer },
+            { receiver, amount, assetCode, issuer },
             simpleSignerUrl,
         );
     }

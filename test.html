@@ -25,7 +25,7 @@
             const sampleReceiver = 'GBS23SVOXH73F4L3ETIXFNAHIPIISLLPF3DREGQZE4TRAANMMYB7COKZ';
             const sampleIssuer = 'none';
             const amount = '50';
-            const assetType = 'native';
+            const assetCode = 'native';
 
             let signWindow;
             let connectWindow;
@@ -53,7 +53,7 @@
             function openPaymentWindowUsingUrlParams() {
                 console.log('Opening payment window using URL params');
                 window.open(
-                    `${simpleSignerURL}/payment?receiver=${sampleReceiver}&issuer=${sampleIssuer}&amount=${amount}&assetType=${assetType}`,
+                    `${simpleSignerURL}/payment?receiver=${sampleReceiver}&issuer=${sampleIssuer}&amount=${amount}&assetCode=${assetCode}`,
                     'Payment_Window',
                     'width=360, height=700',
                 );
@@ -112,7 +112,7 @@
                                 receiver: sampleReceiver,
                                 issuer: sampleIssuer,
                                 amount,
-                                assetType,
+                                assetCode,
                             },
                             simpleSignerURL,
                         );
@@ -154,14 +154,14 @@
                 if (eventMessage.type === 'onPayment') {
                     const receiver = eventMessage.message.receiver;
                     const amount = eventMessage.message.amount;
-                    const assetType = eventMessage.message.assetType;
+                    const assetCode = eventMessage.message.assetCode;
                     const issuer = eventMessage.message.issuer;
 
                     console.log(
                         'Received payment confirmation from Simple Signer:',
                         receiver,
                         amount,
-                        assetType,
+                        assetCode,
                         issuer,
                     );
                 }

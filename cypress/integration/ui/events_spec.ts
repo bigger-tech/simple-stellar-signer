@@ -1,7 +1,7 @@
 /// <reference types="cypress" />
 /// <reference types="@testing-library/cypress"/>
 import { operationsXdr } from '../../fixtures/operations.json';
-import { amountToSend, assetType, destinationAccount, issuer } from '../../fixtures/payment.json';
+import { amountToSend, assetCode, destinationAccount, issuer } from '../../fixtures/payment.json';
 
 const operationGroupTitle = 'Payment';
 const operationGroupDescription = 'This is a merge account operation';
@@ -46,7 +46,7 @@ describe('Events', () => {
                 receiver: destinationAccount,
                 issuer,
                 amount: amountToSend,
-                assetType,
+                assetCode,
             });
         });
         cy.get('.receiver').should('have.length', 1);

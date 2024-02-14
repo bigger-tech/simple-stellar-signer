@@ -31,23 +31,17 @@
 
     let receiver = '';
     let amount = '';
-    let assetType = '';
+    let assetCode = '';
     let issuer = '';
 
     const bridge = new Bridge(SimpleSignerPageType.PAYMENT);
     const urlParams = bridge.getPaymentMessageFromUrl();
 
     if (urlParams) {
-        receiver = urlParams.receiver || '';
-        amount = urlParams.amount || '';
-        assetType = urlParams.assetType || '';
-        issuer = urlParams.issuer || '';
+        ({ receiver, amount, assetCode, issuer } = urlParams);
     } else {
         bridge.addPaymentMessageHandler((message) => {
-            receiver = message.receiver || '';
-            amount = message.amount || '';
-            assetType = message.assetType || '';
-            issuer = message.issuer || '';
+            ({ receiver, amount, assetCode, issuer } = message);
         });
     }
 
@@ -61,7 +55,7 @@
         const publicKey = await wallet.getPublicKey();
 
         try {
-            const result = await createPaymentTransaction(publicKey, receiver, amount, assetType, issuer);
+            const result = await createPaymentTransaction(publicKey, receiver, amount, assetCode, issuer);
             await wallet.sign(result);
             await server.submitTransaction(result);
             paymentResultMessage = $language.SUCCESSFUL_PAYMENT;
@@ -79,7 +73,7 @@
     };
 
     const redirect = encodeURIComponent(
-        `payment?receiver=${receiver}&amount=${amount}&assetType=${assetType}&issuer=${issuer}`,
+        `payment?receiver=${receiver}&amount=${amount}&assetCode=${assetCode}&issuer=${issuer}`,
     );
 
     function handleCancel() {
@@ -108,7 +102,7 @@
     </div>
 {:else}
     <div class="simple-signer tx-data-container">
-        {#if !receiver || !amount || !assetType || !issuer}
+        {#if !receiver || !amount || !assetCode || !issuer}
             <h1 class="simple-signer error-title">{$language.ERROR}</h1>
             <div class="simple-signer information-container">
                 <p class="simple-signer">{$language.ERROR_MISSING_RECEIVER_DATA}</p>
@@ -125,7 +119,7 @@
             <div class="simple-signer receiver">
                 {$language.YOU_ARE_PAYING}
                 <strong>{amount}</strong>
-                <strong>{assetType === 'native' ? 'XLM' : { assetType }}</strong>
+                <strong>{assetCode === 'native' ? 'XLM' : { assetCode }}</strong>
                 {$language.TO_THE_ACCOUNT}
                 <br />
                 <strong>{receiver}.</strong>

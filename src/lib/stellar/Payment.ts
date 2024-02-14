@@ -7,15 +7,11 @@ export async function createPaymentTransaction(
     publicKey: string,
     receiver: string,
     amount: string,
-    assetType: string,
+    assetCode: string,
     issuer?: string,
 ) {
-    let asset;
-    if (assetType === 'native') {
-        asset = Asset.native();
-    } else {
-        asset = new Asset(assetType, issuer);
-    }
+    const asset = assetCode === 'native' ? Asset.native() : new Asset(assetCode, issuer);
+
     try {
         const account = await server.loadAccount(publicKey);
         return new TransactionBuilder(account, {
