@@ -51,6 +51,7 @@ jobs:
                   VITE_HORIZON_NETWORK_PASSPHRASE: Test SDF Network ; September 2015
                   VITE_STELLAR_NETWORK: ${{ secrets.VITE_STELLAR_NETWORK }}
                   CYPRESS_SIMPLE_SIGNER_PRIVATE_KEY: ${{ secrets.SIMPLE_SIGNER_PRIVATE_KEY }}
+                  VITE_HORIZON_URL: ${{ secrets.VITE_HORIZON_URL }}
     test:
         runs-on: ubuntu-latest
         needs: install-cache

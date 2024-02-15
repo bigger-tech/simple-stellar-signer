@@ -17,13 +17,15 @@ export default class PrivateKey extends AbstractWallet implements IWallet {
     private PRIVATE_KEY_ITEM_NAME = 'privateKey';
     private INITIALIZATION_VECTORS_KEY_ITEM_NAME = 'iv';
 
-    public override async getPublicKey(privateKey: string): Promise<string> {
+    public override async getPublicKey(privateKey?: string): Promise<string> {
         let publicKey: string;
         try {
-            publicKey = Keypair.fromSecret(privateKey).publicKey();
-            super.persistWallet();
+            if (privateKey) {
+                publicKey = Keypair.fromSecret(privateKey).publicKey();
+                super.persistWallet();
 
-            await this.storeEncryptedPrivateKey(privateKey);
+                await this.storeEncryptedPrivateKey(privateKey);
+            }
         } catch (e) {
             if (e instanceof InvalidPrivateKeyError) {
                 console.error('Invalid key, please try again');

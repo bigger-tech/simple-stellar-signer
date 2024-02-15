@@ -11,6 +11,7 @@
 
     const parent = window.opener;
     const bridge = new Bridge(SimpleSignerPageType.CONNECT);
+    const redirect = bridge.getRedirectFromUrl();
     $wallets = bridge.getWalletsFromUrl();
 
     if (parent && !$wallets.length) {
@@ -26,6 +27,11 @@
         const publicKey: string = detail.publicKey;
         const wallet: IWallet = detail.wallet;
         bridge.sendOnConnectEvent(publicKey, wallet.getName());
+        if (redirect) {
+            window.location.href = `/${redirect}`;
+        } else {
+            bridge.closeWindow();
+        }
     }
 
     bridge.sendOnReadyEvent();

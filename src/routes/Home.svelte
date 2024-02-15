@@ -12,4 +12,7 @@
     <div>
         <Link to="/sign">{$language.GO_TO_SIGN}</Link>
     </div>
+    <div>
+        <Link to="/payment">{$language.GO_TO_PAYMENT}</Link>
+    </div>
 </div>

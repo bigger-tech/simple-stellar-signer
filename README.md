@@ -106,7 +106,7 @@ you want to contribute.
 
 # How to implement Simple Signer on your website
 
-Simple Signer provides two endpoints, `/connect` and `/sign` which allow some customisations to be made.
+Simple Signer provides three endpoints, `/connect`, `/sign` and `/payment` which allow some customisations to be made.
 
 To see an example of all the implementation properties please take a look at the [test.html](./test.html) file provided
 in this repo.
@@ -328,6 +328,118 @@ Sometimes it's useful to group operations together to explain what they are doin
 ![txs eng extend](https://user-images.githubusercontent.com/71040644/169843572-7834474d-44c2-4187-8e57-8cea623ebae7.png)
 
 ---
+
+## Making a payment
+
+To make a payment using Simple Signer, you need to provide the necessary parameters either through the URL or using the `postMessage` method. Follow the steps below to integrate the payment functionality into your web application:
+
+### Step 1: Specify Payment Parameters
+
+You can pass the payment parameters such as the receiver's account, amount, asset type, and issuer through the URL or `postMessage` method. Here's an example of how you can do it:
+
+```html
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <title>Simple Signer - Make Payment Demo</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <script
+            src="https://cdnjs.cloudflare.com/ajax/libs/stellar-sdk/10.1.0/stellar-sdk.min.js"
+            integrity="sha512-EqNQsxKR6rZ5xKl29xXa+ez7xgtVSUpj9UDzZmTqoyF0wHbusLkrP8S7dOsKa9DmkoHbssoWUA4+n/0KYY1EAQ=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        ></script>
+    </head>
+    <body>
+        <h1>Make Payment</h1>
+        <p>
+            This page demonstrates the process of making a payment using the
+            Simple Signer.
+        </p>
+        <h2>Usage</h2>
+        <p>Click the "Make Payment" button to initiate the payment process.</p>
+        <button onclick="makePayment()">Make Payment</button>
+
+        <script>
+            async function makePayment() {
+                // Define payment parameters
+                const receiver = 'Receiver public key';
+                const amount = '10';
+                const assetCode = 'native'; // 'native' for XLM, or asset code for other assets
+                const issuer = ''; // If assetCode is not 'native', provide issuer's public key
+
+                // Open payment window with payment parameters
+                const paymentWindow = window.open(
+                    `${simpleSignerUrl}/payment/?receiver=${receiver}&amount=${amount}&assetCode=${assetCode}&issuer=${issuer}`,
+                    'Payment_Window',
+                    'width=360, height=700',
+                );
+
+                // Listen for payment completion message
+                window.addEventListener('message', async (event) => {
+                    if (event.origin !== simpleSignerUrl) return;
+
+                    const { type, message } = event.data;
+                    if (type === 'onPayment') {
+                        // Handle payment completion
+                        console.log('Payment completed successfully:', message);
+                    }
+                });
+            }
+        </script>
+    </body>
+</html>
+```
+
+You may choose to pass the payment parameters to Simple Signer either via URL or via postMessage.
+
+Via URL:
+
+```javascript
+const receiver = 'Receiver public key';
+const amount = '10';
+const assetCode = 'native'; // 'native' for XLM, or asset code for other assets
+const issuer = ''; // If assetCode is not 'native', provide issuer's public key
+
+const paymentWindow = window.open(
+    `https://sign.scalemote.io/payment/?receiver=${receiver}&amount=${amount}&assetCode=${assetCode}&issuer=${issuer}`,
+    'Payment_Window',
+    'width=360, height=700',
+);
+```
+
+Via PostMessage:
+
+Post Message has some advantages over the URL method which are covered in the Payment API section.
+
+```javascript
+const receiver = 'Receiver public key';
+const amount = '10';
+const assetCode = 'native'; // 'native' for XLM, or asset code for other assets
+const issuer = ''; // If assetCode is not 'native', provide issuer's public key
+
+const simpleSignerUrl = 'https://sign.scalemote.io';
+const paymentWindow = window.open(
+    `${simpleSignerUrl}/payment`,
+    'Payment_Window',
+    'width=360, height=700',
+);
+
+window.addEventListener('message', (e) => {
+    if (
+        e.origin !== simpleSignerUrl &&
+        e.data.type === 'onReady' &&
+        e.data.page === 'payment'
+    ) {
+        paymentWindow.postMessage(
+            { receiver, amount, assetCode, issuer },
+            simpleSignerUrl,
+        );
+    }
+});
+```
 
 ## Language selection
 
