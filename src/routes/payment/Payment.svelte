@@ -4,7 +4,7 @@
     import Bridge, { SimpleSignerPageType } from '../../lib/bridge/Bridge';
     import { setMinimumPopUpSize } from '../../lib/components/helpers/popUpSizeHelper';
     import type { WalletConnectService } from '../../lib/service/walletConnect';
-    import { createPaymentTransaction } from '../../lib/stellar/Payment';
+    import { checkTrustline, createPaymentTransaction } from '../../lib/stellar/Payment';
     import { CURRENT_STELLAR_NETWORK } from '../../lib/stellar/StellarNetwork';
     import { server } from '../../lib/stellar/utils';
     import LocalStorage from '../../lib/storage/storage';
@@ -39,14 +39,24 @@
 
     if (urlParams) {
         ({ receiver, amount, assetCode, issuer } = urlParams);
+        checkTrustlineAndSetMessage();
     } else {
         bridge.addPaymentMessageHandler((message) => {
             ({ receiver, amount, assetCode, issuer } = message);
+            checkTrustlineAndSetMessage();
         });
     }
 
     let isPaymentInProgress = false;
     let paymentResultMessage = '';
+    let trustlineMessage = '';
+
+    async function checkTrustlineAndSetMessage() {
+        const hasTrustline = await checkTrustline(receiver, assetCode, issuer);
+        if (!hasTrustline) {
+            trustlineMessage = $language.NO_TRUSTLINE;
+        }
+    }
 
     async function handlePayment() {
         if (isPaymentInProgress) return;
@@ -102,10 +112,14 @@
     </div>
 {:else}
     <div class="simple-signer tx-data-container">
-        {#if !receiver || !amount || !assetCode || !issuer}
+        {#if !receiver || !amount || !assetCode || !issuer || trustlineMessage === $language.NO_TRUSTLINE}
             <h1 class="simple-signer error-title">{$language.ERROR}</h1>
             <div class="simple-signer information-container">
-                <p class="simple-signer">{$language.ERROR_MISSING_RECEIVER_DATA}</p>
+                <p class="simple-signer">
+                    {trustlineMessage === $language.NO_TRUSTLINE
+                        ? trustlineMessage
+                        : $language.ERROR_MISSING_RECEIVER_DATA}
+                </p>
                 <button class="simple-signer accept-button" on:click={handlePopupClose}>{$language.CLOSE}</button>
             </div>
         {:else}
@@ -119,7 +133,7 @@
             <div class="simple-signer receiver">
                 {$language.YOU_ARE_PAYING}
                 <strong>{amount}</strong>
-                <strong>{assetCode === 'native' ? 'XLM' : { assetCode }}</strong>
+                <strong>{assetCode === 'native' ? 'XLM' : assetCode}</strong>
                 {$language.TO_THE_ACCOUNT}
                 <br />
                 <strong>{receiver}.</strong>

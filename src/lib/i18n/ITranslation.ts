@@ -74,6 +74,7 @@ export interface ITranslation {
     NETWORK_FEE: string;
     NETWORK: string;
     NOT_AUTHORIZED_TO_TRANSACT: string;
+    NO_TRUSTLINE: string;
     OFFER_ID: string;
     OPERATION_ACCOUNT_MERGE: string;
     OPERATION_ACCOUNT_TRUST: string;

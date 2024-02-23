@@ -74,6 +74,7 @@
     "NETWORK_FEE": "Network Fee:",
     "NETWORK": "Network",
     "NOT_AUTHORIZED_TO_TRANSACT": "Authorization: The account is not authorized to transact with the asset",
+    "NO_TRUSTLINE": "The recipient hasn't established a trustline with the asset.",
     "OFFER_ID": "Offer ID:",
     "OPERATION_ACCOUNT_MERGE": "Account Merge",
     "OPERATION_ACCOUNT_TRUST": "Trust",
