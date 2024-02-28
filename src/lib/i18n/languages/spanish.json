@@ -74,6 +74,7 @@
     "NETWORK_FEE": "Comisión de la red:",
     "NETWORK": "Red",
     "NOT_AUTHORIZED_TO_TRANSACT": "Autorización: La cuenta no está autorizada para realizar transacciones con el activo",
+    "NO_TRUSTLINE": "El destinatario no estableció una línea de confianza con el activo.",
     "OFFER_ID": "ID de la Oferta:",
     "OPERATION_ACCOUNT_MERGE": "Combinar cuentas",
     "OPERATION_ACCOUNT_TRUST": "Establecer línea de confianza",
