@@ -127,6 +127,7 @@
             <div class="simple-signer tx-network-container">
                 <div class="simple-signer pay-network-container">
                     <p>{$language.NETWORK}:</p>
+                    &nbsp;
                     <p class="simple-signer pay-network-text">{CURRENT_STELLAR_NETWORK}</p>
                 </div>
             </div>
