@@ -20,7 +20,6 @@ scanner(
             'sonar.language': 'ts',
             'sonar.javascript.lcov.reportPaths': 'coverage/lcov.info',
             'sonar.sourceEncoding': 'UTF-8',
-            'sonar.qualitygate.wait': 'true',
         },
     },
     () => process.exit(),
