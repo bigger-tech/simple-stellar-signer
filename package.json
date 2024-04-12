@@ -18,7 +18,7 @@
         "test:watch": "npm run test -- --watch",
         "test:ui:dev": "cypress open",
         "test:ui:headless": "cypress run",
-        "sonar:scan": "node .sonarqube/scan.js",
+        "sonar:scan": "node .sonarqube/scan.cjs",
         "parse:outputs": "node .codebuild/js/parseOutput.cjs | tee output.txt"
     },
     "lint-staged": {
