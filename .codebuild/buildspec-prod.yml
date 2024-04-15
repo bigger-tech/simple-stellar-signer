@@ -1,0 +1,42 @@
+version: 0.2
+
+env:
+    parameter-store:
+        TOKEN: /SIMPLE_SIGNER/SONAR_TOKEN
+        HOST: /BIGGER/SONAR_HOST
+        PROJECT: /SIMPLE_SIGNER/SONAR_PROJECT_KEY
+        SNYK_TOKEN: /BIGGER/SNYK_TOKEN
+        SNYK_ORG_ID: /BIGGER/SNYK_ORG_ID
+        CI_BOT_GH_TOKEN: /BIGGER/CI_BOT_GH_TOKEN
+
+phases:
+    install:
+        runtime-versions:
+            nodejs: 18
+        commands:
+            - type -p yum-config-manager >/dev/null || sudo yum install -y yum-utils
+            - yes | sudo yum-config-manager --add-repo https://cli.github.com/packages/rpm/gh-cli.repo
+            - sudo yum install -y gh
+            - npm ci
+            - npm install -g snyk
+
+    build:
+        commands:
+            - npm run build
+            - snyk auth $SNYK_TOKEN
+            - snyk test --severity-threshold=high --fail-on=all --json-file-output=snyk_output.json
+            - snyk monitor --all-projects --org=$SNYK_ORG_ID
+            - npm run test
+            - npm run sonar:scan -- --host=$HOST --token=$TOKEN --project=$PROJECT
+
+    post_build:
+        commands:
+            - npm run parse:outputs
+            - echo $CI_BOT_GH_TOKEN | tee cred.txt
+            - gh auth login --with-token < cred.txt
+            - pr_version="${CODEBUILD_SOURCE_VERSION#*/}"
+            - gh pr comment $pr_version --body-file output.txt --repo $CODEBUILD_SOURCE_REPO_URL
+
+cache:
+    paths:
+        - node_modules/
