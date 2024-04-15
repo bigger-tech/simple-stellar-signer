@@ -11,7 +11,6 @@ scanner(
     {
         serverUrl: host,
         login: token,
-        token: token,
         options: {
             'sonar.projectName': project,
             'sonar.exclusions':
