@@ -14,10 +14,12 @@
         "check": "svelte-check --tsconfig ./tsconfig.json",
         "lint:fix": "eslint --fix --ext .ts --ext .svelte . && prettier --config .prettierrc --write . && npm run check",
         "prepare": "husky install",
-        "test": "jest src",
+        "test": "jest --coverage src",
         "test:watch": "npm run test -- --watch",
         "test:ui:dev": "cypress open",
-        "test:ui:headless": "cypress run"
+        "test:ui:headless": "cypress run",
+        "sonar:scan": "node .sonarqube/scan.cjs",
+        "parse:outputs": "node .codebuild/js/parseOutput.cjs | tee output.txt"
     },
     "lint-staged": {
         "*.{svelte,js,ts}": "npm run lint:fix"
@@ -33,6 +35,17 @@
             "^.+\\.ts$": "ts-jest",
             "^.+\\.svg$": "<rootDir>/svgTransform.cjs"
         },
+        "coverageReporters": [
+            "clover",
+            "json",
+            "lcov",
+            [
+                "text-summary",
+                {
+                    "file": "../coverage.txt"
+                }
+            ]
+        ],
         "moduleFileExtensions": [
             "js",
             "ts",
@@ -88,6 +101,8 @@
         "@walletconnect/types": "^2.9.2",
         "decode-uri-component": "^0.2.2",
         "json5": "^2.2.2",
+        "minimist": "^1.2.8",
+        "sonarqube-scanner": "^3.4.0",
         "stellar-sdk": "^11.1.0",
         "util": "^0.12.4"
     }
