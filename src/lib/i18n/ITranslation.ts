@@ -113,6 +113,7 @@ export interface ITranslation {
     OPERATIONS_LIST: string;
     PATH: string;
     PAY: string;
+    PARAMETERS: string;
     PREAUTH_TX: string;
     PRICE: string;
     PRIVATE_KEY: string;
