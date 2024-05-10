@@ -1,6 +1,7 @@
 <script lang="ts">
     import { FeeBumpTransaction, Transaction, TransactionBuilder, xdr } from 'stellar-sdk';
     import { createEventDispatcher } from 'svelte';
+    import { onMount } from 'svelte';
     import { Link } from 'svelte-navigator';
 
     import type { WalletConnectService } from '../../../lib/service/walletConnect';
@@ -15,7 +16,8 @@
     import Signatures from './Signatures.svelte';
     import InsufficientOperationsError from './errors/InsufficientOperationsError';
     import InvalidGroupsSortError from './errors/InvalidGroupsSortError';
-    import DynamicOperationComponentFactory from './operations/DynamicOperationComponentFactory';
+    import { DynamicOperationComponentFactory } from './operations/DynamicOperationComponentFactory';
+    import { InvokeHostFunctionComponentFactory } from './operations/InvokeHostFunctionOperationComponentFactory';
     import Operation from './operations/Operation.svelte';
     import type { OperationComponent } from './operations/OperationComponent';
     import OperationsGroup from './operations/OperationsGroup.svelte';
@@ -79,38 +81,64 @@
         $areOperationsExpanded = true;
     }
 
-    try {
-        isValidXdr = xdr.TransactionEnvelope.validateXDR(transactionMessage.xdr, 'base64');
-        const buildedTx = TransactionBuilder.fromXDR(transactionMessage.xdr, CURRENT_NETWORK_PASSPHRASE);
+    async function initializeTransactionData() {
+        try {
+            isValidXdr = xdr.TransactionEnvelope.validateXDR(transactionMessage.xdr, 'base64');
+            const buildedTx = TransactionBuilder.fromXDR(transactionMessage.xdr, CURRENT_NETWORK_PASSPHRASE);
 
-        if (buildedTx instanceof FeeBumpTransaction) {
-            feeBumpTx = buildedTx;
-            tx = buildedTx.innerTransaction;
-        } else {
-            tx = buildedTx;
+            if (buildedTx instanceof FeeBumpTransaction) {
+                feeBumpTx = buildedTx;
+                tx = buildedTx.innerTransaction;
+            } else {
+                tx = buildedTx;
+            }
+
+            network = CURRENT_STELLAR_NETWORK;
+
+            shortedSourceAccount = getShortedStellarKey(tx.source);
+
+            const invokeOperationIndex = tx.operations.findIndex(
+                (operation) => operation.type === 'invokeHostFunction',
+            );
+
+            if (invokeOperationIndex >= 0 && tx.operations[invokeOperationIndex]) {
+                const invokeHostFunctionComponentFactory = new InvokeHostFunctionComponentFactory();
+                const invokeOperationComponent = await invokeHostFunctionComponentFactory.create(
+                    tx,
+                    tx.operations[invokeOperationIndex]!,
+                );
+
+                transactionGroups = [invokeOperationComponent];
+            } else {
+                const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
+
+                operationComponents = tx.operations.map((operation) =>
+                    dynamicOperationComponentFactory.create(tx, operation),
+                );
+
+                if (transactionMessage.operationGroups && transactionMessage.operationGroups.length > 0) {
+                    transactionGroups = groupOperationComponents(
+                        operationComponents,
+                        transactionMessage.operationGroups,
+                    );
+                } else {
+                    console.info("A transaction group object wasn't provided");
+                    transactionGroups = operationComponents;
+                }
+            }
+        } catch (e) {
+            console.error(e);
+            if (e instanceof InvalidGroupsSortError || InsufficientOperationsError) {
+                transactionGroups = operationComponents;
+            }
         }
 
-        network = CURRENT_STELLAR_NETWORK;
-
-        shortedSourceAccount = getShortedStellarKey(tx.source);
-        const dynamicOperationComponentFactory = new DynamicOperationComponentFactory();
-
-        operationComponents = tx.operations.map((operation) => dynamicOperationComponentFactory.create(tx, operation));
-
-        if (transactionMessage.operationGroups && transactionMessage.operationGroups.length > 0) {
-            transactionGroups = groupOperationComponents(operationComponents, transactionMessage.operationGroups);
-        } else {
-            console.info("A transaction group object wasn't provided");
-            transactionGroups = operationComponents;
-        }
-    } catch (e) {
-        console.error(e);
-        if (e instanceof InvalidGroupsSortError || InsufficientOperationsError) {
-            transactionGroups = operationComponents;
-        }
+        $operationsVisibility = transactionGroups.map(() => false);
     }
 
-    $operationsVisibility = transactionGroups.map(() => false);
+    onMount(async () => {
+        await initializeTransactionData();
+    });
 </script>
 
 {#if isValidXdr}
