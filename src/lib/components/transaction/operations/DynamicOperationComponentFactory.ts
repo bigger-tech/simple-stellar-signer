@@ -15,7 +15,6 @@ import CreateClaimableBalanceComponent from './createClaimableBalance/CreateClai
 import CreatePassiveSellOfferComponent from './createPassiveSellOffer/CreatePassiveSellOfferComponent';
 import EndSponsoringFutureReservesComponent from './endSponsoringFutureReserves/EndSponsoringFutureReservesComponent';
 import ExtendFootprintComponent from './extendFootprint/ExtendFootprintComponent';
-import InvokeHostFunctionComponent from './invokeHostFunction/InvokeHostFunctionComponent';
 import LiquidityPoolDepositComponent from './liquidityPoolDeposit/LiquidityPoolDepositComponent';
 import LiquidityPoolWithdrawComponent from './liquidityPoolWithdraw/LiquidityPoolWithdrawComponent';
 import ManageBuyOfferComponent from './manageBuyOffer/ManageBuyOfferComponent';
@@ -35,7 +34,7 @@ import RevokeTrustlineSponsorshipComponent from './revokeTrustLineSponsorship/Re
 import SetOptionsComponent from './setOptions/SetOptionsComponent';
 import SetTrustLineFlagsComponent from './setTrustLineFlags/SetTrustLineFlagsComponent';
 
-export default class DynamicOperationComponentFactory {
+export class DynamicOperationComponentFactory {
     create(tx: Transaction, operation: Operation): OperationComponent {
         let operationComponent;
 
@@ -153,9 +152,6 @@ export default class DynamicOperationComponentFactory {
                 break;
             case 'clawbackClaimableBalance':
                 operationComponent = new ClawbackClaimableBalanceComponent(tx, operation);
-                break;
-            case 'invokeHostFunction':
-                operationComponent = new InvokeHostFunctionComponent(tx, operation);
                 break;
             case 'restoreFootprint':
                 operationComponent = new RestoreFootprintComponent(tx, operation);
