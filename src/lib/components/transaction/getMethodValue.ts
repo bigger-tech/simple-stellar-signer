@@ -65,7 +65,7 @@ export const getMethodValue = (arg: xdr.ScVal, type?: string): xdr.ScVal | strin
                     const values = getMethodValue(a.val(), a.val().switch().name);
                     const keys = getMethodValue(a.key(), a.key().switch().name);
 
-                    return ` ${keys.toString()}: ${values} `;
+                    return ` [${keys.toString()}: ${values}] `;
                 })
                 .toString();
 
@@ -73,7 +73,7 @@ export const getMethodValue = (arg: xdr.ScVal, type?: string): xdr.ScVal | strin
             return arg
                 .vec()!
                 .map((param) => {
-                    return getMethodValue(param, param.switch().name);
+                    return ` ${getMethodValue(param, param.switch().name)}`;
                 })
                 .toString();
         default:
