@@ -67,8 +67,8 @@ export const getMethodValue = (arg: xdr.ScVal, type?: string): xdr.ScVal | strin
 
                     return ` ${keys.toString()}: ${values} `;
                 })
-                .toString()
-                .padStart(1, ' ');
+                .toString();
+
         case 'scvVec'.toLowerCase():
             return arg
                 .vec()!
@@ -80,8 +80,3 @@ export const getMethodValue = (arg: xdr.ScVal, type?: string): xdr.ScVal | strin
             return arg.value()!.toString();
     }
 };
-
-export interface CustomScVal {
-    type: string;
-    value: string;
-}
