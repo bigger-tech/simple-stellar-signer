@@ -20,6 +20,7 @@ export class InvokeHostFunctionComponentFactory {
             operation as Operation.InvokeHostFunction,
             funcParameters[0]!,
             funcTitle,
+            contractID,
         );
 
         return operationComponent;
