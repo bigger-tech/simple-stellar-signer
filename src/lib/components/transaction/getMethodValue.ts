@@ -65,17 +65,21 @@ export const getMethodValue = (arg: xdr.ScVal, type?: string): xdr.ScVal | strin
                     const values = getMethodValue(a.val(), a.val().switch().name);
                     const keys = getMethodValue(a.key(), a.key().switch().name);
 
-                    return ` [${keys.toString()}: ${values}] `;
+                    return ` ${JSON.stringify(keys)}: ${values} `;
                 })
                 .toString();
 
         case 'scvVec'.toLowerCase():
-            return arg
+            return `[${arg
                 .vec()!
-                .map((param) => {
-                    return ` ${getMethodValue(param, param.switch().name)}`;
+                .map((param, index) => {
+                    return `${
+                        arg.vec()![index]?.switch().name !== 'scvMap'
+                            ? ` ${getMethodValue(param, param.switch().name)} `
+                            : ` {\n${getMethodValue(param, param.switch().name)}\n} `
+                    }`;
                 })
-                .toString();
+                .toString()}]`;
         default:
             return arg.value()!.toString();
     }
