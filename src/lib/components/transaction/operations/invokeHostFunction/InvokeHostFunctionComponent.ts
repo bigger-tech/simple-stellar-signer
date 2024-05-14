@@ -11,6 +11,7 @@ export default class InvokeHostFunctionComponent extends AbstractOperationCompon
         operation: Operation.InvokeHostFunction,
         funcParameter: ContractFunctionInfo,
         funcTitle: string,
+        contractID: string,
     ) {
         const values = operation.func
             .invokeContract()
@@ -27,14 +28,17 @@ export default class InvokeHostFunctionComponent extends AbstractOperationCompon
             title: 'OPERATION_INVOKE_HOST_FUNCTION',
             operationItems: [
                 { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
+                { title: 'CONTRACT_ID', value: contractID },
                 { title: 'FUNCTION_TYPE', value: funcTitle },
                 (funcParameter.description ? true : undefined) && {
                     title: 'DESCRIPTION',
-                    value: funcParameter.description,
+                    value: [funcParameter.description!],
                 },
                 (funcParameter.inputs.length >= 1 ? true : undefined) && {
                     title: 'PARAMETERS',
-                    value: funcParameter?.inputs.map((arg, index) => `${arg.name} : ${values[index]} `),
+                    value: funcParameter?.inputs.map((arg, index) => {
+                        return `${arg.name} : ${values[index]!.toString().split(' ,')} `;
+                    }),
                 },
             ],
         });
