@@ -20,6 +20,7 @@ export interface ITranslation {
     CLOSE: string;
     CONFIRM: string;
     CONNECT_WITH_PRIVATE_KEY: string;
+    CONTRACT_ID: string;
     DATA: string;
     DESCRIPTION: string;
     DESTINATION_ASSET: string;
@@ -113,6 +114,7 @@ export interface ITranslation {
     OPERATIONS_LIST: string;
     PATH: string;
     PAY: string;
+    PARAMETERS: string;
     PREAUTH_TX: string;
     PRICE: string;
     PRIVATE_KEY: string;

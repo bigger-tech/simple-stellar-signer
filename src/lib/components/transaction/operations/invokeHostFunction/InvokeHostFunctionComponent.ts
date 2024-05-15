@@ -1,23 +1,45 @@
-import type { Operation, Transaction } from 'stellar-sdk';
-import { xdr } from 'stellar-sdk';
+import { Operation, Transaction, xdr } from '@stellar/stellar-sdk';
 
-import { InvokeHostFunction } from '../../../../../lib/stellar/InvokeHostFunction';
+import type { ContractFunctionInfo } from '../../../../soroban/ContractFunctionInfo.interface';
+import { getMethodValue } from '../../getMethodValue';
 import AbstractOperationComponent from '../AbstractOperationComponent';
 import type IOperationComponent from '../IOperationComponent';
 
 export default class InvokeHostFunctionComponent extends AbstractOperationComponent implements IOperationComponent {
-    constructor(tx: Transaction, operation: Operation.InvokeHostFunction) {
-        const funcValue = operation.func.value();
-        let functionType = InvokeHostFunction.UploadWasm;
+    constructor(
+        tx: Transaction,
+        operation: Operation.InvokeHostFunction,
+        funcParameter: ContractFunctionInfo,
+        funcTitle: string,
+        contractID: string,
+    ) {
+        const values = operation.func
+            .invokeContract()
+            .args()
+            .map((arg) => {
+                const methodValue = getMethodValue(arg, arg.switch().name);
 
-        if (funcValue instanceof xdr.InvokeContractArgs) functionType = InvokeHostFunction.InvokeContract;
-        if (funcValue instanceof xdr.CreateContractArgs) functionType = InvokeHostFunction.CreateContract;
+                if (methodValue instanceof xdr.ScVal) return methodValue.value();
+
+                return methodValue;
+            });
 
         super({
             title: 'OPERATION_INVOKE_HOST_FUNCTION',
             operationItems: [
                 { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
-                { title: 'FUNCTION_TYPE', value: functionType },
+                { title: 'CONTRACT_ID', value: contractID },
+                { title: 'FUNCTION_TYPE', value: funcTitle },
+                (funcParameter.description ? true : undefined) && {
+                    title: 'DESCRIPTION',
+                    value: [funcParameter.description!],
+                },
+                (funcParameter.inputs.length >= 1 ? true : undefined) && {
+                    title: 'PARAMETERS',
+                    value: funcParameter?.inputs.map((arg, index) => {
+                        return `${arg.name} : ${values[index]!.toString().split(' ,')} `;
+                    }),
+                },
             ],
         });
     }
