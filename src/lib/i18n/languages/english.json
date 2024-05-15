@@ -40,6 +40,7 @@
     "FEE_BUMP": "FEE BUMP",
     "FEE": "Fee",
     "FROM": "From:",
+    "FUNCTION_NAME": "Function name:",    
     "FUNCTION_TYPE": "Function type:",
     "GO_TO_CONNECT": "Go to Connect",
     "GO_TO_SIGN": "Go to Sign",
