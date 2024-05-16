@@ -29,7 +29,7 @@ export default class InvokeHostFunctionComponent extends AbstractOperationCompon
             operationItems: [
                 { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
                 { title: 'CONTRACT_ID', value: contractID },
-                { title: 'FUNCTION_TYPE', value: funcTitle },
+                { title: 'FUNCTION_NAME', value: funcTitle },
                 (funcParameter.description ? true : undefined) && {
                     title: 'DESCRIPTION',
                     value: [funcParameter.description!],

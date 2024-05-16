@@ -40,6 +40,7 @@ export interface ITranslation {
     FEE_BUMP: string;
     FEE: string;
     FROM: string;
+    FUNCTION_NAME: string;
     FUNCTION_TYPE: string;
     GO_TO_CONNECT: string;
     GO_TO_SIGN: string;
