@@ -79,6 +79,7 @@
     }
 
     .break-key {
+        white-space: pre-wrap;
         word-break: break-word;
         letter-spacing: 0.14px;
         line-height: 21px;
