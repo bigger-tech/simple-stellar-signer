@@ -18,9 +18,9 @@ export class InvokeHostFunctionComponentFactory {
         const operationComponent = new InvokeHostFunctionComponent(
             tx,
             operation as Operation.InvokeHostFunction,
-            funcParameters[0]!,
-            funcTitle,
             contractID,
+            funcTitle,
+            funcParameters[0]!,
         );
 
         return operationComponent;
