@@ -1,7 +1,7 @@
 import { Operation, Transaction, xdr } from '@stellar/stellar-sdk';
 
 import type { ContractFunctionInfo } from '../../../../soroban/ContractFunctionInfo.interface';
-import { getMethodValue } from '../../getMethodValue';
+import { getMethodParamsValue } from '../../getMethodParamsValue';
 import AbstractOperationComponent from '../AbstractOperationComponent';
 import type IOperationComponent from '../IOperationComponent';
 
@@ -9,45 +9,43 @@ export default class InvokeHostFunctionComponent extends AbstractOperationCompon
     constructor(
         tx: Transaction,
         operation: Operation.InvokeHostFunction,
-        contractID?: string,
-        funcTitle?: string,
-        funcParameter?: ContractFunctionInfo,
-        funcType?: string,
+        contractId?: string,
+        title?: string,
+        parameter?: ContractFunctionInfo,
+        type?: string,
     ) {
         const values =
-            funcTitle &&
+            title &&
             operation.func
                 .invokeContract()
                 .args()
                 .map((arg) => {
-                    const methodValue = getMethodValue(arg, arg.switch().name);
+                    const paramsValue = getMethodParamsValue(arg, arg.switch().name);
 
-                    if (methodValue instanceof xdr.ScVal) return methodValue.value();
+                    if (paramsValue instanceof xdr.ScVal) return paramsValue.value();
 
-                    return methodValue;
+                    return paramsValue;
                 });
 
         super({
             title: 'OPERATION_INVOKE_HOST_FUNCTION',
             operationItems: [
                 { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
-                (funcType && funcType.length >= 1 ? true : undefined) && { title: 'FUNCTION_TYPE', value: funcType },
-                (contractID && contractID.length >= 1 ? true : undefined) && {
+                (type && type.length >= 1 ? true : undefined) && { title: 'FUNCTION_TYPE', value: type },
+                (contractId && contractId.length >= 1 ? true : undefined) && {
                     title: 'CONTRACT_ID',
-                    value: contractID,
+                    value: contractId,
                 },
-                (funcTitle && funcTitle.length >= 1 ? true : undefined) && { title: 'FUNCTION_NAME', value: funcTitle },
-                (funcParameter && values && values!.length >= 1 && funcParameter.inputs.length >= 1
-                    ? true
-                    : undefined) && {
+                (title && title.length >= 1 ? true : undefined) && { title: 'FUNCTION_NAME', value: title },
+                (parameter && values && values!.length >= 1 && parameter.inputs.length >= 1 ? true : undefined) && {
                     title: 'PARAMETERS',
-                    value: funcParameter!.inputs.map((arg, index) => {
+                    value: parameter!.inputs.map((arg, index) => {
                         return `${arg.name} : ${values![index]!.toString().split(' ,')} `;
                     }),
                 },
-                (funcParameter && funcParameter.description ? true : undefined) && {
+                (parameter && parameter.description ? true : undefined) && {
                     title: 'DESCRIPTION',
-                    value: [funcParameter!.description!],
+                    value: [parameter!.description!],
                 },
             ],
         });
