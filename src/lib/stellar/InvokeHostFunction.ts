@@ -3,3 +3,8 @@ export enum InvokeHostFunction {
     InvokeContract = 'Invoke Contract',
     CreateContract = 'Create Contract',
 }
+
+export enum InvokeHostFunctionType {
+    InvokeContract = 'hostFunctionTypeInvokeContract',
+    CreateContract = 'hostFunctionTypeCreateContract',
+}
