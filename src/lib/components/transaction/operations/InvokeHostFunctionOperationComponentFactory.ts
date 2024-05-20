@@ -7,17 +7,17 @@ import InvokeHostFunctionComponent from './invokeHostFunction/InvokeHostFunction
 export class InvokeHostFunctionComponentFactory {
     async create(tx: Transaction, operation: Operation): Promise<InvokeHostFunctionComponent> {
         const invokeHostFunction = operation as Operation.InvokeHostFunction;
-        const funcType = invokeHostFunction.func.switch().name;
+        const type = invokeHostFunction.func.switch().name;
 
-        if (funcType === InvokeHostFunctionType.InvokeContract) {
-            const funcTitle = invokeHostFunction.func.invokeContract().functionName().toString();
+        if (type === InvokeHostFunctionType.InvokeContract) {
+            const title = invokeHostFunction.func.invokeContract().functionName().toString();
 
-            const contractID = getContractAddress(
+            const contractId = getContractAddress(
                 invokeHostFunction.func.invokeContract().contractAddress().contractId().toString('hex'),
             );
-            const funcParameters = await getContractMethodsParams(contractID, funcTitle);
+            const parameters = await getContractMethodsParams(contractId, title);
 
-            return new InvokeHostFunctionComponent(tx, invokeHostFunction, contractID, funcTitle, funcParameters[0]!);
+            return new InvokeHostFunctionComponent(tx, invokeHostFunction, contractId, title, parameters[0]!);
         }
 
         return new InvokeHostFunctionComponent(
@@ -26,7 +26,7 @@ export class InvokeHostFunctionComponentFactory {
             undefined,
             undefined,
             undefined,
-            funcType === InvokeHostFunctionType.CreateContract
+            type === InvokeHostFunctionType.CreateContract
                 ? InvokeHostFunction.CreateContract
                 : InvokeHostFunction.UploadWasm,
         );
