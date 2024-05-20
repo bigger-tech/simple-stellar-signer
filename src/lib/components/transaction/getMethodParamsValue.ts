@@ -2,7 +2,7 @@ import { xdr } from '@stellar/stellar-sdk';
 
 import { getAccountAddress, getContractAddress } from '../../soroban/GetContractFunctionInfo';
 
-export const getMethodValue = (arg: xdr.ScVal, type?: string): xdr.ScVal | string => {
+export const getMethodParamsValue = (arg: xdr.ScVal, type?: string): xdr.ScVal | string => {
     type = (type && type.toLowerCase()) || '';
     switch (type) {
         case 'address':
@@ -62,8 +62,8 @@ export const getMethodValue = (arg: xdr.ScVal, type?: string): xdr.ScVal | strin
             return arg
                 .map()!
                 .map((a) => {
-                    const values = getMethodValue(a.val(), a.val().switch().name);
-                    const keys = getMethodValue(a.key(), a.key().switch().name);
+                    const values = getMethodParamsValue(a.val(), a.val().switch().name);
+                    const keys = getMethodParamsValue(a.key(), a.key().switch().name);
 
                     return ` ${JSON.stringify(keys)}: ${values} `;
                 })
@@ -75,8 +75,8 @@ export const getMethodValue = (arg: xdr.ScVal, type?: string): xdr.ScVal | strin
                 .map((param, index) => {
                     return `${
                         arg.vec()![index]?.switch().name !== 'scvMap'
-                            ? ` ${getMethodValue(param, param.switch().name)} `
-                            : ` {\n${getMethodValue(param, param.switch().name)}\n} `
+                            ? ` ${getMethodParamsValue(param, param.switch().name)} `
+                            : ` {\n${getMethodParamsValue(param, param.switch().name)}\n} `
                     }`;
                 })
                 .toString()}]`;
