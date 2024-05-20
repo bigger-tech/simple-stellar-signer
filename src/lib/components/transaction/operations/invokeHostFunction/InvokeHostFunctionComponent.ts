@@ -9,31 +9,40 @@ export default class InvokeHostFunctionComponent extends AbstractOperationCompon
     constructor(
         tx: Transaction,
         operation: Operation.InvokeHostFunction,
-        contractID: string,
-        funcTitle: string,
+        contractID?: string,
+        funcTitle?: string,
         funcParameter?: ContractFunctionInfo,
+        funcType?: string,
     ) {
-        const values = operation.func
-            .invokeContract()
-            .args()
-            .map((arg) => {
-                const methodValue = getMethodValue(arg, arg.switch().name);
+        const values =
+            funcTitle &&
+            operation.func
+                .invokeContract()
+                .args()
+                .map((arg) => {
+                    const methodValue = getMethodValue(arg, arg.switch().name);
 
-                if (methodValue instanceof xdr.ScVal) return methodValue.value();
+                    if (methodValue instanceof xdr.ScVal) return methodValue.value();
 
-                return methodValue;
-            });
+                    return methodValue;
+                });
 
         super({
             title: 'OPERATION_INVOKE_HOST_FUNCTION',
             operationItems: [
                 { title: 'SOURCE_ACCOUNT', value: operation.source || tx.source, translatedValue: 'YOUR_ACCOUNT' },
-                { title: 'CONTRACT_ID', value: contractID },
-                { title: 'FUNCTION_NAME', value: funcTitle },
-                (funcParameter && funcParameter.inputs.length >= 1 ? true : undefined) && {
+                (funcType && funcType.length >= 1 ? true : undefined) && { title: 'FUNCTION_TYPE', value: funcType },
+                (contractID && contractID.length >= 1 ? true : undefined) && {
+                    title: 'CONTRACT_ID',
+                    value: contractID,
+                },
+                (funcTitle && funcTitle.length >= 1 ? true : undefined) && { title: 'FUNCTION_NAME', value: funcTitle },
+                (funcParameter && values && values!.length >= 1 && funcParameter.inputs.length >= 1
+                    ? true
+                    : undefined) && {
                     title: 'PARAMETERS',
-                    value: funcParameter?.inputs.map((arg, index) => {
-                        return `${arg.name} : ${values[index]!.toString().split(' ,')} `;
+                    value: funcParameter!.inputs.map((arg, index) => {
+                        return `${arg.name} : ${values![index]!.toString().split(' ,')} `;
                     }),
                 },
                 (funcParameter && funcParameter.description ? true : undefined) && {
