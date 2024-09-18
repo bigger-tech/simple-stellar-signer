@@ -621,6 +621,32 @@ const signWindow = window.open(
 );
 ```
 
+## Logout API
+
+Simple Signer offers a /logout endpoint that is used to disconnect the session and delete stored values.
+
+### Via postMessage
+
+This is the preferred method to pass messages to Simple Signer.
+
+```javascript
+const simpleSignerUrl = 'https://sign.bigger.systems';
+const logoutWindow = window.open(
+    `${simpleSignerURL}/logout`,
+    'Logout_Window',
+    'width=100, height=100',
+);
+window.addEventListener('message', (e) => {
+    if (
+        e.origin !== simpleSignerUrl &&
+        e.data.type === 'onLogout' &&
+        e.data.page === 'logout'
+    ) {
+        logoutWindow.postMessage({ type: 'logout' }, simpleSignerUrl);
+    }
+});
+```
+
 ## Event Types
 
 This is a list of events that Simple Signer can return to your application.
@@ -639,7 +665,7 @@ window.addEventListener('message', (e) => {
 });
 ```
 
-`e.data` contains the event that simple signer sends, which can be of type `onReady`, `onCancel`, `onConnect`
+`e.data` contains the event that simple signer sends, which can be of type `onReady`, `onCancel`, `onConnect`, `onLogOut`
 or `onSign`.
 
 ### onReady
@@ -684,6 +710,16 @@ This message is received when the user signs the XDR sent to Simple Signer.
 | page              | String | connect or sign             |
 | message           | Object | {signedXDR}                 |
 | message.signedXDR | String | The XDR, signed by the user |
+
+### onLogOut
+
+Once a user disconnects the wallet an onLogOut message is sent.
+
+| property name | type   | value                                                 |
+| ------------- | ------ | ----------------------------------------------------- |
+| type          | String | onLogOut                                              |
+| page          | String | logout                                                |
+| message       | String | Your session has been disconnected from Simple Signer |
 
 ---
 
