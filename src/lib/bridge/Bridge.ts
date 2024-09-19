@@ -117,6 +117,10 @@ export default class Bridge {
     }
 
     private messageHandler(e: MessageEvent): void {
+        if (typeof e === 'undefined' || e.data === 'verify_ready') {
+            return;
+        }
+
         if ('wallets' in e.data) {
             const message = e.data as IAvailableWalletsMessage;
             this.availableWalletsMessageHandlers.forEach((handler) => handler(message));
