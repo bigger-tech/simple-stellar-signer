@@ -117,7 +117,7 @@ export default class Bridge {
     }
 
     private messageHandler(e: MessageEvent): void {
-        if (typeof e === 'undefined' || e.data === 'verify_ready') {
+        if (!e || e.data === 'verify_ready') {
             return;
         }
 
