@@ -4,6 +4,7 @@ import { signTransaction } from '@lobstrco/signer-extension-api';
 import { Networks, Transaction } from '@stellar/stellar-sdk';
 
 import { StellarNetwork } from '../../../stellar/StellarNetwork';
+import SessionStorage from '../../../storage/sessionStorage';
 import LocalStorage from '../../../storage/storage';
 import Lobstr from '../Lobstr';
 
@@ -33,13 +34,14 @@ jest.mock('stellar-sdk', () => {
 });
 
 describe('Lobstr management', () => {
-    const storage = new LocalStorage();
+    const localStorage = new LocalStorage();
+    const sessionStorage = new SessionStorage();
     let lobstr: Lobstr;
     const lobstrNetwork = StellarNetwork.PUBLIC.toUpperCase();
 
     beforeEach(() => {
         jest.clearAllMocks();
-        lobstr = new Lobstr(storage);
+        lobstr = new Lobstr(localStorage, sessionStorage);
     });
     it('Should sign a transaction successfully from the Public network', async () => {
         const tx = new Transaction(signedXdr, Networks.PUBLIC);

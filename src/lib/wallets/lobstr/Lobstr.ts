@@ -12,18 +12,32 @@ export default class Lobstr extends AbstractWallet implements IWallet {
     public static readonly FRIENDLY_NAME = 'Lobstr';
     public static readonly lobstrExtension = 'https://lobstr.co/signer-extension/';
     public lobstrNetwork = StellarNetwork.PUBLIC.toUpperCase();
+    private readonly CONNECTION_KEY = 'LOBSTR_CONNECTION_KEY';
 
-    constructor(storage: IStorage) {
+    constructor(storage: IStorage, private sessionStorage: IStorage) {
         super(storage);
     }
 
     public override async getPublicKey(): Promise<string> {
         const publicKey = await getPublicKey();
         super.persistWallet();
+
+        const session = this.sessionStorage.getItem(this.CONNECTION_KEY);
+
+        if (session) {
+            this.storage.storeItem(this.CONNECTION_KEY, session);
+        }
+
         return publicKey;
     }
 
     public override async sign(tx: Transaction | FeeBumpTransaction): Promise<string> {
+        const session = this.storage.getItem(this.CONNECTION_KEY);
+
+        if (session) {
+            this.sessionStorage.storeItem(this.CONNECTION_KEY, session);
+        }
+
         return signTransaction(tx.toXDR());
     }
 
