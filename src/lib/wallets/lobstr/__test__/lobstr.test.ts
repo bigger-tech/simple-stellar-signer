@@ -1,13 +1,14 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import { expect } from '@jest/globals';
 import { signTransaction } from '@lobstrco/signer-extension-api';
-import * as StellarSdk from 'stellar-sdk';
+import { Networks, Transaction } from '@stellar/stellar-sdk';
 
 import { StellarNetwork } from '../../../stellar/StellarNetwork';
 import LocalStorage from '../../../storage/storage';
 import Lobstr from '../Lobstr';
 
-const signedXdr = 'AAAAAgAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAGQAATOSAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAAAF9eEAAAAAAAAAAAA=';
+const signedXdr =
+    'AAAAAgAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAGQAATOSAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA2jYMwhev3yM7P+JWOv6kRQZAssek5zytAbbyhJbOjNQAAAAAF9eEAAAAAAAAAAAA=';
 
 const mockTx = {
     sign: jest.fn(),
@@ -41,7 +42,7 @@ describe('Lobstr management', () => {
         lobstr = new Lobstr(storage);
     });
     it('Should sign a transaction successfully from the Public network', async () => {
-        const tx = new StellarSdk.Transaction(signedXdr, StellarSdk.Networks.PUBLIC);
+        const tx = new Transaction(signedXdr, Networks.PUBLIC);
         await lobstr.sign(tx);
 
         expect(lobstr.lobstrNetwork).toEqual(lobstrNetwork);
