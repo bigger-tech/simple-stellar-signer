@@ -9,6 +9,7 @@
 
     onMount(() => {
         const script = document.createElement('script');
+        script.id = 'google-analytics-script';
         script.innerHTML = `
         window.dataLayer = window.dataLayer || [];
 
@@ -34,6 +35,6 @@
 </script>
 
 <svelte:head>
-    <script async src="https://www.googletagmanager.com/gtag/js?id={GOOGLE_ANALYTICS_ID}">
+    <script async id="google-analytics" src="https://www.googletagmanager.com/gtag/js?id={GOOGLE_ANALYTICS_ID}">
     </script>
 </svelte:head>
