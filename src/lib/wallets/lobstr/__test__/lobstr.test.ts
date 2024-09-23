@@ -16,6 +16,20 @@ const mockTx = {
     toXDR: jest.fn().mockReturnValue(signedXdr),
 };
 
+jest.mock('axios', () => ({
+    get: jest.fn().mockImplementation(() => Promise.resolve({ data: {} })),
+    post: jest.fn().mockImplementation(() => Promise.resolve({ data: {} })),
+    create: jest.fn().mockImplementation(() => {
+        return {
+            interceptors: {
+                response: {
+                    use: jest.fn(),
+                },
+            },
+        };
+    }),
+}));
+
 jest.mock('../../../../constants', () => ({
     STELLAR_NETWORK: 'public',
 }));
@@ -43,7 +57,8 @@ describe('Lobstr management', () => {
         jest.clearAllMocks();
         lobstr = new Lobstr(localStorage, sessionStorage);
     });
-    it('Should sign a transaction successfully from the Public network', async () => {
+
+    it('Should sign a transaction successfully on the Public network', async () => {
         const tx = new Transaction(signedXdr, Networks.PUBLIC);
         await lobstr.sign(tx);
 
