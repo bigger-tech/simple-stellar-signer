@@ -117,6 +117,10 @@ export default class Bridge {
     }
 
     private messageHandler(e: MessageEvent): void {
+        if (!e || e.data === 'verify_ready') {
+            return;
+        }
+
         if (typeof e.data === 'object') {
             if ('wallets' in e.data) {
                 const message = e.data as IAvailableWalletsMessage;

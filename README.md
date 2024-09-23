@@ -42,6 +42,11 @@ It can be embedded on any website and supports multiple wallets and languages.
         <td>Implemented</td>
     </tr>
     <tr>
+        <td>Lobstr</td>
+        <td><a href="https://lobstr.co/">lobstr.co</a></td>
+        <td>Implemented</td>
+    </tr>
+    <tr>
         <td>Ledger</td>
         <td><a href="https://ledger.com">ledger.com</a></td>
         <td>In progress</td>
@@ -486,6 +491,7 @@ the `onConnect` event type to indicate which wallet was connected.
 | Rabet         | String | rabet         |
 | Freighter     | String | freighter     |
 | WalletConnect | String | walletConnect |
+| Lobstr        | String | lobstr        |
 | Private Key   | String | privateKey    |
 
 ## Connect API

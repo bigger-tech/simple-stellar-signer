@@ -1,5 +1,6 @@
 /// <reference types="cypress" />
 /// <reference types="@testing-library/cypress"/>
+import { WALLETS_LOAD_TIMEOUT } from './utils/constants';
 
 describe('wallets filter', () => {
     it('should show one wallet', () => {
@@ -32,6 +33,15 @@ describe('wallets filter', () => {
             '/connect?wallets=xbull&wallets=freighter&wallets=albedo&wallets=rabet&wallets=privateKey&wallets=walletConnect',
         );
         cy.get('.simple-signer-wallets').children().should('have.length', 7);
+    });
+
+    it('should show seven wallets and their title', () => {
+        cy.visit(
+            '/connect?wallets=xbull&wallets=freighter&wallets=albedo&wallets=rabet&wallets=privateKey&wallets=walletConnect&wallets=lobstr',
+        );
+
+        cy.wait(WALLETS_LOAD_TIMEOUT);
+        cy.get('.simple-signer-wallets').children().should('have.length', 8);
     });
 
     it('should render one wallet if two or more are duplicates', () => {
