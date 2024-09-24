@@ -2,6 +2,7 @@
     import { onMount } from 'svelte';
     import { Route, Router } from 'svelte-navigator';
 
+    import GoogleAnalytics from './lib/components/analytics/GoogleAnalytics.svelte';
     import Header from './lib/components/header/Header.svelte';
     import { WalletConnectService } from './lib/service/walletConnect';
     import Home from './routes/Home.svelte';
@@ -21,6 +22,9 @@
         }
     });
 </script>
+
+<GoogleAnalytics />
+<slot />
 
 {#if $detectedLanguage && !$isLanguageLoading}
     <Router primary={false}>
