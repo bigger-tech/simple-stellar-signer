@@ -2,6 +2,10 @@
 /// <reference types="@testing-library/cypress"/>
 
 describe('wallets filter', () => {
+    beforeEach(() => {
+        cy.interceptAnalytics();
+    });
+
     it('should show one wallet', () => {
         cy.visit('/connect?wallets=xbull');
         cy.get('.simple-signer-wallets').last().should('have.length', 1);

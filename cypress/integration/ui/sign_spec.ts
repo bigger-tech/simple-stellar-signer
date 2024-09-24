@@ -1,10 +1,13 @@
 /// <reference types="cypress" />
 /// <reference types="@testing-library/cypress"/>
 import { multiSignedXdr, paymentXdr, signedXdr } from '../../fixtures/operations.json';
-import { paymentRecipient, sourceAccount } from '../../fixtures/sign.json';
 
 describe('checks that the /sign component works', () => {
     const BASE_URL = '/sign?xdr=';
+
+    beforeEach(() => {
+        cy.interceptAnalytics();
+    });
 
     it('should visit /sign with xdr valid but user is not connected', () => {
         cy.visit(`${BASE_URL}${paymentXdr}`);

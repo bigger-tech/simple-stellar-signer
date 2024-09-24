@@ -2,6 +2,8 @@
 
 describe('Connect', () => {
     beforeEach(() => {
+        cy.interceptAnalytics();
+
         cy.visit('/connect');
         cy.get('.simple-signer-container').as('container');
         cy.get('@container').find('.simple-signer-wallets').children().should('have.length', 7);
