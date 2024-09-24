@@ -4,6 +4,7 @@ import { amountToSend, assetCode, destinationAccount, issuer } from '../../fixtu
 
 describe('checks that the /payment component works', () => {
     const BASE_URL = '/payment';
+    const HORIZON_URL = Cypress.env('HORIZON_URL');
     const accountResponse = {
         id: 'GBS23SVOXH73F4L3ETIXFNAHIPIISLLPF3DREGQZE4TRAANMMYB7COKZ',
         account_id: 'GBS23SVOXH73F4L3ETIXFNAHIPIISLLPF3DREGQZE4TRAANMMYB7COKZ',
@@ -20,7 +21,7 @@ describe('checks that the /payment component works', () => {
 
     beforeEach(() => {
         cy.interceptAnalytics();
-        cy.intercept('https://horizon-testnet.stellar.org/accounts/*', { body: accountResponse }).as('getAccount');
+        cy.intercept(`${HORIZON_URL}/accounts/*`, { body: accountResponse }).as('getAccount');
     });
 
     it('should visit /payment with payment information but user is not connected', () => {
