@@ -4,11 +4,31 @@ import { amountToSend, assetCode, destinationAccount, issuer } from '../../fixtu
 
 describe('checks that the /payment component works', () => {
     const BASE_URL = '/payment';
+    const HORIZON_URL = Cypress.env('HORIZON_URL');
+    const accountResponse = {
+        id: 'GBS23SVOXH73F4L3ETIXFNAHIPIISLLPF3DREGQZE4TRAANMMYB7COKZ',
+        account_id: 'GBS23SVOXH73F4L3ETIXFNAHIPIISLLPF3DREGQZE4TRAANMMYB7COKZ',
+        sequence: '441114616135680',
+        balances: [
+            {
+                balance: '10000.0000000',
+                buying_liabilities: '0.0000000',
+                selling_liabilities: '0.0000000',
+                asset_type: 'native',
+            },
+        ],
+    };
+
+    beforeEach(() => {
+        cy.interceptAnalytics();
+        cy.intercept(`${HORIZON_URL}/accounts/*`, { body: accountResponse }).as('getAccount');
+    });
 
     it('should visit /payment with payment information but user is not connected', () => {
         cy.visit(
             `${BASE_URL}?receiver=${destinationAccount}&amount=${amountToSend}&assetCode=${assetCode}&issuer=${issuer}`,
         );
+        cy.wait('@getAccount');
         cy.get('.user-not-connected').contains('User is not connected');
         cy.get('.payment-btn').click();
         cy.url().should('include', '/connect');
@@ -19,6 +39,7 @@ describe('checks that the /payment component works', () => {
         cy.visit(
             `${BASE_URL}?receiver=${destinationAccount}&amount=${amountToSend}&assetCode=${assetCode}&issuer=${issuer}`,
         );
+        cy.wait('@getAccount');
         cy.get('.simple-signer').contains(`You are paying ${amountToSend} XLM to the account ${destinationAccount}.`);
     });
 
