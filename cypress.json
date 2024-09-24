@@ -1,3 +1,6 @@
 {
-    "baseUrl": "https://localhost:3001"
+    "baseUrl": "https://localhost:3001",
+    "env": {
+        "SIMPLE_SIGNER_PRIVATE_KEY": "SCLZQBPOIXR5NI55DGCPFN4LMRBXKBPWNAWE6IF5HARFTM3TOJTDXVU5"
+    }
 }
