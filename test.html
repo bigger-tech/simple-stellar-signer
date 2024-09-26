@@ -18,11 +18,11 @@
         <button onclick="openSignWindowUsingPostMessage()">Open sign via postMessage</button>
         <button onclick="openPaymentWindowUsingUrlParams()">Open payment via URL</button>
         <button onclick="openPaymentWindowUsingPostMessage()">Open payment via postMessage</button>
+        <button onclick="openLogOutUsingPostMessage()">Log Out</button>
         <script type="text/javascript">
             const simpleSignerURL = 'https://sign.bigger.systems';
             const sampleXdr =
                 'AAAAAgAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAZAADGyCAAAAAQAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAABAAAAAOGpdPW3p7zkOVQPIzk7OYnYo+a6NfyB6ADTbse8pIylAAAAAAAAAAAC+vCAAAAAAAAAAAEAAAAA4al09benvOQ5VA8jOTs5idij5ro1/IHoANNux7ykjKUAAAAAAAAAAAL68IAAAAAAAAAAAQAAAADhqXT1t6e85DlUDyM5OzmJ2KPmujX8gegA027HvKSMpQAAAAAAAAAAAvrwgAAAAAAAAAAA';
-            const sampleReceiver = 'GBS23SVOXH73F4L3ETIXFNAHIPIISLLPF3DREGQZE4TRAANMMYB7COKZ';
             const sampleIssuer = 'none';
             const amount = '50';
             const assetCode = 'native';
@@ -30,6 +30,7 @@
             let signWindow;
             let connectWindow;
             let paymentWindow;
+            let logoutWindow;
 
             function openConnectWindow() {
                 console.log('Opening connect window');
@@ -64,12 +65,18 @@
                 paymentWindow = window.open(`${simpleSignerURL}/payment`, 'Payment_Window', 'width=360, height=700');
             }
 
+            function openLogOutUsingPostMessage() {
+                console.log('Opening log out window');
+                logoutWindow = window.open(`${simpleSignerURL}/logout`, 'Logout_Window', 'width=100, height=100');
+            }
+
             async function handleMessage(e) {
                 if (e.origin !== `${simpleSignerURL}`) {
                     return;
                 }
 
                 const eventMessage = e.data;
+                console.log({ eventMessage });
 
                 console.log('Message from simple signer received: ', eventMessage);
 
@@ -164,6 +171,11 @@
                         assetCode,
                         issuer,
                     );
+                }
+
+                if (eventMessage.type === 'onLogOut') {
+                    logoutWindow.postMessage({ type: 'logout' }, simpleSignerURL);
+                    console.log('The user has been disconnected');
                 }
 
                 if (eventMessage.type === 'onCancel') {
