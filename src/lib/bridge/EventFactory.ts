@@ -39,6 +39,14 @@ export default class EventFactory {
         };
     }
 
+    static createOnLogOutEvent(): ISimpleSignerEvent {
+        return {
+            type: SimpleSignerEventType.ON_LOGOUT,
+            message: 'Your session has been disconnected from Simple Signer',
+            page: SimpleSignerPageType.LOGOUT,
+        };
+    }
+
     static createOnPaymentRequest(
         receiver: string,
         amount: number,

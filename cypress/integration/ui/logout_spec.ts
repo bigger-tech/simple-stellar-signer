@@ -4,13 +4,14 @@ import { paymentXdr } from '../../fixtures/operations.json';
 
 describe('logout', () => {
     beforeEach(() => {
-        cy.interceptAnalytics();
+        window.localStorage.setItem('wallet', 'xbull');
+        cy.window().then((win) => {
+            expect(win.localStorage.getItem('wallet')).to.eq('xbull');
+        });
+      cy.interceptAnalytics();
     });
-
     it('Should logout on /connect', () => {
         cy.visit('/connect');
-
-        window.localStorage.setItem('wallet', 'xbull');
         cy.wait(5000);
 
         cy.get('.logout-button').click();
@@ -19,9 +20,8 @@ describe('logout', () => {
 
     it('Should logout on /sign', () => {
         cy.visit(`/sign?xdr=${paymentXdr}`);
-        window.localStorage.setItem('wallet', 'xbull');
-        cy.wait('@googleAnalytics');
         cy.wait(5000);
+
         cy.get('.logout-button').click();
         cy.get('.logout-active').contains('Logout').click();
         cy.url().should('include', '/connect');
@@ -29,11 +29,20 @@ describe('logout', () => {
 
     it('Should logout on /payment', () => {
         cy.visit('/payment');
-        window.localStorage.setItem('wallet', 'xbull');
-        cy.wait('@googleAnalytics');
         cy.wait(5000);
+
         cy.get('.logout-button').click();
         cy.get('.logout-active').contains('Logout').click();
         cy.url().should('include', '/connect');
+    });
+
+    it('Should logout on /logout', () => {
+        cy.visit('/logout');
+        cy.url().should('include', '/logout');
+        cy.wait(5000);
+
+        cy.window().should((win) => {
+            expect(win.localStorage.getItem('wallet')).to.be.null;
+        });
     });
 });

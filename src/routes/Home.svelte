@@ -15,4 +15,7 @@
     <div>
         <Link to="/payment">{$language.GO_TO_PAYMENT}</Link>
     </div>
+    <div>
+        <Link to="/logout">{$language.LOGOUT}</Link>
+    </div>
 </div>

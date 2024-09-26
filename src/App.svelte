@@ -7,11 +7,13 @@
     import { WalletConnectService } from './lib/service/walletConnect';
     import Home from './routes/Home.svelte';
     import Connect from './routes/connect/Connect.svelte';
+    import Logout from './routes/logout/Logout.svelte';
     import Payment from './routes/payment/Payment.svelte';
     import Sign from './routes/sign/Sign.svelte';
     import { detectedLanguage, isLanguageLoading, walletConnectClient } from './store/global';
 
     let walletConnectService: WalletConnectService;
+    let isServiceInitialized = false;
 
     onMount(async () => {
         if (!$walletConnectClient) {
@@ -20,6 +22,7 @@
         } else {
             walletConnectService = new WalletConnectService($walletConnectClient);
         }
+        isServiceInitialized = true;
     });
 </script>
 
@@ -34,6 +37,12 @@
             <Route path="/connect" component={Connect} walletConnectService={walletConnectService} />
             <Route path="/sign" component={Sign} walletConnectService={walletConnectService} />
             <Route path="/payment" component={Payment} walletConnectService={walletConnectService} />
+            <Route
+                path="/logout"
+                component={Logout}
+                walletConnectService={walletConnectService}
+                isServiceInitialized={isServiceInitialized}
+            />
         </main>
     </Router>
 {/if}
