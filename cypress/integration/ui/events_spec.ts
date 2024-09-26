@@ -8,6 +8,10 @@ const operationGroupDescription = 'This is a merge account operation';
 const operationDescription = 'This is a transaction';
 
 describe('Events', () => {
+    beforeEach(() => {
+        cy.interceptAnalytics();
+    });
+
     it('should render one wallet', () => {
         cy.visit('/connect');
         cy.window().then((win) => {
