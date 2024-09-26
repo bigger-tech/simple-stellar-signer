@@ -8,6 +8,7 @@ describe('logout', () => {
         cy.window().then((win) => {
             expect(win.localStorage.getItem('wallet')).to.eq('xbull');
         });
+      cy.interceptAnalytics();
     });
     it('Should logout on /connect', () => {
         cy.visit('/connect');

@@ -3,6 +3,7 @@
 
 describe('language', () => {
     it('should change language of text', () => {
+        cy.interceptAnalytics();
         cy.visit('/connect');
         cy.get('.select-wallet').should('contain.text', 'Select Wallet');
         cy.get('.invisible-button').click();
