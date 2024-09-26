@@ -125,7 +125,10 @@ export default class Bridge {
     }
 
     private messageHandler(e: MessageEvent): void {
-        if (typeof e.data === 'object') {
+        if (!e || e.data === 'verify_ready') {
+            return;
+        }
+
             if ('wallets' in e.data) {
                 const message = e.data as IAvailableWalletsMessage;
                 this.availableWalletsMessageHandlers.forEach((handler) => handler(message));
@@ -143,7 +146,6 @@ export default class Bridge {
                 this.paymentMessageHandlers.forEach((handler) => handler(message));
                 return;
             }
-        }
     }
 
     public closeWindow() {
