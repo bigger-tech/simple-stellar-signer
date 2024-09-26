@@ -3,6 +3,8 @@ import { WALLETS_LOAD_TIMEOUT } from './utils/constants';
 
 describe('Connect', () => {
     beforeEach(() => {
+        cy.interceptAnalytics();
+
         cy.visit('/connect');
         cy.wait(WALLETS_LOAD_TIMEOUT);
         cy.get('.simple-signer-container').as('container');

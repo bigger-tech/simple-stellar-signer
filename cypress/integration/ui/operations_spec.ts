@@ -40,6 +40,10 @@ describe('operations', () => {
     const BASE_URL = '/sign?xdr=';
     const SIMPLE_SIGNER_PRIVATE_KEY = Cypress.env('SIMPLE_SIGNER_PRIVATE_KEY');
 
+    beforeEach(() => {
+        cy.interceptAnalytics();
+    });
+
     it('should connect with private key', () => {
         cy.visit('/connect');
         cy.get('.wallet-title').contains('Private Key').click();

@@ -3,16 +3,14 @@ import { paymentXdr } from '../../fixtures/operations.json';
 
 describe('Analytics', () => {
     const BASE_SIGN_URL = '/sign?xdr=';
-    const BASE_ANALYTICS_URL = 'https://www.google-analytics.com';
 
     beforeEach(() => {
-        cy.intercept('POST', `${BASE_ANALYTICS_URL}/g/collect*`, {
-            body: {},
-        }).as('googleAnalytics');
+        cy.interceptAnalytics();
     });
 
     it('Should check analytics in connect page', () => {
         cy.visit('/connect');
+        cy.wait('@googleAnalytics');
 
         cy.get('head')
             .find('#google-analytics')
@@ -32,7 +30,8 @@ describe('Analytics', () => {
             .find('#google-analytics')
             .should('exist')
             .and('have.attr', 'src')
-            .and('match', /googletagmanager/);
+            .and('match', /googletagmanager/)
+            .and('match', /id=G-/);
         cy.get('head').find('#google-analytics-script').should('exist');
     });
 });
