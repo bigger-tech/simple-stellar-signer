@@ -24,3 +24,11 @@
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 import '@testing-library/cypress/add-commands';
+
+Cypress.Commands.add('interceptAnalytics', () => {
+    const BASE_ANALYTICS_URL = 'https://www.google-analytics.com';
+
+    cy.intercept('POST', `${BASE_ANALYTICS_URL}/g/collect*`, {
+        body: {},
+    }).as('googleAnalytics');
+});

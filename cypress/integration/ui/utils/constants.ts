@@ -1,0 +1,1 @@
+export const WALLETS_LOAD_TIMEOUT = 3000;
