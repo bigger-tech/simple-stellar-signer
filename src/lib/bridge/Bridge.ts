@@ -129,23 +129,23 @@ export default class Bridge {
             return;
         }
 
-            if ('wallets' in e.data) {
-                const message = e.data as IAvailableWalletsMessage;
-                this.availableWalletsMessageHandlers.forEach((handler) => handler(message));
-                return;
-            }
+        if ('wallets' in e.data) {
+            const message = e.data as IAvailableWalletsMessage;
+            this.availableWalletsMessageHandlers.forEach((handler) => handler(message));
+            return;
+        }
 
-            if ('xdr' in e.data) {
-                const message = e.data as ITransactionMessage;
-                this.transactionMessageHandlers.forEach((handler) => handler(message));
-                return;
-            }
+        if ('xdr' in e.data) {
+            const message = e.data as ITransactionMessage;
+            this.transactionMessageHandlers.forEach((handler) => handler(message));
+            return;
+        }
 
-            if ('receiver' in e.data && 'amount' in e.data && 'assetCode' in e.data && 'issuer' in e.data) {
-                const message = e.data as IPaymentMessage;
-                this.paymentMessageHandlers.forEach((handler) => handler(message));
-                return;
-            }
+        if ('receiver' in e.data && 'amount' in e.data && 'assetCode' in e.data && 'issuer' in e.data) {
+            const message = e.data as IPaymentMessage;
+            this.paymentMessageHandlers.forEach((handler) => handler(message));
+            return;
+        }
     }
 
     public closeWindow() {
