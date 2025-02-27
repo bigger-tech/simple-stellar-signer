@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import type { Transaction } from '@stellar/stellar-sdk';
 import { PasskeyKit, PasskeyServer } from 'passkey-kit';
-import type { Transaction } from 'stellar-sdk';
 
 import { PasskeyIcon } from '../../../assets';
 import { FACTORY_COONTRACT_ID, LAUNCHTUBE_JWT, LAUNCHTUBE_URL, SOROBANRPC_URL } from '../../../constants';
@@ -58,7 +58,7 @@ export default class Passkey extends AbstractWallet implements IWallet {
     }
 
     public override async sign(tx: Transaction): Promise<string> {
-        return await this.account.sign(tx);
+        return await this.account.sign(tx.toXDR());
     }
 
     public override getFriendlyName(): string {
