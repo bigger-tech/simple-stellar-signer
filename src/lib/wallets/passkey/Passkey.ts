@@ -41,8 +41,9 @@ export default class Passkey extends AbstractWallet implements IWallet {
 
             super.persistWallet();
             return contractId;
-        } catch (error: any) {
-            if (!error.message.includes('No `contractId` was found')) {
+        } catch (error) {
+            const err = error as Error;
+            if (!err.message.includes('No `contractId` was found')) {
                 return await this.registerPasskey();
             }
             throw new KeyIdStorageKeyNotFoundError();
@@ -78,9 +79,8 @@ export default class Passkey extends AbstractWallet implements IWallet {
     }
 
     public override isInstalled(): Promise<boolean> {
-        const passkeyPromise: Promise<boolean> = new Promise((resolve) => {
+        return new Promise((resolve) => {
             resolve(true);
         });
-        return passkeyPromise;
     }
 }
