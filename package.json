@@ -10,7 +10,7 @@
         "dev": "vite --https --host",
         "dev:open": "vite --open --https",
         "build": "vite build",
-        "preview": "vite preview",
+        "preview": "vite preview --host",
         "check": "svelte-check --tsconfig ./tsconfig.json",
         "lint:fix": "eslint --fix --ext .ts --ext .svelte . && prettier --config .prettierrc --write . && npm run check",
         "prepare": "husky install",
